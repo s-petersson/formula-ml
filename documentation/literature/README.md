@@ -10,6 +10,12 @@ Introductory paper to neural networks.
 #### Neural Networks - A Comprehensive Foundation
 Course literature for the Artificial Neural Networks course at Chalmers.
 
+#### Artificial intelligence: approaches, tools, and applications
+Gordon, Brend M
+2011
+Found at: Chalmers Library Online
+Comment: Not read yet, but might be a good book to look in to.
+
 ## Articles
 
 #### The Racing Ling + Driving Corners Fast
