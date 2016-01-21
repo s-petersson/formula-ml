@@ -5,6 +5,9 @@
 #### Introduction to the Theory of Neural Computation
 Introductory paper to neural networks.
 
+#### Evolving Neural Networks through augmenting topologies
+This is the paper upon which MarI/O is based. 
+
 ## Books
 
 #### Neural Networks - A Comprehensive Foundation
