@@ -1,5 +1,5 @@
 # Group Contract
----
+
 ## Group Members
 ````
 Gabriel Alpsten | galpsten@gmail.com                | 0727271649
@@ -8,7 +8,7 @@ Martin Nilsson  | martin.lennart.nilsson@gmail.com  | 0723040021
 Simon Petersson | peterssonaren@gmail.com           | 0767875530
 ````
 
----
+
 ## Goals & Expectations
 
 ### Grade
@@ -24,7 +24,7 @@ Simon Petersson | peterssonaren@gmail.com           | 0767875530
 * We should not be afraid to critique each other, although critique shall be constructive.
 * The code and documentation shall hold an adequate quality standard. We should be able to show the project and be proud, for instance on our CV or in interviews.
 
----
+
 ## Roles & Responsibilities
 
 **The assigned roles are preliminary and may be rotated at a later time.**
@@ -45,21 +45,21 @@ Simon Petersson | peterssonaren@gmail.com           | 0767875530
 * Make sure that the web-page is up-to-date and working as intended.
 * Simon is responsible since he is the only competent alternative.
 
----
+
 ## Meeting Discipline
 
 * The project leader will hold the meetings and make sure that we stay on track.
 * Each meeting shall have a clear agenda.
 * Try to only discuss topics that are relevant for all participants.
 
----
+
 ## Decision making
 * In a decision where we are divided 3v1 the majority wins.
 * In case we are divided 2v2 and can't reach a decision we should:
     1. Try to find the most reasonable decision for the project.
     2. Ask Prasad for advice.
 
----
+
 ## Breach of contract & Punishment
 Three occurrences of late arrival (more than 5 minutes) will require the guilty
 party to bring *Fika* To the next meeting or work session.  
