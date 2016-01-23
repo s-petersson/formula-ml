@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "https://api.github.com/repos/pendla/formula-ml/contents/documentation/diary",
+    url: "https://api.github.com/repos/pendla/formula-ml/contents/documentation/meetings",
     beforeSend: function (xhr) {
       xhr.setRequestHeader("Authorization", "Basic cHJhc2FkLWZvcm11bGEtbWw6cHJhc2FkMDc1NA==");
     },
