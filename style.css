@@ -2,12 +2,93 @@ body {
   background: #eeeded;
 }
 
+.splitter {
+  background: #CCCCCC;
+  height: 2px;
+  width: 100%;
+  margin: 10px 0;
+  float: left;
+}
+
+/**
+ * HEADER
+ */
 .header {
-  border-bottom: 1px solid #CCCCCC;
   text-align: center;
 }
 
-div[id^="entry-"], div[id*=" entry-"] {
+.header h1 {
+  padding-bottom: 10px;
+  font-family: "Segoe UI";
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+/**
+ * CONTACT INFORMATION
+ */
+.contact-information {
+  text-align: left;
+}
+
+.contact-information table {
+  width: 100%;
+}
+
+.contact-information table td, .contact-information table th {
+  padding: 5px 3px;
+}
+
+.contact-information table tr:nth-child(even) {
+  background: #e7e7e7;
+}
+
+/**
+ * LINKS
+ */
+.links {
+  text-align: left;
+  margin: 15px 0;
+}
+
+.links a {
+  padding: 0 20px;
+  border-right: 2px solid #cccccc;
+}
+
+.links a:first-child {
+  padding-left: 0;
+}
+
+.links a:last-child {
+  border-right: none;
+}
+
+/**
+ * NAVBAR
+ */
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  background: #FAFAFA;
+  overflow: auto;
+}
+
+.navbar ul li {
+  float: left;
+  padding: 20px 20px 20px 20px;
+  cursor: pointer;
+}
+
+.navbar ul li:hover {
+  background: #e7e7e7;
+}
+
+div[id^="entry-"], div[id*="entry-"] {
   background: #fff;
   border-radius: 2px;
   display: block;
@@ -16,6 +97,10 @@ div[id^="entry-"], div[id*=" entry-"] {
 
   padding: 10px 15px 10px 15px;
   margin: 20px 0 20px 0;
+}
+
+div[id^="entry-"]:first-child, div[id*="entry-"]:first-child {
+  margin-top: 0;
 }
 
 .spinner {

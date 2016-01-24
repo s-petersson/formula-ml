@@ -26,7 +26,7 @@ function loadDynamicContent (fileName, wrapperId) {
 /**
  * Props to Sameer Kazi and Rob Evans from stack overflow.
  * http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
- * because I was lazy enough not to do it mysel
+ * because I was lazy enough not to do it myself.
  */
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -41,4 +41,4 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
-};
+}

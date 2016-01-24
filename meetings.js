@@ -27,8 +27,7 @@ $(document).ready(function () {
       // in the correct order, independent of which ones load faster.
       for(var i = 0; i < entries.length; i++) {
         var id = "entry-" + entries[i].name.substr(0, 6);
-        console.log(id);
-        $("#news-feed").append("<div id=\"" + id + "\"" + "></div>");
+        $("#meetings").append("<div id=\"" + id + "\"" + "></div>");
         $("#" + id).html("<div class=\"spinner\"><i class=\"fa fa-spinner fa-spin\"></i></div>");
       }
 
