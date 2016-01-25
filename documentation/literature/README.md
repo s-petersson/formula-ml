@@ -16,12 +16,21 @@ Although this assertion is true for the backpropagation algorithm, it is not cle
 whether it applies when weights are being optimized by evolution and not backpropagation.
 ````
 
-An argument for using the method that applies to us. 
+An argument for using the method that applies to us.
 ````
 A persuasive argument for the evolution of both topology and weights was put
 forward by Gruau et al. (1996), who claimed that evolving structure saves the time
 wasted by humans trying to decide on the topology of networks for a particular NE
 problem.
+````
+The central idea.
+````
+We present a novel NE method called NeuroEvolution of Augmenting Topologies
+(NEAT) that is designed to take advantage of structure as a way of minimizing the
+dimensionality of the search space of connection weights. If structure is evolved such
+that topologies are minimized and grown incrementally, significant gains in learning
+speed result. Improved efficiency results from topologies being minimized throughout
+evolution, rather than only at the very end.
 ````
 
 ## Books
