@@ -12,7 +12,6 @@
 - Find similar simulations
 
 #####Gabriel
--Status Report/loggbok
 
 #####Martin
 - Check PingPong documents
