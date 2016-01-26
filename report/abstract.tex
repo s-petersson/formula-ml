@@ -1,9 +1,61 @@
-\begin{abstract}
+%\begin{abstract}
+%\cite{einstein}
 
-This is the abstract section! 
-\cite{einstein}
-    
-    
-    
-    
-\end{abstract}{}
+
+
+\section{Problem description}
+Using machine learning, make a virtual racing car drive well in a racing track. The car is limited by some physic constraints such as limited speed, acceleration and tire grip. The goal is to get the car drive around a whole track, desirably using strategies necessary to drive fast too.
+
+
+
+
+\section{Possible approaches:}
+\begin{enumerate}
+    \item View the racing line as a curve and push that back and forth using heuristics and laws from the domain. Then a program make sure the car follow the predestined line. This approach would probably be able to find an optimal line, but likely without machine learning and is therefore out of scope.
+    \item \textbf{Artificial neural network} as the brain of a virtual driver.
+\end{enumerate}
+
+
+
+\section{What kind of input?}
+\begin{itemize}
+    \item The current state of the car such as speed
+    \item The shape of the racing track
+\end{itemize}
+The number of input values need to be limited, since an increasing number of input values require a network of increase the size and complexity. 
+
+To begin with, only the part of the track that is relevant to the momentary decisions. This may include data for the next few turns, but not the whole track.
+
+Next it might prove crucial to model the track input in a suitable way. One way to start may be to describe the positions in relative terms of the car, so that the network do not have to understand both the shape of the track and the position of the car. The resolution need to be high enough, but not too high. Some kind of abstraction/interpretation/pre-processing might ease the computational complexity, and therefore be crucial for the success. One (so far) fuzzy idea to model the track in terms of the available action space of the car. 
+
+
+
+\section{What kind of output?}
+Intuitively output may be to let the network output how much to steer, break and accelerate. 
+
+In a sense that is to kind of low operations on the vehicle. If it is to difficult for the network to handle that properly, one might apply abstractions to the output. One examples may be to let the output target gates for the racing line, and that the program implicitly drive the car to that positions. 
+
+Another way to lower the level of understanding required by the network is to help it not make some kind of mistakes, for example, steering to much will make a car loose grip. In this case, one might let the car only steer as much as the grip allows.
+
+Applying abstractions to the output might make the problem easier, but it will also make it less interesting. Exactly what is deemed necessary or not will show after some experimentation.
+
+
+
+\section{Training}
+The key performance indicators is firstly how far along the track the car get and secondly how fast.
+
+One mayor difficulty with this kind of problem is that it is difficult to get direct feedback for the behaviour of the network. A drive consists of a large amount of decisions over a longer period of time. The success is to a large extent dependent on the overall strategy. It is therefore difficult to know which decisions contributed good or bad, and how the individual decisions may be improved. Therefore the use supervised learning techniques such as back propagation is not necessarily possible.
+
+It should be possible though to use supervised learning for some set of some cases, to get some way. To solve the whole problem this way would require us to have a database of test cases that cover all possible cases we need to cover. 
+
+The last part of the solution process would likely require to search blindly in a random like fashion. Maybe search in a shuffled fashion to not repeat 
+ 
+% Kanske använd supervised learning istället för backpropagation?
+% Ser bra ut i allmänhet, Bra sammanfattning av vad vi har diskuterat hittils
+% Kanske
+
+% Bra. Ändrade något
+% Jag hinner inte skriva mer nu. Kan du fixa?
+% Hejdå
+
+%\end{abstract}{}
