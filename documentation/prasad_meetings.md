@@ -1,0 +1,31 @@
+# Meetings with Prasad
+
+# Meeting 160126
+## Web page & Documentation
+Add missing information to web page.
+* Mails to Prasad
+* Status report
+* Pert-chart
+* Requirements
+* Use-cases - For the AI & Simulator.
+
+## Simulation
+* What kind of simulation?
+* Will simulate in discrete steps, not continuous, might be problem. Might have to add ad hoc corrections.
+* How to simulate differential equations?
+
+## Related problems
+* Search for other similar problems and projects. For instance cycling, motorcar.
+* If we say that there is not any other work in this area, and it subsequently turns out to exist,
+ we will look very bad!
+* Can we explore other related or unrelated problems? How does a simulation handle a planetary orbit, numerical problems? Would an AI. be able to predict the path?
+* If the car is constantly pulling to the left, what will the simulation do? Will it succeed to turn in a circle, or will it be a spiral?
+
+## Todo
+* We need to get something up and running very very fast!
+* Solve the simplest problems first.
+
+## Q: Language?
+````
+A: What libraries are available? The language that gives us the least amount of headache.
+````
