@@ -2,9 +2,8 @@
 
 ###Project overall
 - Research
-- Planning
+- Planning report
 - Milestones
-- Deciding language
 
 #####Daniel
 - Book room
@@ -14,8 +13,6 @@
 #####Gabriel
 
 #####Martin
-- Check PingPong documents
-- Check C++ compiler
 
 #####Simon
 - Webpage
