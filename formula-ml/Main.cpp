@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "core/gfx/Program.h"
+#include "core/Keyboard.h"
 
 GLuint vertexArrayObject;
 GLuint shader;
@@ -11,17 +12,17 @@ void initGL() {
 
 	const float positions[] = {
 		//	 X      Y     Z
-		0.0f,   0.5f, 1.0f,		// v0
-		-0.5f,  -0.5f, 1.0f,	// v1
-		0.5f,  -0.5f, 1.0f		// v2
+		0.0f,   0.5f, 1.0f,	1.0f,	// v0
+		-0.5f,  -0.5f, 1.0f, 1.0f,	// v1
+		0.5f,  -0.5f, 1.0f,1.0f		// v2
 	};
 
 	// Define the colors for each of the three vertices of the triangle
 	const float colors[] = {
 		//  R     G		B
-		1.0f, 0.0f, 0.0f,		// White
-		0.0f, 1.0f, 0.0f,		// White
-		0.0f, 0.0f, 1.0f		// White
+		1.0f, 0.0f, 0.0f,1.0f,		// White
+		0.0f, 1.0f, 0.0f,1.0f,		// White
+		0.0f, 0.0f, 1.0f,0.0f		// White
 	};
 	
 	GLuint positionBuffer;
@@ -48,17 +49,20 @@ void initGL() {
 	// Makes positionBuffer the current array buffer for subsequent calls.
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	// Attaches positionBuffer to vertexArrayObject, in the 0th attribute location
-	glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
 
 	// Makes colorBuffer the current array buffer for subsequent calls.
 	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
 	// Attaches colorBuffer to vertexArrayObject, in the 1st attribute location
-	glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
 	glEnableVertexAttribArray(0); // Enable the vertex position attribute
 	glEnableVertexAttribArray(1); // Enable the vertex color attribute 
 
 	shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -91,8 +95,9 @@ int main(void)
 	{
 		throw std::runtime_error("glewInit failed");
 	}
+	glfwSetKeyCallback(window, key_callback);
 
-
+	
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	initGL();
 
@@ -103,13 +108,15 @@ int main(void)
 		/* Render here */
 
 		glViewport(0, 0, 1280, 720);
+		if (isKeyDown(GLFW_KEY_SPACE)) {
+			glDisable(GL_CULL_FACE);
+			glUseProgram(shader);
+			glBindVertexArray(vertexArrayObject);
+			glDrawArrays(GL_LINE_LOOP, 0, 3);
+			glUseProgram(0);
 
-		glDisable(GL_CULL_FACE);
-		glUseProgram(shader);
-		glBindVertexArray(vertexArrayObject);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glUseProgram(0);
-
+		}
+		
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
