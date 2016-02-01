@@ -14,9 +14,9 @@ $(document).ready(function () {
         var leftName = left.name;
         var rightName = right.name;
         if (leftName < rightName) {
-          return -1;
-        } else if (rightName < leftName) {
           return 1;
+        } else if (rightName < leftName) {
+          return -1;
         } else {
           return 0;
         }
