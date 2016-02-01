@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <iostream>
 
 #include "core/gfx/Program.h"
 #include "core/Keyboard.h"
@@ -97,6 +98,8 @@ int main(void)
 	}
 	glfwSetKeyCallback(window, key_callback);
 
+    int screenWidth, screenHeight;
+    glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 	
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	initGL();
@@ -107,7 +110,7 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		/* Render here */
 
-		glViewport(0, 0, 1280, 720);
+		glViewport(0, 0, screenWidth, screenHeight);
 		if (isKeyDown(GLFW_KEY_SPACE)) {
 			glDisable(GL_CULL_FACE);
 			glUseProgram(shader);
@@ -116,7 +119,7 @@ int main(void)
 			glUseProgram(0);
 
 		}
-		
+
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
