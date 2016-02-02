@@ -1,4 +1,7 @@
+% Titel
+% En preliminär titel ska vara angiven i planeringsrapporten.
 \documentclass[a4paper, 12pt]{report}
+\usepackage[utf8]{inputenc}
 
 \title{Formula ML}
 \author{ 
@@ -10,7 +13,7 @@ Martin Nilsson
 \and
 Simon Petersson 
 } 
-\date{May 2016}
+\date{February 2016}
 \begin{document}
 
     \maketitle
@@ -19,7 +22,12 @@ Simon Petersson
     
     \tableofcontents
     
-    \input{chapter1}
+    \input{background}
+    \input{purpose}
+    \input{problem}
+    \input{limitation}
+    \input{method}
+    \input{schedule}
     
     \bibliographystyle{unsrt}
     \bibliography{bibliography}
