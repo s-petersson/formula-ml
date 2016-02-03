@@ -1,19 +1,20 @@
 #TODO
 
-###Project overall
+### Project overall
 - Research
 - Planning report
-- Milestones
+- Book library seminars
 
-#####Daniel
-- Book room
+##### Daniel
+- Catch up from Monday
 - Look up Pert-chart
-- Find similar simulations
 
-#####Gabriel
+##### Gabriel
+- Make car steering
 
-#####Martin
+##### Martin
+- Make simulation
+- Mail Fackspåck regarding booking.
 
-#####Simon
+##### Simon
 - Webpage
-- Check C++ compiler
