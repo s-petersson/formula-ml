@@ -63,7 +63,7 @@ void Window::run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		if (state) {
-			state->update(0);
+			state->update(0.0123456789);
 			state->render();
 		}
 
