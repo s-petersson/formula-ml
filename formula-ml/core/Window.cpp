@@ -56,7 +56,8 @@ void Window::setState(WindowState * s) {
 
 void Window::run() {
 
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+//	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.f, 0.f, 0.f, 1.0f);
 	glViewport(0, 0, screen_width, screen_height);
 
 	while (!glfwWindowShouldClose(window)) {

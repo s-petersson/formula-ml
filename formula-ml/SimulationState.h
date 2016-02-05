@@ -3,6 +3,7 @@
 
 #include <core/WindowState.h>
 #include <sim/Simulator.h>
+#include <core/util/OrthoCamera.h>
 
 class SimulationState : public WindowState {
 public:
@@ -14,6 +15,7 @@ public:
 
 private:
 	Simulator * sim;
+    OrthoCamera * camera;
 };
 
 #endif

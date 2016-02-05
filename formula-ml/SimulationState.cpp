@@ -3,19 +3,27 @@
 #include <GL/glew.h>
 #include <core/gfx/Program.h>
 #include <core/Keyboard.h>
+#include <core/util/OrthoCamera.h>
+#include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 GLuint vertexArrayObject;
 GLuint shader;
+GLuint projectionMatrixUniform;
+GLuint viewMatrixUniform;
 
 SimulationState::SimulationState() {
 	sim = new Simulator();
+    camera = new OrthoCamera(0.f, 100.f, 0.f, 0.f);
 
-	const float positions[] = {
-		//	 X      Y     Z
-		0.0f,   0.5f, 1.0f,	1.0f,	// v0
-		-0.5f,  -0.5f, 1.0f, 1.0f,	// v1
-		0.5f,  -0.5f, 1.0f,1.0f		// v2
-	};
+    const float positions[] = {
+        0.0f, 0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 1.0f, 1.0f,
+        -0.5f, -0.5f, 1.0f, 1.0f,
+    };
+
+    glm::vec3(1,1,1);
 
 	// Define the colors for each of the three vertices of the triangle
 	const float colors[] = {
@@ -57,9 +65,12 @@ SimulationState::SimulationState() {
 	glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
 	glEnableVertexAttribArray(0); // Enable the vertex position attribute
-	glEnableVertexAttribArray(1); // Enable the vertex color attribute 
+	glEnableVertexAttribArray(1); // Enable the vertex color attribute
 
 	shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
+
+    viewMatrixUniform = glGetUniformLocation(shader, "viewMatrix");
+    projectionMatrixUniform = glGetUniformLocation(shader, "projectionMatrix");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -75,12 +86,17 @@ void SimulationState::update(float dt) {
 }
 
 void SimulationState::render() {
+    // Upload projection and view matrices.
+    glUseProgram(shader);
+    glUniformMatrix4fv(projectionMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+    glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+    glUseProgram(0);
 
-	if (isKeyDown(GLFW_KEY_SPACE)) {
+	if (!isKeyDown(GLFW_KEY_SPACE)) {
 		glDisable(GL_CULL_FACE);
 		glUseProgram(shader);
 		glBindVertexArray(vertexArrayObject);
-		glDrawArrays(GL_LINE_LOOP, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glUseProgram(0);
 
 	}
