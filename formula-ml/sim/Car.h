@@ -4,6 +4,7 @@
 
 class Car {
 public:
+	Car();
 	void update(float dt);
 
 private:
