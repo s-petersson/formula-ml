@@ -9,16 +9,70 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <core/util/Util.h>
 
-
 GLuint vertexArrayObject;
 GLuint shader;
 GLuint projectionMatrixUniform;
 GLuint viewMatrixUniform;
 
 
+struct Grid {
+private:
+    GLuint vao;
+public:
+    Grid() {
+        glm::vec4 * positions = new glm::vec4[44];
+        glm::vec4 * colours = new glm::vec4[44];
+
+        for (int i = 0; i < 11; i++) {
+            positions[2 * i] = glm::vec4(-10 + 2 * i, 10.0f, 0, 1.0f);
+            positions[2 * i + 1] = glm::vec4(-10 + 2 * i, -10.0f, 0, 1.0f);
+        }
+
+        for (int i = 0; i < 11; i++) {
+            positions[22 + 2 * i] = glm::vec4(-10.0f , -10 + 2 * i, 0, 1.0f);
+            positions[22 + 2 * i + 1] = glm::vec4(10.0f, -10 + 2 * i, 0, 1.0f);
+        }
+
+
+        for (int i = 0; i < 44; i++) {
+            colours[i] = glm::vec4(0.7f, 0.7f, 1.0f, 1.0f);
+        }
+
+        printf("%i bytes \n", sizeof(glm::vec4 *));
+        GLuint positionBuffer;
+        glGenBuffers(1, &positionBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 44, positions, GL_STATIC_DRAW);
+
+        GLuint colorBuffer;
+        glGenBuffers(1, &colorBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 44, colours, GL_STATIC_DRAW);
+        
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
+        glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+        glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
+
+        glEnableVertexAttribArray(0); 
+        glEnableVertexAttribArray(1);
+        delete[] positions;
+        delete[] colours;
+    }
+
+    void render() {
+        glBindVertexArray(vao);
+        glDrawArrays(GL_LINES, 0, 44);
+    }
+};
+
+
 SimulationState::SimulationState() {
 	sim = new Simulator();
-    camera = new OrthoCamera(0.f, 100.f, 0.f, 0.f);
+    camera = new OrthoCamera(0.f, 100.f, 1.f, -1.f);
 
     const float positions[] = {
         0.0f, 0.5f, 1.0f, 1.0f,
@@ -78,11 +132,13 @@ SimulationState::SimulationState() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
+    grid = new Grid;
 }
 
 
 SimulationState::~SimulationState() {
 	if (sim) delete sim;
+    if (grid) delete grid;
 }
 
 void SimulationState::update(float dt) {
@@ -96,11 +152,11 @@ void SimulationState::render() {
 		glUseProgram(shader);
         glUniformMatrix4fv(projectionMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
         glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+
+        grid->render();
+
 		glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glUseProgram(0);
-
 	}
-    
-
 }

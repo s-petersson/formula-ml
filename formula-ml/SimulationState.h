@@ -5,6 +5,8 @@
 #include <sim/Simulator.h>
 #include <core/util/OrthoCamera.h>
 
+struct Grid;
+
 class SimulationState : public WindowState {
 public:
 	SimulationState();
@@ -16,6 +18,7 @@ public:
 private:
 	Simulator * sim;
     OrthoCamera * camera;
+    Grid * grid;
 };
 
 #endif
