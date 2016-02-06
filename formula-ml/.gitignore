@@ -139,3 +139,4 @@ AutoTest.Net/
 !*.[Cc]ache/
 *.xcodeproj
 .DS_Store
+.idea/
