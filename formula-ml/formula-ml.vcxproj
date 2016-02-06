@@ -138,6 +138,8 @@
   <ItemGroup>
     <ClCompile Include="core\gfx\Program.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
+    <ClCompile Include="core\util\OrthoCamera.cpp" />
+    <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SimulationState.cpp" />
@@ -154,6 +156,8 @@
   <ItemGroup>
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\Keyboard.h" />
+    <ClInclude Include="core\util\OrthoCamera.h" />
+    <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowState.h" />
     <ClInclude Include="SimulationState.h" />

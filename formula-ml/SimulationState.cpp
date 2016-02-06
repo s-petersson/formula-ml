@@ -7,11 +7,14 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <core/util/Util.h>
+
 
 GLuint vertexArrayObject;
 GLuint shader;
 GLuint projectionMatrixUniform;
 GLuint viewMatrixUniform;
+
 
 SimulationState::SimulationState() {
 	sim = new Simulator();
@@ -74,6 +77,7 @@ SimulationState::SimulationState() {
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_MULTISAMPLE);
 }
 
 
@@ -86,18 +90,17 @@ void SimulationState::update(float dt) {
 }
 
 void SimulationState::render() {
-    // Upload projection and view matrices.
-    glUseProgram(shader);
-    glUniformMatrix4fv(projectionMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-    glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-    glUseProgram(0);
 
 	if (!isKeyDown(GLFW_KEY_SPACE)) {
 		glDisable(GL_CULL_FACE);
 		glUseProgram(shader);
+        glUniformMatrix4fv(projectionMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+        glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 		glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glUseProgram(0);
 
 	}
+    
+
 }

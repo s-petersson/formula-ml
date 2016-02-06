@@ -2,15 +2,9 @@
 
 #include <glm/glm.hpp>
 #include <iostream>
-
 #include "core/Keyboard.h"
 
 
-
-void initGL() {
-
-	
-}
 
 Window::Window() {
 
@@ -43,7 +37,7 @@ Window::Window() {
 	glfwSetKeyCallback(window, key_callback);
 
 	glfwGetFramebufferSize(window, &screen_width, &screen_height);
-	initGL();
+    fbo = createFBO(screen_width, screen_height, true);
 }
 
 Window::~Window() {
@@ -55,21 +49,45 @@ void Window::setState(WindowState * s) {
 }
 
 void Window::run() {
-
-//	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    
     glClearColor(0.f, 0.f, 0.f, 1.0f);
-	glViewport(0, 0, screen_width, screen_height);
+	
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
+    glViewport(0, 0, screen_width, screen_height);
+
+    long last_frame = current_time();
+    int fps = 0;
+    long fps_timer = 0;
 
 	while (!glfwWindowShouldClose(window)) {
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		if (state) {
-			state->update(0.0123456789);
+        
+        long dt = current_time() - last_frame;
+        last_frame = current_time();
+
+        fps++;
+        fps_timer += dt;
+        if (fps_timer >= 1000) {
+            printf("%i \n", fps);
+            fps = 0;
+            fps_timer -= 1000;
+        }
+
+        if (state) {
+			state->update((float)dt / 1000);
 			state->render();
 		}
 
+        //Blit the framebuffer to screen.
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);   
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo.id);
+        glBlitFramebuffer(0, 0, fbo.width, fbo.height, 0, 0, fbo.width, fbo.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+        glfwSwapInterval(1);
 	}
 
 	glfwTerminate();
