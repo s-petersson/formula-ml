@@ -1,11 +1,11 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
+#include <OpenGL/OpenGL.h>
+#include <external/include/glm/gtc/type_ptr.hpp>
 
-Camera::Camera(float fov, float aspect, float near, float far, glm::vec3 pos) {
+
+Camera::Camera(float fov, float aspect, float near, float far) {
     projectionMatrix = glm::perspective(fov, aspect, near, far);
-    position = pos;
 }
 
 Camera::~Camera() {}
@@ -28,4 +28,14 @@ void Camera::moveX(float amount) {
 
 void Camera::moveY(float amount) {
     position.y += amount;
+}
+
+void Camera::setUniformLocations (GLuint shaderProgram, char* viewMatrixName, char* projectionMatrixName) {
+    viewUniformLoc = glGetUniformLocation(shaderProgram, viewMatrixName);
+    projUniformLoc = glGetUniformLocation(shaderProgram, projectionMatrixName);
+}
+
+void Camera::update() {
+    glUniformMatrix4fv(viewUniformLoc, 1, GL_FALSE, glm::value_ptr(getViewMatrix()));
+    glUniformMatrix4fv(projUniformLoc, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 }

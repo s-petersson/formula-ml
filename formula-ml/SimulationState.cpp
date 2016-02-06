@@ -70,7 +70,8 @@ public:
 
 SimulationState::SimulationState() {
 	sim = new Simulator();
-    camera = new Camera(90.0f, 16.0f/9, 0.1f, 1000.0f, glm::vec3(0,0,3));
+    camera = new Camera(90.0f, 16.0f/9, 0.1f, 1000.0f);
+    camera->setPosition(glm::vec3(0, 0, 3));
 
     const float positions[] = {
         0.0f, 0.5f, 1.0f, 1.0f,
@@ -124,8 +125,7 @@ SimulationState::SimulationState() {
 
 	shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
 
-    viewMatrixUniform = glGetUniformLocation(shader, "viewMatrix");
-    projectionMatrixUniform = glGetUniformLocation(shader, "projectionMatrix");
+    camera->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -150,17 +150,13 @@ void SimulationState::update(float dt) {
 }
 
 void SimulationState::render() {
+    glDisable(GL_CULL_FACE);
+    glUseProgram(shader);
 
-	if (!isKeyDown(GLFW_KEY_SPACE)) {
-		glDisable(GL_CULL_FACE);
-		glUseProgram(shader);
-        glUniformMatrix4fv(projectionMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-        glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+    camera->update();
+    grid->render();
 
-        grid->render();
-
-		glBindVertexArray(vertexArrayObject);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glUseProgram(0);
-	}
+    glBindVertexArray(vertexArrayObject);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glUseProgram(0);
 }
