@@ -1,8 +1,16 @@
 #ifndef SIM_TRACK
 #define SIM_TRACK
 
-class Track {
+#include <core/gfx/Model.h>
 
+class Track {
+public:
+    Track();
+    ~Track();
+
+    void render(GLuint modelMatrixUniformLoc);
+private:
+    Model *model;
 };
 
 #endif

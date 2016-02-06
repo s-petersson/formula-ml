@@ -9,11 +9,9 @@
 #include <core/util/Util.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-GLuint vertexArrayObject;
 GLuint shader;
-GLuint projectionMatrixUniform;
-GLuint viewMatrixUniform;
-GLuint modelMatrixUniform;
+GLuint vertexArrayObject;
+GLuint modelMatrixUniformLoc;
 
 struct Grid {
 private:
@@ -71,22 +69,20 @@ public:
 
 SimulationState::SimulationState() {
 	sim = new Simulator();
-    camera = new Camera(90.0f, 16.0f/9, 0.1f, 1000.0f);
-    camera->setPosition(glm::vec3(0, 0, 3));
-
+    camera = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
 
     const float positions[] = {
         -2.0f, 1.0f, 1.0f, 1.0f,
         -2.0f, -1.0f, 1.0f, 1.0f,
-        3.0f, 0.0f, 1.0f, 1.0f,
+        3.0f, 0.0f, 1.0f, 1.0f
     };
 
 	// Define the colors for each of the three vertices of the triangle
 	const float colors[] = {
 		//  R     G		B
-		1.0f, 0.0f, 0.0f,1.0f,		// White
-		0.0f, 1.0f, 0.0f,1.0f,		// White
-		0.0f, 0.0f, 1.0f,0.0f		// White
+		1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 1.0f
 	};
 
 	GLuint positionBuffer;
@@ -126,7 +122,7 @@ SimulationState::SimulationState() {
 	shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
 
     camera->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
-    modelMatrixUniform = glGetUniformLocation(shader, "modelMatrix");
+    modelMatrixUniformLoc = glGetUniformLocation(shader, "modelMatrix");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -143,7 +139,7 @@ SimulationState::~SimulationState() {
 void SimulationState::update(float dt) {
 	sim->update(dt);
     glm::vec3 carpos = sim->car->position;
-    carpos.z = 32;
+    carpos.z = 32.0f;
     camera->setPosition(carpos);
 }
 
@@ -153,14 +149,16 @@ void SimulationState::render() {
 
     camera->update();
 
-    glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(glm::mat4(1)));
-
+    // TODO: Do this in grid render method.
+    glUniformMatrix4fv(modelMatrixUniformLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1)));
     grid->render();
+
+    sim->track->render(modelMatrixUniformLoc);
 
     glm::mat4 car_transform = glm::translate(glm::mat4(1.0f), sim->car->position);
     float a = glm::dot(glm::normalize(sim->car->velocity), glm::vec3(1, 0, 0));
     car_transform = glm::rotate(car_transform, glm::acos(a), glm::vec3(0, 0, 1));
-    glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(car_transform));
+    glUniformMatrix4fv(modelMatrixUniformLoc, 1, GL_FALSE, glm::value_ptr(car_transform));
     glBindVertexArray(vertexArrayObject);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glUseProgram(0);

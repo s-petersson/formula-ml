@@ -4,6 +4,7 @@
 #include <core/WindowState.h>
 #include <sim/Simulator.h>
 #include <core/util/Camera.h>
+#include <sim/Track.h>
 
 struct Grid;
 

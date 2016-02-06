@@ -15,6 +15,7 @@ public:
     void setPosition(glm::vec3 pos);
     void moveX(float amount);
     void moveY(float amount);
+    void moveZ(float amount);
 
     void setUniformLocations(GLuint shaderProgram, char* viewMatrixName, char* projectionMatrixName);
     void update();

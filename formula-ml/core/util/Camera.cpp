@@ -30,6 +30,10 @@ void Camera::moveY(float amount) {
     position.y += amount;
 }
 
+void Camera::moveZ(float amount) {
+    position.z += amount;
+}
+
 void Camera::setUniformLocations (GLuint shaderProgram, char* viewMatrixName, char* projectionMatrixName) {
     viewUniformLoc = glGetUniformLocation(shaderProgram, viewMatrixName);
     projUniformLoc = glGetUniformLocation(shaderProgram, projectionMatrixName);
