@@ -8,6 +8,9 @@ public:
 	void update(float dt);
 
 	glm::vec3 position;
+	glm::vec3 direction;
+
+private:
 	glm::vec3 velocity;
 };
 

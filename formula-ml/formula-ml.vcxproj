@@ -150,6 +150,7 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="Readme.md" />
+    <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
   </ItemGroup>

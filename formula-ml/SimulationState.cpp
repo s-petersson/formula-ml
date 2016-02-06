@@ -156,9 +156,12 @@ void SimulationState::render() {
     sim->track->render(modelMatrixUniformLoc);
 
     glm::mat4 car_transform = glm::translate(glm::mat4(1.0f), sim->car->position);
-    float a = glm::dot(glm::normalize(sim->car->velocity), glm::vec3(1, 0, 0));
-    car_transform = glm::rotate(car_transform, glm::acos(a), glm::vec3(0, 0, 1));
+
+    float a = glm::acos(glm::dot(glm::vec3(1, 0, 0), glm::normalize(sim->car->direction)));
+    a = (sim->car->direction.y >= 0 ? a : -a);
+    car_transform = glm::rotate(car_transform, a, glm::vec3(0, 0, 1));
     glUniformMatrix4fv(modelMatrixUniformLoc, 1, GL_FALSE, glm::value_ptr(car_transform));
+
     glBindVertexArray(vertexArrayObject);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glUseProgram(0);

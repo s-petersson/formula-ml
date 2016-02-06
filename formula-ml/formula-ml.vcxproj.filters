@@ -51,6 +51,7 @@
     <None Include=".gitignore" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
+    <None Include="res\models\spa_circuit.model" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Program.h">

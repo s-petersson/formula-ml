@@ -6,7 +6,8 @@ Track::Track() {
     model = new Model("./res/models/spa_circuit.model");
 
     // Per vertex color.
-    float color[model->getVertices().size()];
+    float * color = new float[model->getVertices().size()];
+
     for(int i = 0; i < model->getVertices().size(); i += 4) {
         color[i] = 0.5f; // Red
         color[i + 1] = 0.5f; // Green
@@ -25,6 +26,7 @@ Track::Track() {
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
+    delete[] color;
 }
 
 Track::~Track() {
