@@ -11,13 +11,19 @@ include_directories("./")
 include_directories(${PROJECT_SOURCE_DIR}/external/include)
 
 # Find and set source files.
-file(GLOB_RECURSE SOURCE_FILES
-        ${PROJECT_SOURCE_DIR}/core/*.cpp
-        ${PROJECT_SOURCE_DIR}/core/*.h
-        ${PROJECT_SOURCE_DIR}/sim/*.cpp
-        ${PROJECT_SOURCE_DIR}/sim/*.h
+add_executable(formula_ml
         Main.cpp
-        SimulationState.cpp)
-add_executable(formula_ml ${SOURCE_FILES})
+        SimulationState.cpp
+        sim/Car.cpp
+        sim/Simulator.cpp
+        sim/Track.cpp
+        core/Keyboard.cpp
+        core/Window.cpp
+        core/WindowState.h
+        core/gfx/Program.cpp
+        core/util/Camera.cpp
+        core/util/Util.cpp
+        core/gfx/Model.cpp
+        core/gfx/Model.h)
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
