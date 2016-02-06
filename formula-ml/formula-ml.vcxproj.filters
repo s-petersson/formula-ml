@@ -39,9 +39,6 @@
     <ClCompile Include="SimulationState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\util\OrthoCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\util\Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimulationState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\util\OrthoCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\util\Util.h">

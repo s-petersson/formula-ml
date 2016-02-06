@@ -2,6 +2,7 @@
 #include "core/Keyboard.h"
 #include <iostream>
 
+#include <glm/gtx/rotate_vector.hpp>
 const float rotationalSpeed = 1;
 const float gasAcc = 20;
 const float brakeAcc = -30;
@@ -28,10 +29,10 @@ void Car::update(float dt) {
 	}
 
 	if (steerLeft && !steerRight) {
-		// velocity.rotate(rotationalSpeed * dt);
+		velocity = glm::rotateZ(velocity, rotationalSpeed * dt);
 	}
 	else if (!steerLeft && steerRight) {
-		// velocity.rotate(-rotationalSpeed * dt);
+        velocity = glm::rotateZ(velocity, -rotationalSpeed * dt);
 	}
 
 	position += velocity * dt;

@@ -7,7 +7,6 @@ public:
 	Car();
 	void update(float dt);
 
-private:
 	glm::vec3 position;
 	glm::vec3 velocity;
 };

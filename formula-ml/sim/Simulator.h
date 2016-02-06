@@ -8,7 +8,7 @@ public:
 	Simulator();
 	~Simulator();
 	void update(float dt);
-private:
+
 	Car * car;
 	Track * track;
 };

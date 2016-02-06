@@ -7,45 +7,46 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <core/util/Util.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 GLuint vertexArrayObject;
 GLuint shader;
 GLuint projectionMatrixUniform;
 GLuint viewMatrixUniform;
-
+GLuint modelMatrixUniform;
 
 struct Grid {
 private:
     GLuint vao;
 public:
     Grid() {
-        glm::vec4 * positions = new glm::vec4[44];
-        glm::vec4 * colours = new glm::vec4[44];
+        glm::vec4 * positions = new glm::vec4[88];
+        glm::vec4 * colours = new glm::vec4[88];
 
-        for (int i = 0; i < 11; i++) {
-            positions[2 * i] = glm::vec4(-10 + 2 * i, 10.0f, 0, 1.0f);
-            positions[2 * i + 1] = glm::vec4(-10 + 2 * i, -10.0f, 0, 1.0f);
+        for (int i = 0; i < 22; i++) {
+            positions[2 * i] = glm::vec4(-1000 + 100 * i, 1000.0f, 0, 1.0f);
+            positions[2 * i + 1] = glm::vec4(-1000 + 100 * i, -1000.0f, 0, 1.0f);
         }
 
-        for (int i = 0; i < 11; i++) {
-            positions[22 + 2 * i] = glm::vec4(-10.0f , -10 + 2 * i, 0, 1.0f);
-            positions[22 + 2 * i + 1] = glm::vec4(10.0f, -10 + 2 * i, 0, 1.0f);
+        for (int i = 0; i < 22; i++) {
+            positions[44 + 2 * i] = glm::vec4(-1000.0f , -1000 + 100 * i, 0, 1.0f);
+            positions[44 + 2 * i + 1] = glm::vec4(1000.0f, -1000 + 100 * i, 0, 1.0f);
         }
 
 
-        for (int i = 0; i < 44; i++) {
+        for (int i = 0; i < 88; i++) {
             colours[i] = glm::vec4(0.7f, 0.7f, 1.0f, 1.0f);
         }
 
         GLuint positionBuffer;
         glGenBuffers(1, &positionBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 44, positions, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, positions, GL_STATIC_DRAW);
 
         GLuint colorBuffer;
         glGenBuffers(1, &colorBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 44, colours, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, colours, GL_STATIC_DRAW);
         
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
@@ -63,7 +64,7 @@ public:
 
     void render() {
         glBindVertexArray(vao);
-        glDrawArrays(GL_LINES, 0, 44);
+        glDrawArrays(GL_LINES, 0, 88);
     }
 };
 
@@ -73,13 +74,12 @@ SimulationState::SimulationState() {
     camera = new Camera(90.0f, 16.0f/9, 0.1f, 1000.0f);
     camera->setPosition(glm::vec3(0, 0, 3));
 
-    const float positions[] = {
-        0.0f, 0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, 1.0f, 1.0f,
-    };
 
-    glm::vec3(1,1,1);
+    const float positions[] = {
+        -2.0f, 1.0f, 1.0f, 1.0f,
+        -2.0f, -1.0f, 1.0f, 1.0f,
+        3.0f, 0.0f, 1.0f, 1.0f,
+    };
 
 	// Define the colors for each of the three vertices of the triangle
 	const float colors[] = {
@@ -126,6 +126,7 @@ SimulationState::SimulationState() {
 	shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
 
     camera->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
+    modelMatrixUniform = glGetUniformLocation(shader, "modelMatrix");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -141,12 +142,9 @@ SimulationState::~SimulationState() {
 
 void SimulationState::update(float dt) {
 	sim->update(dt);
-
-    if (isKeyDown(GLFW_KEY_UP)) camera->moveY(dt * 5.0f); 
-    if (isKeyDown(GLFW_KEY_DOWN)) camera->moveY(dt * -5.0f);
-
-    if (isKeyDown(GLFW_KEY_RIGHT)) camera->moveX(dt * 5.0f);
-    if (isKeyDown(GLFW_KEY_LEFT)) camera->moveX(dt * -5.0f);
+    glm::vec3 carpos = sim->car->position;
+    carpos.z = 32;
+    camera->setPosition(carpos);
 }
 
 void SimulationState::render() {
@@ -154,9 +152,17 @@ void SimulationState::render() {
     glUseProgram(shader);
 
     camera->update();
+
+    glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(glm::mat4(1)));
+
     grid->render();
 
+    glm::mat4 car_transform = glm::translate(glm::mat4(1.0f), sim->car->position);
+    float a = glm::dot(glm::normalize(sim->car->velocity), glm::vec3(1, 0, 0));
+    car_transform = glm::rotate(car_transform, glm::acos(a), glm::vec3(0, 0, 1));
+    glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(car_transform));
     glBindVertexArray(vertexArrayObject);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glUseProgram(0);
+
 }

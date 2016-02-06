@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include <OpenGL/OpenGL.h>
+#include <GL/glew.h>
 #include <external/include/glm/gtc/type_ptr.hpp>
 
 
@@ -15,7 +15,7 @@ glm::mat4x4 Camera::getProjectionMatrix() {
 }
 
 glm::mat4x4 Camera::getViewMatrix() {
-    return glm::lookAt(position, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    return glm::lookAt(position, glm::vec3(position.x, position.y, 0), glm::vec3(0, 1, 0));
 }
 
 void Camera::setPosition(glm::vec3 pos) {
