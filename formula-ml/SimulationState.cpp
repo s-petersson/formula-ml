@@ -3,7 +3,6 @@
 #include <GL/glew.h>
 #include <core/gfx/Program.h>
 #include <core/Keyboard.h>
-#include <core/util/OrthoCamera.h>
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -38,7 +37,6 @@ public:
             colours[i] = glm::vec4(0.7f, 0.7f, 1.0f, 1.0f);
         }
 
-        printf("%i bytes \n", sizeof(glm::vec4 *));
         GLuint positionBuffer;
         glGenBuffers(1, &positionBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
@@ -72,7 +70,7 @@ public:
 
 SimulationState::SimulationState() {
 	sim = new Simulator();
-    camera = new OrthoCamera(0.f, 100.f, 1.f, -1.f);
+    camera = new Camera(90.0f, 16.0f/9, 0.1f, 1000.0f, glm::vec3(0,0,3));
 
     const float positions[] = {
         0.0f, 0.5f, 1.0f, 1.0f,
@@ -143,6 +141,12 @@ SimulationState::~SimulationState() {
 
 void SimulationState::update(float dt) {
 	sim->update(dt);
+
+    if (isKeyDown(GLFW_KEY_UP)) camera->moveY(dt * 5.0f); 
+    if (isKeyDown(GLFW_KEY_DOWN)) camera->moveY(dt * -5.0f);
+
+    if (isKeyDown(GLFW_KEY_RIGHT)) camera->moveX(dt * 5.0f);
+    if (isKeyDown(GLFW_KEY_LEFT)) camera->moveX(dt * -5.0f);
 }
 
 void SimulationState::render() {

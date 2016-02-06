@@ -3,7 +3,7 @@
 
 #include <core/WindowState.h>
 #include <sim/Simulator.h>
-#include <core/util/OrthoCamera.h>
+#include <core/util/Camera.h>
 
 struct Grid;
 
@@ -17,7 +17,7 @@ public:
 
 private:
 	Simulator * sim;
-    OrthoCamera * camera;
+    Camera * camera;
     Grid * grid;
 };
 

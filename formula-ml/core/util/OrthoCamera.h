@@ -1,12 +1,11 @@
-#ifndef ORTHO_CAMERA
-#define ORTHO_CAMERA
+#ifndef CORE_UTIL_ORTHO_CAMERA
+#define CORE_UTIL_ORTHO_CAMERA
 
 #include <glm/mat4x4.hpp>
 
 class OrthoCamera {
 public:
     OrthoCamera(float near, float far, float x, float y);
-    ~OrthoCamera();
 
     glm::mat4x4 getProjectionMatrix();
     glm::mat4x4 getViewMatrix();
@@ -16,7 +15,7 @@ public:
 
 private:
     glm::mat4x4 projectionMatrix;
-    glm::mat4x4 lookAtMatrix;
+    glm::mat4x4 viewMatrix;
 };
 
 #endif /* OrthoCamera_hpp */
