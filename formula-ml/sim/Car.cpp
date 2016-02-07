@@ -33,11 +33,11 @@ void Car::update(float dt) {
 	// Acceleration in the direction of the car
 	float forwardForce = 0;
 	if (gas && !brake) {
-		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5);
+		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
 		velocity += direction * (forwardForce * dt / mass);
 	}
 	else if (!gas && brake) {
-		forwardForce = -std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5);
+		forwardForce = -std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
 		velocity += direction * (forwardForce * dt / mass);
 		if (length(normalize(velocity) + direction) < 1) { 
 			velocity *= 0;
