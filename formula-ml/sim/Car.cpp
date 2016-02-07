@@ -3,15 +3,14 @@
 #include <iostream>
 #include <algorithm>
 #include <glm/gtx/rotate_vector.hpp>
+
 const float mass = 642;				// [kg]
 const float my = 0.8f;				// µ - friction coefficient. Guessed
 const float g = 9.82f;
 const float downforceConstant = mass * g / 36.1111 / 36.1111; // d*v^2 = mg at 130 km/h
-
 const float gasForce = 14.2 * mass;		// [N]
 const float brakeForce = -39 * mass;	// [N]
 const float minTurningRadius = 4;		// Guessed
-
 
 using namespace glm;
 
@@ -26,17 +25,19 @@ void Car::update(float dt) {
 	bool brake = isKeyDown(GLFW_KEY_DOWN);
 	bool steerLeft = isKeyDown(GLFW_KEY_LEFT);
 	bool steerRight = isKeyDown(GLFW_KEY_RIGHT);
+	bool steerCareful = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
+	bool accelerateCareful = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
 
 	float currentSpeed = glm::length(velocity);
 
 	// Acceleration in the direction of the car
 	float forwardForce = 0;
 	if (gas && !brake) {
-		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed));
+		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateCareful ? 0.5 : 1);
 		velocity += direction * (forwardForce * dt / mass);
 	}
 	else if (!gas && brake) {
-		forwardForce = std::min(brakeForce, maxTyreForce(currentSpeed));
+		forwardForce = std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateCareful ? 0.5 : 1);
 		velocity += direction * (forwardForce * dt / mass);
 		if (length(normalize(velocity) + direction) == 0) {
 			velocity *= 0;
@@ -45,12 +46,12 @@ void Car::update(float dt) {
 
 	// Rotation due to steering
 	if (steerLeft && !steerRight) {
-		float rotation = maxRotation(currentSpeed, forwardForce, dt);
+		float rotation = maxRotation(currentSpeed, forwardForce, dt) * (steerCareful ? 0.5 : 1);
 		direction = glm::rotateZ(direction, rotation);
 		velocity = glm::rotateZ(velocity, rotation);
 	}
 	else if (!steerLeft && steerRight) {
-		float rotation = -maxRotation(currentSpeed, forwardForce, dt);
+		float rotation = -maxRotation(currentSpeed, forwardForce, dt) * (steerCareful ? 0.5 : 1);
 		direction = glm::rotateZ(direction, rotation);
 		velocity = glm::rotateZ(velocity, rotation);
 	}
