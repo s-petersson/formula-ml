@@ -1,0 +1,74 @@
+%   Metod/Genomförande
+% Hur gruppen har tänkt sig att genomföra arbetet är val av metod. I konstruktionsinriktade projekt kan detta tyckas vara självklart, men det kan även i detta fall finnas viktiga metodval. Helt litteraturbaserade kandidatarbeten är också genomförbara men även en litteraturstudie skall ha en ordnad och strukturerad arbetsprocess och metodik. 
+
+% Metodavsnittet bör också beskriva hur data ska samlas in eller hur man ska konstatera hur väl projektets mål har uppfyllt. I praktiska projekt kan detta vara genom mätningar av olika typer. Det kan också vara genom datorsimuleringar. Vilka aspekter är viktiga för att veta om man uppnått syftet med projektet? Datainsamling kan också vara en del av en testning eller annan utvärdering av den produkt man tar fram i ett konstruktionsinriktat projekt.
+
+% Antal studieobjekt/testfall och hur de väljs? Typ av undersökningsmetod/testmetod? Hur insamlade data/testresultat ska analyseras och presenteras? Hur ser processen ut för litteraturarbetet?
+
+% Alla ovanstående frågor behöver inte vara besvarade i planeringsrapporten. Men studenterna bör tänka på dessa frågeställningar tidigt i projektet och genomgående täcka in mer och mer.
+
+%  * Different parts of the project will need separate method sections, ie. separate methods for simulation and AI etc.
+%  * Usually based on method-literature. IE. how to find results in our area.
+%  * Updated frequently throughout the project.
+%  * Be specific! In order to get specific feedback.
+%  * Focus on the relevant things.  
+
+\chapter{Method}
+
+  
+  
+\section{How we use literature} % Relevance?
+
+
+\section{Simulation}
+\textit{
+    How we do it?
+    How we use it?
+    Write the basics here, reference it from the algorithm sections if needed?
+    Use the simulator to evaluate the ai?
+}
+
+In order to develop and evaluate the AI a computer simulation will be used, not a real car and not a real track. The simulation will include basic laws of physics that are relevant to test the behaviour. One hypothesis is that less complex physic is easier to for the ai to learn. Therefor, the level of correctness and number of factors will increase as the project goes on. When the machine learning algorithms improves, so will the capabilities. In order to evaluate the capabilities, several settings in the simulation might be tested.
+
+\textit{
+    Elaborate. Continue when relevant sections in Problem are written.
+}
+
+\section{How to evaluate results}
+%     How far it gets, and how fast.
+%    Compare to Racing theory. abstract. Cannot compare in detail to reality, since we use custom physics.
+
+
+When evaluating the performance there are two scenarios to consider. Firstly comparing the performance of different AI instances. The other is comparing the performance and behaviour of the AI to real world drivers. In the first scenario the performance is easily evaluated, because it can be measured in an exact way. The AI instances can be ranked by how long they manage to stay on track and how fast they drive, attributes which are easily recorded in the simulator. 
+
+However the second scenario, comparing the performance and behaviour of an AI in the simulator to a real world driver, is harder. A result measured in the simulator, such as a lap time, can not be compared to an equivalent real world result due to the limited realism of the simulator. This makes it hard to evaluate the behaviour of an AI. 
+
+In order to evaluate the behaviour one strategy is to determine whether or not the AI behaves accordingly to racing theory. 
+
+
+\section{AI algorithms}
+    Requirements for different variants. Elaborate as much as we can at this point. Continue in report when we know more and have experimental results
+    Time complexity
+    Feasible in practise
+    without training examples...
+    ANN size
+    
+    Training/Search
+      How do we find solutions that work well? Or improve?
+      That wanted features are developed? Features are not forgotten?
+      Over trained?
+
+Sections:
+Supervised / Backpropagation - Do not have example data / know the right value. Several decisions, nature of simulation...
+
+Reinforcement learning - Use this section as a transition to our domain of algorithms
+    Stateless and Dynamic
+
+"MarI/O method"
+    Evolving Neural Networks, Augmenting Topologies. 
+
+\section{Project structure}
+Iterative experimentation
+
+\section{Method literature}
+\textit{Keep section to remember the concept. Will we have any use for this? What about project methodologies?}

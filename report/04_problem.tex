@@ -1,0 +1,34 @@
+% Problem/Uppgift
+% Det här avsnittet är ofta den viktigaste delen av planeringsrapporten (och av den slutgiltiga rapporten). Den syftar till att identifiera frågan/frågorna som ska tas upp i projektet. Det är viktigt att gruppen gör en problem(uppgifts)analys även om det i projektförslaget redan finns ett problem (en uppgift) specificerat. Anledningen till detta är att det riktiga primära problemet ofta skiljer sig från det i början av uppdragsgivaren/förslagsställaren/kunden föreslagna. Problemanalysen syftar också till att bryta ner problemet/uppgiften i mindre och mer detaljerade delproblem/deluppgifter, vilket också leder till formulering av delsyften. Genom att göra detta får studenterna mycket bättre förståelse för de olika aspekterna av problemet/uppgiften. Utan den här informationen är det omöjligt att identifiera vilken information som behövs, vilka informationskällor som behövs,  och lämpliga tillvägagångssätt.
+
+% En bra problemanalys som identifierar delproblem/deluppgifter och delsyften vilar i många fall på användning av teorier och modeller från litteraturen. En litteraturgenomgång bör därför genomföras tidigt i processen.
+\chapter{Problem Description}
+
+%    Analyze what issues and questions that will be covered in the report.
+%        Is it possible to achive a complex behaviour?
+%        Which inputs/ouputs are relevant?
+%        How does the input size / type affect the performance of the ai. 
+        
+%        Physics concerning racing. 
+%        Simulation, what parts of the physics affect the behaviour? Which are relevant, which part do not have a large effect? Non relevant stuff, not as important for the simulation.
+  
+% Identify the different parts of the problem. Motivation of milestones.
+%        1. "drive the car fowrard, stay on the track"
+%            Interpret the track
+%            understand how to handle the car
+%    
+%        2. "Drive advanced, racing lines.."
+%            Interpret the track and realise that a corner is coming up
+%            Fast not always the quickest:
+%                Positioning & Speed
+%            The nature of a single curve, double curve etc.
+            
+
+In order to construct an artificial intelligence with the desired behaviour of a Formula 1 driver a number of questions need to be answered; Can such a complex behaviour be found through the use of machine learning? Furthermore if that is the case, what information is relevant for the AI in order to achieve the desired behaviour? How the format and size of both the input and output data will affect the outcome will also be analysed.
+
+% Källa på hur machine learning brukar använda stora dataset.
+In order to train an AI, feedback of some kind is required. Usually this is achieved by comparing the result with a large data set. Without such a set of example data an alternative method of giving feedback will be required, thus in this case a simulation will be used. This raises the question of how the simulation will affect the behaviour of the AI. Since the simulation will be limited in realism some aspects of the real world that affect the behaviour of Formula 1 drivers might get lost. Which aspects are relevant to simulate, which are not?
+
+In order for the AI to achieve a behaviour similar to that of a Formula 1 driver it must grasp a few different concepts of varying complexity. First of all the AI. must be able to handle the car and keep it on the track. This includes basic steering to avoid collision as well as braking and accelerating in and out of corners. With the ability to handle the basics the AI will have to take strategy and planning into account in order to drive close to the optimal race line. To achieve this behaviour the AI must plan a corner so that it places the car in order to maximise the speed through the corner and stay on track.
+
+However optimising each corner locally might not lead to a global optimum. In order for the car to take a series of corners optimally it must consider several corners ahead and plan accordingly. 
