@@ -3,6 +3,7 @@
 #include <core/gfx/Program.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <external/include/glm/gtx/rotate_vector.hpp>
 
 GLuint shader;
 
@@ -44,11 +45,8 @@ SimulationState::~SimulationState() {
 void SimulationState::update(float dt) {
 	sim->update(dt);
 
-    // Make the camera follow the car.
     // TODO: If "followCar"
-    glm::vec3 carpos = sim->car->position;
-    carpos.z = 32.0f;
-    camera->setPosition(carpos);
+    camera->follow(sim->car->position, sim->car->direction, 35.f);
 }
 
 void SimulationState::render() {
