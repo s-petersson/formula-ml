@@ -11,6 +11,9 @@ public:
 	glm::vec3 direction;
 
 private:
+	float maxRotation(float speed, float forwardForce, float dt);
+	float minRadius(float speed, float forwardForce);
+	float maxTyreForce(float speed);
 	glm::vec3 velocity;
 };
 
