@@ -139,7 +139,7 @@ SimulationState::~SimulationState() {
 void SimulationState::update(float dt) {
 	sim->update(dt);
     glm::vec3 carpos = sim->car->position;
-    carpos.z = 1000.0f;
+    carpos.z = 32.0f;
     camera->setPosition(carpos);
 }
 

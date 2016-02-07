@@ -9,7 +9,7 @@ const float my = 0.8f;				// µ - friction coefficient. Guessed
 const float g = 9.82f;
 const float downforceConstant = mass * g / 36.1111 / 36.1111; // d*v^2 = mg at 130 km/h
 const float gasForce = 14.2 * mass;		// [N]
-const float brakeForce = -39 * mass;	// [N]
+const float brakeForce = 39 * mass;	// [N]
 const float minTurningRadius = 4;		// Guessed
 
 using namespace glm;
@@ -26,20 +26,20 @@ void Car::update(float dt) {
 	bool steerLeft = isKeyDown(GLFW_KEY_LEFT);
 	bool steerRight = isKeyDown(GLFW_KEY_RIGHT);
 	bool steerCareful = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
-	bool accelerateCareful = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
+	bool accelerateMax = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
 
 	float currentSpeed = glm::length(velocity);
 
 	// Acceleration in the direction of the car
 	float forwardForce = 0;
 	if (gas && !brake) {
-		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateCareful ? 0.5 : 1);
+		forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5);
 		velocity += direction * (forwardForce * dt / mass);
 	}
 	else if (!gas && brake) {
-		forwardForce = std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateCareful ? 0.5 : 1);
+		forwardForce = -std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5);
 		velocity += direction * (forwardForce * dt / mass);
-		if (length(normalize(velocity) + direction) == 0) {
+		if (length(normalize(velocity) + direction) < 1) { 
 			velocity *= 0;
 		}
 	}
@@ -70,6 +70,11 @@ float Car::maxRotation(float speed, float forwardForce, float dt) {
 // current "speed" and engine/brake "forwardForce"
 float Car::minRadius(float speed, float forwardForce) {
 	float tyreForce = maxTyreForce(speed);
+
+	if (std::abs(tyreForce - std::abs(forwardForce)) < 0.01) {
+		return INFINITY;
+	}
+
 	float centralForce = sqrt(tyreForce*tyreForce - forwardForce*forwardForce);
 	float result = mass*speed*speed / centralForce;
 	return std::max(result, minTurningRadius);
