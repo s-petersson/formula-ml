@@ -18,21 +18,21 @@ private:
     GLuint vao;
 public:
     Grid() {
-        glm::vec4 * positions = new glm::vec4[88];
-        glm::vec4 * colours = new glm::vec4[88];
+        glm::vec4 * positions = new glm::vec4[84];
+        glm::vec4 * colours = new glm::vec4[84];
 
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 21; i++) {
             positions[2 * i] = glm::vec4(-1000 + 100 * i, 1000.0f, 0, 1.0f);
             positions[2 * i + 1] = glm::vec4(-1000 + 100 * i, -1000.0f, 0, 1.0f);
         }
 
-        for (int i = 0; i < 22; i++) {
-            positions[44 + 2 * i] = glm::vec4(-1000.0f , -1000 + 100 * i, 0, 1.0f);
-            positions[44 + 2 * i + 1] = glm::vec4(1000.0f, -1000 + 100 * i, 0, 1.0f);
+        for (int i = 0; i < 21; i++) {
+            positions[42 + 2 * i] = glm::vec4(-1000.0f , -1000 + 100 * i, 0, 1.0f);
+            positions[42 + 2 * i + 1] = glm::vec4(1000.0f, -1000 + 100 * i, 0, 1.0f);
         }
 
 
-        for (int i = 0; i < 88; i++) {
+        for (int i = 0; i < 84; i++) {
             colours[i] = glm::vec4(0.7f, 0.7f, 1.0f, 1.0f);
         }
 
@@ -139,7 +139,7 @@ SimulationState::~SimulationState() {
 void SimulationState::update(float dt) {
 	sim->update(dt);
     glm::vec3 carpos = sim->car->position;
-    carpos.z = 32.0f;
+    carpos.z = 1000.0f;
     camera->setPosition(carpos);
 }
 
