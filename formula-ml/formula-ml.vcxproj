@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
@@ -155,6 +156,7 @@
     <None Include="res\shaders\simple.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />

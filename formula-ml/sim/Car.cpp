@@ -6,8 +6,8 @@
 const float rotationalSpeed = 1;
 const float gasAcc = 20;
 const float brakeAcc = -30;
-const float drag_const = -15.0f;
-const float roll_resistance = -40;
+const float drag_const = -5.0f;
+const float roll_resistance = -100;
 const float mass = 700;
 const float gravity = 9.82;
 const float weight = mass * gravity;

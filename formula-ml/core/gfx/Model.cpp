@@ -58,7 +58,7 @@ void parseFile(string path, vector<float> *vertices, vector<int> *indices) {
     }
 }
 
-GLuint initModel (vector<float> vertices, vector<int> indices) {
+GLuint initModel(vector<float> vertices, vector<int> indices) {
     GLuint vertexArrayObject;
     glGenVertexArrays(1, &vertexArrayObject);
     glBindVertexArray(vertexArrayObject);
@@ -92,4 +92,5 @@ GLuint Model::loadModel(string path) {
     parseFile(path, &vertices, &indices);
 
     vao = initModel(vertices, indices);
+    return vao;
 }
