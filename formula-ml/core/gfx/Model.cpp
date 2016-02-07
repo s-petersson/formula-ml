@@ -30,6 +30,15 @@ glm::mat4x4 Model::getModelMatrix() {
     return modelMatrix;
 }
 
+GLuint Model::getModelMatrixLoc() {
+    return modelMatrixLoc;
+}
+
+void Model::setModelMatrixLoc(GLuint location) {
+    modelMatrixLoc = location;
+}
+
+
 void parseFile(string path, vector<float> *vertices, vector<int> *indices) {
     ifstream file(path);
     string line;

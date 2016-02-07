@@ -17,8 +17,12 @@ public:
     std::vector<float> getVertices();
     std::vector<int> getIndices();
     glm::mat4x4 getModelMatrix();
+
+    GLuint getModelMatrixLoc();
+    void setModelMatrixLoc(GLuint location);
 private:
     GLuint vao;
+    GLuint modelMatrixLoc;
 
     std::vector<float> vertices;
     std::vector<int> indices;
