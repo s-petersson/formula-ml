@@ -1,18 +1,3 @@
-## Week 3, February 1-7
-No supervision meeting. We did not think that we had made enough progress since last week.
-
-We decided to be more thorough in our document. This include discussion content, argument, progress, current tasks and problems. We will evaluate the level of ambition at a later time.
-
-### Planning report
-Started to stake down the contents of the report and started producing text.
-
-### Implementation
-
-A simple car simulation got implemented. Simple rendering for the car and track were also implemented. 
-
-
-
-
 ## Week 2, January 25-31
 During the initial supervision meeting with Prasad. Among other things he suggested us to get started with a really simple problem and get a simple simulation up and running fast.
 
@@ -56,15 +41,3 @@ It was decided to use C++. Arguments for:
 The second best option was Java. Although slightly easier and more experience, it is slightly less flexible in making improvements as C++.
 
 Martin and Simon started to set up the development environment.
-
-## Week 1, January 18-24
-Set up:
-
-- A web page with all administrative information as requested by supervisor Prasad. http://pendla.github.io/formula-ml/ 
-- Git repo. See link on web page
-
-Started literature studies, but nobody have yet had a particular amount of time for it. We have a few relevant sources for machine learning, racing theory and physics. 
-
-We have discussed the problem domain and pinpointed some possibilities and difficulties but we need to investigate possible strategies and techniques much more.
-
-Wrote an initial summary in the report of the progress so far.
