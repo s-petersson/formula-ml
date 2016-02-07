@@ -1,7 +1,8 @@
 #ifndef SIM_SIMULATOR
 #define SIM_SIMULATOR
-#include "Car.h"
-#include "Track.h"
+
+#include <sim/model/CarModel.h>
+#include <sim/model/TrackModel.h>
 
 class Simulator {
 public:
@@ -9,7 +10,7 @@ public:
 	~Simulator();
 	void update(float dt);
 
-	Car * car;
-	Track * track;
+	CarModel * car;
+	TrackModel * track;
 };
 #endif

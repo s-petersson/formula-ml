@@ -14,9 +14,7 @@ include_directories(${PROJECT_SOURCE_DIR}/external/include)
 add_executable(formula_ml
         Main.cpp
         SimulationState.cpp
-        sim/Car.cpp
         sim/Simulator.cpp
-        sim/Track.cpp
         core/Keyboard.cpp
         core/Window.cpp
         core/WindowState.h
@@ -24,6 +22,6 @@ add_executable(formula_ml
         core/util/Camera.cpp
         core/util/Util.cpp
         core/gfx/Model.cpp
-        core/gfx/Model.h)
+        core/gfx/Model.h sim/view/CarView.cpp sim/view/CarView.h sim/model/CarModel.cpp sim/model/CarModel.h sim/model/TrackModel.cpp sim/model/TrackModel.h sim/view/TrackView.cpp sim/view/TrackView.h sim/view/GridView.cpp sim/view/GridView.h)
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

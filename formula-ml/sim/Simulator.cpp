@@ -1,8 +1,8 @@
 #include "Simulator.h"
 
 Simulator::Simulator() {
-	car = new Car();
-	track = new Track();
+	car = new CarModel();
+	track = new TrackModel();
 }
 
 Simulator::~Simulator() {

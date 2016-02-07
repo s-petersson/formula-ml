@@ -13,6 +13,8 @@ public:
     glm::mat4x4 getProjectionMatrix();
     glm::mat4x4 getViewMatrix();
     void setPosition(glm::vec3 pos);
+    void lookAt(glm::vec3 target);
+    void follow(glm::vec3 pos, glm::vec3 target, float distance);
     void moveX(float amount);
     void moveY(float amount);
     void moveZ(float amount);
@@ -23,6 +25,7 @@ public:
 private:
     glm::mat4x4 projectionMatrix;
     glm::vec3 position;
+    glm::vec3 target;
 
     GLuint viewUniformLoc;
     GLuint projUniformLoc;

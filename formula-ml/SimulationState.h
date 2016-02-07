@@ -4,7 +4,9 @@
 #include <core/WindowState.h>
 #include <sim/Simulator.h>
 #include <core/util/Camera.h>
-#include <sim/Track.h>
+#include <sim/view/CarView.h>
+#include <sim/view/TrackView.h>
+#include <sim/view/GridView.h>
 
 struct Grid;
 
@@ -19,7 +21,10 @@ public:
 private:
 	Simulator * sim;
     Camera * camera;
-    Grid * grid;
+
+    GridView * gridView;
+    TrackView *trackView;
+    CarView *carView;
 };
 
 #endif
