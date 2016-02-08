@@ -144,9 +144,12 @@
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SimulationState.cpp" />
-    <ClCompile Include="sim\Car.cpp" />
+    <ClCompile Include="sim\model\CarModel.cpp" />
+    <ClCompile Include="sim\model\TrackModel.cpp" />
     <ClCompile Include="sim\Simulator.cpp" />
-    <ClCompile Include="sim\Track.cpp" />
+    <ClCompile Include="sim\view\CarView.cpp" />
+    <ClCompile Include="sim\view\GridView.cpp" />
+    <ClCompile Include="sim\view\TrackView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -165,8 +168,13 @@
     <ClInclude Include="core\WindowState.h" />
     <ClInclude Include="SimulationState.h" />
     <ClInclude Include="sim\Car.h" />
+    <ClInclude Include="sim\model\CarModel.h" />
+    <ClInclude Include="sim\model\TrackModel.h" />
     <ClInclude Include="sim\Simulator.h" />
     <ClInclude Include="sim\Track.h" />
+    <ClInclude Include="sim\view\CarView.h" />
+    <ClInclude Include="sim\view\GridView.h" />
+    <ClInclude Include="sim\view\TrackView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

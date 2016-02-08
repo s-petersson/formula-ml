@@ -37,11 +37,11 @@ void CarModel::update(float dt) {
     // Acceleration in the direction of the car
     float forwardForce = 0;
     if (gas && !brake) {
-        forwardForce = std::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
+        forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
         velocity += direction * (forwardForce * dt / mass);
     }
     else if (!gas && brake) {
-        forwardForce = -std::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
+        forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
         velocity += direction * (forwardForce * dt / mass);
         if (length(normalize(velocity) + direction) < 1) {
             velocity *= 0;
@@ -81,7 +81,7 @@ float CarModel::minRadius(float speed, float forwardForce) {
 
     float centralForce = sqrt(tyreForce*tyreForce - forwardForce*forwardForce);
     float result = mass*speed*speed / centralForce;
-    return std::max(result, minTurningRadius);
+    return glm::max(result, minTurningRadius);
 }
 
 // Calculate the maximum force the tyres can apply to the road
