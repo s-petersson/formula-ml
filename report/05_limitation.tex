@@ -1,0 +1,28 @@
+% Avgränsningar
+% Avgränsningarna ska ta upp vilka delar av problemet som inte tas upp i rapporten, och anledningen till detta. Motivering av avgränsningarna är viktigt. Om problemanalysen är väl genomförd behöver dock inte något avsnitt avgränsningar skrivas.
+
+% * Scope of project and motivation for inclusions/exclusions.
+% * Could be a part of the problem description.
+% * Limits of project goals.
+
+\chapter{Limitations \& Scope}
+% I don't like this paragraph. Especially the reasoning part, it's clunky and not well written. But i am stuck figuring out a better way, if you have time, please consider rewriting it.
+There are many different ways in which one can implement the concept of AI. In this project we have decided to focus on an AI that learns how to make a correct decision for a certain scenario by using some method of machine learning. This decision is based on our own interest in experimenting and learning more about the machine learning concept as well as the fact that machine learning is a modern way of thinking about AI.
+
+When developing such an AI one needs to consider the most appropriate environment to let the AI learn and work in. The most appropriate environment for this, in our specific scenario is a virtual one. A virtual environment allows for great flexibility during the AIs learning process, for example it will be possible to instantly reset the car to the tracks starting position and change both physical and environmental aspects of the world such as gravity, frictional constants on the track or width of the track.
+
+However implementing a fully fledged physical engine into a simulation engine would require a great deal of time and dedication. In order to avoid this, one could use an already existing engine that simulates cars and their physics or simplify the problem enough that it would be reasonable both in the aspect of time and complexity to implement the physics system into a self developed simulation engine.
+
+In order to keep our solution as standalone as possible, making sure that we do not limit ourselves in the future we have decided to go with the second option. When deciding with this option we had to consider what different aspects of the physical world would greatly affect the final race line that the AI would eventually make the car take. We have concluded that a two dimensional environment that considers the current turning radius of a pre-specified car as a function of its speed will suffice. The additional complexity of implementing a simulation in a three dimensional environment would not outweigh the benefits, as the conceptual differences that the extra dimension will add for the AI is not large enough.
+
+The goal of the AI is to consider how to approach a set of curves in order to make as fast a lap as possible. This means that the AI will not consider the scenario were more than one car is driving on the track at a time. This would raise the complexity above one that would be reasonable within the time frame of the project. Having no more than one car on the track also means that the AI will not consider any competitive racing strategy, such as when to take a pit stop or driving on a different race line in order to block a car currently trying to overtake. Furthermore, the set of curves that will be required for the AI to approach correctly are all those that were a part of the 2015 championship in Formula1.
+% Might want to consider adding some reasoning as to why we have decided to go only with curves from the 2015 championship in Formula1. They stated above that "Motivering av avgränsningarna är viktigt"
+
+% Done:
+% Virtual environment, no real car etc. Customisable physic realism.
+    % Simplified physics. Start simple, add more aspects that effect behaviour, when the project is ready for it.
+        % Turning radius as a function of speed. More aspects only dealt with in second hand. 2D, tyres.
+        % 2D, 3D do not add much conceptual interesting aspects. The parameters change somewhat.. (Problem section?)
+% We will only discuss the handling of a single car, ie. the ai will not consider other vehicles or competitive racing strategy. 
+% All curves that were used in the 2015 season of Formula1.
+% Only machine-learning based ai.
