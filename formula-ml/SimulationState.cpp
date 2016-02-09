@@ -5,15 +5,23 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <external/include/glm/gtx/rotate_vector.hpp>
 
+#include <sim/model/TrackModel.h>
+#include <sim/model/CarModel.h>
+
 GLuint shader;
 
 SimulationState::SimulationState() {
-	sim = new Simulator();
+	
     camera = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
-
+    Model * track_mesh = new Model("./res/models/spa_circuit.model");
     // Create views for simulated objects.
-    carView = new CarView(sim->car);
-    trackView = new TrackView(sim->track);
+   
+    CarModel * carModel = new CarModel();
+    TrackModel * trackModel = new TrackModel(track_mesh);
+    carView = new CarView(carModel);
+    trackView = new TrackView(trackModel, track_mesh);
+
+    sim = new Simulator(carModel, trackModel);
 
     // And one grid to keep one from loosing ones mind.
     gridView = new GridView();

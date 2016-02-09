@@ -1,8 +1,8 @@
 #include "Simulator.h"
 
-Simulator::Simulator() {
-	car = new CarModel();
-	track = new TrackModel();
+Simulator::Simulator(CarModel * _car, TrackModel * _track) {
+	car = _car;
+	track = _track;
 }
 
 Simulator::~Simulator() {
@@ -12,4 +12,7 @@ Simulator::~Simulator() {
 
 void Simulator::update(float dt) {
 	car->update(dt);
+    if (track->onTrack(car->position)) {
+        printf("Car on Track! \n");
+    }
 }

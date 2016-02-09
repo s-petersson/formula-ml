@@ -3,10 +3,10 @@
 #include <sim/model/TrackModel.h>
 #include "TrackView.h"
 
-TrackView::TrackView(TrackModel *dataModel) {
+TrackView::TrackView(TrackModel *dataModel, Model * track_model) {
     this->dataModel = dataModel;
 
-    viewModel  = new Model("./res/models/spa_circuit.model");
+    viewModel = track_model;
     // Per vertex color.
     std::vector<float> color;
     for(int i = 0; i < viewModel->getVertices().size(); i += 4) {

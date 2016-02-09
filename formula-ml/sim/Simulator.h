@@ -6,7 +6,7 @@
 
 class Simulator {
 public:
-	Simulator();
+	Simulator(CarModel * car, TrackModel * track);
 	~Simulator();
 	void update(float dt);
 
