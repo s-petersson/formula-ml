@@ -2,12 +2,17 @@
 % En preliminär titel ska vara angiven i planeringsrapporten.
 \documentclass[a4paper, 12pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titling}
+\graphicspath{ {images/} }
 
-\title{Formula ML}
+\title{Formula ML \\\large Planning Report}
+
 \author{ 
 Gabriel Alpsten
 \and
-Daniel Eineving
+Daniel Eineving \\
 \and
 Martin Nilsson
 \and
@@ -19,7 +24,6 @@ Simon Petersson
     \maketitle
     \input{01_abstract} 
     
-    
     \tableofcontents
     
     \input{02_background}
@@ -29,6 +33,6 @@ Simon Petersson
     \input{06_method}
     \input{07_schedule}
     
-    \bibliographystyle{unsrt}
+    \bibliographystyle{ieeetr}
     \bibliography{bibliography}
 \end{document}
