@@ -44,6 +44,7 @@ private:
     float maxRotation(float speed, float forwardForce, float dt);
     float minRadius(float speed, float forwardForce);
     float maxTyreForce(float speed);
+	float dragForce(float speed);
     glm::vec3 velocity;
 	CarControl currentControl;
 };

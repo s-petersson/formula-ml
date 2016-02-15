@@ -6,7 +6,8 @@
 const float mass = 642;				// [kg]
 const float my = 0.8f;				// � - friction coefficient. Guessed
 const float g = 9.82f;
-const float downforceConstant = mass * g / 36.1111 / 36.1111; // d*v^2 = mg at 130 km/h
+const float downforceConstant = mass * g / 36.1111 / 36.1111; // c_down * v^2 = mg at 130 km/h
+const float dragConstant = g / 83.3333 / 83.3333; // c_drag * v^2 = 1g at 300 km/h
 const float gasForce = 14.2 * mass;		// [N]
 const float brakeForce = 39 * mass;	// [N]
 const float minTurningRadius = 4;		// Guessed
@@ -53,6 +54,9 @@ void CarModel::update(float dt, struct CarControl control) {
         velocity = glm::rotateZ(velocity, rotation);
     }
 
+	// Apply drag
+	velocity -= velocity * (dragForce(currentSpeed) * dt / mass);
+
     // Apply velocity
     position += velocity * dt;
 }
@@ -81,4 +85,8 @@ float CarModel::minRadius(float speed, float forwardForce) {
 // Assuming same grip in all directions
 float CarModel::maxTyreForce(float speed) {
     return downforceConstant*my*speed*speed + mass*g*my;
+}
+
+float CarModel::dragForce(float speed) {
+	return dragConstant * speed * speed;
 }
