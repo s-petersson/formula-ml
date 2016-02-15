@@ -2,15 +2,35 @@
 % Bakgrund ska innehålla en motivering till varför det valda ämnet är intressant ur akademisk synvinkel och/eller ur tekniskt perspektiv eller i förekommande fall ur kundens/uppdragsgivarens perspektiv. I vissa fall ska den här rubriken inkludera en kort historik över ämnet. Efter att ha läst bakgrunden ska alla läsare förstå varför ämnet är relevant. Följande frågeställningar bör vara aktuella:
 % Vad är ämnet/problemet som ska undersökas? Varför har ämnet/problemet uppkommit? Varför är det ett relevant eller intressant ämne/problem? För vem? Kan det specifika ämnet/problemet relateras till en mer generell diskussion?
 
+
+% TODO/COMMENT from Gabriel: 
+% I generally think that the emphasis should be on machine learning and the necessity of machine learning due to hard problems.
+% I think the reference to Volvo car, cars in traffic, is not an understandable reference since the problem domain is very different to racing. But it is a hard problem with lots of variables! The understanding of machine learning techniques may prove useful!
+% In the formula 1 section, the tone of the text is that our research will be used. I think it is better to write that it is an example. It is good to have a concrete example that show the gain of a smart program. Also here it might suite to say that the problem contain lots of variables that might be difficult to handle without machine learning.
+
+
 \chapter{Background}
-The field of autonomus vehicles is growing. This year Volvo is releasing 100 self driving cars on the roads around Gothenburg, Sweden. These cars are not self driving in that matter that the learn to drive themselves by try and error, as these cars are way to expensive to have them drive without any guidance, not to speak about having them in traffic without any instructions how to behave. 
+% The field of autonomous vehicles is growing. This year Volvo is releasing 100 self driving cars on the roads around Gothenburg, Sweden. These cars are not self driving in the sense that they learn to drive themselves by trial and error. S these cars are way to expensive to have them drive without any guidance, not to speak about having them in traffic without any instructions how to behave. 
 
-In other areas were testing also is limited, IE. Formula 1 and other motor sports have restrictions on how much testing each car and team can utilise. In all these cases simulations are necessary to evaluate as much as possible before each test, to make use of the scarce resource of testing in the best way possible. One thing that the driver needs to do is figure out what race line is the optimal for the current car and weather conditions, and if a computer would be able to give this information to the driver beforehand, the driver could focus on other things during practice and testing. An already determined optimal race line would also be of a helpful tool to analyse the driving and see how much each driver deviates from the optimal race line.
+% In other areas were testing also is limited, IE. Formula 1 and other motor sports have restrictions on how much testing each car and team can utilise. In all these cases simulations are necessary to evaluate as much as possible before each test, to make use of the scarce resource of testing in the best way possible. One thing that the driver needs to do is figure out what race line is the optimal for the current car and weather conditions, and if a computer would be able to give this information to the driver beforehand, the driver could focus on other things during practice and testing. An already determined optimal race line would also be of a helpful tool to analyse the driving and see how much each driver deviates from the optimal race line.
 
-The goal of this project is to see if it is possible to help the driver finding the optimal race line for a track before the driver would even have to drive around the track. To make the car/computer learn by itself 
+% The goal of this project is to see if it is possible to help the driver finding the optimal race line for a track before the driver would even have to drive around the track. To make the car/computer learn by itself 
 
+Artificial intelligence (AI) has been a large area of research in computer science for a long time. In 1997 AI research had a major breakthrough, when an AI beat the reigning world champion in chess for the first time ever. Following this breakthrough were AIs such as IBMs "Watson" which beat the two leading world champions in Jeopardy, personal assistants in smartphones such as Apples "Siri" and just recently Google presented an AI that beat a top tier player in the classical game Go.
 
+%TODO change structure to below
+%and Google's AI that have just recently beaten a top tier player in the classical game Go.
 
+AI keeps proving itself to be an important concept in computer science and is thus one that is of great interest to computer scientists. There are many ways in which to approach AI development and in most real world scenarios a combination between several approaches will most likely be the optimal solution. However one area that has received much attention lately is the combination between machine learning and neural networks. This project will aim to research this concept further in order to broaden our knowledge about this area and to examine whether or not a computer can learn complicated behaviours, not only function approximations through machine learning. % Det kanske är lite skumt att säga "vi skall försöka undersöka machine learning på en djupare nivå och ta reda på detta om det går att göra dittan o dattan", skulle väl inte säga att vi kommer nå några banbrytande slutsatser direkt?
+
+Machine learning in its simplest form, being used to solve a relatively simple problem is not very complicated. However it becomes vastly more complicated when applied to a more complex problem, where a simple rule based solution does not really suffice in order to solve the problem well enough. In order to effectively research machine learning this project will take advantage of this fact. The project will focus around the problem of taking a Formula1 (F1) car as fast as possible around any given F1 circuit, a problem that is very flexible in terms of complexity. This will allow the project to start of with the very basics behind machine learning then by slowly increasing the complexity of the problem we can closely examine the more complex concepts behind machine learning.
+
+% Tvek på om det är värt att ha med detta stycket. Det finns redan ganska bra motiveringar till varför machine learning är vettigt och vad man kan applicera det inom i de första stycket.
+% TODO Saknar ett "tryck" på slutet... någon slags avslutande mening!
+The potential applications that AI and machine learning can be used within are as one might imagine endless. In this specific project, it's interesting to consider the gaming industry and racing industries for example. Could such an AI be used in racing games? Maybe even for game AIs in general? Could it potentially be of help to the F1 drivers during practice or even for the team engineers? 
+% Skulle kanske kunna lära sig något intressant för racing spel, men det är inte där det fokus ligger? Skulle detta kunna vara till hjälp för generell spel ai?
+
+\iffalse
 \section{Bra frågor att ställa sig}
 
 \begin{itemize}
@@ -46,4 +66,4 @@ The goal of this project is to see if it is possible to help the driver finding 
   \item Usually ~1 page or less.
   \item Discussion on Effect goals.
 \end{itemize}
-
+\fi

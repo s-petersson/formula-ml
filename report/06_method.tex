@@ -7,68 +7,77 @@
 
 % Alla ovanstående frågor behöver inte vara besvarade i planeringsrapporten. Men studenterna bör tänka på dessa frågeställningar tidigt i projektet och genomgående täcka in mer och mer.
 
-%  * Different parts of the project will need separate method sections, ie. separate methods for simulation and AI etc.
-%  * Usually based on method-literature. IE. how to find results in our area.
-%  * Updated frequently throughout the project.
-%  * Be specific! In order to get specific feedback.
-%  * Focus on the relevant things.  
+% * Different parts of the project will need separate method sections, ie. separate methods for simulation and AI etc.
+% * Usually based on method-literature. IE. how to find results in our area.
+% * Updated frequently throughout the project.
+% * Be specific! In order to get specific feedback.
+% * Focus on the relevant things.  
 
 \chapter{Method}
+% How should the project be executed?
+% Iterative experimentation.
+The project aims to develop an AI that can drive a F1 car around a grand prix circuit in a simulated environment. This will be done by developing a rather simple simulator that tries to simulate the real world scenario of a F1 car going around a grand prix circuit. The AI will be using this simulator as a source for its input values in order to determine how to steer the car in the most efficient way possible. This allows for a very flexible way of expanding the simulator to a more comprehensive one and along with that also expand the capability of the AI.
 
-  
-  
-\section{How we use literature} % Relevance?
+Developing a product of this nature will require an iterative method of execution. The AI implementation will most certainly not work very well on the first iteration and will require several iterations in order to be improved. The modelling of the problem is a complicated issue. Different models enables different methods which may play a big part in how well the AI perform. This may be experimented upon. When the AI has reached a result that is acceptable, the simulator can be iterated over in order make it more comprehensive. Testing the limits to what the algorithm seems to be able to manage will probably be possible to identify aspects of of the algorithm that work well or can be improved.
 
-
-\section{Simulation}
-\textit{
-    How we do it?
-    How we use it?
-    Write the basics here, reference it from the algorithm sections if needed?
-    Use the simulator to evaluate the ai?
-}
-
-In order to develop and evaluate the AI a computer simulation will be used, not a real car and not a real track. The simulation will include basic laws of physics that are relevant to test the behaviour. One hypothesis is that less complex physic is easier to for the ai to learn. Therefor, the level of correctness and number of factors will increase as the project goes on. When the machine learning algorithms improves, so will the capabilities. In order to evaluate the capabilities, several settings in the simulation might be tested.
-
-\textit{
-    Elaborate. Continue when relevant sections in Problem are written.
-}
+% \section{Literature}
+% Discuss sources used.
+% Mångra bra källor osv.
+%\section{Method literature}
+%\textit{Keep section to remember the concept. Will we have any use for this? What about project methodologies?}
 
 \section{How to evaluate results}
-%     How far it gets, and how fast.
-%    Compare to Racing theory. abstract. Cannot compare in detail to reality, since we use custom physics.
+When evaluating the performance there are two scenarios to consider. Firstly comparing the performance of different AI instances. The other is comparing the performance and behaviour of the AI to real world drivers. 
+
+In the first case the performance is easily evaluated, since it can be measured in an exact way. The AI instances can be ranked by how long they manage to stay on track and how fast they drive, attributes which are easily recorded in the simulator. 
+
+However the second scenario, comparing the performance and behaviour of an AI in the simulator to a real world driver, is harder. A result measured in the simulator, such as a lap time, can not be compared to an equivalent real world result due to the limited realism of the simulator. One might have to analyse the characteristics of the driving wither behave accordingly to the different aspects of racing theory. 
+
+\section{Simulation}
 
 
-When evaluating the performance there are two scenarios to consider. Firstly comparing the performance of different AI instances. The other is comparing the performance and behaviour of the AI to real world drivers. In the first scenario the performance is easily evaluated, because it can be measured in an exact way. The AI instances can be ranked by how long they manage to stay on track and how fast they drive, attributes which are easily recorded in the simulator. 
-
-However the second scenario, comparing the performance and behaviour of an AI in the simulator to a real world driver, is harder. A result measured in the simulator, such as a lap time, can not be compared to an equivalent real world result due to the limited realism of the simulator. This makes it hard to evaluate the behaviour of an AI. 
-
-In order to evaluate the behaviour one strategy is to determine whether or not the AI behaves accordingly to racing theory. 
+A simulator will be used instead of a real car on a real track. The simulation will include basic laws of physics that are relevant to test the behaviour. One hypothesis is that less complex physic is easier to for the AI to learn. Therefore, the level of correctness and number of factors manageable will increase as the project goes on. When the machine learning algorithms improves, so will the capabilities. In order to evaluate the capabilities, several settings in the simulation might be tested.
 
 
-\section{AI algorithms}
-    Requirements for different variants. Elaborate as much as we can at this point. Continue in report when we know more and have experimental results
-    Time complexity
-    Feasible in practise
-    without training examples...
-    ANN size
-    
-    Training/Search
-      How do we find solutions that work well? Or improve?
-      That wanted features are developed? Features are not forgotten?
-      Over trained?
+\section{Machine Learning}
+Within the area of machine learning there are a plethora of different algorithms and knowledge models, however the suitability of the different method for this project varies. Many machine learning algorithms are developed to solve problems that are hard to relate to the act of driving, such as classification and data mining. 
 
-Sections:
-Supervised / Backpropagation - Do not have example data / know the right value. Several decisions, nature of simulation...
+% Snygga till
+In order to find methods applicable to our problem the different machine learning algorithm variants need to be evaluated. When deciding which algorithms to implement a number of attributes need to be considered. The algorithm must be usable without training data and be feasible to implement in practice, i.e. the modelling of the problem should be logical and the time complexity of the algorithm shall not require the use of a supercomputer.
 
-Reinforcement learning - Use this section as a transition to our domain of algorithms
-    Stateless and Dynamic
+\section{Supervised Learning}
+%Training Data - cannot use, don't know the correct value. 
+One common concept in machine learning is supervised learning. Supervised learning is the process of training an artificial intelligence to predicting the correct output of an input by training it on example data, a set of example inputs paired with their correct outputs.\cite{barber}
 
-"MarI/O method"
-    Evolving Neural Networks, Augmenting Topologies. 
+However this type of learning requires a large set of example data and and a limited discrete output space. Therefore it is not suitable to use supervised learning in order to train the autonomous Formula 1 car. There is no suitable training data available, and even if there were the problem in itself is not suited to that kinds of training since the space of correct outputs can be quite large. Slightly different behaviours might be equally optimal, thus there is no single correct output for a certain situation.  
 
-\section{Project structure}
-Iterative experimentation
+One possible use of this approach is to use a different algorithm to find a good racing line, a desired behaviour. Then supervised learning algorithms could be used to make the ai learn that behaviour.
 
-\section{Method literature}
-\textit{Keep section to remember the concept. Will we have any use for this? What about project methodologies?}
+\section{Unsupervised learning}
+% Not really relevant for us, we don't want to cluster/ group datasets or mine data.
+% However nice to discard algorithms
+An alternative to supervised learning which does not require a set of training data is unsupervised learning. The idea behind unsupervised learning to find patterns or structures in data without any prior knowledge about the data \cite{glossary}. The method is prevalent in data mining and clustering. 
+
+Even though unsupervised learning is not restricted by the requirement of training data it is not directly applicable to the racing problem. In order to create the autonomous vehicle we need an AI that given the current state of the world can control the vehicle accordingly. Relating data points to each other does not really solve that problem.
+
+However even though the method cannot solve the problem by itself it might be applicable in combination with some other method. For instance it could be used to solve a part of the problem where classification or clustering might be useful.
+
+\section{Reinforcement Learning}
+A central aspect of the learning process is that it need to be a way of evaluating the performance of an AI-instance and providing feedback so that the AI can improve. Since we will use the simulator to evaluate the performance of an instance due to the unsuitability of supervised learning, the feedback system must be based on data that can be gathered in the simulator. 
+
+Reinforcement learning provides an interesting approach to providing feedback. It is a method of training an AI to take good and avoid bad decisions. Given an actor in an environment with a certain number of states and transitions between states, the goal is to train the actor to make the transitions that lead to a positive effect. This is done by rewarding the actor for good actions and punishing it for the bad.\cite{barber} The overall performance can be measured by a scalar value.
+
+In the racing scenario we want the algorithm to take the best action given the current state. Thus reinforcement learning may be used as a means of providing feedback to the learning algorithm. The actor can be rewarded for actions that lead to better performance and punished for negative actions. The performance of the actor can be a combination of metrics from the simulation such as distance travelled, speed and whether or not the car is on the track.
+
+% fitness function/ goal function
+% stochastic change weights.
+% stochastic change topology. Evolving Neural Networks, Augmenting Topologies. \cite{mario}
+
+% Reinforcement learning - Use this section as a transition to our domain of algorithms.
+%    Stateless and Dynamic
+
+\section{Genetic Algorithms}
+% manage species
+One variant of reinforcement learning is genetic algorithms, a class of machine learning algorithms that learns by mimicking evolution in nature and natural selection. A large set of AI instances are generated and tested on some training problem. A fitness function, i.e. a metric of performance, is measured for each instance. The worst performing instances are removed, and the remaining instances are slightly mutated before the next iteration. The mutation differs depending on what knowledge model the AI is based upon. 
+
+In order to preserve diversity among the AI population and give the instances some time to evolve before killing them off the concept of species or niches can be introduced.\cite{mario} Speciation solves this by only comparing instances within the same species or niche. 

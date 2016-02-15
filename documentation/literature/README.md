@@ -87,7 +87,18 @@ Easy guide for racing theory. Useful for discussing level of physically correctn
 #### The Physics of Racing
 (Gabriel)
 Brian Beckman, Reformatted 25 April 2008
-A series of articles. Quite informal and somewhat disconnected structure. Possibly useful for future reference.
+
+Accelerating or braking will cause the balance of the weight to transfer (Part 1)
+In order to stay in a circular motion, the central acceleration a = v^2 / r (page 12). The ability to take a turn is very sensitive to the speed.
+autocrossing: "The absolute fastest way to go through a corner is to be just over the limit near the exit, in a controlled slide." (page 13)
+The racing line for a specific corner depends on the corners before and after. Small changes may have consequences for a long part of the following section. The best drivers figure out the line for the course as a whole. (page 13)
+The optimal line for a single corner is late apex, which allow for an earlier acceleration for the following straight. (part 5, Racing lines, page 15) 
+Air resistance/drag and rolling resistance are forces that must be overcome in order to keep constant speed (Part 6, Speed and Horsepower, page 18)
+Air resistance F proportional to v^2, see formula in text (page 19 + other source)
+Acceleration: Torque creates a backward force on the ground. Newtons third law, opposite force accelerates the car forward. (Part 7, Traction budget, page 22)
+Maximum force F <= µW, where µ is friction constant, W is the weight load of the tyre (page 23)
+
+
 
 #### Game ai pro: Collected wisdom of game ai professionals
 (Gabriel)
