@@ -1,19 +1,54 @@
-## Week 3, February 1-7
+# Week 4, February 8-14
+Daniel had a few days of vacation.
+
+Martin added the feature to detection if a point is on the track.
+
+### Planning report
+Most of the work went to the planning report. 
+
+Most of the theoretical reasoning is up to date in the report, and rather complete. Also see Theory section for this week
+
+It took a while before we figured out what the structure should be. The result is best defined in the purpose section. The perspective of the project is to investigate the machine learning problem in the domain of racing. The target is not only to solve the racing problem, but also to discuss aspects of machine learning itself.
+
+### Theory
+Up to this point the focus was to get a general understanding of the field and an initial judgement on what would be a good approach. During the writing process, we found that we needed to return to the literature for details. Current judgement
+ - Supervised learning, approach 1: Train a network to output specific output. Not primarily interesting since correct output is needed in the training process. In a sense, this approach means that the AI is trained to follow a predefined behaviour. This require some other method to get what the desired behaviour should be. Possibly useful in the initial training of the network, to train some basic use cases, but probably only if other methods fail.
+ - Supervised learning, approach 2: Train a network to classify a corner type, then to map it to some behaviour, possibly a different network.
+ - Unsupervised learning: Possibly useful in a similar way as mentioned for "Supervised learning, approach 2". Since unsupervised learning is used only(?) for classification, other than similar use is probably not useful. 
+ - Reinforcement learning: Feedback seems, in the current modelling of the problem, like a good approach generally. The traditional context of markov chains are not relevant though
+ - Evolutionary methods. A subset of reinforcement learning. The simulation can be used to score an AI. Changes to network done stochastically.
+    - Change weights
+    - Change topology
+    - Manage species to not kill premature networks to early.
+
+# Week 3, February 1-7 (updated 15 febr)
 No supervision meeting. We did not think that we had made enough progress since last week.
 
 We decided to be more thorough in our document. This include discussion content, argument, progress, current tasks and problems. We will evaluate the level of ambition at a later time.
+
+Daniel read some on reinforcement learning.
 
 ### Planning report
 Started to stake down the contents of the report and started producing text.
 
 ### Implementation
+Mayor part of the week went to work on the implementation.
 
-A simple car simulation got implemented. Simple rendering for the car and track were also implemented. 
+Firstly, Martin and Simon made a representation of a track and car and made a simple graphical representation.
 
-
-
-
-## Week 2, January 25-31
+Gabriel and Daniel worked on some simple formula's for the physic simulation of the car. Gabriel got for a while stuck on the implementation since it was the first time he used c++ and the specific vector library. The implemented features was:
+ - Limited traction
+ - Increasing down force for higher speeds
+ - Worsened capability of steering while accelerating/braking
+The formulas used was 
+ - F_max(v) = force on tyres * grip constant = (Downforce(v) + Weight)*µ = (dv^2 + mg)µ
+ - Wikipedia dv^2=mg at 130km/h => d=mg/v^2=4.82
+ - Assuming same maximum force on all directions of the tyre, accelerating/braking limit steering: F_c = sqrt(F_max^2 - F_acc^2)
+ - F_c = mv^2/r (accelerating force of circular motion)
+ - => r(v) = mv^2/(F_c(v))
+ - How much should float car rotate after dt time, assuming only steering as much the grip holds: dAngle = v * dt / r(v)
+ 
+# Week 2, January 25-31
 During the initial supervision meeting with Prasad. Among other things he suggested us to get started with a really simple problem and get a simple simulation up and running fast.
 
 That made us come up with a sequence of rough milestones to pursue. 
@@ -57,7 +92,7 @@ The second best option was Java. Although slightly easier and more experience, i
 
 Martin and Simon started to set up the development environment.
 
-## Week 1, January 18-24
+# Week 1, January 18-24
 Set up:
 
 - A web page with all administrative information as requested by supervisor Prasad. http://pendla.github.io/formula-ml/ 
