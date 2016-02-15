@@ -6,10 +6,6 @@ Simulator::Simulator(CarModel * _car, TrackModel * _track) {
 	car = _car;
 	track = _track;
     network = new FixedNetwork;
-
-    for (int i = -5; i < 6; i++) {
-        printf("%f \n", sigmoid(i));
-    }
 }
 
 Simulator::~Simulator() {
@@ -20,9 +16,11 @@ Simulator::~Simulator() {
 
 void Simulator::update(float dt) {
 
-    NetworkIO in, out;
+    NetworkIO in;
+    in.values = new float[2];
+    in.value_count = 2;
     // Fill 'in' with data
-    //out = network->fire(in);
+    NetworkIO out = network->fire(in);
     // use out to update car.
 	car->update(dt);
     if (track->onTrack(car->position)) {

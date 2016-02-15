@@ -1,4 +1,3 @@
-#pragma once
 #ifndef NEURAL_NEURAL
 #define NEURAL_NEURAL
 #include <glm/glm.hpp>
@@ -12,7 +11,7 @@ namespace neural {
 
     class Network {
     public:
-        virtual NetworkIO& fire(NetworkIO input) = 0;
+        virtual NetworkIO fire(NetworkIO input) = 0;
 
         virtual int inputSize() = 0;
         virtual int outputSize() = 0;
