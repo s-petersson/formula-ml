@@ -1,5 +1,6 @@
 #include "Simulator.h"
 #include <neural/FixedNetwork.h>
+#include "core/Keyboard.h"
 using namespace neural;
 
 Simulator::Simulator(CarModel * _car, TrackModel * _track) {
@@ -22,7 +23,30 @@ void Simulator::update(float dt) {
     // Fill 'in' with data
     NetworkIO out = network->fire(in);
     // use out to update car.
-	car->update(dt);
+
+	bool gas = isKeyDown(GLFW_KEY_UP);
+	bool brake = isKeyDown(GLFW_KEY_DOWN);
+	bool steerLeft = isKeyDown(GLFW_KEY_LEFT);
+	bool steerRight = isKeyDown(GLFW_KEY_RIGHT);
+	bool steerCareful = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
+	bool accelerateMax = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
+
+	CarControl control = CarControl();
+
+	if (gas) {
+		control.acceleration = accelerateMax ? 1 : 0.5;
+	}
+	if (brake) {
+		control.brake = accelerateMax ? 1 : 0.5;
+	}
+
+	if (steerLeft && !steerRight) {
+		control.steer = steerCareful ? 0.5 : 1;
+	} else if (!steerLeft && steerRight) {
+		control.steer = steerCareful ? -0.5 : -1;
+	}
+
+	car->update(dt, control);
     if (track->onTrack(car->position)) {
         printf("Car on Track! \n");
     }

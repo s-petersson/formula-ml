@@ -1,5 +1,4 @@
 #include "CarModel.h"
-#include "core/Keyboard.h"
 #include <iostream>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -18,30 +17,29 @@ CarModel::CarModel() {
     position = vec3();
     direction = vec3(1, 0, 0);
     velocity = vec3();
+	currentControl = CarControl();
 }
 
 CarModel::~CarModel() {
 
 }
 
-void CarModel::update(float dt) {
-    bool gas = isKeyDown(GLFW_KEY_UP);
-    bool brake = isKeyDown(GLFW_KEY_DOWN);
-    bool steerLeft = isKeyDown(GLFW_KEY_LEFT);
-    bool steerRight = isKeyDown(GLFW_KEY_RIGHT);
-    bool steerCareful = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
-    bool accelerateMax = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
+void CarModel::update(float dt, struct CarControl control) {
+
+	// Update current control state without delay
+	// TODO: Check for illegal values
+	currentControl = control;
 
     float currentSpeed = glm::length(velocity);
 
     // Acceleration in the direction of the car
     float forwardForce = 0;
-    if (gas && !brake) {
-        forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
+    if (currentControl.acceleration > 0) {
+        forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * currentControl.acceleration;
         velocity += direction * (forwardForce * dt / mass);
     }
-    else if (!gas && brake) {
-        forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * (accelerateMax ? 1 : 0.5) * (steerLeft || steerRight ? 0.7 : 1);
+    else if (currentControl.brake > 0) {
+        forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * currentControl.brake;
         velocity += direction * (forwardForce * dt / mass);
         if (length(normalize(velocity) + direction) < 1) {
             velocity *= 0;
@@ -49,13 +47,8 @@ void CarModel::update(float dt) {
     }
 
     // Rotation due to steering
-    if (steerLeft && !steerRight) {
-        float rotation = maxRotation(currentSpeed, forwardForce, dt) * (steerCareful ? 0.5 : 1);
-        direction = glm::rotateZ(direction, rotation);
-        velocity = glm::rotateZ(velocity, rotation);
-    }
-    else if (!steerLeft && steerRight) {
-        float rotation = -maxRotation(currentSpeed, forwardForce, dt) * (steerCareful ? 0.5 : 1);
+    if (currentControl.steer != 0) {
+        float rotation = maxRotation(currentSpeed, forwardForce, dt) * currentControl.steer;
         direction = glm::rotateZ(direction, rotation);
         velocity = glm::rotateZ(velocity, rotation);
     }
