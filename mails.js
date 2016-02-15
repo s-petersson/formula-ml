@@ -26,7 +26,7 @@ $(document).ready(function () {
       // them. So that we can show a spinner and display the entries
       // in the correct order, independent of which ones load faster.
       for(var i = 0; i < entries.length; i++) {
-        var id = "entry-" + entries[i].name.substr(0, 6);
+        var id = "entry-" + entries[i].name.substr(0, 8);
         $("#mails").append("<div id=\"" + id + "\"" + "></div>");
         $("#" + id).html("<div class=\"spinner\"><i class=\"fa fa-spinner fa-spin\"></i></div>");
       }
@@ -39,7 +39,7 @@ $(document).ready(function () {
             xhr.setRequestHeader("Authorization", "Basic cHJhc2FkLWZvcm11bGEtbWw6cHJhc2FkMDc1NA==");
           },
           success: function (entry) {
-            var id = "entry-"+entry.name.substr(0, 6);
+            var id = "entry-"+entry.name.substr(0, 8);
             $("#" + id).html(md.render(atob(entry.content)));
           }
         });
