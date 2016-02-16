@@ -69,7 +69,7 @@ void Window::run() {
         fps++;
         fps_timer += dt;
         if (fps_timer >= 1000) {
-            printf("%i \n", fps);
+            //printf("%i \n", fps);
             fps = 0;
             fps_timer -= 1000;
         }
