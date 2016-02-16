@@ -1,12 +1,6 @@
 #include "SimulationState.h"
 
 #include <core/gfx/Program.h>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <external/include/glm/gtx/rotate_vector.hpp>
-
-#include <sim/model/TrackModel.h>
-#include <sim/model/CarModel.h>
 
 GLuint shader;
 

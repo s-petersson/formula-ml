@@ -1,6 +1,7 @@
 #include "Simulator.h"
 #include <neural/FixedNetwork.h>
 #include "core/Keyboard.h"
+
 using namespace neural;
 
 Simulator::Simulator(CarModel * _car, TrackModel * _track) {
