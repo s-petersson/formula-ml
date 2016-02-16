@@ -36,6 +36,7 @@ public:
     CarModel();
     ~CarModel();
     void update(float dt, struct CarControl control);
+	inline float getSpeed();
 
     glm::vec3 position;
     glm::vec3 direction;
@@ -45,7 +46,7 @@ private:
     float minRadius(float speed, float forwardForce);
     float maxTyreForce(float speed);
 	float dragForce(float speed);
-    glm::vec3 velocity;
+	glm::vec3 velocity;
 	CarControl currentControl;
 };
 #endif

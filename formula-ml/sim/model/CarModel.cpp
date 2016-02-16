@@ -24,6 +24,9 @@ CarModel::CarModel() {
 CarModel::~CarModel() {
 
 }
+float inline CarModel::getSpeed() {
+	return glm::length(velocity);
+}
 
 void CarModel::update(float dt, struct CarControl control) {
 
@@ -31,7 +34,7 @@ void CarModel::update(float dt, struct CarControl control) {
 	// TODO: Check for illegal values
 	currentControl = control;
 
-    float currentSpeed = glm::length(velocity);
+    float currentSpeed = getSpeed();
 
     // Acceleration in the direction of the car
     float forwardForce = 0;
