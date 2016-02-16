@@ -3,13 +3,14 @@
 #include <sim/model/TrackModel.h>
 #include "TrackView.h"
 
-TrackView::TrackView(TrackModel *dataModel, Model * track_model) {
+TrackView::TrackView(TrackModel *dataModel) {
     this->dataModel = dataModel;
 
-    viewModel = track_model;
+    viewModel = dataModel->get_model();
+    viewModel->create_vao();
     // Per vertex color.
     std::vector<float> color;
-    for(int i = 0; i < viewModel->getVertices().size(); i += 4) {
+    for(int i = 0; i < viewModel->get_raw_vertices().size(); i += 4) {
         color.push_back(0.5f); // Red
         color.push_back(0.5f); // Green
         color.push_back(0.5f); // Blue
@@ -35,13 +36,13 @@ TrackView::~TrackView() {
 }
 
 void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform) {
-    viewModel->setModelMatrixLoc(glGetUniformLocation(shaderProgram, modelMatrixUniform));
+    viewModel->set_model_matrix_loc(glGetUniformLocation(shaderProgram, modelMatrixUniform));
 }
 
 // TODO: Get modelMatrixUniformLoc from Model class.
 void TrackView::render() {
-    glUniformMatrix4fv(viewModel->getModelMatrixLoc(), 1, GL_FALSE, glm::value_ptr(viewModel->getModelMatrix()));
+    glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(viewModel->getVAO());
-    glDrawElements(GL_TRIANGLES, viewModel->getIndices().size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

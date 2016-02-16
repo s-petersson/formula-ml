@@ -4,31 +4,18 @@
 #include <core/gfx/Model.h>
 #include <glm/glm.hpp>
 
-struct Triangle {
-    int i1, i2, i3;
-};
-
-struct Vertex {
-    glm::vec3 pos;
-};
-
-struct Mesh {
-    Triangle * triangles;
-    Vertex * vertices;
-    int tri_count;
-    int vert_count;
-};
-
 class TrackModel {
 public:
-    TrackModel(Model * track_model);
+    TrackModel();
     ~TrackModel();
 
-    bool onTrack(const glm::vec3& point);
+    Model* get_model();
+    bool on_track(const glm::vec3& point);
 	void fillTrackMatrix(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
+    void get_checkpoints(glm::vec3** checkpoints, int* size);
 
 private:
-    Mesh * track;
+    Model* model;
 };
 
 struct TrackGrid {

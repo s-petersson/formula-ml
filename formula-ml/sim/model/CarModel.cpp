@@ -15,6 +15,7 @@ const float minTurningRadius = 4;		// Guessed
 using namespace glm;
 
 CarModel::CarModel() {
+    model = new Model("./res/models/car.model");
     position = vec3();
     direction = vec3(1, 0, 0);
     velocity = vec3();
@@ -26,6 +27,10 @@ CarModel::~CarModel() {
 }
 float inline CarModel::getSpeed() {
 	return glm::length(velocity);
+}
+
+Model* CarModel::get_model() {
+    return model;
 }
 
 void CarModel::update(float dt, struct CarControl control) {

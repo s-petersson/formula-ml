@@ -8,7 +8,7 @@
 
 class Simulator {
 public:
-	Simulator(CarModel * car, TrackModel * track);
+	Simulator();
 	~Simulator();
 	void update(float dt);
 

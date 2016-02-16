@@ -5,6 +5,7 @@
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
 #include <string>
+#include <core/gfx/Model.h>
 
 
 struct CarControl {
@@ -37,6 +38,7 @@ public:
     ~CarModel();
     void update(float dt, struct CarControl control);
 	inline float getSpeed();
+	Model* get_model();
 
     glm::vec3 position;
     glm::vec3 direction;
@@ -48,5 +50,6 @@ private:
 	float dragForce(float speed);
 	glm::vec3 velocity;
 	CarControl currentControl;
+	Model* model;
 };
 #endif

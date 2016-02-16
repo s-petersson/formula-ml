@@ -4,27 +4,32 @@
 
 using namespace neural;
 
-Simulator::Simulator(CarModel * _car, TrackModel * _track) {
-	car = _car;
-	track = _track;
+Simulator::Simulator() {
+	track = new TrackModel();
+//    glm::vec3 *checkpoints;
+//    int* checkpoint_count;
+//    track->get_checkpoints(&checkpoints, checkpoint_count);
+    // TODO: Set checkpoints for car to establish distance driven. SIMON AT WORK!
 
-	// Set input values
-	const int TRACK_GRID_WIDTH = 16;
-	const int TRACK_GRID_DEPTH = 16;
-	const int OTHER_INPUTS = 1;
+    car = new CarModel();
 
-	network_indata = NetworkIO();
-	network_indata.value_count = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
-	network_indata.values = new float[network_indata.value_count];
+    // Set input values
+    const int TRACK_GRID_WIDTH = 16;
+    const int TRACK_GRID_DEPTH = 16;
+    const int OTHER_INPUTS = 1;
 
-	grid = TrackGrid();
-	grid.data = &network_indata.values[OTHER_INPUTS];
-	grid.size = TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
-	grid.width = TRACK_GRID_WIDTH;
-	grid.depth = TRACK_GRID_DEPTH;
-	grid.cell_size = 5;
-	grid.value_track = 1;
-	grid.value_not_track = 0;
+    network_indata = NetworkIO();
+    network_indata.value_count = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
+    network_indata.values = new float[network_indata.value_count];
+
+    grid = TrackGrid();
+    grid.data = &network_indata.values[OTHER_INPUTS];
+    grid.size = TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
+    grid.width = TRACK_GRID_WIDTH;
+    grid.depth = TRACK_GRID_DEPTH;
+    grid.cell_size = 5;
+    grid.value_track = 1;
+    grid.value_not_track = 0;
 
     network = new FixedNetwork(2,1,1,2);
 }
@@ -79,7 +84,7 @@ void Simulator::update(float dt) {
 	}
 
 	car->update(dt, control);
-    if (track->onTrack(car->position)) {
-        printf("Car on Track! \n");
+    if (track->on_track(car->position)) {
+        // On model.
     }
 }

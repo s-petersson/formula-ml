@@ -5,7 +5,7 @@
 
 class TrackView {
 public:
-    TrackView(TrackModel *dataModel, Model * viewModel);
+    TrackView(TrackModel *dataModel);
     ~TrackView();
 
     void setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform);
