@@ -8,7 +8,7 @@ namespace neural {
 
     class FixedNetwork : public Network {
     public:
-        FixedNetwork();
+        FixedNetwork(int input_count, int output_count, int hidden_layers, int hidden_layer_height);
         ~FixedNetwork();
 
         virtual NetworkIO fire(NetworkIO input);

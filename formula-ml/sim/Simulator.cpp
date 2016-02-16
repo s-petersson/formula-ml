@@ -7,8 +7,6 @@ using namespace neural;
 Simulator::Simulator(CarModel * _car, TrackModel * _track) {
 	car = _car;
 	track = _track;
-    network = new FixedNetwork;
-
 
 	// Set input values
 	const int TRACK_GRID_WIDTH = 16;
@@ -27,6 +25,8 @@ Simulator::Simulator(CarModel * _car, TrackModel * _track) {
 	grid.cell_size = 5;
 	grid.value_track = 1;
 	grid.value_not_track = 0;
+
+    network = new FixedNetwork(2,1,1,2);
 }
 
 Simulator::~Simulator() {
