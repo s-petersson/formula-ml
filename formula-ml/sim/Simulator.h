@@ -17,5 +17,7 @@ public:
 
 private:
     neural::Network* network;
+	neural::NetworkIO network_indata;
+	TrackGrid grid;
 };
 #endif

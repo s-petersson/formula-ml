@@ -25,9 +25,16 @@ public:
     ~TrackModel();
 
     bool onTrack(const glm::vec3& point);
+	void fillTrackMatrix(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
 
 private:
     Mesh * track;
+};
+
+struct TrackGrid {
+	float* data;
+	int size, width, depth;
+	float cell_size, value_track, value_not_track;
 };
 
 #endif
