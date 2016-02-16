@@ -60,7 +60,11 @@
     <ClCompile Include="neural\FixedNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="neural\EvolvingNetwork.cpp">
+=======
+    <ClCompile Include="core\util\Random.cpp">
+>>>>>>> 37f35dfd0477cee4a862dba14a63419c292637f7
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,7 +130,11 @@
     <ClInclude Include="neural\Neural.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="neural\EvolvingNetwork.h">
+=======
+    <ClInclude Include="core\util\Random.h">
+>>>>>>> 37f35dfd0477cee4a862dba14a63419c292637f7
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

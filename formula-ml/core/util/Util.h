@@ -15,9 +15,4 @@ FBO createFBO(int width, int height, bool multisample);
 
 long current_time();
 
-
-
-
-
-
 #endif

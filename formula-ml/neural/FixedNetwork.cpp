@@ -1,18 +1,34 @@
 #include "FixedNetwork.h"
+#include <core/util/Random.h>
+#include <iostream>
 
 using namespace neural;
+using namespace std;
 
 FixedNetwork::FixedNetwork() {
+    // Set dimension variables.
     input_size = 2;
     output_size = 1;
     hidden_layer_count = 1;
     hidden_layer_size = 2;
+
+    // Allocate memory for values and weights.
     output_values = new float[output_size];
     input_weights = new float[input_size * hidden_layer_size];
     output_weights = new float[output_size * hidden_layer_size];
     hidden_values = new float[hidden_layer_count * hidden_layer_size];
     hidden_weights = new float[(hidden_layer_count-1) * hidden_layer_size * hidden_layer_size];
 
+    // Initialize the weights of the network. 
+    for (int i = 0; i < input_size * hidden_layer_size; ++i) {
+        input_weights[i] = 1.0f;
+    }
+    for (int i = 0; i < output_size * hidden_layer_size; ++i) {
+        output_weights[i] = 1.0f;
+    }
+    for (int i = 0; i < (hidden_layer_count - 1) * hidden_layer_size * hidden_layer_size; ++i) {
+        hidden_weights[i] = 1.0f;
+    }
 }
 
 FixedNetwork::~FixedNetwork() {
@@ -25,6 +41,7 @@ FixedNetwork::~FixedNetwork() {
 
 NetworkIO FixedNetwork::fire(NetworkIO input) {
 
+    cout << "Hidden layer 0" << endl;
     // Add the input values into the first layer of the hidden layer
     for (int j = 0; j < hidden_layer_size; j++) {   // For each first layer node
         hidden_values[j] = 0;                       // Reset value. 
@@ -33,9 +50,12 @@ NetworkIO FixedNetwork::fire(NetworkIO input) {
             hidden_values[j] += input.values[i] * input_weights[(j * input_size) + i];
         }
         hidden_values[j] = sigmoid(hidden_values[j]); // Activation function;
+        cout << hidden_values[j] << endl;
     }
+
     // Calculate the rest of the hidden nodes. 
     for (int l = 1; l < hidden_layer_count; ++l) {
+        cout << "Hidden layer " << l << endl;
         for (int j = 0; j < hidden_layer_size; j++) {
             int current = l * hidden_layer_size + j;
             hidden_values[current] = 0; // Reset node.
@@ -44,16 +64,20 @@ NetworkIO FixedNetwork::fire(NetworkIO input) {
                 hidden_values[current] += hidden_values[in] * hidden_weights[(current * hidden_layer_size) + in];
             }
             hidden_values[current] = sigmoid(hidden_values[current]);
+            cout << hidden_values[current] << endl;
         }
     }
 
+    cout << "Output" << endl;
     // Calculate output layer
     for (int o = 0; o < output_size; ++o) {
+        output_values[o] = 0.0f; // Reset node value. 
         int value_base = hidden_layer_size * (hidden_layer_count - 1);
         for (int h = 0; h < hidden_layer_size; ++h) {
             output_values[o] += hidden_values[value_base + h] * output_weights[(o * hidden_layer_size) + h];
         }
         output_values[o] = sigmoid(output_values[o]);
+        cout << output_values[o] << endl;
     }
 
     // Return struct pointing to ouput

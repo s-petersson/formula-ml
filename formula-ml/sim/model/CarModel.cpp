@@ -38,8 +38,7 @@ void CarModel::update(float dt, struct CarControl control) {
     if (currentControl.acceleration > 0) {
         forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * currentControl.acceleration;
         velocity += direction * (forwardForce * dt / mass);
-    }
-    else if (currentControl.brake > 0) {
+    } else if (currentControl.brake > 0) {
         forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * currentControl.brake;
         velocity += direction * (forwardForce * dt / mass);
         if (length(normalize(velocity) + direction) < 1) {
