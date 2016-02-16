@@ -11,6 +11,9 @@ namespace neural {
 		EvolvingNetwork();
 		~EvolvingNetwork();
 
+		virtual int inputSize();
+		virtual int outputSize();
+
 		virtual NetworkIO fire(NetworkIO input);
 
 	private:
@@ -20,23 +23,20 @@ namespace neural {
 			~Node();
 
 			float value;
-			int out_edges_count;
-			int in_edges_count;
 
-			std::vector<Node*> in_edges;
-			std::vector<Node*> out_edges;
-
+			std::vector<int> in_edges_index;
+			std::vector<int> out_edges_index;
 			//Weights have the same index as the corresponding incoming edge.			
 			std::vector<float> in_weights;
 		};
-		
-		int node_count;
-		int input_count;
-		int output_count;
 
-		std::vector<Node*> input_nodes;
-		std::vector<Node*> output_nodes;
-		std::vector<Node*> hidden_nodes;
+		std::vector<Node> nodes;
+		std::vector<int> input_nodes_index;
+		std::vector<int> output_nodes_index;
+		std::vector<int> hidden_nodes_index;
+		
+
+		void debug();
 	};
 } // namespace neural 
 
