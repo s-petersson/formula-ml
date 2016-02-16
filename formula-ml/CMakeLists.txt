@@ -22,6 +22,13 @@ add_executable(formula_ml
         core/util/Camera.cpp
         core/util/Util.cpp
         core/gfx/Model.cpp
-        core/gfx/Model.h sim/view/CarView.cpp sim/view/CarView.h sim/model/CarModel.cpp sim/model/CarModel.h sim/model/TrackModel.cpp sim/model/TrackModel.h sim/view/TrackView.cpp sim/view/TrackView.h sim/view/GridView.cpp sim/view/GridView.h)
+        sim/view/CarView.cpp
+        sim/model/CarModel.cpp
+        sim/model/TrackModel.cpp
+        sim/view/TrackView.cpp
+        sim/view/GridView.cpp
+        neural/FixedNetwork.cpp
+        neural/Neural.h
+        )
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
