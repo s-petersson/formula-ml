@@ -35,16 +35,16 @@ void Simulator::update(float dt) {
 	CarControl control = CarControl();
 
 	if (gas) {
-		control.acceleration = accelerateMax ? 1 : 0.5;
+		control.acceleration = accelerateMax ? 1 : 0.5f;
 	}
 	if (brake) {
-		control.brake = accelerateMax ? 1 : 0.5;
+		control.brake = accelerateMax ? 1 : 0.5f;
 	}
 
 	if (steerLeft && !steerRight) {
-		control.steer = steerCareful ? 0.5 : 1;
+		control.steer = steerCareful ? 0.5f : 1;
 	} else if (!steerLeft && steerRight) {
-		control.steer = steerCareful ? -0.5 : -1;
+		control.steer = steerCareful ? -0.5f : -1;
 	}
 
 	car->update(dt, control);

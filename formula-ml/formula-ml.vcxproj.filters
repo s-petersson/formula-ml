@@ -60,6 +60,9 @@
     <ClCompile Include="neural\FixedNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="core\util\Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md" />
@@ -121,6 +124,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="neural\Neural.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\util\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

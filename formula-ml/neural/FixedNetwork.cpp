@@ -1,4 +1,5 @@
 #include "FixedNetwork.h"
+#include <core/util/Random.h>
 
 using namespace neural;
 
@@ -12,7 +13,6 @@ FixedNetwork::FixedNetwork() {
     output_weights = new float[output_size * hidden_layer_size];
     hidden_values = new float[hidden_layer_count * hidden_layer_size];
     hidden_weights = new float[(hidden_layer_count-1) * hidden_layer_size * hidden_layer_size];
-
 }
 
 FixedNetwork::~FixedNetwork() {
