@@ -22,6 +22,9 @@ Simulator::Simulator() {
     network_indata.value_count = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
     network_indata.values = new float[network_indata.value_count];
 
+	result = SimulationResult();
+	progress_timeout = 0;
+
     grid = TrackGrid();
     grid.data = &network_indata.values[OTHER_INPUTS];
     grid.size = TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
@@ -40,8 +43,42 @@ Simulator::~Simulator() {
     if (network) delete network;
 }
 
+/*
+	Run a complete simulation until failure
+	Each simulation step update with time dt
+*/
+SimulationResult Simulator::run(const float dt) {
+	SimulationResult best = SimulationResult();
 
+	while (true) {
+		update(dt);
+
+		// Check for crash
+		if (!track->on_track(car->position)) {
+			// Call it quits
+			break;
+		}
+
+		// Check for progress
+		if (result.distance_driven > best.distance_driven) {
+			// The car has progressed
+			best = result;
+		} else if(result.time_alive > best.time_alive + progress_timeout) {
+			// No progress for a while
+			// Call it quits
+			break;
+		}
+	}
+	return result;
+}
+
+/*
+	Update the simulation with one time step dt [seconds]
+*/
 void Simulator::update(float dt) {
+	// Update result
+	result.time_alive += dt;
+	// TODO: increment distance on track
 
 	// Car data
 	network_indata.values[0] = car->getSpeed();
