@@ -39,6 +39,7 @@ bool TrackModel::on_track(const glm::vec3& point) {
     return false;
 }
 
+// TODO?: It seems to fill the grid wrong way in the x-axis
 void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& direction) {
     // Clear the array
     for (int i = 0; i < grid.size; i++) {
@@ -67,24 +68,25 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
 
         // Find the triangle bounding box
         int xMin = std::min(std::min(v1.x, v2.x), v3.x) / grid.cell_size;
-        int xMax = std::min(std::min(v1.x, v2.x), v3.x) / grid.cell_size;
+        int xMax = std::max(std::max(v1.x, v2.x), v3.x) / grid.cell_size;
         int yMin = std::min(std::min(v1.y, v2.y), v3.y) / grid.cell_size;
-        int yMax = std::min(std::min(v1.y, v2.y), v3.y) / grid.cell_size;
+        int yMax = std::max(std::max(v1.y, v2.y), v3.y) / grid.cell_size;
 
         // Limit the bounding box to the track matrix
         xMin = std::max(xMin, 0);
-        xMax = std::min(xMax, grid.width);
+        xMax = std::min(xMax, grid.width - 1);
         yMin = std::max(yMin, 0);
-        yMax = std::min(yMax, grid.depth);
+        yMax = std::min(yMax, grid.depth - 1);
 
         // For each point in the bounding box, check if it overlap the triangle.
         // If so, set the cell to grid.value_track
         for (int x = xMin; x <= xMax; x++) {
             for (int y = yMin; y <= yMax; y++) {
-				cout << "triangle:" << triangle.i1+triangle.i2+triangle.i3 << " x: " << xMin << "-" << xMax << " y: " << yMin << "-" << yMax << "\n";
-                if (overlaps(triangle, model->get_mesh()->vertices, vec3(x*grid.cell_size, y*grid.cell_size, 0))) {
+				// TODO: Find other implementation of overlaps, not dependant on the list of vertices!
+				//cout << "triangle:" << triangle.i1+triangle.i2+triangle.i3 << " x: " << xMin << "-" << xMax << " y: " << yMin << "-" << yMax << "\n";
+                //if (overlaps(triangle, model->get_mesh()->vertices, vec3(x*grid.cell_size, y*grid.cell_size, 0))) {
 					grid.data[x + y * grid.depth] = grid.value_track;
-                }
+                //}
             }
         }
     }
