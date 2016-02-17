@@ -35,8 +35,10 @@ namespace neural {
 		std::vector<int> output_nodes_index;
 		std::vector<int> hidden_nodes_index;
 		
-
 		void debug();
+		void addHiddenNode(int index_from, int index_to);
+		void addEdge(int index_from, int index_to, float weight);
+		void removeEdge(int index_from, int index_to);
 	};
 } // namespace neural 
 
