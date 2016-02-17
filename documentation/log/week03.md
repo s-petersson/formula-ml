@@ -18,7 +18,7 @@ Gabriel and Daniel worked on some simple formula's for the physic simulation of 
  - Increasing down force for higher speeds
  - Worsened capability of steering while accelerating/braking
 The formulas used was 
- - F_max(v) = force on tyres * grip constant = (Downforce(v) + Weight)*µ = (dv^2 + mg)µ
+ - F_max(v) = force on tyres * grip constant = (Downforce(v) + Weight)µ = (dv^2 + mg)µ
  - Wikipedia dv^2=mg at 130km/h => d=mg/v^2=4.82
  - Assuming same maximum force on all directions of the tyre, accelerating/braking limit steering: F_c = sqrt(F_max^2 - F_acc^2)
  - F_c = mv^2/r (accelerating force of circular motion)
