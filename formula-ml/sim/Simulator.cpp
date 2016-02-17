@@ -5,13 +5,10 @@
 using namespace neural;
 
 Simulator::Simulator() {
-	track = new TrackModel();
 //    glm::vec3 *checkpoints;
 //    int* checkpoint_count;
 //    track->get_checkpoints(&checkpoints, checkpoint_count);
     // TODO: Set checkpoints for car to establish distance driven. SIMON AT WORK!
-
-    car = new CarModel();
 
     // Set input values
     const int TRACK_GRID_WIDTH = 16;
@@ -33,8 +30,6 @@ Simulator::Simulator() {
     grid.cell_size = 5;
     grid.value_track = 1;
     grid.value_not_track = 0;
-
-    network = new FixedNetwork(2,1,1,2);
 }
 
 Simulator::~Simulator() {

@@ -19,13 +19,16 @@ public:
 	void update(float dt);
 	SimulationResult run(float dt);
 
+	// To be set by the user before start:
 	CarModel * car;
+	neural::Network* network;
 	TrackModel * track;
-	SimulationResult result;
 	float progress_timeout;
 
+	// Readable by user:
+	SimulationResult result;
+
 private:
-    neural::Network* network;
 	neural::NetworkIO network_indata;
 	TrackGrid grid;
 };
