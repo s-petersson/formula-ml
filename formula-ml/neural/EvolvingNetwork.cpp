@@ -31,9 +31,13 @@ EvolvingNetwork::EvolvingNetwork() {
 	}
 	*/
 	addEdge(0, 3, 0.5);
+	addEdge(1, 3, 0.5);
+
+
 	debug();
 	addHiddenNode(0, 3);
-
+	addHiddenNode(1, 3);
+	addHiddenNode(6, 3);
 	debug();
 	int age;
 	std::cin >> age;
@@ -48,11 +52,12 @@ Add a new node on an edge between two existing nodes.
 void EvolvingNetwork::addHiddenNode(int index_from, int index_to) {
 	//There have to be an edge between the nodes to create a node inbetween.
 	Node from = nodes[index_from];
+	/*
 	if (std::find(from.out_edges_index.begin(), from.out_edges_index.end(), index_to) == from.out_edges_index.end()){
 		addEdge(index_from, index_to, 0.5);
 	}
-	
-
+	*/
+	removeEdge(index_from, index_to);
 	Node to = nodes[index_to];
 	Node temp;
 	int index = nodes.size();
@@ -76,7 +81,23 @@ void EvolvingNetwork::addEdge(int index_from, int index_to, float weight) {
 }
 
 void EvolvingNetwork::removeEdge(int index_from, int index_to) {
-	
+	Node *from = &(nodes[index_from]);
+	Node *to = &(nodes[index_to]);
+
+	//Remove pointers from
+	for (int i = 0; i < (*from).out_edges_index.size(); i++) {
+		if ((*from).out_edges_index[i] == index_to) {
+			(*from).out_edges_index.erase((*from).out_edges_index.begin() + i);
+		}
+	}
+
+	//Remove pointers and weights to
+	for (int i = 0; i < (*to).in_edges_index.size(); i++) {
+		if ((*to).in_edges_index[i] == index_from) {
+			(*to).in_edges_index.erase((*to).in_edges_index.begin() + i);
+			(*to).in_weights.erase((*to).in_weights.begin() + i);
+		}
+	}
 }
 
 int EvolvingNetwork::inputSize() {

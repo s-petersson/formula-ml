@@ -12,9 +12,12 @@ namespace neural {
     class Network {
     public:
         virtual NetworkIO fire(NetworkIO input) = 0;
+		
 
         virtual int inputSize() = 0;
         virtual int outputSize() = 0;
+
+	
     };
 
     inline float sigmoid(float x) {
