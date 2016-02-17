@@ -1,6 +1,7 @@
 #include "TrackModel.h"
 #include <glm/gtx/euler_angles.hpp>
 #include <iostream>
+#include <algorithm>
 
 using namespace glm;
 
@@ -45,9 +46,11 @@ void TrackModel::fillTrackMatrix(TrackGrid& grid, glm::vec3& position, glm::vec3
     }
 
     vec2 transPre = vec2(position.x, position.y) * -1.f;
-    mat2 rotation = orientate2(atan2(direction.y, direction.x)); // 'direction' should be the new y-axis
+	float rotationAngle = atan2(direction.y, direction.x) + 3.14159265359/2;
+    mat2 rotationMatrix = orientate2(rotationAngle); // 'direction' should be the new y-axis
     vec2 transPost = vec2(grid.width * grid.cell_size / 2, 0);
 
+	vec2 testRotateDirection = rotationMatrix * vec2(direction.x, direction.y);
 
     // For each triangle in the mesh, find if it overlaps a cell
     for (int i = 0; i < model->get_mesh()->triangles.size(); i++) { // TODO: make foreach
@@ -58,9 +61,9 @@ void TrackModel::fillTrackMatrix(TrackGrid& grid, glm::vec3& position, glm::vec3
         vec3 v2 = model->get_mesh()->vertices[triangle.i2].pos;
         vec3 v3 = model->get_mesh()->vertices[triangle.i3].pos;
 
-        v1 = vec3((rotation * (vec2(v1.x, v1.y) + transPre)) + transPost, 0);
-        v2 = vec3((rotation * (vec2(v2.x, v2.y) + transPre)) + transPost, 0);
-        v3 = vec3((rotation * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
+        v1 = vec3((rotationMatrix * (vec2(v1.x, v1.y) + transPre)) + transPost, 0);
+        v2 = vec3((rotationMatrix * (vec2(v2.x, v2.y) + transPre)) + transPost, 0);
+        v3 = vec3((rotationMatrix * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
 
         // Find the triangle bounding box
         int xMin = std::min(std::min(v1.x, v2.x), v3.x) / grid.cell_size;
@@ -78,9 +81,10 @@ void TrackModel::fillTrackMatrix(TrackGrid& grid, glm::vec3& position, glm::vec3
         // If so, set the cell to grid.value_track
         for (int x = xMin; x <= xMax; x++) {
             for (int y = yMin; y <= yMax; y++) {
-                //if (overlaps(triangle, track->vertices, vec3(x*grid.cell_size, y*grid.cell_size, 0))) {
-                grid.data[x + y * grid.depth] = grid.value_track;
-                //}
+				cout << "triangle:" << triangle.i1+triangle.i2+triangle.i3 << " x: " << xMin << "-" << xMax << " y: " << yMin << "-" << yMax << "\n";
+                if (overlaps(triangle, model->get_mesh()->vertices, vec3(x*grid.cell_size, y*grid.cell_size, 0))) {
+					grid.data[x + y * grid.depth] = grid.value_track;
+                }
             }
         }
     }

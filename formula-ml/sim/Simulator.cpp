@@ -47,7 +47,7 @@ void Simulator::update(float dt) {
 	network_indata.values[0] = car->getSpeed();
 
 	// Track data
-	track->fillTrackMatrix(grid, car->position, car->position);
+	track->fillTrackMatrix(grid, car->position, car->direction);
 
 	// Fire network
 	/*
