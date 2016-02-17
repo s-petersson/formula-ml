@@ -39,7 +39,7 @@ bool TrackModel::on_track(const glm::vec3& point) {
     return false;
 }
 
-void TrackModel::fillTrackMatrix(TrackGrid& grid, glm::vec3& position, glm::vec3& direction) {
+void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& direction) {
     // Clear the array
     for (int i = 0; i < grid.size; i++) {
         grid.data[i] = grid.value_not_track;

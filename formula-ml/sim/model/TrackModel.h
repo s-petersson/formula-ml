@@ -11,7 +11,7 @@ public:
 
     Model* get_model();
     bool on_track(const glm::vec3& point);
-	void fillTrackMatrix(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
+	void fillTrackGrid(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
     void get_checkpoints(glm::vec3** checkpoints, int* size);
 
 private:
