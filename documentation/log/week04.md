@@ -27,6 +27,11 @@ Up to this point the focus was to get a general understanding of the field and a
 
 ### Daniel Eineving
 
+After reading Adaptive Representations for Reinforcement Learning by Shimon Whiteson I have realized that Reinforcement learning could be of great use for us. As we do not have sample data for our AI to learn from, we can use Reinforcement learning and find a good "gratification" algorithm to solve our problem. Though finding a sufficient "grattification" algorithm would both be hard and key to mange to get this to work. 
+
+The algortihm would need to optimize for time to a specific place on the track, but be so smart to suffer in some stages to get a bigger gratification afterwards. According to Whiteson this outcome is possible to achive with Reinforcement learning.
+
+
 ### Martin Nilsson
 
 ### Simon Petersson
