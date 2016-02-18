@@ -6,8 +6,8 @@ using namespace neural;
 EvolvingNetwork::EvolvingNetwork() {
 	
 	//Createing a network with two layers
-	int input_count = 3;
-	int output_count = 2;
+	int input_count = 1;
+	int output_count = 1;
 
 	//Adding input nodes
 	for (int i = 0; i < input_count; i++) {
@@ -30,17 +30,22 @@ EvolvingNetwork::EvolvingNetwork() {
 	nodes[output_nodes_index[j]].in_edges_index.push_back(nodes.size());
 	}
 	*/
-	addEdge(0, 3, 0.5);
-	addEdge(1, 3, 0.5);
 
 
+	addEdge(0, 1, 0.5);
+
 	debug();
-	addHiddenNode(0, 3);
-	addHiddenNode(1, 3);
-	addHiddenNode(6, 3);
+	
+	addHiddenNode(0, 1);
+	addHiddenNode(2, 1);
+	addHiddenNode(3, 1);
 	debug();
-	int age;
-	std::cin >> age;
+
+	std::cout << "Creates acyclic(2, 4): " << createsCyclicGraph(2, 4) << std::endl;
+	std::cout << "Creates acyclic(4, 2): " << createsCyclicGraph(4, 2) << std::endl;
+
+	int stop;
+	std::cin >> stop;
 };
 
 EvolvingNetwork::~EvolvingNetwork() {
@@ -98,6 +103,43 @@ void EvolvingNetwork::removeEdge(int index_from, int index_to) {
 			(*to).in_weights.erase((*to).in_weights.begin() + i);
 		}
 	}
+}
+
+/*
+	Return 0 if acyclic, and 1 if a cyclic graph would be created
+*/
+int EvolvingNetwork::createsCyclicGraph(int from_index, int to_index) {
+
+	if (from_index == to_index) {
+		return 1;
+	}
+	std::vector<int> visited;
+	//Recursion to check if the suggested parent is a child of the suggested child
+
+	for (int i = 0; i < nodes.size(); i++) {
+		visited.push_back(0);
+	}
+	visited[to_index] = 1;
+	return isChild(visited, to_index, from_index);
+}
+
+/*
+	returns 1 if target is a child, 0 otherwise.
+*/
+int EvolvingNetwork::isChild(std::vector<int> visited, int current_node_index, int target_index) {
+	Node current_node = nodes[current_node_index];
+	
+	for (int i = 0; i < current_node.out_edges_index.size(); i++) {
+		if (visited[current_node.out_edges_index[i]] == 0) {
+			if (current_node.out_edges_index[i] == target_index) {
+				return 1;
+			}
+			visited[current_node.out_edges_index[i]] = 1;
+			return isChild(visited, current_node.out_edges_index[i], target_index);
+		}
+	}
+
+	return 0;
 }
 
 int EvolvingNetwork::inputSize() {

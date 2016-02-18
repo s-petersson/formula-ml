@@ -39,6 +39,8 @@ namespace neural {
 		void addHiddenNode(int index_from, int index_to);
 		void addEdge(int index_from, int index_to, float weight);
 		void removeEdge(int index_from, int index_to);
+		int createsCyclicGraph(int from_index, int to_index);
+		int	isChild(std::vector<int> visited, int current_node_index, int target_index);
 	};
 } // namespace neural 
 
