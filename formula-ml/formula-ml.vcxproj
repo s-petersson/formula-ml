@@ -144,6 +144,7 @@
     <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="neural\EvolvingNetwork.cpp" />
     <ClCompile Include="neural\FixedNetwork.cpp" />
     <ClCompile Include="neural\FixedNetworkXOR.cpp" />
     <ClCompile Include="SimulationState.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="core\WindowState.h" />
     <ClInclude Include="neural\FixedNetwork.h" />
     <ClInclude Include="neural\FixedNetworkXOR.h" />
+    <ClInclude Include="neural\EvolvingNetwork.h" />
     <ClInclude Include="neural\Neural.h" />
     <ClInclude Include="SimulationState.h" />
     <ClInclude Include="sim\Car.h" />
