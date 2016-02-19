@@ -24,6 +24,7 @@ public:
 	neural::Network* network;
 	TrackModel * track;
 	float progress_timeout;
+    std::vector<Checkpoint> checkpoints;
 
 	// Readable by user:
 	SimulationResult result;
@@ -31,6 +32,5 @@ public:
 private:
 	neural::NetworkIO network_indata;
 	TrackGrid grid;
-    std::vector<Checkpoint> checkpoints;
 };
 #endif

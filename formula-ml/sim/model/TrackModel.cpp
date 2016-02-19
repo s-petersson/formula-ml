@@ -22,18 +22,20 @@ Model* TrackModel::get_model() {
     return model;
 }
 
-
-bool overlaps(const Triangle& tri, vector<Vertex> vertices, const glm::vec3& point) {
-    glm::vec3 v1 = vertices[tri.i1].pos;
-    glm::vec3 v2 = vertices[tri.i2].pos;
-    glm::vec3 v3 = vertices[tri.i3].pos;
-    float d = ((v2.y - v3.y) * (v1.x - v3.x) + (v3.x - v2.x ) * (v1.y - v3.y));
+bool overlaps(const glm::vec3& point, const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3) {
+    float d = ((v2.y - v3.y) * (v1.x - v3.x) + (v3.x - v2.x) * (v1.y - v3.y));
     float a = ((v2.y - v3.y) * (point.x - v3.x) + (v3.x - v2.x) * (point.y - v3.y)) / d;
     float b = ((v3.y - v1.y) * (point.x - v3.x) + (v1.x - v3.x) * (point.y - v3.y)) / d;
     float c = 1.0f - a - b;
     return 0 <= a && a <= 1 && 0 <= b && b <= 1 && 0 <= c && c <= 1;
 }
 
+bool overlaps(const Triangle& tri, vector<Vertex> vertices, const glm::vec3& point) {
+    glm::vec3 v1 = vertices[tri.i1].pos;
+    glm::vec3 v2 = vertices[tri.i2].pos;
+    glm::vec3 v3 = vertices[tri.i3].pos;
+    return overlaps(point, v1, v2, v3);
+}
 
 bool TrackModel::on_track(const glm::vec3& point) {
     for (int i = 0; i < model->get_mesh()->triangles.size(); i++) {
@@ -42,6 +44,8 @@ bool TrackModel::on_track(const glm::vec3& point) {
     return false;
 }
 
+
+int fillTrackGridCounter = 0;
 // TODO?: It seems to fill the grid wrong way in the x-axis
 void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& direction) {
     // Clear the array
@@ -50,11 +54,13 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
     }
 
     vec2 transPre = vec2(position.x, position.y) * -1.f;
-	float rotationAngle = atan2(direction.y, direction.x) + 3.14159265359/2;
+    float rotationAngle = -atan2(direction.y, direction.x) + 3.14159265359 / 2;
     mat2 rotationMatrix = orientate2(rotationAngle); // 'direction' should be the new y-axis
     vec2 transPost = vec2(grid.width * grid.cell_size / 2, 0);
 
-	vec2 testRotateDirection = rotationMatrix * vec2(direction.x, direction.y);
+    vec2 testRotateDirection = rotationMatrix * vec2(direction.x, direction.y);
+    vec2 testRotateDirection2 = rotationMatrix * vec2(1, 0);
+    vec2 testRotateDirection3 = rotationMatrix * vec2(0, 2);
 
     // For each triangle in the mesh, find if it overlaps a cell
     for (int i = 0; i < model->get_mesh()->triangles.size(); i++) { // TODO: make foreach
@@ -70,10 +76,17 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
         v3 = vec3((rotationMatrix * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
 
         // Find the triangle bounding box
+<<<<<<< HEAD
         int xMin = glm::min(glm::min(v1.x, v2.x), v3.x) / grid.cell_size;
         int xMax = glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size;
         int yMin = glm::min(glm::min(v1.y, v2.y), v3.y) / grid.cell_size;
         int yMax = glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size;
+=======
+        int xMin = std::min(std::min(v1.x, v2.x), v3.x) / grid.cell_size;
+        int xMax = std::ceil(std::max(std::max(v1.x, v2.x), v3.x) / grid.cell_size);
+        int yMin = std::min(std::min(v1.y, v2.y), v3.y) / grid.cell_size;
+        int yMax = std::ceil(std::max(std::max(v1.y, v2.y), v3.y) / grid.cell_size);
+>>>>>>> Corrected TrackGrid algorithm
 
         // Limit the bounding box to the track matrix
         xMin = glm::max(xMin, 0);
@@ -83,21 +96,40 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
 
         // For each point in the bounding box, check if it overlap the triangle.
         // If so, set the cell to grid.value_track
-        for (int x = xMin; x <= xMax; x++) {
-            for (int y = yMin; y <= yMax; y++) {
-				// TODO: Find other implementation of overlaps, not dependant on the list of vertices!
-				//cout << "triangle:" << triangle.i1+triangle.i2+triangle.i3 << " x: " << xMin << "-" << xMax << " y: " << yMin << "-" << yMax << "\n";
-                //if (overlaps(triangle, model->get_mesh()->vertices, vec3(x*grid.cell_size, y*grid.cell_size, 0))) {
-					grid.data[x + y * grid.depth] = grid.value_track;
-                //}
+        for (int y = yMin; y <= yMax; y++) {
+            for (int x = xMin; x <= xMax; x++) {
+                if (overlaps(vec3(x*grid.cell_size, y*grid.cell_size, 0), v1, v2, v3)) {
+					grid.data[x + y * grid.width] = grid.value_track;
+                }
             }
         }
     }
+	/**/
+	fillTrackGridCounter++;
+	if (fillTrackGridCounter % 12 == 0) {
+		// Print the track
+		cout << "\n\n\n";
+		for (int y = grid.depth; y >= 0; y--) {
+            for (int x = 0; x < grid.width; x++) {
+            //for (int x = grid.width - 1; x >= 0; x--) {
+				if (grid.data[x + y * grid.width] == grid.value_track) {
+					cout << "X ";
+				} else {
+					cout << "_ ";
+				}
+			}
+			cout << "\n";
+		}
+	}
+	/**/
 }
 
+<<<<<<< HEAD
 glm::vec3 TrackModel::get_start_grid_pos() {
     return start_grid_pos;
 }
+=======
+>>>>>>> Corrected TrackGrid algorithm
 
 /**
  * Helper method that calculates the value in the middle of two floats.

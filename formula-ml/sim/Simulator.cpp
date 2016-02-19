@@ -6,22 +6,9 @@
 using namespace neural;
 
 Simulator::Simulator() {
-    // Create simulated objects
-    // NOTE: Starting grid is at first "checkpoint". In order
-    //       to change this, offset the checkpoint order.
-	track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
-    car = new CarModel();
-
-    // Calculate checkpoints along the track, which are used to
-    // measure the distance driven on the track by the car.
-    checkpoints = track->get_checkpoints();
-
-	// Place car at the tracks starting grid.
-	car->position = track->get_start_grid_pos();
-
     // Set input values
-    const int TRACK_GRID_WIDTH = 16;
-    const int TRACK_GRID_DEPTH = 16;
+    const int TRACK_GRID_WIDTH = 10;
+    const int TRACK_GRID_DEPTH = 18;
     const int OTHER_INPUTS = 1;
 
     network_indata = NetworkIO();
@@ -36,7 +23,7 @@ Simulator::Simulator() {
     grid.size = TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
     grid.width = TRACK_GRID_WIDTH;
     grid.depth = TRACK_GRID_DEPTH;
-    grid.cell_size = 5;
+    grid.cell_size = 2.5;
     grid.value_track = 1;
     grid.value_not_track = 0;
 }
