@@ -24,5 +24,5 @@ The track is build up by connected triangulated quads. It is difficult to know f
  Note: if the quads change direction of triangulation, two pairs may be found during the last step. One of the found vertexes will not lead to a new undiscovered pair, use that first.
  Note: Watch over the fact that the algorithm may traverse the track backwards. 
  
- Complexity: If add/read is log n, the whole algorithm will be n log n.
+ Complexity: If add/read operation with highest complexity is O(x), the whole algorithm will be O(nx). If hash lists are used, then x is amortized O(1).
     
