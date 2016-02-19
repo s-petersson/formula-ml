@@ -213,28 +213,33 @@ void TrackModel::create_checkpoints() {
 
     int size = ordered_path_pairs.size();
 
-    for (int i = 0; i < ordered_path_pairs.size(); i++) {
+    for (int i = 0; i < ordered_path_pairs.size() / 2; i++) {
         Checkpoint checkpoint;
-        Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[i].a];
-        Vertex v2 = model->get_mesh()->vertices[ordered_path_pairs[i].b];
+        Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[2 * i].a];
+        Vertex v2 = model->get_mesh()->vertices[ordered_path_pairs[2 * i].b];
+        checkpoint.left = v1.pos;
+        checkpoint.right = v2.pos;
+
         float x = middleOf(v1.pos.x, v2.pos.x);
         float y = middleOf(v1.pos.y, v2.pos.y);
         float z = middleOf(v1.pos.z, v2.pos.z);
+        checkpoint.middle = glm::vec3(x, y, z);
 
-        checkpoint.pos = glm::vec3(x, y, z);
+        checkpoints.insert(checkpoints.begin()+i, checkpoint);
+    }
 
+    std::reverse(checkpoints.begin(), checkpoints.end());
+
+    for (int i = 0; i < checkpoints.size(); ++i) {
         float distance_to_prev_checkpoint = 0;
         vec3 last_checkpoint_pos = start_grid_pos;
         if (i > 0) {
             Checkpoint last_checkpoint = checkpoints[i - 1];
             distance_to_prev_checkpoint = last_checkpoint.distance_on_track;
-            last_checkpoint_pos = last_checkpoint.pos;
+            last_checkpoint_pos = last_checkpoint.middle;
         }
 
-        checkpoint.distance_on_track = distance_to_prev_checkpoint + glm::distance(checkpoint.pos, last_checkpoint_pos);
-
-        checkpoints.insert(checkpoints.begin()+i, checkpoint);
-        std::reverse(checkpoints.begin(), checkpoints.end());
+        checkpoints[i].distance_on_track = distance_to_prev_checkpoint + glm::distance(checkpoints[i].middle, last_checkpoint_pos);
     }
 }
 

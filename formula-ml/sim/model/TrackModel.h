@@ -11,7 +11,7 @@ struct TrackGrid {
 };
 
 struct Checkpoint {
-    glm::vec3 pos;
+    glm::vec3 left, right, middle;
     float distance_on_track;
 };
 
