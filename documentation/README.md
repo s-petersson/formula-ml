@@ -9,6 +9,8 @@
 
 ##### Gabriel
 - Write diary
+- Test grid
+- Study
 
 
 ##### Martin
