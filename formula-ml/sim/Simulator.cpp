@@ -12,8 +12,7 @@ Simulator::Simulator() {
 
     // Calculate checkpoints along the track, which are used to
     // measure the distance driven on the track by the car.
-    track->get_checkpoints(&checkpoints, &checkpoint_count);
-
+    checkpoints = track->get_checkpoints();
 	// Place car at the tracks starting grid.
 	car->position = track->get_start_grid_pos();
 

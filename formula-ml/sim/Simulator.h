@@ -31,7 +31,6 @@ public:
 private:
 	neural::NetworkIO network_indata;
 	TrackGrid grid;
-	Checkpoint* checkpoints;
-    int checkpoint_count;
+    std::vector<Checkpoint> checkpoints;
 };
 #endif

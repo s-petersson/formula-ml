@@ -3,6 +3,9 @@
 #include <sim/model/TrackModel.h>
 #include "TrackView.h"
 
+using namespace glm;
+using namespace std;
+
 TrackView::TrackView(TrackModel *dataModel) {
     this->dataModel = dataModel;
 
@@ -26,8 +29,48 @@ TrackView::TrackView(TrackModel *dataModel) {
 
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
-
     glBindVertexArray(0);
+
+
+
+    vector<vec4> positions, colors;
+    vector<Checkpoint> checkpoints = dataModel->get_checkpoints();
+    for (auto && c : checkpoints) {
+        
+        vec4 p1 = vec4(c.pos + vec3(1, 1, 0),1);
+        vec4 p2 = vec4(c.pos + vec3(-1, 1, 0),1);
+        vec4 p3 = vec4(c.pos + vec3(-1, -1, 0),1);
+        vec4 p4 = vec4(c.pos + vec3(1, -1, 0),1);
+        positions.push_back(p1);
+        positions.push_back(p2);
+        positions.push_back(p3);
+        positions.push_back(p1);
+        positions.push_back(p3);
+        positions.push_back(p4);
+        for (int i = 0; i < 6; i++) {
+            colors.push_back(vec4(0, 1, 0, 1));
+        }
+
+    }
+    checkpoint_triangles = positions.size();
+    glGenVertexArrays(1, &checkpoints_vao);
+    glBindVertexArray(checkpoints_vao);
+
+    GLuint posbuf, colbuf;
+
+    glGenBuffers(1, &posbuf);
+    glBindBuffer(GL_ARRAY_BUFFER, posbuf);
+    glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), &positions[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+
+    glGenBuffers(1, &colbuf);
+    glBindBuffer(GL_ARRAY_BUFFER, colbuf);
+    glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(vec4), &colors[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(1);
+    glBindVertexArray(0);
+
 }
 
 TrackView::~TrackView() {
@@ -44,5 +87,9 @@ void TrackView::render() {
     glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(viewModel->getVAO());
     glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+
+    glBindVertexArray(checkpoints_vao);
+    glDrawArrays(GL_TRIANGLES,0, checkpoint_triangles);
     glBindVertexArray(0);
 }

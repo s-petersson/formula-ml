@@ -28,11 +28,16 @@ public:
 	glm::vec3 get_start_grid_pos();
     bool on_track(const glm::vec3& point);
 	void fillTrackGrid(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
-	void get_checkpoints(Checkpoint** result, int* size);
-
+	
+    std::vector<Checkpoint> get_checkpoints();
 private:
+
+    void create_checkpoints();
+
+
     Model* model;
 	glm::vec3 start_grid_pos;
+    std::vector<Checkpoint> checkpoints;
 };
 
 #endif
