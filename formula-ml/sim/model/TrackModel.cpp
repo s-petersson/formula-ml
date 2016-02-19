@@ -161,33 +161,24 @@ void try_insert(map<int, vector<int>> *all_pairs, map<int, vector<int>> *path_ma
 }
 
 void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, int initial_index) {
-    int visited = 1;
-    int last_key        = -1;
-    int curr_key        = initial_index;
+    int visited     = 1;
+    int last_key    = -1;
+    int curr_key    = initial_index;
 
     while(visited < path_map->size() - 1) {
         vector<int> curr_list = path_map->at(curr_key);
         int size = curr_list.size();
 
         if (size == 2) {
-            if (curr_list[0] == last_key) {
-                Pair pair;
-                pair.a = curr_key;
-                pair.b = curr_list[1];
-                result->push_back(pair);
+            int index = (curr_list[0] == last_key) ? 1 : 0;
 
-                last_key = curr_key;
-                curr_key = curr_list[1];
-            } else {
-                Pair pair;
-                pair.a = curr_key;
-                pair.b = curr_list[0];
-                result->push_back(pair);
+            Pair pair;
+            pair.a = curr_key;
+            pair.b = curr_list[index];
+            result->push_back(pair);
 
-                last_key = curr_key;
-                curr_key = curr_list[0];
-            }
-            visited++;
+            last_key = curr_key;
+            curr_key = curr_list[index];
         } else if(size == 3) {
             int index_with_one_entry;
             for (int i = 0; i < size; i++) {
@@ -202,25 +193,17 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
                 }
             }
 
-            if (curr_list[(index_with_one_entry + 1) % 3] == last_key) {
-                Pair pair;
-                pair.a = curr_key;
-                pair.b = curr_list[(index_with_one_entry + 2) % 3];
-                result->push_back(pair);
+            int index = (index_with_one_entry + 1) % 3 ? (index_with_one_entry + 2) % 3 : (index_with_one_entry + 1) % 3;
 
-                last_key = curr_key;
-                curr_key = curr_list[(index_with_one_entry + 2) % 3];
-            } else {
-                Pair pair;
-                pair.a = curr_key;
-                pair.b = curr_list[(index_with_one_entry + 1) % 3];
-                result->push_back(pair);
+            Pair pair;
+            pair.a = curr_key;
+            pair.b = curr_list[index];
+            result->push_back(pair);
 
-                last_key = curr_key;
-                curr_key = curr_list[(index_with_one_entry + 1) % 3];
-            }
-            visited++;
+            last_key = curr_key;
+            curr_key = curr_list[index];
         }
+        visited++;
     }
 }
 
