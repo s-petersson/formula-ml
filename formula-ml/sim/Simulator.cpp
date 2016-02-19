@@ -7,12 +7,15 @@ using namespace neural;
 
 Simulator::Simulator() {
     // Create simulated objects
-	track = new TrackModel(glm::vec3(-79.5053, -718.151, 5.000000));
+    // NOTE: Starting grid is at first "checkpoint". In order
+    //       to change this, offset the checkpoint order.
+	track = new TrackModel(glm::vec3(38.022278, -694.678955, 5.000004));
     car = new CarModel();
 
     // Calculate checkpoints along the track, which are used to
     // measure the distance driven on the track by the car.
     checkpoints = track->get_checkpoints();
+
 	// Place car at the tracks starting grid.
 	car->position = track->get_start_grid_pos();
 
@@ -120,7 +123,7 @@ void Simulator::update(float dt) {
 	} else if (!steerLeft && steerRight) {
 		control.steer = steerCareful ? -0.5f : -1;
 	}
-
+    
     if (glm::distance(car->position, checkpoints[car->checkpoint].pos) < 30.0) {
         std::cout << "checkpoint passed!" << std::endl;
         car->distance_on_track = checkpoints[car->checkpoint].distance_on_track;

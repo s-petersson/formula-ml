@@ -1,6 +1,7 @@
 #include "TrackModel.h"
 #include <glm/gtx/euler_angles.hpp>
 #include <iostream>
+#include <algorithm>
 #include <map>
 
 using namespace glm;
@@ -69,16 +70,16 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
         v3 = vec3((rotationMatrix * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
 
         // Find the triangle bounding box
-        int xMin = min(min(v1.x, v2.x), v3.x) / grid.cell_size;
-        int xMax = max(max(v1.x, v2.x), v3.x) / grid.cell_size;
-        int yMin = min(min(v1.y, v2.y), v3.y) / grid.cell_size;
-        int yMax = max(max(v1.y, v2.y), v3.y) / grid.cell_size;
+        int xMin = glm::min(glm::min(v1.x, v2.x), v3.x) / grid.cell_size;
+        int xMax = glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size;
+        int yMin = glm::min(glm::min(v1.y, v2.y), v3.y) / grid.cell_size;
+        int yMax = glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size;
 
         // Limit the bounding box to the track matrix
-        xMin = max(xMin, 0);
-        xMax = min(xMax, grid.width - 1);
-        yMin = max(yMin, 0);
-        yMax = min(yMax, grid.depth - 1);
+        xMin = glm::max(xMin, 0);
+        xMax = glm::min(xMax, grid.width - 1);
+        yMin = glm::max(yMin, 0);
+        yMax = glm::min(yMax, grid.depth - 1);
 
         // For each point in the bounding box, check if it overlap the triangle.
         // If so, set the cell to grid.value_track
@@ -211,7 +212,6 @@ void TrackModel::create_checkpoints() {
     create_path_pairs(&ordered_path_pairs, &path_map, 0);
 
     int size = ordered_path_pairs.size();
-    Checkpoint * result = new Checkpoint[size];
 
     for (int i = 0; i < ordered_path_pairs.size(); i++) {
         Checkpoint checkpoint;
@@ -226,19 +226,16 @@ void TrackModel::create_checkpoints() {
         float distance_to_prev_checkpoint = 0;
         vec3 last_checkpoint_pos = start_grid_pos;
         if (i > 0) {
-            Checkpoint last_checkpoint = result[i - 1];
+            Checkpoint last_checkpoint = checkpoints[i - 1];
             distance_to_prev_checkpoint = last_checkpoint.distance_on_track;
             last_checkpoint_pos = last_checkpoint.pos;
         }
 
         checkpoint.distance_on_track = distance_to_prev_checkpoint + glm::distance(checkpoint.pos, last_checkpoint_pos);
 
-        result[i] = checkpoint;
+        checkpoints.insert(checkpoints.begin()+i, checkpoint);
+        std::reverse(checkpoints.begin(), checkpoints.end());
     }
-    for (int i = 0; i < size; i++) {
-        checkpoints.push_back(result[i]);
-    }
-    delete[] result;
 }
 
 std::vector<Checkpoint> TrackModel::get_checkpoints() {
