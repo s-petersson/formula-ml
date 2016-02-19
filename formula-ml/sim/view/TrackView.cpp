@@ -36,21 +36,11 @@ TrackView::TrackView(TrackModel *dataModel) {
     vector<vec4> positions, colors;
     vector<Checkpoint> checkpoints = dataModel->get_checkpoints();
     for (auto && c : checkpoints) {
-        
-        vec4 p1 = vec4(c.pos + vec3(1, 1, 0),1);
-        vec4 p2 = vec4(c.pos + vec3(-1, 1, 0),1);
-        vec4 p3 = vec4(c.pos + vec3(-1, -1, 0),1);
-        vec4 p4 = vec4(c.pos + vec3(1, -1, 0),1);
-        positions.push_back(p1);
-        positions.push_back(p2);
-        positions.push_back(p3);
-        positions.push_back(p1);
-        positions.push_back(p3);
-        positions.push_back(p4);
-        for (int i = 0; i < 6; i++) {
-            colors.push_back(vec4(0, 1, 0, 1));
-        }
+        positions.push_back(vec4(c.left, 1));
+        colors.push_back(vec4(0, 1, 0, 1));
 
+        positions.push_back(vec4(c.right, 1));
+        colors.push_back(vec4(0, 1, 0, 1));
     }
     checkpoint_triangles = positions.size();
     glGenVertexArrays(1, &checkpoints_vao);
@@ -90,6 +80,6 @@ void TrackView::render() {
     glBindVertexArray(0);
 
     glBindVertexArray(checkpoints_vao);
-    glDrawArrays(GL_TRIANGLES,0, checkpoint_triangles);
+    glDrawArrays(GL_LINES,0, checkpoint_triangles);
     glBindVertexArray(0);
 }
