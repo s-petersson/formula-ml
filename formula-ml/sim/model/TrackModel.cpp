@@ -76,17 +76,10 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
         v3 = vec3((rotationMatrix * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
 
         // Find the triangle bounding box
-<<<<<<< HEAD
         int xMin = glm::min(glm::min(v1.x, v2.x), v3.x) / grid.cell_size;
-        int xMax = glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size;
+        int xMax = glm::ceil(glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size);
         int yMin = glm::min(glm::min(v1.y, v2.y), v3.y) / grid.cell_size;
-        int yMax = glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size;
-=======
-        int xMin = std::min(std::min(v1.x, v2.x), v3.x) / grid.cell_size;
-        int xMax = std::ceil(std::max(std::max(v1.x, v2.x), v3.x) / grid.cell_size);
-        int yMin = std::min(std::min(v1.y, v2.y), v3.y) / grid.cell_size;
-        int yMax = std::ceil(std::max(std::max(v1.y, v2.y), v3.y) / grid.cell_size);
->>>>>>> Corrected TrackGrid algorithm
+        int yMax = glm::ceil(glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size);
 
         // Limit the bounding box to the track matrix
         xMin = glm::max(xMin, 0);
@@ -104,10 +97,10 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
             }
         }
     }
-	/**/
+	/*
 	fillTrackGridCounter++;
 	if (fillTrackGridCounter % 12 == 0) {
-		// Print the track
+		 Print the track
 		cout << "\n\n\n";
 		for (int y = grid.depth; y >= 0; y--) {
             for (int x = 0; x < grid.width; x++) {
@@ -124,12 +117,9 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
 	/**/
 }
 
-<<<<<<< HEAD
 glm::vec3 TrackModel::get_start_grid_pos() {
     return start_grid_pos;
 }
-=======
->>>>>>> Corrected TrackGrid algorithm
 
 /**
  * Helper method that calculates the value in the middle of two floats.
