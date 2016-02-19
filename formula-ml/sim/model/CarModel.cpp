@@ -4,12 +4,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 const float mass = 642;				// [kg]
-const float my = 0.8f;				// � - friction coefficient. Guessed
+const float my = 0.8f;				// µ - friction coefficient. Guessed
 const float g = 9.82f;
 const float downforceConstant = mass * g / 36.1111 / 36.1111; // c_down * v^2 = mg at 130 km/h
 const float dragConstant = g / 83.3333 / 83.3333; // c_drag * v^2 = 1g at 300 km/h
 const float gasForce = 14.2 * mass;		// [N]
-const float brakeForce = 39 * mass;	// [N]
+const float brakeForce = 39 * mass;	    // [N]
 const float minTurningRadius = 4;		// Guessed
 
 using namespace glm;
@@ -34,12 +34,19 @@ float inline CarModel::getSpeed() {
 Model* CarModel::get_model() {
     return model;
 }
+void smoothChange(float* value, float new_value, float dt, float value_range) {
+    const float max_change_time = 0.35f;
+    const float max_change = dt * value_range / max_change_time;
+    float change = new_value - *value;
+    *value += change >= 0 ? min(change, max_change) : max(change, -max_change);
+}
 
 void CarModel::update(float dt, struct CarControl control) {
 
-	// Update current control state without delay
-	// TODO: Check for illegal values
-	currentControl = control;
+	// Update current control state with smoothing
+    smoothChange(&currentControl.acceleration, control.acceleration, dt, 1.f);
+    smoothChange(&currentControl.brake, control.brake, dt, 1.f);
+    smoothChange(&currentControl.steer, control.steer, dt, 2.f);
 
     float currentSpeed = getSpeed();
 
@@ -99,3 +106,4 @@ float CarModel::maxTyreForce(float speed) {
 float CarModel::dragForce(float speed) {
 	return dragConstant * speed * speed;
 }
+
