@@ -97,10 +97,10 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
             }
         }
     }
-	/*
+	/**/
 	fillTrackGridCounter++;
 	if (fillTrackGridCounter % 12 == 0) {
-		 Print the track
+        // Print the track
 		cout << "\n\n\n";
 		for (int y = grid.depth; y >= 0; y--) {
             for (int x = 0; x < grid.width; x++) {

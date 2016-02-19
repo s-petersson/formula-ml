@@ -5,6 +5,7 @@
 #include <sim/model/TrackModel.h>
 
 #include <neural/Neural.h>
+#include <functional>
 
 
 struct SimulationResult {
@@ -21,15 +22,13 @@ public:
 
 	// To be set by the user before start:
 	CarModel * car;
-	neural::Network* network;
 	TrackModel * track;
 	float progress_timeout;
+    std::function<CarControl()> carUpdater;
 
 	// Readable by user:
 	SimulationResult result;
 
 private:
-	neural::NetworkIO network_indata;
-	TrackGrid grid;
 };
 #endif

@@ -1,5 +1,6 @@
 #include "SimulationState.h"
 #include <core/gfx/Program.h>
+#include <functional>
 
 GLuint shader;
 
@@ -38,8 +39,9 @@ SimulationState::~SimulationState() {
     if (trackView) delete trackView;
 }
 
+//Function declaration
 void SimulationState::update(float dt) {
-	sim->update(dt);
+    sim->update(dt);
 
     // TODO: If "followCar"
     camera->follow(sim->car->position, sim->car->direction, 35.f);
