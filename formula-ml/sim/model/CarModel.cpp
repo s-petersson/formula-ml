@@ -93,7 +93,7 @@ float CarModel::minRadius(float speed, float forwardForce) {
 // Calculate the maximum force the tyres can apply to the road
 // Assuming same grip in all directions
 float CarModel::maxTyreForce(float speed) {
-    return downforceConstant*my*speed*speed + mass*g*my;
+    return 2*(downforceConstant*my*speed*speed + mass*g*my);
 }
 
 float CarModel::dragForce(float speed) {
