@@ -1,33 +1,15 @@
 #include "SimulationState.h"
-#include <neural/FixedNetwork.h>
-
 #include <core/gfx/Program.h>
 
 GLuint shader;
 
-SimulationState::SimulationState() {
-	
+SimulationState::SimulationState(Simulator* simulator) {
     camera = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
 
-	sim = new Simulator();
-    // Create simulated objects
-    // NOTE: Starting grid is at first "checkpoint". In order
-    //       to change this, offset the checkpoint order.
-    sim->track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
-    sim->car = new CarModel();
-
-    // Calculate checkpoints along the track, which are used to
-    // measure the distance driven on the track by the car.
-    sim->checkpoints = sim->track->get_checkpoints();
-
-    // Place car at the tracks starting grid.
-    sim->car->position = sim->track->get_start_grid_pos();
-	sim->network = new neural::FixedNetwork(2, 1, 1, 2);
-	sim->progress_timeout = 5;
-
+    this->sim = simulator;
     // Create views for simulated objects.
-    carView = new CarView(sim->car);
-    trackView = new TrackView(sim->track);
+    carView = new CarView(this->sim->car);
+    trackView = new TrackView(this->sim->track);
 
     // And one grid to keep one from loosing ones mind.
     gridView = new GridView();

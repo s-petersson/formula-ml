@@ -12,7 +12,7 @@ struct Grid;
 
 class SimulationState : public WindowState {
 public:
-	SimulationState();
+	SimulationState(Simulator* simulator);
 	~SimulationState();
 
 	void update(float dt);
