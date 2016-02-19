@@ -1,14 +1,21 @@
 #include "Simulator.h"
 #include <neural/FixedNetwork.h>
+#include <iostream>
 #include "core/Keyboard.h"
 
 using namespace neural;
 
 Simulator::Simulator() {
-//    glm::vec3 *checkpoints;
-//    int* checkpoint_count;
-//    track->get_checkpoints(&checkpoints, checkpoint_count);
-    // TODO: Set checkpoints for car to establish distance driven. SIMON AT WORK!
+    // Create simulated objects
+	track = new TrackModel(glm::vec3(-79.5053, -718.151, 5.000000));
+    car = new CarModel();
+
+    // Calculate checkpoints along the track, which are used to
+    // measure the distance driven on the track by the car.
+    track->get_checkpoints(&checkpoints, &checkpoint_count);
+
+	// Place car at the tracks starting grid.
+	car->position = track->get_start_grid_pos();
 
     // Set input values
     const int TRACK_GRID_WIDTH = 16;
@@ -114,6 +121,16 @@ void Simulator::update(float dt) {
 	} else if (!steerLeft && steerRight) {
 		control.steer = steerCareful ? -0.5f : -1;
 	}
+
+    if (glm::distance(car->position, checkpoints[car->checkpoint].pos) < 30.0) {
+        std::cout << "checkpoint passed!" << std::endl;
+        car->distance_on_track = checkpoints[car->checkpoint].distance_on_track;
+        car->checkpoint++;
+    } else {
+        int last_checkpoint = car->checkpoint - 1;
+        float d = checkpoints[last_checkpoint].distance_on_track + glm::distance(car->position, checkpoints[last_checkpoint].pos);
+        car->distance_on_track = d;
+    }
 
 	car->update(dt, control);
     if (track->on_track(car->position)) {

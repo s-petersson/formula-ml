@@ -11,8 +11,6 @@ SimulationState::SimulationState() {
     camera = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
 
 	sim = new Simulator();
-	sim->car = new CarModel();
-	sim->track = new TrackModel();
 	sim->network = new FixedNetwork(2, 1, 1, 2);
 	sim->progress_timeout = 10;
 

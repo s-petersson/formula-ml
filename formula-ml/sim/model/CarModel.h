@@ -6,6 +6,7 @@
 #include <glm/detail/type_vec3.hpp>
 #include <string>
 #include <core/gfx/Model.h>
+#include "TrackModel.h"
 
 
 struct CarControl {
@@ -43,11 +44,15 @@ public:
     glm::vec3 position;
     glm::vec3 direction;
 
+    int checkpoint;
+    float distance_on_track;
+
 private:
     float maxRotation(float speed, float forwardForce, float dt);
     float minRadius(float speed, float forwardForce);
     float maxTyreForce(float speed);
 	float dragForce(float speed);
+
 	glm::vec3 velocity;
 	CarControl currentControl;
 	Model* model;
