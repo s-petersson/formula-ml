@@ -7,4 +7,9 @@ float rngf();
 /** Generates a random float between min and max*/
 float rngf(float min, float max);
 
+
+int rngi(int sides);
+int rngi(int min, int max);
+
+
 #endif

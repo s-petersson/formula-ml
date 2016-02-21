@@ -1,147 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="core\gfx\Model.cpp" />
+    <ClCompile Include="core\gfx\Program.cpp" />
+    <ClCompile Include="core\Keyboard.cpp" />
+    <ClCompile Include="core\util\Camera.cpp" />
+    <ClCompile Include="core\util\Random.cpp" />
+    <ClCompile Include="core\util\Util.cpp" />
+    <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="neural\EvolvingNetwork.cpp" />
+    <ClCompile Include="neural\FixedNetwork.cpp" />
+    <ClCompile Include="neural\FixedNetworkXOR.cpp" />
+    <ClCompile Include="SimulationState.cpp" />
+    <ClCompile Include="sim\model\CarModel.cpp" />
+    <ClCompile Include="sim\model\TrackModel.cpp" />
+    <ClCompile Include="sim\Simulator.cpp" />
+    <ClCompile Include="sim\view\CarView.cpp" />
+    <ClCompile Include="sim\view\GridView.cpp" />
+    <ClCompile Include="sim\view\TrackView.cpp" />
+    <ClCompile Include="NeatXOR.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\gfx\Program.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\Simulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimulationState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\util\Util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\util\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\gfx\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\view\CarView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\view\GridView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\view\TrackView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\model\CarModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\model\TrackModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="neural\FixedNetwork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="neural\EvolvingNetwork.cpp">
-=======
-    <ClCompile Include="core\util\Random.cpp">
->>>>>>> 37f35dfd0477cee4a862dba14a63419c292637f7
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="neural\FixedNetworkXOR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="core\gfx\Model.h" />
+    <ClInclude Include="core\gfx\Program.h" />
+    <ClInclude Include="core\Keyboard.h" />
+    <ClInclude Include="core\util\Camera.h" />
+    <ClInclude Include="core\util\Random.h" />
+    <ClInclude Include="core\util\Util.h" />
+    <ClInclude Include="core\Window.h" />
+    <ClInclude Include="core\WindowState.h" />
+    <ClInclude Include="neural\FixedNetwork.h" />
+    <ClInclude Include="neural\FixedNetworkXOR.h" />
+    <ClInclude Include="neural\EvolvingNetwork.h" />
+    <ClInclude Include="neural\Neural.h" />
+    <ClInclude Include="SimulationState.h" />
+    <ClInclude Include="sim\Car.h" />
+    <ClInclude Include="sim\model\CarModel.h" />
+    <ClInclude Include="sim\model\TrackModel.h" />
+    <ClInclude Include="sim\Simulator.h" />
+    <ClInclude Include="sim\Track.h" />
+    <ClInclude Include="sim\view\CarView.h" />
+    <ClInclude Include="sim\view\GridView.h" />
+    <ClInclude Include="sim\view\TrackView.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Readme.md" />
     <None Include=".gitignore" />
+    <None Include="Readme.md" />
+    <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
-    <None Include="res\models\spa_circuit.model" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="core\gfx\Program.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Car.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Simulator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Track.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\WindowState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulationState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\util\Util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\util\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\gfx\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\view\CarView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\view\GridView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\view\TrackView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\model\CarModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\model\TrackModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="neural\FixedNetwork.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="neural\Neural.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="neural\EvolvingNetwork.h">
-=======
-    <ClInclude Include="core\util\Random.h">
->>>>>>> 37f35dfd0477cee4a862dba14a63419c292637f7
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="neural\FixedNetworkXOR.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ using namespace std;
 */
 
 /** Constants */
-const int Inputs = 2;
+const int Inputs = 3; // Number of inputs + one bias. 
 const int Outputs = 1;
 
 const int Population = 300;
@@ -132,11 +132,9 @@ struct Pool {
     int currentFrame;
     float maxFitness;
 
-    int newInnovation() {
-        innovation++;
-        return innovation;
-    }
+    
 };
+
 
 Pool createPool() {
     Pool pool;
@@ -151,10 +149,20 @@ Pool createPool() {
     return pool;
 }
 
+
+Pool pool = createPool();
+
+int newInnovation() {
+    pool.innovation++;
+    return pool.innovation;
+}
+
 /** Generates a genomes neural net. */
 void generateNetwork(Genome& genome) {
     Network network;
-    network.neurons = new Neuron[genome.genes.size() + Inputs + Outputs];
+    network.neuron_count = genome.genes.size() + Inputs + Outputs;
+    network.neurons = new Neuron[network.neuron_count];
+   
     for (int i = 0; i < Inputs; i++) {
         network.neurons[i] = createNeuron();
     }
@@ -246,9 +254,183 @@ Genome crossover(Genome g1, Genome g2) {
     return child;
 }
 
+/** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/
+int randomNeuron(vector<Gene> genes, bool input) {
+    map<int, bool> neurons;
+    if (input) {
+        for (int i = 0; i < Inputs; i++) {
+            neurons[i] = true;
+        }
+    }
 
+    for (int i = 0; i < Outputs; i++) {
+        neurons[genes.size() + Inputs + i] = true;
+    }
 
-int main() {
-    cout << "Hello, World! " << sigmoid(-5.0f) << endl;
+    for (auto && g : genes) {
+        if (input || g.into > Inputs) {
+            neurons[g.into] = true;
+        }
+        if (input || g.out > Inputs) {
+            neurons[g.out] = true;
+        }
+    }
+    int n = rngi(neurons.size());
+
+    // Wtf? Returns the index of one of the neurons. 
+    for (auto && i : neurons) {
+        n--;
+        if (n == 0) {
+            return i.first;
+        }
+    }
+
     return 0;
+}
+
+bool containsLink(vector<Gene> genes , Gene link) {
+    for (auto && gene : genes) {
+        if (gene.into == link.into && gene.out == link.out) return true;
+    }
+    return false;
+}
+
+/** Mutates the weights of a genome, large chance that each weight will be slightly altered, small chance to reset*/
+void pointMutate(Genome& genome) {
+    float step = genome.mutationRates["step"];
+    for (auto && gene : genome.genes) {
+        if (rngf() < PerturbChance) {
+            gene.weight = gene.weight + rngf() * step * 2.0f - step;
+        }
+        else {
+            gene.weight = rngf() * 4.0f - 2.0f;
+        }
+    }
+
+}
+
+/** 
+* Add an edge to the network, there are many improvements to be made here.
+* The evolution process should speed up if the function allways mutates, ie. only generate valid mutations. 
+*/
+void linkMutate(Genome& genome, bool forceBias) { 
+    int neuron1 = randomNeuron(genome.genes, false);
+    int neuron2 = randomNeuron(genome.genes, true);
+    
+    Gene newLink = createGene();
+
+    // No links between input nodes.
+    if (neuron1 < Inputs && neuron2 < Inputs) return;
+    if (neuron2 < Inputs) { // No edges into the inputs.
+        int temp = neuron2;
+        neuron2 = neuron1;
+        neuron1 = temp;
+    }
+    newLink.into = neuron1;
+    newLink.out = neuron2;
+    if (forceBias) {
+        newLink.into = 0; // Changed the Bias node index to index 0.
+    }
+    // Dont add duplicates
+    if (containsLink(genome.genes, newLink)) return;
+
+    newLink.innovation = newInnovation();
+    newLink.weight = rngf() * 4.0f - 2.0f;
+    genome.genes.push_back(newLink);
+}
+
+/** Splits an edge into two. */
+void nodeMutate(Genome& genome) {
+    if (genome.genes.size() == 0) return;
+    genome.maxneuron++;
+    
+    Gene gene = genome.genes[rngi(genome.genes.size())];
+    if (!gene.enabled) return;
+    // disable the old link
+    gene.enabled = false;
+
+    // Add the two new links. 
+    Gene gene1 = gene;
+    gene1.out = genome.maxneuron;
+    gene1.weight = 1.0f;
+    gene1.innovation = newInnovation();
+    gene1.enabled = true;
+    genome.genes.push_back(gene1);
+
+    Gene gene2 = gene;
+    gene2.into = genome.maxneuron;
+    gene2.innovation = newInnovation();
+    gene2.enabled = true;
+    genome.genes.push_back(gene2);
+}
+
+void enableDisableMutate(Genome& genome, bool enable) {
+    vector<Gene&> candidates;
+    for (auto && i : genome.genes) {
+        if (i.enabled != enable) candidates.push_back(i);
+    }
+    if (candidates.size() == 0) return;
+
+    Gene& gene = candidates[rngi(candidates.size())];
+    gene.enabled = !gene.enabled;
+}
+/** Does all the mutation stuff */
+void mutate(Genome& genome) {
+    for (auto && i : genome.mutationRates) {
+        if (rngi(2) == 1) {
+            i.second *= 0.95f;
+        }
+        else {
+            i.second *= 1.05263f; // Magic numbers?
+        }
+    }
+
+    if (rngf() < genome.mutationRates["connections"]) {
+        pointMutate(genome);
+    }
+    {
+        float p = genome.mutationRates["link"];
+        while (p > 0.0f) {
+            if (rngf() < p) {
+                linkMutate(genome, false);
+            }
+            p -= 1.0f;
+        }
+    }
+    {
+        float p = genome.mutationRates["bias"];
+        while (p > 0.0f) {
+            if (rngf() < p) {
+                linkMutate(genome, true);
+            }
+            p -= 1.0f;
+        }
+    }
+    {
+        float p = genome.mutationRates["node"];
+        while (p > 0.0f) {
+            if (rngf() < p) {
+                nodeMutate(genome);
+            }
+            p -= 1.0f;
+        }
+    }
+    {
+        float p = genome.mutationRates["enable"];
+        while (p > 0.0f) {
+            if (rngf() < p) {
+                enableDisableMutate(genome, true);
+            }
+            p -= 1.0f;
+        }
+    }
+    {
+        float p = genome.mutationRates["disable"];
+        while (p > 0.0f) {
+            if (rngf() < p) {
+                enableDisableMutate(genome, false);
+            }
+            p -= 1.0f;
+        }
+    }
 }
