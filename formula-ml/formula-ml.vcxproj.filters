@@ -43,6 +43,9 @@
     <ClInclude Include="sim\view\CarView.h" />
     <ClInclude Include="sim\view\GridView.h" />
     <ClInclude Include="sim\view\TrackView.h" />
+    <ClInclude Include="external\include\GL\glew.h" />
+    <ClInclude Include="external\include\GL\glxew.h" />
+    <ClInclude Include="external\include\GL\wglew.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <core/util/Random.h>
+
 using namespace std;
 
 /**
@@ -17,21 +18,21 @@ const int Inputs = 3; // Number of inputs + one bias.
 const int Outputs = 1;
 
 const int Population = 300;
-const float DeltaDisjoint = 2.0;
-const float DeltaWeights = 0.4;
-const float DeltaThreshold = 1.0;
+const float DeltaDisjoint = 2.0f;
+const float DeltaWeights = 0.4f;
+const float DeltaThreshold = 1.0f;
 
 const int StaleSpecies = 15;
 
-const float MutateConnectionsChance = 0.25;
-const float PerturbChance = 0.90;
-const float CrossoverChance = 0.75;
-const float LinkMutationChance = 2.0;
-const float NodeMutationChance = 0.50;
-const float BiasMutationChance = 0.40;
-const float StepSize = 0.1;
-const float DisableMutationChance = 0.4;
-const float EnableMutationChance = 0.2;
+const float MutateConnectionsChance = 0.25f;
+const float PerturbChance = 0.90f;
+const float CrossoverChance = 0.75f;
+const float LinkMutationChance = 2.0f;
+const float NodeMutationChance = 0.50f;
+const float BiasMutationChance = 0.40f;
+const float StepSize = 0.1f;
+const float DisableMutationChance = 0.4f;
+const float EnableMutationChance = 0.2f;
 
 const int MaxNodes = 1000000;
 
@@ -130,9 +131,7 @@ struct Pool {
     int currentSpecies;
     int currentGenome;
     int currentFrame;
-    float maxFitness;
-
-    
+    float maxFitness;    
 };
 
 
@@ -148,7 +147,6 @@ Pool createPool() {
 
     return pool;
 }
-
 
 Pool pool = createPool();
 
@@ -306,7 +304,6 @@ void pointMutate(Genome& genome) {
             gene.weight = rngf() * 4.0f - 2.0f;
         }
     }
-
 }
 
 /** 
@@ -344,36 +341,39 @@ void nodeMutate(Genome& genome) {
     if (genome.genes.size() == 0) return;
     genome.maxneuron++;
     
-    Gene gene = genome.genes[rngi(genome.genes.size())];
-    if (!gene.enabled) return;
+    Gene* gene = &genome.genes[rngi(genome.genes.size())];
+    if (!gene->enabled) return;
     // disable the old link
-    gene.enabled = false;
+    gene->enabled = false;
 
     // Add the two new links. 
-    Gene gene1 = gene;
+    Gene gene1 = *gene;
     gene1.out = genome.maxneuron;
     gene1.weight = 1.0f;
     gene1.innovation = newInnovation();
     gene1.enabled = true;
     genome.genes.push_back(gene1);
 
-    Gene gene2 = gene;
+    Gene gene2 = *gene;
     gene2.into = genome.maxneuron;
     gene2.innovation = newInnovation();
     gene2.enabled = true;
     genome.genes.push_back(gene2);
+    
 }
 
 void enableDisableMutate(Genome& genome, bool enable) {
-    vector<Gene&> candidates;
-    for (auto && i : genome.genes) {
-        if (i.enabled != enable) candidates.push_back(i);
+    vector<Gene*> candidates;
+    for (int i = 0; i < genome.genes.size(); i++) {
+        Gene * gene = &genome.genes[i];
+        if (gene->enabled != enable) candidates.push_back(gene);
     }
     if (candidates.size() == 0) return;
 
-    Gene& gene = candidates[rngi(candidates.size())];
-    gene.enabled = !gene.enabled;
+    Gene* gene = candidates[rngi(candidates.size())];
+    gene->enabled = !gene->enabled;
 }
+
 /** Does all the mutation stuff */
 void mutate(Genome& genome) {
     for (auto && i : genome.mutationRates) {
@@ -434,3 +434,77 @@ void mutate(Genome& genome) {
         }
     }
 }
+
+float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
+    map<int, bool> i1, i2;
+
+    for (auto && gene : genes1) {
+        i1[gene.innovation] = true;
+    }
+    for (auto && gene : genes2) {
+        i1[gene.innovation] = true;
+    }
+
+    return 0.0f;
+}
+/*
+function disjoint(genes1, genes2)
+local i1 = {}
+for i = 1,#genes1 do
+local gene = genes1[i]
+i1[gene.innovation] = true
+end
+
+local i2 = {}
+for i = 1,#genes2 do
+local gene = genes2[i]
+i2[gene.innovation] = true
+end
+
+local disjointGenes = 0
+for i = 1,#genes1 do
+local gene = genes1[i]
+if not i2[gene.innovation] then
+disjointGenes = disjointGenes+1
+end
+end
+
+for i = 1,#genes2 do
+local gene = genes2[i]
+if not i1[gene.innovation] then
+disjointGenes = disjointGenes+1
+end
+end
+
+local n = math.max(#genes1, #genes2)
+
+return disjointGenes / n
+end
+
+function weights(genes1, genes2)
+local i2 = {}
+for i = 1,#genes2 do
+local gene = genes2[i]
+i2[gene.innovation] = gene
+end
+
+local sum = 0
+local coincident = 0
+for i = 1,#genes1 do
+local gene = genes1[i]
+if i2[gene.innovation] ~= nil then
+local gene2 = i2[gene.innovation]
+sum = sum + math.abs(gene.weight - gene2.weight)
+coincident = coincident + 1
+end
+end
+
+return sum / coincident
+end
+
+function sameSpecies(genome1, genome2)
+local dd = DeltaDisjoint*disjoint(genome1.genes, genome2.genes)
+local dw = DeltaWeights*weights(genome1.genes, genome2.genes)
+return dd + dw < DeltaThreshold
+end
+*/

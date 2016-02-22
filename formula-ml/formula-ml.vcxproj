@@ -73,7 +73,7 @@
     <LibraryPath>$(SolutionDir)/external/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\external\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\external\include;$(IncludePath);$(ProjectDir)</IncludePath>
     <LibraryPath>$(SolutionDir)/external/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -172,6 +172,9 @@
     <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowState.h" />
+    <ClInclude Include="external\include\GL\glew.h" />
+    <ClInclude Include="external\include\GL\glxew.h" />
+    <ClInclude Include="external\include\GL\wglew.h" />
     <ClInclude Include="neural\FixedNetwork.h" />
     <ClInclude Include="neural\FixedNetworkXOR.h" />
     <ClInclude Include="neural\EvolvingNetwork.h" />
