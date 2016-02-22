@@ -48,6 +48,8 @@ SimulationResult Simulator::run(const float dt) {
 void Simulator::update(float dt) {
 	// Update result
 	result.time_alive += dt;
+    result.distance_driven = car->distance_on_track;
+
 
     CarControl control = this->carUpdater();
 
@@ -66,7 +68,4 @@ void Simulator::update(float dt) {
     }
 
 	car->update(dt, control);
-    if (track->on_track(car->position)) {
-        // On model.
-    }
 }
