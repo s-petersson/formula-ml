@@ -25,4 +25,19 @@ The track is build up by connected triangulated quads. It is difficult to know f
  Note: Watch over the fact that the algorithm may traverse the track backwards. 
  
  Complexity: If add/read operation with highest complexity is O(x), the whole algorithm will be O(nx). If hash lists are used, then x is amortized O(1).
-    
+
+
+### Martin
+
+#### Fixed size neural networks.
+Implemented a fixed size neural network. Using such a network does not seem very promising however, because the number of connections is so large. In order to optimise or train the network we need to optimise the goal function where all the weights are seen as inputs. If we have a neural net with several nodes in each layer, and a couple of layers, and with a couple of hundred inputs the total number of weights will probably be in the thousands. Optimising a function with that many parameters will be slow. Thus I didn't continue with implementing a training algorithm for that network and helped the others with the simulator instead. 
+
+#### NEAT Algorithm & Implementation
+Later I started looking at the source code to an implementation of the NEAT algorithm. One key thing that is really smart with the NEAT algorithm is the representation of the knowledge model. The key is that the actual neural network that does the calculation of the function is separated from the knowledge representation itself, i.e. the evolutionary algorithm works with a representation of the networks that is convenient to modify. The networks that are used in the calculations are then constructed from the instances in the evolutionary algorithm. This leads to a network implementation that is quite minimal. 
+
+I also started to implement the algorithm in C++ based on the source code from the Super Mario bot. I simply started translating the lua script to a C++ equivalent without the domain specifics of that implementation. All concepts of the algorithm will be explained in detail in the source code, but it basically works as follows:
+
+The NEAT algorithm is an evolutionary neural network machine learning algorithm that is based on evolving the topology of the network as well as the weights within the network. 
+
+The algorithms works by applying slight mutations to a large population of Genomes, removing the ones that perform the worst. A genome can be seen as a specific DNA, or one individual or one neural network. A genome is basically a set of genes. A gene is a neural connection, an edge in the neural network. The actual nodes in the network are derived from the edges, ie if we have and edge from A to B we know that the nodes A and B must exist. 
+
