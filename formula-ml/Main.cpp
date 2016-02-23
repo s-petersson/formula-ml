@@ -2,17 +2,18 @@
 #include <neural/FixedNetwork.h>
 #include <core/Keyboard.h>
 #include "SimulationState.h"
+#include "NeatXOR.h"
 
 // 0 = Simulator with keyboard control
 // 1 = AI running the simulator
 // 2 = AI training
 // 3 = AI running XOR
-int EXPERIMENT = 0;
+int EXPERIMENT = 1;
 
 int main(void) {
-	Window * window = new Window;
-
+	
     if (EXPERIMENT == 0 || EXPERIMENT == 1) {
+        Window * window = new Window;
         Simulator * sim = new Simulator();
         // Create simulated objects
         // NOTE: Starting grid is at first "checkpoint". In order
@@ -103,6 +104,7 @@ int main(void) {
     } else if (EXPERIMENT == 2) {
         // Train the AI
     } else if (EXPERIMENT == 3) {
+        neatxor::train();
         // Run XOR experiment
     }
 

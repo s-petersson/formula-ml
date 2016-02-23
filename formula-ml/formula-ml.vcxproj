@@ -175,6 +175,7 @@
     <ClInclude Include="external\include\GL\glew.h" />
     <ClInclude Include="external\include\GL\glxew.h" />
     <ClInclude Include="external\include\GL\wglew.h" />
+    <ClInclude Include="NeatXOR.h" />
     <ClInclude Include="neural\FixedNetwork.h" />
     <ClInclude Include="neural\FixedNetworkXOR.h" />
     <ClInclude Include="neural\EvolvingNetwork.h" />

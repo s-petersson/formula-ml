@@ -1,3 +1,4 @@
+#include "NeatXOR.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -14,7 +15,7 @@ using namespace std;
 */
 
 /** Constants */
-const int Inputs = 3; // Number of inputs + one bias. 
+const int Inputs = 2; // No bias right now.
 const int Outputs = 1;
 
 const int Population = 300;
@@ -78,8 +79,9 @@ Neuron createNeuron() {
 
 /** A network is just a collection of Neurons. */
 struct Network {
-    Neuron* neurons;
-    int neuron_count;
+    //Neuron* neurons;
+    //int neuron_count;
+    map<int, Neuron> neurons;
 };
 
 /** A genome or set of genes is sort of a blueprint for a network. */
@@ -108,11 +110,12 @@ Genome createGenome() {
     return genome;
 }
 
+
 /** A species is a collection of related genomes. */
 struct Species {
     vector<Genome> genomes;
     float topFitness;
-    float staleness;
+    int staleness;
     float averageFitness;
 };
 
@@ -150,7 +153,7 @@ Pool createPool() {
     return pool;
 }
 
-Pool pool = createPool();
+Pool pool;
 
 int newInnovation() {
     pool.innovation++;
@@ -160,14 +163,14 @@ int newInnovation() {
 /** Generates a genomes neural net. */
 void generateNetwork(Genome& genome) {
     Network network;
-    network.neuron_count = genome.genes.size() + Inputs + Outputs;
-    network.neurons = new Neuron[network.neuron_count];
+    //network.neuron_count = genome.genes.size() + Inputs + Outputs;
+    //network.neurons = new Neuron[network.neuron_count];
    
-    for (int i = 0; i < Inputs; i++) {
+    for (int i = 1; i <= Inputs; i++) {
         network.neurons[i] = createNeuron();
     }
-    for (int i = 0; i < Outputs; i++) {
-        network.neurons[network.neuron_count - Outputs + i] = createNeuron();
+    for (int i = 1; i <= Outputs; i++) {
+        network.neurons[MaxNodes + i] = createNeuron();
     }
 
     sort(genome.genes.begin(), genome.genes.end(), [](Gene a, Gene b) {return a.out < b.out; });
@@ -203,20 +206,21 @@ void evaluateNetwork(Network network, float* inputs, int input_count, float* out
 
     // Fill the input nodes with values.
     for (int i = 0; i < Inputs; i++) {
-        network.neurons[i].value = inputs[i];
+        network.neurons[i+1].value = inputs[i];
     }
     // Calculate all the nodes, the sorting of the genes should!!! make this work.
-    for (int i = Inputs; i < network.neuron_count; i++) {
+    for (auto && node : network.neurons) {
         float sum = 0.0f;
-        for (auto && g : network.neurons[i].incoming) {
+        for (auto && g : node.second.incoming) {
             sum += g.weight * network.neurons[g.into].value;
         }
         // The "original" uses a > 0 check here before using the sigmoid function.
-        network.neurons[i].value = sigmoid(sum);
+        node.second.value = sigmoid(sum);
     }
 
-    for (int i = 0; i < Outputs; i++) {
-        outputs[i] = network.neurons[network.neuron_count - Outputs + i].value; // Might need to change the position of the outputs in the list.
+    for (int i = 1; i <= Outputs; i++) {
+        //outputs[i] = network.neurons[network.neuron_count - Outputs + i].value; // Might need to change the position of the outputs in the list.
+        outputs[i] = network.neurons[MaxNodes + i].value;
     }
 }
 
@@ -258,13 +262,14 @@ Genome crossover(Genome g1, Genome g2) {
 int randomNeuron(vector<Gene> genes, bool input) {
     map<int, bool> neurons;
     if (input) {
-        for (int i = 0; i < Inputs; i++) {
+        for (int i = 1; i <= Inputs; i++) {
             neurons[i] = true;
         }
     }
 
-    for (int i = 0; i < Outputs; i++) {
-        neurons[genes.size() + Inputs + i] = true;
+    for (int i = 1; i <= Outputs; i++) {
+        //neurons[genes.size() + Inputs + i] = true;
+        neurons[MaxNodes + i] = true;
     }
 
     for (auto && g : genes) {
@@ -327,9 +332,11 @@ void linkMutate(Genome& genome, bool forceBias) {
     }
     newLink.into = neuron1;
     newLink.out = neuron2;
+    /*
     if (forceBias) {
         newLink.into = 0; // Changed the Bias node index to index 0.
     }
+    */
     // Dont add duplicates
     if (containsLink(genome.genes, newLink)) return;
 
@@ -509,6 +516,7 @@ void calculateAverageFitness(Species& species) {
     species.averageFitness = total / species.genomes.size();
 }
 
+// Why not just averagefitness?
 float totalAverageFitness() {
     float total = 0.0f;
     for (const auto & s : pool.species) {
@@ -517,40 +525,175 @@ float totalAverageFitness() {
     return total;
 }
 
-/*
+void cullSpecies(bool cutToOne) {
+    for (auto && s : pool.species) {
+        sort(s.genomes.begin(), s.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
+        int remaining = s.genomes.size() / 2; // Cut half the population. 
+        if (cutToOne) remaining = 1;
+        s.genomes.erase(s.genomes.begin() + remaining, s.genomes.end());
+    }
+}
 
-function cullSpecies(cutToOne)
-for s = 1,#pool.species do
-local species = pool.species[s]
+Genome breedChild(Species& species) {
+    Genome child;
+    if (rngf() < CrossoverChance) {
+        Genome g1 = species.genomes[rngi(species.genomes.size())];
+        Genome g2 = species.genomes[rngi(species.genomes.size())];
+        child = crossover(g1, g2);
+    }
+    else {
+        child = species.genomes[rngi(species.genomes.size())];
+    }
+    mutate(child);
+    return child;
+}
 
-table.sort(species.genomes, function (a,b)
-return (a.fitness > b.fitness)
-end)
+void removeStaleSpecies() {
+    vector<Species> survived;
+    
+    for (int i = 0; i < pool.species.size(); i++) {
+        Species species = pool.species[i];
+        // Actually quite inefficient to actutally sort to find the max, better to just search.
+        sort(species.genomes.begin(), species.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
+        if (species.genomes[0].fitness > species.topFitness) {
+            species.topFitness = species.genomes[0].fitness;
+            species.staleness = 0;
+        }
+        else {
+            species.staleness++;
+        }
 
-local remaining = math.ceil(#species.genomes/2)
-if cutToOne then
-remaining = 1
-end
-while #species.genomes > remaining do
-table.remove(species.genomes)
-end
-end
-end
+        if (species.staleness < StaleSpecies || species.topFitness >= pool.maxFitness) {
+            survived.push_back(species);
+        }
+    }
+    pool.species = survived;
+}
 
-function breedChild(species)
-local child = {}
-if math.random() < CrossoverChance then
-g1 = species.genomes[math.random(1, #species.genomes)]
-g2 = species.genomes[math.random(1, #species.genomes)]
-child = crossover(g1, g2)
-else
-g = species.genomes[math.random(1, #species.genomes)]
-child = copyGenome(g)
-end
+void removeWeakSpecies() {
+    vector<Species> survived;
 
-mutate(child)
+    float sum = totalAverageFitness();
+    for (int i = 0; i < pool.species.size(); i++) {
+        Species species = pool.species[i];
+        // Actually quite inefficient to actutally sort to find the max, better to just search.
+        int breed = (int)glm::floor(species.averageFitness / sum * Population); // This is just weird, test whether this actually works.
+        if (breed >= 1) {
+            survived.push_back(species);
+        }
+    }
+    pool.species = survived;
+}
 
-return child
-end
+void addToSpecies(Genome child) {
+    bool foundSpecies = false;
+    for (auto && s : pool.species) {
+        if (sameSpecies(child, s.genomes[0])) {
+            s.genomes.push_back(child);
+            foundSpecies = true;
+            break;
+        }
+    }
 
-*/
+    if (!foundSpecies) {
+        Species childSpecies = createSpecies();
+        childSpecies.genomes.push_back(child);
+        pool.species.push_back(childSpecies);
+    }
+}
+
+Genome basicGenome() {
+    Genome genome = createGenome();
+    genome.maxneuron = Inputs;
+    mutate(genome);
+    return genome;
+}
+
+void newGeneration() {
+    cullSpecies(false);
+    rankGlobally();
+    removeStaleSpecies();
+    rankGlobally();
+
+    for (auto && s : pool.species) {
+        calculateAverageFitness(s);
+    }
+    removeWeakSpecies();
+    float sum = totalAverageFitness();
+    vector<Genome> children;
+    for (auto && s : pool.species) {
+        int breed = (int)glm::floor(s.averageFitness / sum * Population) - 1; // What is this for?
+        for (int i = 0; i < breed; i++) {
+            children.push_back(breedChild(s));
+        }
+    }
+    cullSpecies(true);
+
+    while (children.size() + pool.species.size() < Population) {
+        Species s = pool.species[rngi(pool.species.size())];
+        children.push_back(breedChild(s));
+    }
+    for (auto && i : children) {
+        addToSpecies(i);
+    }
+    pool.generation++;
+
+    // Write state to file to backup!!!!!  
+}
+
+void initializePool() {
+    pool = createPool();
+    for (int i = 0; i < Population; i++) {
+        addToSpecies(basicGenome());
+    }
+}
+
+void evaluateFitness(Genome& genome) {
+    float fitness = 0.0f;
+    float * inputs = new float[2];
+    float * outputs = new float[1];
+    generateNetwork(genome);
+    {
+        inputs[0] = 0.0f;
+        inputs[1] = 0.0f;
+        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+        fitness += (1.0f - outputs[0]);
+    }
+
+    {
+        inputs[0] = 0.0f;
+        inputs[1] = 1.0f;
+        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+        fitness += outputs[0];
+    }
+    {
+        inputs[0] = 1.0f;
+        inputs[1] = 0.0f;
+        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+        fitness += outputs[0];
+    }
+    {
+        inputs[0] = 1.0f;
+        inputs[1] = 1.0f;
+        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+        fitness += (1.0f - outputs[0]);
+    }
+    fitness = fitness * fitness;
+    cout << "Fitness: " << fitness << endl;
+    genome.fitness = fitness;
+    if (fitness > pool.maxFitness) pool.maxFitness = fitness;
+}
+
+
+void neatxor::train() {
+    initializePool();
+    cout << "Starting training" << endl;
+    while (true) {
+        for (auto && species : pool.species){
+            for (auto && genome : species.genomes) {
+                evaluateFitness(genome);
+            }
+        }
+        newGeneration();
+    }
+}
