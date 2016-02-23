@@ -50,6 +50,7 @@ struct Gene {
     float weight;
     bool enabled = true;
     int innovation = 0;
+    bool created = false;
 };
 
 Gene createGene() {
@@ -59,6 +60,7 @@ Gene createGene() {
     gene.weight = 0.0f;
     gene.enabled = true;
     gene.innovation = 0;
+    gene.created = true;
     return gene;
 }
 
@@ -444,67 +446,111 @@ float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
     for (auto && gene : genes2) {
         i1[gene.innovation] = true;
     }
+    int disjointGenes = 0;
 
-    return 0.0f;
+    for (auto && gene : genes1) {
+        if (!i2[gene.innovation]) disjointGenes++;
+    }
+
+
+    for (auto && gene : genes2) {
+        if (!i1[gene.innovation]) disjointGenes++;
+    }
+    int n = glm::max(genes1.size(), genes2.size());
+    return (float) disjointGenes / n;
 }
+
+float weights(vector<Gene> genes1, vector<Gene> genes2) {
+    map<int, Gene> i2;
+    for (auto && gene : genes2) {
+        i2[gene.innovation] = gene;
+    }
+    float sum = 0.0f;
+    int coincident = 0;
+
+    for (auto && gene : genes1) {
+        Gene gene2 = i2[gene.innovation];
+        if (gene2.created) {
+            sum += glm::abs(gene.weight - gene2.weight);
+            coincident++;
+        }
+    }
+
+    return sum / coincident;
+}
+
+bool sameSpecies(const Genome& genome1, const Genome& genome2) {
+    float dd = DeltaDisjoint*disjoint(genome1.genes, genome2.genes);
+    float dw = DeltaWeights*weights(genome1.genes, genome2.genes);
+    return dd + dw < DeltaThreshold;
+}
+
+// Assigns each genome its global rank. 
+void rankGlobally() {
+    vector<Genome*> global;
+    for (auto && s : pool.species) {
+        for (int i = 0; i < s.genomes.size(); i++) {
+            global.push_back(&s.genomes[i]);
+        }
+    }
+    sort(global.begin(), global.end(), [](Genome* g1, Genome* g2) {return g1->fitness < g2->fitness;});
+
+    for (int i = 0; i < global.size(); i++) {
+        global[i]->globalRank = i;
+    }
+}
+
+void calculateAverageFitness(Species& species) {
+    int total = 0;
+
+    for (const auto & genome : species.genomes) {
+        total += genome.globalRank;
+    }
+    species.averageFitness = total / species.genomes.size();
+}
+
+float totalAverageFitness() {
+    float total = 0.0f;
+    for (const auto & s : pool.species) {
+        total += s.averageFitness;
+    }
+    return total;
+}
+
 /*
-function disjoint(genes1, genes2)
-local i1 = {}
-for i = 1,#genes1 do
-local gene = genes1[i]
-i1[gene.innovation] = true
-end
 
-local i2 = {}
-for i = 1,#genes2 do
-local gene = genes2[i]
-i2[gene.innovation] = true
-end
+function cullSpecies(cutToOne)
+for s = 1,#pool.species do
+local species = pool.species[s]
 
-local disjointGenes = 0
-for i = 1,#genes1 do
-local gene = genes1[i]
-if not i2[gene.innovation] then
-disjointGenes = disjointGenes+1
+table.sort(species.genomes, function (a,b)
+return (a.fitness > b.fitness)
+end)
+
+local remaining = math.ceil(#species.genomes/2)
+if cutToOne then
+remaining = 1
+end
+while #species.genomes > remaining do
+table.remove(species.genomes)
+end
 end
 end
 
-for i = 1,#genes2 do
-local gene = genes2[i]
-if not i1[gene.innovation] then
-disjointGenes = disjointGenes+1
-end
-end
-
-local n = math.max(#genes1, #genes2)
-
-return disjointGenes / n
-end
-
-function weights(genes1, genes2)
-local i2 = {}
-for i = 1,#genes2 do
-local gene = genes2[i]
-i2[gene.innovation] = gene
+function breedChild(species)
+local child = {}
+if math.random() < CrossoverChance then
+g1 = species.genomes[math.random(1, #species.genomes)]
+g2 = species.genomes[math.random(1, #species.genomes)]
+child = crossover(g1, g2)
+else
+g = species.genomes[math.random(1, #species.genomes)]
+child = copyGenome(g)
 end
 
-local sum = 0
-local coincident = 0
-for i = 1,#genes1 do
-local gene = genes1[i]
-if i2[gene.innovation] ~= nil then
-local gene2 = i2[gene.innovation]
-sum = sum + math.abs(gene.weight - gene2.weight)
-coincident = coincident + 1
-end
+mutate(child)
+
+return child
 end
 
-return sum / coincident
-end
-
-function sameSpecies(genome1, genome2)
-local dd = DeltaDisjoint*disjoint(genome1.genes, genome2.genes)
-local dw = DeltaWeights*weights(genome1.genes, genome2.genes)
-return dd + dw < DeltaThreshold
-end
 */
