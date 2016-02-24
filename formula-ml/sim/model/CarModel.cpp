@@ -30,6 +30,9 @@ CarModel::~CarModel() {
 float inline CarModel::getSpeed() {
 	return glm::length(velocity);
 }
+void CarModel::setSpeed(float speed) {
+	velocity = speed * direction;
+}
 
 Model* CarModel::get_model() {
     return model;
