@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <set>
 #include <map>
 #include <string>
 #include <algorithm>
@@ -15,20 +16,20 @@ using namespace std;
 */
 
 /** Constants */
-const int Inputs = 2; // No bias right now.
+const int Inputs = 3; // 2 + 1 bias
 const int Outputs = 1;
 
-const int Population = 10;
+const int Population = 100;
 const float DeltaDisjoint = 2.0f;
 const float DeltaWeights = 0.4f;
 const float DeltaThreshold = 1.0f;
 
-const int StaleSpecies = 15;
+const int StaleSpecies = 10;
 
 const float MutateConnectionsChance = 0.25f;
 const float PerturbChance = 0.90f;
 const float CrossoverChance = 0.75f;
-const float LinkMutationChance = 2.0f;
+const float LinkMutationChance = 0.5f;
 const float NodeMutationChance = 0.50f;
 const float BiasMutationChance = 0.40f;
 const float StepSize = 0.1f;
@@ -40,7 +41,8 @@ const int MaxNodes = 1000000;
 
 /** Sigmoid function */
 float sigmoid(float x) {
-    return 2.0f / (1.0f + glm::exp(-4.9f * x)) - 1.0f;
+    //return 2.0f / (1.0f + glm::exp(-4.9f * x)) - 1.0f;
+    return 1.0f / (1.0f + glm::exp(-2.0f*x));
 }
 
 /** Data types */
@@ -261,6 +263,28 @@ Genome crossover(Genome g1, Genome g2) {
 
 /** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/
 int randomNeuron(vector<Gene> genes, bool input) {
+    set<int> neurons;
+
+    if (input) {
+        for (int i = 1; i <= Inputs; i++) {
+            neurons.insert(i);
+        }
+    }
+    for (int i = 1; i <= Outputs; i++) {
+        neurons.insert(MaxNodes + i);
+    }
+
+    for (auto && gene : genes) {
+        if (gene.into > Inputs) neurons.insert(gene.into);
+        neurons.insert(gene.out);
+    }
+    int i = rngi(neurons.size());
+    for (auto && v : neurons) {
+        if (i == 0) return v;
+        i--;
+    }
+    return *neurons.end(); // should never occur
+    /*
     map<int, bool> neurons;
     if (input) {
         for (int i = 1; i <= Inputs; i++) {
@@ -291,7 +315,7 @@ int randomNeuron(vector<Gene> genes, bool input) {
         }
     }
 
-    return 0;
+    return 0;*/
 }
 
 bool containsLink(vector<Gene> genes , Gene link) {
@@ -333,18 +357,18 @@ void linkMutate(Genome& genome, bool forceBias) {
     }
     newLink.into = neuron1;
     newLink.out = neuron2;
-    /*
+    
     if (forceBias) {
-        newLink.into = 0; // Changed the Bias node index to index 0.
+        newLink.into = Inputs; // Changed the Bias node index to index 0.
     }
-    */
+    
     // Dont add duplicates
     if (containsLink(genome.genes, newLink)) return;
 
     newLink.innovation = newInnovation();
     newLink.weight = rngf() * 4.0f - 2.0f;
 
-    cout << "NEW LINK " << newLink.into << " -> " << newLink.out << endl;
+    //cout << "NEW LINK " << newLink.into << " -> " << newLink.out << endl;
     genome.genes.push_back(newLink);
 }
 
@@ -454,7 +478,7 @@ float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
         i1[gene.innovation] = true;
     }
     for (auto && gene : genes2) {
-        i1[gene.innovation] = true;
+        i2[gene.innovation] = true;
     }
     int disjointGenes = 0;
 
@@ -476,13 +500,13 @@ float weights(vector<Gene> genes1, vector<Gene> genes2) {
         i2[gene.innovation] = gene;
     }
     float sum = 0.0f;
-    int coincident = 0;
+    float coincident = 0.0f;
 
     for (auto && gene : genes1) {
         Gene gene2 = i2[gene.innovation];
         if (gene2.created) {
             sum += glm::abs(gene.weight - gene2.weight);
-            coincident++;
+            coincident += 1.0f;
         }
     }
 
@@ -492,7 +516,7 @@ float weights(vector<Gene> genes1, vector<Gene> genes2) {
 bool sameSpecies(const Genome& genome1, const Genome& genome2) {
     float dd = DeltaDisjoint*disjoint(genome1.genes, genome2.genes);
     float dw = DeltaWeights*weights(genome1.genes, genome2.genes);
-    return dd + dw < DeltaThreshold;
+    return (dd + dw) < DeltaThreshold;
 }
 
 // Assigns each genome its global rank. 
@@ -595,6 +619,7 @@ void addToSpecies(Genome child) {
     bool foundSpecies = false;
     for (auto && s : pool.species) {
         if (sameSpecies(child, s.genomes[0])) {
+            //cout << "Found species!" << endl;
             s.genomes.push_back(child);
             foundSpecies = true;
             break;
@@ -656,46 +681,62 @@ void initializePool() {
 
 void evaluateFitness(Genome& genome) {
     float fitness = 0.0f;
-    float * inputs = new float[2];
+    float * inputs = new float[3];
     float * outputs = new float[1];
     generateNetwork(genome);
+    float o1, o2, o3, o4;
+    inputs[2] = 1.0f;
+    float distance = 0.0f;
     
-        inputs[0] = 0.0f;
-        inputs[1] = 0.0f;
-        outputs[0] = 0.0f;
-        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
-        fitness += (1.0f - outputs[0]);
-        cout << outputs[0];
+    inputs[0] = 0.0f;
+    inputs[1] = 0.0f;
+    outputs[0] = 0.0f;
+    evaluateNetwork(genome.network, inputs, 3, outputs, 1);
+    o1 = outputs[0];
+    distance += o1;
+    //cout << outputs[0];
 
-        inputs[0] = 0.0f;
-        inputs[1] = 1.0f;
-        outputs[0] = 0.0f;
-        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
-        fitness += outputs[0];
-        cout << outputs[0];
+    inputs[0] = 0.0f;
+    inputs[1] = 1.0f;
+    outputs[0] = 0.0f;
+    evaluateNetwork(genome.network, inputs, 3, outputs, 1);
+    o2 = outputs[0];
+    distance += glm::abs(1.0f - o2);
+    //cout << outputs[0];
 
-        inputs[0] = 1.0f;
-        inputs[1] = 0.0f;
-        outputs[0] = 0.0f;
-        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
-        fitness += outputs[0];
-        cout << outputs[0];
+    inputs[0] = 1.0f;
+    inputs[1] = 0.0f;
+    outputs[0] = 0.0f;
+    evaluateNetwork(genome.network, inputs, 3, outputs, 1);
+    o3 = outputs[0];
+    distance += glm::abs(1.0f - o3);
+    //cout << outputs[0];
 
-        inputs[0] = 1.0f;
-        inputs[1] = 1.0f;
-        outputs[0] = 0.0f;
-        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
-        fitness += (1.0f - outputs[0]);
-        cout << outputs[0] << endl;
+    inputs[0] = 1.0f;
+    inputs[1] = 1.0f;
+    outputs[0] = 0.0f;
+    evaluateNetwork(genome.network, inputs, 3, outputs, 1);
+    o4 = outputs[0];
+    distance += o4;
+    //cout << outputs[0] << endl;
 
-    fitness = fitness * fitness;
+    fitness = (4.0f - distance);
+    fitness *= fitness;
     //cout << "Genome #" << genome.genes.size() << "Fitness: " << fitness << endl;
     genome.fitness = fitness;
-    if (fitness > pool.maxFitness) pool.maxFitness = fitness;
+    if (fitness > pool.maxFitness) {
+        pool.maxFitness = fitness;
+        cout << "New maximum fitness: " << fitness << endl;
+        cout << "Outputs : " << o1 << " " << o2 << " " << o3 << " " << o4 << endl;
+    }
 }
 
 
 void neatxor::train() {
+    for (int i = 0; i < 10; i++) {
+        cout << rngi(100) << endl;
+    }
+    
     /*
     float* inputs = new float[2];
     float* outputs = new float[1];
@@ -720,5 +761,6 @@ void neatxor::train() {
             }
         }
         newGeneration();
+        cout << "New generation. Number of species: " << pool.species.size() << endl;
     }
 }

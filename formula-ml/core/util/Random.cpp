@@ -3,7 +3,8 @@
 
 using namespace std;
 
-default_random_engine generator;
+//default_random_engine generator;
+random_device generator;
 uniform_real_distribution<float> real_distribution;
 
 float rngf() {

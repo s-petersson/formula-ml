@@ -8,7 +8,7 @@
 // 1 = AI running the simulator
 // 2 = AI training
 // 3 = AI running XOR
-int EXPERIMENT = 1;
+int EXPERIMENT = 3;
 
 int main(void) {
 	
