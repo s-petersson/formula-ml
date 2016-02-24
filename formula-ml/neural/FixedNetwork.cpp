@@ -86,3 +86,53 @@ int FixedNetwork::inputSize() {
 int FixedNetwork::outputSize() {
     return output_size;
 }
+
+
+bool FixedNetwork::set_input_weight(int from, int to, float value) {
+	if (from < input_size && from >= 0
+			&& to < hidden_layer_size && to >= 0) {
+		input_weights[(to * input_size) + from] = value;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool FixedNetwork::set_hidden_weight(int from, int to, int layer, float value) {
+	if (from < hidden_layer_size && from >= 0
+			&& to < hidden_layer_size && to >= 0
+			&& layer < hidden_layer_count && layer >= 0) {
+		int current = layer * hidden_layer_size + to;
+		int in = (layer - 1) * hidden_layer_size + from;
+		hidden_weights[(current * hidden_layer_size) + in] = value;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool FixedNetwork::set_output_weight(int from, int to, float value) {
+	if (from < hidden_layer_size && from >= 0
+			&& to < output_size && to >= 0) {
+		output_weights[(to * hidden_layer_size) + from] = value;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+float FixedNetwork::get_input_weight(int from, int to) {
+	return input_weights[(to * input_size) + from];
+}
+
+float FixedNetwork::get_hidden_weight(int from, int to, int layer) {
+	int current = layer * hidden_layer_size + to;
+	int in = (layer - 1) * hidden_layer_size + from;
+	return hidden_weights[(current * hidden_layer_size) + in];
+}
+
+float FixedNetwork::get_output_weight(int from, int to) {
+	return output_weights[(to * hidden_layer_size) + from];
+}

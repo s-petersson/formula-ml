@@ -16,6 +16,14 @@ namespace neural {
         virtual int inputSize();
         virtual int outputSize();
 
+		bool set_input_weight(int from, int to, float value);
+		bool set_hidden_weight(int from, int to, int layer, float value);
+		bool set_output_weight(int from, int to, float value);
+
+		float get_input_weight(int from, int to);
+		float get_hidden_weight(int from, int to, int layer);
+		float get_output_weight(int from, int to);
+
     private:
         int input_size;
         int output_size;
