@@ -1,5 +1,6 @@
 #include <core/Window.h>
 #include <neural/FixedNetwork.h>
+#include <neural/FixedNetworkTrainer.h>
 #include <core/Keyboard.h>
 #include "SimulationState.h"
 #include "NeatXOR.h"
@@ -9,6 +10,7 @@
 // 2 = AI training
 // 3 = AI running XOR
 int EXPERIMENT = 1;
+// 4 = AI training, compare to mid line, fixed topology, fixed speed
 
 int main(void) {
 	
@@ -106,7 +108,10 @@ int main(void) {
     } else if (EXPERIMENT == 3) {
         neatxor::train();
         // Run XOR experiment
-    }
+	} else if (EXPERIMENT == 4) {
+		//AI training, compare to mid line, fixed topology, fixed speed
+		neural::FixedNetworkTrainer().run();
+	}
 
 	return 0;
 }
