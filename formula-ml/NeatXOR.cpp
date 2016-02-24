@@ -18,7 +18,7 @@ using namespace std;
 const int Inputs = 2; // No bias right now.
 const int Outputs = 1;
 
-const int Population = 300;
+const int Population = 10;
 const float DeltaDisjoint = 2.0f;
 const float DeltaWeights = 0.4f;
 const float DeltaThreshold = 1.0f;
@@ -33,6 +33,7 @@ const float NodeMutationChance = 0.50f;
 const float BiasMutationChance = 0.40f;
 const float StepSize = 0.1f;
 const float DisableMutationChance = 0.4f;
+
 const float EnableMutationChance = 0.2f;
 
 const int MaxNodes = 1000000;
@@ -210,17 +211,17 @@ void evaluateNetwork(Network network, float* inputs, int input_count, float* out
     }
     // Calculate all the nodes, the sorting of the genes should!!! make this work.
     for (auto && node : network.neurons) {
-        float sum = 0.0f;
         for (auto && g : node.second.incoming) {
-            sum += g.weight * network.neurons[g.into].value;
+            node.second.value += g.weight * network.neurons[g.into].value;
         }
         // The "original" uses a > 0 check here before using the sigmoid function.
-        node.second.value = sigmoid(sum);
+        node.second.value = sigmoid(node.second.value);
     }
 
-    for (int i = 1; i <= Outputs; i++) {
+    for (int i = 0; i < Outputs; i++) {
         //outputs[i] = network.neurons[network.neuron_count - Outputs + i].value; // Might need to change the position of the outputs in the list.
-        outputs[i] = network.neurons[MaxNodes + i].value;
+        outputs[i] = network.neurons[MaxNodes + i + 1].value;
+        //outputs[i] = 7.0f;
     }
 }
 
@@ -318,8 +319,8 @@ void pointMutate(Genome& genome) {
 * The evolution process should speed up if the function allways mutates, ie. only generate valid mutations. 
 */
 void linkMutate(Genome& genome, bool forceBias) { 
-    int neuron1 = randomNeuron(genome.genes, false);
-    int neuron2 = randomNeuron(genome.genes, true);
+    int neuron1 = randomNeuron(genome.genes, true);
+    int neuron2 = randomNeuron(genome.genes, false);
     
     Gene newLink = createGene();
 
@@ -342,6 +343,8 @@ void linkMutate(Genome& genome, bool forceBias) {
 
     newLink.innovation = newInnovation();
     newLink.weight = rngf() * 4.0f - 2.0f;
+
+    cout << "NEW LINK " << newLink.into << " -> " << newLink.out << endl;
     genome.genes.push_back(newLink);
 }
 
@@ -528,9 +531,9 @@ float totalAverageFitness() {
 void cullSpecies(bool cutToOne) {
     for (auto && s : pool.species) {
         sort(s.genomes.begin(), s.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
-        int remaining = s.genomes.size() / 2; // Cut half the population. 
-        if (cutToOne) remaining = 1;
-        s.genomes.erase(s.genomes.begin() + remaining, s.genomes.end());
+        int remove = s.genomes.size() / 2; // Cut half the population. 
+        if (cutToOne) remove = s.genomes.size() - 1;
+        s.genomes.erase(s.genomes.end() - remove, s.genomes.end());
     }
 }
 
@@ -551,8 +554,11 @@ Genome breedChild(Species& species) {
 void removeStaleSpecies() {
     vector<Species> survived;
     
-    for (int i = 0; i < pool.species.size(); i++) {
-        Species species = pool.species[i];
+    for (auto && species : pool.species) {
+        if (species.genomes.size() == 0) {
+            cout << "Empty species" << endl;
+            continue;
+        }
         // Actually quite inefficient to actutally sort to find the max, better to just search.
         sort(species.genomes.begin(), species.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
         if (species.genomes[0].fitness > species.topFitness) {
@@ -614,11 +620,11 @@ void newGeneration() {
     rankGlobally();
     removeStaleSpecies();
     rankGlobally();
-
     for (auto && s : pool.species) {
         calculateAverageFitness(s);
     }
     removeWeakSpecies();
+    
     float sum = totalAverageFitness();
     vector<Genome> children;
     for (auto && s : pool.species) {
@@ -628,7 +634,6 @@ void newGeneration() {
         }
     }
     cullSpecies(true);
-
     while (children.size() + pool.species.size() < Population) {
         Species s = pool.species[rngi(pool.species.size())];
         children.push_back(breedChild(s));
@@ -646,6 +651,7 @@ void initializePool() {
     for (int i = 0; i < Population; i++) {
         addToSpecies(basicGenome());
     }
+    cout << "Number of species" << pool.species.size() << endl;
 }
 
 void evaluateFitness(Genome& genome) {
@@ -653,41 +659,60 @@ void evaluateFitness(Genome& genome) {
     float * inputs = new float[2];
     float * outputs = new float[1];
     generateNetwork(genome);
-    {
+    
         inputs[0] = 0.0f;
         inputs[1] = 0.0f;
+        outputs[0] = 0.0f;
         evaluateNetwork(genome.network, inputs, 2, outputs, 1);
         fitness += (1.0f - outputs[0]);
-    }
+        cout << outputs[0];
 
-    {
         inputs[0] = 0.0f;
         inputs[1] = 1.0f;
+        outputs[0] = 0.0f;
         evaluateNetwork(genome.network, inputs, 2, outputs, 1);
         fitness += outputs[0];
-    }
-    {
+        cout << outputs[0];
+
         inputs[0] = 1.0f;
         inputs[1] = 0.0f;
+        outputs[0] = 0.0f;
         evaluateNetwork(genome.network, inputs, 2, outputs, 1);
         fitness += outputs[0];
-    }
-    {
+        cout << outputs[0];
+
         inputs[0] = 1.0f;
         inputs[1] = 1.0f;
+        outputs[0] = 0.0f;
         evaluateNetwork(genome.network, inputs, 2, outputs, 1);
         fitness += (1.0f - outputs[0]);
-    }
+        cout << outputs[0] << endl;
+
     fitness = fitness * fitness;
-    cout << "Fitness: " << fitness << endl;
+    //cout << "Genome #" << genome.genes.size() << "Fitness: " << fitness << endl;
     genome.fitness = fitness;
     if (fitness > pool.maxFitness) pool.maxFitness = fitness;
 }
 
 
 void neatxor::train() {
+    /*
+    float* inputs = new float[2];
+    float* outputs = new float[1];
+    Genome genome = createGenome();
+    Gene gene = createGene();
+    gene.into = 1;
+    gene.out = MaxNodes + 1;
+    
+    gene.weight = 5.0f;
+    genome.genes.push_back(gene);
+    generateNetwork(genome);
+    cout << genome.network.neurons[MaxNodes + 1].incoming.size() << endl;
+    inputs[0] = 5.0f;
+    evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+    cout << outputs[0] << endl;
+    while (true);*/
     initializePool();
-    cout << "Starting training" << endl;
     while (true) {
         for (auto && species : pool.species){
             for (auto && genome : species.genomes) {
