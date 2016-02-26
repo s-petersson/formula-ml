@@ -11,6 +11,13 @@ Simulator::Simulator() {
 Simulator::~Simulator() {
 }
 
+float Simulator::distance_to_middle() {
+    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].middle - track->get_checkpoints()[car->checkpoint - 1].middle);
+    glm::vec3 car_pos = car->position - track->get_checkpoints()[car->checkpoint - 1].middle;
+    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
+    return glm::dot(car_pos, right);
+}
+
 /*
 	Run a complete simulation until failure
 	Each simulation step update with time dt

@@ -125,7 +125,6 @@ int main(void) {
 
         trainer.buildNetwork(trainer.bestGenome);
 
-
         Window * window = new Window;
         Simulator * sim = new Simulator();
         // Create simulated objects
@@ -167,7 +166,6 @@ int main(void) {
         delete window;
         delete sim;
         delete network_indata.values;
-        
 	}
 
 	return 0;

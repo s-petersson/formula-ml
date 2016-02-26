@@ -29,6 +29,8 @@ public:
 	// Readable by user:
 	SimulationResult result;
 
+	float distance_to_middle();
+
 private:
 };
 #endif

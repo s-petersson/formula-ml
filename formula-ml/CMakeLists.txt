@@ -21,6 +21,7 @@ add_executable(formula_ml
         core/gfx/Program.cpp
         core/util/Camera.cpp
         core/util/Util.cpp
+        core/util/Random.cpp
         core/gfx/Model.cpp
         sim/view/CarView.cpp
         sim/model/CarModel.cpp
@@ -29,6 +30,10 @@ add_executable(formula_ml
         sim/view/GridView.cpp
         neural/FixedNetwork.cpp
         neural/Neural.h
+        neural/EvolvingNetwork.cpp
+        neural/FixedNetworkTrainer.cpp
+        neural/FixedNetworkXOR.cpp
+        NeatXOR.cpp
         )
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

@@ -97,7 +97,7 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
             }
         }
     }
-	/**/
+	/*
 	fillTrackGridCounter++;
 	if (fillTrackGridCounter % 12 == 0) {
         // Print the track

@@ -26,7 +26,7 @@ void FixedNetworkTrainer::run() {
     FixedNetworkGenome genome = FixedNetworkGenome();
 
     int gene_steps = 3;
-    // total number of iterations: gene_steps ^ size(genome). 
+    // total number of iterations: gene_steps ^ size(genome).
     // gene_steps. 2^6=64, 3^6=729, 4^6=4096, 5^6=15 625, 6^6=46 656, 7^6=117 649, 8^6=262 144, 9^6=531 441, 10^6=1 000 000
 
     enumerate(genome, 6, gene_steps);
@@ -136,9 +136,11 @@ void FixedNetworkTrainer::setLineData(NetworkIO* network_indata, int offset, Car
     car_position -= last_checkpoint;
     glm::vec3 next_checkpoint_normalized = glm::normalize(next_checkpoint);
 
-    // Find distance to line
-    float projected_distance_on_line = glm::dot(car_position, next_checkpoint_normalized);
-    float distance_to_line = glm::length(car_position - (projected_distance_on_line * next_checkpoint_normalized));
+//    float distance_to_line = car->distance_to_middle();
+    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].middle - track->get_checkpoints()[car->checkpoint - 1].middle);
+    glm::vec3 car_pos = car->position - track->get_checkpoints()[car->checkpoint - 1].middle;
+    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
+    float distance_to_line = glm::dot(car_pos, right);
 
     // Find angle to line
     //float angle_to_line = glm::angle(next_checkpoint, sim->car->direction);

@@ -27,6 +27,7 @@ CarModel::CarModel() {
 CarModel::~CarModel() {
 
 }
+
 float CarModel::getSpeed() {
 	return glm::length(velocity);
 }
@@ -41,7 +42,7 @@ void smoothChange(float* value, float new_value, float dt, float value_range) {
     const float max_change_time = 0.35f;
     const float max_change = dt * value_range / max_change_time;
     float change = new_value - *value;
-    *value += change >= 0 ? min(change, max_change) : max(change, -max_change);
+    *value += change >= 0 ? glm::min(change, max_change) : glm::max(change, -max_change);
 }
 
 void CarModel::update(float dt, struct CarControl control) {
