@@ -1,3 +1,4 @@
+#include <iostream>
 #include <core/Window.h>
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>
@@ -9,8 +10,8 @@
 // 1 = AI running the simulator
 // 2 = AI training
 // 3 = AI running XOR
-int EXPERIMENT = 1;
 // 4 = AI training, compare to mid line, fixed topology, fixed speed
+int EXPERIMENT = 4;
 
 int main(void) {
 	
@@ -110,7 +111,51 @@ int main(void) {
         // Run XOR experiment
 	} else if (EXPERIMENT == 4) {
 		//AI training, compare to mid line, fixed topology, fixed speed
-		neural::FixedNetworkTrainer().run();
+        neural::FixedNetworkTrainer trainer = neural::FixedNetworkTrainer();
+        trainer.run();
+
+        trainer.buildNetwork(trainer.bestGenome);
+
+
+        Window * window = new Window;
+        Simulator * sim = new Simulator();
+        // Create simulated objects
+        // NOTE: Starting grid is at first "checkpoint". In order
+        //       to change this, offset the checkpoint order.
+        sim->track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+        sim->car = new CarModel();
+
+        // Place car at the tracks starting grid.
+        sim->car->position = sim->track->get_start_grid_pos();
+        sim->car->setSpeed(15.f);
+        sim->progress_timeout = 0.1f;
+
+        // Define struct for ai indata
+        neural::NetworkIO network_indata = neural::NetworkIO();
+        network_indata.value_count = 2;
+        network_indata.values = new float[network_indata.value_count];
+
+        sim->carUpdater = [&]() {
+            trainer.setLineData(&network_indata, 0, sim->car, sim->track);
+
+            neural::NetworkIO output = trainer.network->fire(network_indata);
+
+            CarControl control = trainer.makeCarControl(output);
+            
+            //cout << control.steer << "\n";
+
+            return control;
+        };
+
+
+        SimulationState * s = new SimulationState(sim);
+        window->setState(s);
+        window->run();
+
+        delete window;
+        delete sim;
+        delete network_indata.values;
+        
 	}
 
 	return 0;
