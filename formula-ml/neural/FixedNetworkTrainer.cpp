@@ -114,7 +114,7 @@ SimulationResult FixedNetworkTrainer::runSimulation(neural::Network* network, Tr
 	network_indata.values = new float[network_indata.value_count];
     NetworkIO output;
     sim->carUpdater = [&]() {
-        setLineData(&network_indata, 0, sim->car, sim->track);
+        setLineData(&network_indata, 0, sim);
         network->fire(network_indata, output);
         return makeCarControl(output);
     };
@@ -126,30 +126,9 @@ SimulationResult FixedNetworkTrainer::runSimulation(neural::Network* network, Tr
 	return result;
 }
 
-void FixedNetworkTrainer::setLineData(NetworkIO* network_indata, int offset, CarModel* car, TrackModel* track) {
-    glm::vec3 last_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint - 1, 0)].middle;
-    glm::vec3 next_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint, 0)].middle;
-    glm::vec3 car_position = car->position;
-
-    // move frame of reference to last_checkpoint
-    next_checkpoint -= last_checkpoint;
-    car_position -= last_checkpoint;
-    glm::vec3 next_checkpoint_normalized = glm::normalize(next_checkpoint);
-
-//    float distance_to_line = car->distance_to_middle();
-    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].middle - track->get_checkpoints()[car->checkpoint - 1].middle);
-    glm::vec3 car_pos = car->position - track->get_checkpoints()[car->checkpoint - 1].middle;
-    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
-    float distance_to_line = glm::dot(car_pos, right);
-
-    // Find angle to line
-    //float angle_to_line = glm::angle(next_checkpoint, sim->car->direction);
-    float angle_to_line = glm::acos(glm::dot(next_checkpoint, car->direction) / glm::length(next_checkpoint) * glm::length(car->direction));
-    if (glm::cross(glm::vec3(0, 1, 0), car->direction).z > 0)
-        angle_to_line = -angle_to_line;
-
-    network_indata->values[offset] = distance_to_line;
-    network_indata->values[offset + 1] = angle_to_line;
+void FixedNetworkTrainer::setLineData(NetworkIO* network_indata, int offset, Simulator* sim) {
+    network_indata->values[offset] = sim->distance_to_middle();
+    network_indata->values[offset + 1] = sim->angle_to_line();
 }
 
 float span(float stochastic, float from, float to) {

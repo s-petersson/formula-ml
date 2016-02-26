@@ -23,7 +23,7 @@ namespace neural {
         SimulationResult testGenome(FixedNetworkGenome& genome);
         void enumerate(FixedNetworkGenome& genome, int number_of_genes, int gene_steps);
         CarControl makeCarControl(NetworkIO output);
-        void setLineData(NetworkIO* network_indata, int offset, CarModel* car, TrackModel* track);
+        void setLineData(NetworkIO* network_indata, int offset, Simulator* sim);
 
         SimulationResult runSimulation(Network* network, TrackModel* track);
         FixedNetwork* network;

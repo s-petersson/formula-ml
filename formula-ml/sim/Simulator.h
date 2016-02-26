@@ -29,7 +29,8 @@ public:
 	// Readable by user:
 	SimulationResult result;
 
-	float distance_to_middle();
+    float distance_to_middle();
+    float angle_to_line();
 
 private:
 };
