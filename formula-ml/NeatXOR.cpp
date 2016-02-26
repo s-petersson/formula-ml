@@ -16,7 +16,7 @@ using namespace std;
 */
 
 /** Constants */
-const int Inputs = 3; // 2 + 1 bias
+const int Inputs = 2; // 2 + 1 bias
 const int Outputs = 1;
 
 const int Population = 100;
@@ -24,7 +24,7 @@ const float DeltaDisjoint = 2.0f;
 const float DeltaWeights = 0.4f;
 const float DeltaThreshold = 1.0f;
 
-const int StaleSpecies = 10;
+const int StaleSpecies = 15;
 
 const float MutateConnectionsChance = 0.25f;
 const float PerturbChance = 0.90f;
@@ -41,8 +41,8 @@ const int MaxNodes = 1000000;
 
 /** Sigmoid function */
 float sigmoid(float x) {
-    //return 2.0f / (1.0f + glm::exp(-4.9f * x)) - 1.0f;
-    return 1.0f / (1.0f + glm::exp(-2.0f*x));
+    return 2.0f / (1.0f + glm::exp(-4.9f * x)) - 1.0f;
+    //return 1.0f / (1.0f + glm::exp(-2.0f*x));
 }
 
 /** Data types */
@@ -72,11 +72,13 @@ Gene createGene() {
 struct Neuron {
     vector<Gene> incoming;
     float value = 0.0f;
+    bool created = false;
 };
 
 Neuron createNeuron() {
     Neuron neuron;
     neuron.value = 0.0f;
+    neuron.created = true;
     return neuron;
 }
 
@@ -181,7 +183,11 @@ void generateNetwork(Genome& genome) {
     for (int i = 0; i < genome.genes.size(); i++) {
         Gene g = genome.genes[i];
         if (g.enabled) {
+            /*
             if (network.neurons[g.out].incoming.size() == 0) { // 0 check will probably be iffy, maybe use pointers or flags instead? Or maybe set memory values.
+                network.neurons[g.out] = createNeuron();
+            }*/
+            if (!network.neurons[g.out].created) {
                 network.neurons[g.out] = createNeuron();
             }
 
@@ -197,6 +203,10 @@ void generateNetwork(Genome& genome) {
 
 /** Fills the array of outputs by computing the network with the provided inputs. */
 void evaluateNetwork(Network network, float* inputs, int input_count, float* outputs, int output_count) {
+    for (auto && n : network.neurons) {
+        n.second.value = 0.0f;
+    }
+    
     if (input_count != Inputs) {
         cout << "Incorrect number of inputs." << endl;
         return;
@@ -680,6 +690,33 @@ void initializePool() {
 }
 
 void evaluateFitness(Genome& genome) {
+
+    float fitness = 0.0f;
+    float * inputs = new float[2];
+    float * outputs = new float[1];
+    inputs[1] = 1.0f;
+    generateNetwork(genome);
+
+    for (int i = 0; i < 100; i++) {
+        float in = rngf(0.0f, 2.0f) - 1.0f;
+        inputs[0] = in;
+        evaluateNetwork(genome.network, inputs, 2, outputs, 1);
+        if (in > 0.0f) {
+            if (outputs[0] > 0.5f) fitness -= 1.0f;
+            if (outputs[0] < -0.5f) fitness += 1.0f;
+        }
+        if (in < 0.0f) {
+            if (outputs[0] > 0.5f) fitness += 1.0f;
+            if (outputs[0] < -0.5f) fitness -= 1.0f;
+        }
+    }
+    genome.fitness = fitness;
+    if (fitness > pool.maxFitness) {
+        pool.maxFitness = fitness;
+        cout << "New maximum fitness: " << fitness << " Nodes: " << genome.network.neurons.size() << endl;
+    }
+
+    /*
     float fitness = 0.0f;
     float * inputs = new float[3];
     float * outputs = new float[1];
@@ -726,33 +763,18 @@ void evaluateFitness(Genome& genome) {
     genome.fitness = fitness;
     if (fitness > pool.maxFitness) {
         pool.maxFitness = fitness;
-        cout << "New maximum fitness: " << fitness << endl;
+        cout << "New maximum fitness: " << fitness << " Nodes: "<< genome.network.neurons.size() << endl;
         cout << "Outputs : " << o1 << " " << o2 << " " << o3 << " " << o4 << endl;
+        for (auto && e : genome.genes) {
+            cout << e.into << " -> " << e.out << " : " << e.weight << endl;
+        }
     }
+    */
 }
 
 
 void neatxor::train() {
-    for (int i = 0; i < 10; i++) {
-        cout << rngi(100) << endl;
-    }
-    
-    /*
-    float* inputs = new float[2];
-    float* outputs = new float[1];
-    Genome genome = createGenome();
-    Gene gene = createGene();
-    gene.into = 1;
-    gene.out = MaxNodes + 1;
-    
-    gene.weight = 5.0f;
-    genome.genes.push_back(gene);
-    generateNetwork(genome);
-    cout << genome.network.neurons[MaxNodes + 1].incoming.size() << endl;
-    inputs[0] = 5.0f;
-    evaluateNetwork(genome.network, inputs, 2, outputs, 1);
-    cout << outputs[0] << endl;
-    while (true);*/
+   
     initializePool();
     while (true) {
         for (auto && species : pool.species){

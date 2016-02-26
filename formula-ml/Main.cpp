@@ -5,6 +5,7 @@
 #include <core/Keyboard.h>
 #include "SimulationState.h"
 #include "NeatXOR.h"
+#include "NeatTrainer.h"
 
 // 0 = Simulator with keyboard control
 // 1 = AI running the simulator
@@ -85,8 +86,12 @@ int main(void) {
                 // Track data
                 sim->track->fillTrackGrid(grid, sim->car->position, sim->car->direction);
 
+                
                 // Fire network
-                neural::NetworkIO out = network->fire(network_indata);
+                neural::NetworkIO out;
+                out.value_count = network->outputSize();
+                out.values = new float[out.value_count];
+                network->fire(network_indata, out);
 
                 // Use network output
                 // Assume 'out' to be of correct size and ranges
@@ -107,8 +112,12 @@ int main(void) {
     } else if (EXPERIMENT == 2) {
         // Train the AI
     } else if (EXPERIMENT == 3) {
-        neatxor::train();
+        NeatTrainer *nt = new NeatTrainer();
+        nt->train();
+        //neatxor::train();
         // Run XOR experiment
+
+        delete nt;
 	} else if (EXPERIMENT == 4) {
 		//AI training, compare to mid line, fixed topology, fixed speed
         neural::FixedNetworkTrainer trainer = neural::FixedNetworkTrainer();
@@ -130,15 +139,18 @@ int main(void) {
         sim->car->setSpeed(15.f);
         sim->progress_timeout = 0.1f;
 
+        float out;
         // Define struct for ai indata
         neural::NetworkIO network_indata = neural::NetworkIO();
         network_indata.value_count = 2;
         network_indata.values = new float[network_indata.value_count];
-
+        neural::NetworkIO output;
+        output.value_count = 1;
+        output.values = &out;
         sim->carUpdater = [&]() {
             trainer.setLineData(&network_indata, 0, sim->car, sim->track);
 
-            neural::NetworkIO output = trainer.network->fire(network_indata);
+            trainer.network->fire(network_indata, output);
 
             CarControl control = trainer.makeCarControl(output);
             

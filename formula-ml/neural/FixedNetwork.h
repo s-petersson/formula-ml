@@ -11,7 +11,7 @@ namespace neural {
         FixedNetwork(int input_count, int output_count, int hidden_layers, int hidden_layer_height);
         ~FixedNetwork();
 
-        virtual NetworkIO fire(NetworkIO input);
+        virtual void fire(const NetworkIO &input, NetworkIO &output);
 
         virtual int inputSize();
         virtual int outputSize();

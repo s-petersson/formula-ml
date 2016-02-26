@@ -11,7 +11,7 @@ namespace neural {
 
     class Network {
     public:
-        virtual NetworkIO fire(NetworkIO input) = 0;
+        virtual void fire(const NetworkIO &input, NetworkIO &output) = 0;
 		
 
         virtual int inputSize() = 0;

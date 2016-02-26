@@ -150,11 +150,8 @@ int EvolvingNetwork::outputSize() {
 }
 
 
-NetworkIO EvolvingNetwork::fire(NetworkIO input) {
+void EvolvingNetwork::fire(const NetworkIO &input, NetworkIO &output) {
 	
-	
-	
-	return{0,0};
 }
 
 

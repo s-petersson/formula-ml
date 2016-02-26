@@ -39,7 +39,7 @@ FixedNetwork::~FixedNetwork() {
     if (output_values)  delete[] output_values;
 }
 
-NetworkIO FixedNetwork::fire(NetworkIO input) {
+void FixedNetwork::fire(const NetworkIO &input, NetworkIO &output) {
 
     // Add the input values into the first layer of the hidden layer
     for (int j = 0; j < hidden_layer_size; j++) {   // For each first layer node
@@ -75,7 +75,9 @@ NetworkIO FixedNetwork::fire(NetworkIO input) {
     }
 
     // Return struct pointing to ouput
-    return {output_values, output_size};
+    for (int i = 0; i < outputSize(); i++) {
+        output.values[i] = output_values[i];
+    }
 }
 
 

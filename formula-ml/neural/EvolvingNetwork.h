@@ -14,7 +14,7 @@ namespace neural {
 		virtual int inputSize();
 		virtual int outputSize();
 
-		virtual NetworkIO fire(NetworkIO input);
+		virtual void fire(const NetworkIO &input, NetworkIO &output);
 
 	private:
 		class Node {

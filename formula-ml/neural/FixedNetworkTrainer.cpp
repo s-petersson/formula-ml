@@ -112,10 +112,10 @@ SimulationResult FixedNetworkTrainer::runSimulation(neural::Network* network, Tr
 	neural::NetworkIO network_indata = neural::NetworkIO();
 	network_indata.value_count = 2;
 	network_indata.values = new float[network_indata.value_count];
-
+    NetworkIO output;
     sim->carUpdater = [&]() {
         setLineData(&network_indata, 0, sim->car, sim->track);
-        NetworkIO output = network->fire(network_indata);
+        network->fire(network_indata, output);
         return makeCarControl(output);
     };
 
