@@ -146,7 +146,7 @@ int main(void) {
 
         sim->carUpdater = [&]() {
             
-            in[0] = 5.0f;
+            in[0] = sim->distance_to_middle();
             in[1] = 1.0f;
 
 
@@ -155,10 +155,8 @@ int main(void) {
             CarControl control;
             control.acceleration = 0;
             control.brake = 0;
-            control.steer = out[0];
-
-            //cout << control.steer << "\n";
-
+            control.steer = -out[0] * 0.25f;
+            
             return control;
         };
 
