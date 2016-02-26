@@ -27,7 +27,7 @@ CarModel::CarModel() {
 CarModel::~CarModel() {
 
 }
-float inline CarModel::getSpeed() {
+float CarModel::getSpeed() {
 	return glm::length(velocity);
 }
 void CarModel::setSpeed(float speed) {
@@ -74,7 +74,7 @@ void CarModel::update(float dt, struct CarControl control) {
     }
 
 	// Apply drag
-	velocity -= velocity * (dragForce(currentSpeed) * dt / mass);
+	//velocity -= velocity * (dragForce(currentSpeed) * dt / mass);
 
     // Apply velocity
     position += velocity * dt;
@@ -103,7 +103,7 @@ float CarModel::minRadius(float speed, float forwardForce) {
 // Calculate the maximum force the tyres can apply to the road
 // Assuming same grip in all directions
 float CarModel::maxTyreForce(float speed) {
-    return 2*(downforceConstant*my*speed*speed + mass*g*my);
+    return 1*(downforceConstant*my*speed*speed + mass*g*my);
 }
 
 float CarModel::dragForce(float speed) {
