@@ -38,8 +38,8 @@ public:
     CarModel();
     ~CarModel();
     void update(float dt, struct CarControl control);
-	inline float getSpeed();
-	inline void setSpeed(float speed);
+	float getSpeed();
+	void setSpeed(float speed);
 	Model* get_model();
 
     glm::vec3 position;

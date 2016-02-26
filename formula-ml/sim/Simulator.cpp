@@ -9,8 +9,6 @@ Simulator::Simulator() {
 }
 
 Simulator::~Simulator() {
-	if (car) delete car;
-	if (track) delete track;
 }
 
 /*
@@ -50,9 +48,6 @@ void Simulator::update(float dt) {
 	result.time_alive += dt;
     result.distance_driven = car->distance_on_track;
 
-
-    CarControl control = this->carUpdater();
-
     Checkpoint next_checkpoint = track->get_checkpoints()[car->checkpoint];
     glm::vec3 car_p = car->position - next_checkpoint.left;
     glm::vec3 gate = glm::normalize(next_checkpoint.left - next_checkpoint.right);
@@ -67,5 +62,6 @@ void Simulator::update(float dt) {
         car->distance_on_track = d;
     }
 
+    CarControl control = this->carUpdater();
 	car->update(dt, control);
 }
