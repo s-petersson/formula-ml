@@ -17,7 +17,7 @@ using namespace glm;
 CarModel::CarModel() {
     model = new Model("./res/models/car.model");
     position = vec3();
-    direction = vec3(-1, 0, 0);
+    direction = vec3(-0.616278410f, -0.787541449f, 0);
     velocity = vec3();
 	currentControl = CarControl();
     checkpoint = 0;
