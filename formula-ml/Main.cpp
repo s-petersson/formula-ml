@@ -11,7 +11,7 @@
 // 2 = AI training
 // 3 = AI running XOR
 // 4 = AI training, compare to mid line, fixed topology, fixed speed
-int EXPERIMENT = 4;
+int EXPERIMENT = 0;
 
 int main(void) {
 	
