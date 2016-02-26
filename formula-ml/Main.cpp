@@ -12,7 +12,7 @@
 // 2 = AI training
 // 3 = AI running XOR
 // 4 = AI training, compare to mid line, fixed topology, fixed speed
-int EXPERIMENT = 0;
+int EXPERIMENT = 3;
 
 int main(void) {
 	
@@ -113,11 +113,65 @@ int main(void) {
         // Train the AI
     } else if (EXPERIMENT == 3) {
         NeatTrainer *nt = new NeatTrainer();
-        nt->train();
+        neural::Network * network = nt->train();
         //neatxor::train();
         // Run XOR experiment
+        
 
+        Window * window = new Window;
+        Simulator * sim = new Simulator();
+        // Create simulated objects
+        // NOTE: Starting grid is at first "checkpoint". In order
+        //       to change this, offset the checkpoint order.
+        sim->track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+        sim->car = new CarModel();
+
+        // Place car at the tracks starting grid.
+        sim->car->position = sim->track->get_start_grid_pos();
+        sim->car->setSpeed(15.f);
+        sim->progress_timeout = 0.1f;
+
+        cout << network->inputSize() << " -> " << network->outputSize() << endl;
+
+        float * in = new float[2];
+        float * out = new float[1];
+        // Define struct for ai indata
+        neural::NetworkIO network_indata = neural::NetworkIO();
+        network_indata.value_count = 2;
+        network_indata.values = in;
+        neural::NetworkIO output = neural::NetworkIO();
+        output.value_count = 1;
+        output.values = out;
+
+
+        sim->carUpdater = [&]() {
+            
+            in[0] = 5.0f;
+            in[1] = 1.0f;
+
+
+            network->fire(network_indata, output);
+
+            CarControl control;
+            control.acceleration = 0;
+            control.brake = 0;
+            control.steer = out[0];
+
+            //cout << control.steer << "\n";
+
+            return control;
+        };
+
+
+        SimulationState * s = new SimulationState(sim);
+        window->setState(s);
+        window->run();
+
+        delete window;
+        delete sim;
         delete nt;
+
+
 	} else if (EXPERIMENT == 4) {
 		//AI training, compare to mid line, fixed topology, fixed speed
         neural::FixedNetworkTrainer trainer = neural::FixedNetworkTrainer();

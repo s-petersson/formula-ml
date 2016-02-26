@@ -17,16 +17,22 @@ NeatTrainer::~NeatTrainer()
 }
 
 
-void NeatTrainer::train(){
+neural::Network* NeatTrainer::train(){
     while (true) {
-    for (auto && species : pool->species) {
-        for (auto && genome : species.genomes) {
-            evaluateFitness(genome);
+        for (auto && species : pool->species) {
+            for (auto && genome : species.genomes) {
+                evaluateFitness(genome);
+            }
         }
+        if (pool->maxFitness >= 100) {
+            break;
+        }
+
+        pool->new_generation();
+        cout << "New generation. Number of species: " << pool->species.size() << endl;
+        
     }
-    pool->new_generation();
-    cout << "New generation. Number of species: " << pool->species.size() << endl;
-}
+    return &best;
 }
 
 void NeatTrainer::evaluateFitness(Genome& genome) {
@@ -57,6 +63,7 @@ void NeatTrainer::evaluateFitness(Genome& genome) {
     genome.fitness = fitness;
     if (fitness > pool->maxFitness) {
         pool->maxFitness = fitness;
+        best = n;
         cout << "New maximum fitness: " << fitness << endl;
     }
 }
