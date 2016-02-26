@@ -41,7 +41,7 @@ SimulationState::~SimulationState() {
 
 //Function declaration
 void SimulationState::update(float dt) {
-    sim->update(dt);
+    sim->update(0.01);
 
     // TODO: If "followCar"
     camera->follow(sim->car->position, sim->car->direction, 35.f);

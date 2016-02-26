@@ -21,7 +21,7 @@ namespace neural {
     };
 
     inline float sigmoid(float x) {
-        return 1.0f / (1.0f + glm::exp(-x));
+        return 2.0f / (1.0f + glm::exp(-x)) - 1;
     }
 
 } // namespace neural

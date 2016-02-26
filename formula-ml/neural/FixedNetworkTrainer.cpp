@@ -29,7 +29,7 @@ void FixedNetworkTrainer::run() {
     // total number of iterations: gene_steps ^ size(genome).
     // gene_steps. 2^6=64, 3^6=729, 4^6=4096, 5^6=15 625, 6^6=46 656, 7^6=117 649, 8^6=262 144, 9^6=531 441, 10^6=1 000 000
 
-    enumerate(genome, 6, gene_steps);
+    enumerate(genome, 4, gene_steps);
     /*
     bestGenome.genes[0] = 1;
     bestGenome.genes[1] = 0;
@@ -120,7 +120,7 @@ SimulationResult FixedNetworkTrainer::runSimulation(neural::Network* network, Tr
     };
 
 
-	SimulationResult result = sim->run(0.1f);
+	SimulationResult result = sim->run(0.01f);
     delete sim;
 	delete network_indata.values;
 	return result;
@@ -148,8 +148,8 @@ void FixedNetworkTrainer::setLineData(NetworkIO* network_indata, int offset, Car
     if (glm::cross(glm::vec3(0, 1, 0), car->direction).z > 0)
         angle_to_line = -angle_to_line;
 
-    network_indata->values[0] = distance_to_line;
-    network_indata->values[1] = angle_to_line;
+    network_indata->values[offset] = distance_to_line;
+    network_indata->values[offset + 1] = angle_to_line;
 }
 
 float span(float stochastic, float from, float to) {
@@ -157,18 +157,42 @@ float span(float stochastic, float from, float to) {
 }
 
 void FixedNetworkTrainer::buildNetwork(FixedNetworkGenome& genome) {
-    network->set_input_weight(0, 0, span(genome.genes[0], -1, 1));
-    network->set_input_weight(1, 0, span(genome.genes[1], -1, 1));
-    network->set_input_weight(0, 1, span(genome.genes[2], -1, 1));
-    network->set_input_weight(1, 1, span(genome.genes[3], -1, 1));
-    network->set_output_weight(0, 0, span(genome.genes[4], -1, 1));
-    network->set_output_weight(1, 0, span(genome.genes[5], -1, 1));
+    float lower = -3.f, upper = 3.f;
+    /*
+    network->set_input_weight(0, 0, span(genome.genes[0], lower, upper));
+    network->set_input_weight(1, 0, span(genome.genes[1], lower, upper));
+    network->set_input_weight(0, 1, span(genome.genes[2], lower, upper));
+    network->set_input_weight(1, 1, span(genome.genes[3], lower, upper));
+    network->set_output_weight(0, 0, span(genome.genes[4], lower, upper));
+    network->set_output_weight(1, 0, span(genome.genes[5], lower, upper));
+    */
+
+    network->set_input_weight(0, 0, span(genome.genes[0], lower, upper));
+    network->set_input_weight(1, 0, span(genome.genes[0], lower, upper));
+    network->set_input_weight(0, 1, 0);
+    network->set_input_weight(1, 1, span(genome.genes[1], lower, 0));
+    network->set_output_weight(0, 0, span(genome.genes[2], lower, upper));
+    network->set_output_weight(1, 0, span(genome.genes[3], lower, upper));
 }
 
 CarControl FixedNetworkTrainer::makeCarControl(NetworkIO output) {
     CarControl carControl = CarControl();
 
-    // TODO Insert threashhold for steering
-    carControl.steer = span(output.values[0], -0.1, 0.1);
+    float steer = span(output.values[0], -1, 1);
+
+    float lowerLimit = 0.7f;
+    float upperLimit = 0.95f;
+    float sign = glm::sign(steer);
+
+    if (glm::abs(steer) < lowerLimit) {
+        steer = 0;
+    } else if (glm::abs(steer) > upperLimit) {
+        steer = sign;
+    } else {
+        steer = sign*(sign*steer - lowerLimit) / (upperLimit - lowerLimit);
+    }
+
+
+    carControl.steer = steer;
     return carControl;
 }
