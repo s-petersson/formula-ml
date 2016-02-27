@@ -12,16 +12,12 @@ public:
 
     void run();
 
-    neural::Network* train();
-
 private:
-
     void evaluate(neat::Genome& genome);
     void showBest();
-
-    void evaluateFitness(neat::Genome& genome);
+    bool improved = false;
     neat::Pool * pool;
-    neat::Network best;
+    neat::Network *best;
 };
 
 #endif

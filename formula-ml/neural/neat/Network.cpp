@@ -22,7 +22,7 @@ Neuron::~Neuron(){}
 
 /** Sigmoid function */
 float Network::sigmoid(float x) {
-    return 2.0f / (1.0f + glm::exp(-4.9f * x)) - 1.0f;
+    return 2.0f / (1.0f + glm::exp(-x)) - 1.0f;
     //return 1.0f / (1.0f + glm::exp(-2.0f*x));
 }
 

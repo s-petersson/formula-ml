@@ -148,7 +148,7 @@ int main(void) {
         output.value_count = 1;
         output.values = &out;
         sim->carUpdater = [&]() {
-            trainer.setLineData(&network_indata, 0, sim->car, sim->track);
+            //trainer.setLineData(&network_indata, 0, sim->car, sim->track);
 
             trainer.network->fire(network_indata, output);
 

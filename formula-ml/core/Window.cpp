@@ -75,8 +75,9 @@ void Window::run() {
         }
 
         if (state) {
-			state->update((float)dt / 1000);
-			state->render();
+			//state->update((float)dt / 1000);
+            state->update(0.01f);
+            state->render();
 		}
 
         //Blit the framebuffer to screen.
