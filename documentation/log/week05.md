@@ -4,7 +4,7 @@ Concerning training algorithms
  - Hebbian learning, Hayken. During a network fire, if to adjacent synapses fire at the same time, increase their weight. If non fire, decrease weight. Back to the simulation as foundation for scoring. But if the simulation prove good behaviour, one might possibly go back in time to empower the behaviour for the previous input.
  
  
-## How to get a line from the triangle track
+### How to get a line from the triangle track
 Gabriel and Simon
 Want to: Find dots in the middle of the road to build a line
 Problem: 1) How to find dots? 2) How to order them?
@@ -24,7 +24,16 @@ The track is build up by connected triangulated quads. It is difficult to know f
  Note: if the quads change direction of triangulation, two pairs may be found during the last step. One of the found vertexes will not lead to a new undiscovered pair, use that first.
  Note: Watch over the fact that the algorithm may traverse the track backwards. 
  
- Complexity: If add/read operation with highest complexity is O(x), the whole algorithm will be O(nx). If hash lists are used, then x is amortized O(1).
+ Complexity: If add/read operation with highest complexity is O(x), the whole algorithm will be O(nx). If hash lists are used, then x is amortised O(1).
+
+### Gabriel
+Helped Simon to find the algorithm to build a line out of the triangle structure of the track.
+
+Implemented an algorithm that read the track and build a grid with information about the road ahead of the car. It iterates over the triangles, translates and rotates them to a frame of reference of the car, define a bounding box for the triangle, check all cells/points in the bounding box if they collide with the triangle and marks the cell as road if it do.
+
+Simon also helped me to refactor the the structural parts of the simulation and test setup. The code is now more modular. For example the simulator now expects its users to define the important parts such as track, car, input processing to ai, output processing and the ai. This let the same Simulator implementation be used for different tests, with different implementations. Interfaces for example different parts of the ai may be needed later on.
+
+Made a quick fix in the physic simulation. Multiplied the force capacity of the tyres by a constant. The car behaved much better now, more realistic steering capabilities and brakes faster than it accelerates.
 
 
 ### Martin
