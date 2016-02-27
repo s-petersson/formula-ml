@@ -90,4 +90,9 @@ void Simulator::update(float dt) {
 
     CarControl control = this->carUpdater();
 	car->update(dt, control);
+
+    if (!track->on_track(car->position)) {
+        car->setSpeed(0.0f);
+    }
+
 }
