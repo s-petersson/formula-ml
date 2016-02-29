@@ -19,21 +19,17 @@ float Simulator::distance_to_middle() {
 }
 
 float Simulator::angle_to_line() {
+
     glm::vec3 last_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint - 1, 0)].middle;
     glm::vec3 next_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint, 0)].middle;
-    glm::vec3 car_position = car->position;
+    
+    glm::vec3 line = glm::normalize(next_checkpoint - last_checkpoint);
 
-    // move frame of reference to last_checkpoint
-    next_checkpoint -= last_checkpoint;
-    car_position -= last_checkpoint;
-    glm::vec3 next_checkpoint_normalized = glm::normalize(next_checkpoint);
+    float angle_to_line = glm::acos(glm::dot(line, car->direction));
 
-    // Find angle to line
-    //float angle_to_line = glm::angle(next_checkpoint, sim->car->direction);
-    float angle_to_line = glm::acos(glm::dot(next_checkpoint, car->direction) / glm::length(next_checkpoint) * glm::length(car->direction));
-    if (glm::cross(glm::vec3(0, 1, 0), car->direction).z > 0)
+    if (glm::cross(line, car->direction).z < 0) {
         angle_to_line = -angle_to_line;
-
+    }
     return angle_to_line;
 }
 
@@ -60,7 +56,7 @@ SimulationResult Simulator::run(const float dt) {
 		} else if(result.time_alive > best.time_alive + progress_timeout) {
 			// No progress for a while
 			// Call it quits
-			break;
+			//break;
 		}
 	}
 	return result;

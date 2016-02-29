@@ -50,7 +50,6 @@ int main(void) {
         if (EXPERIMENT == 0) { // Keyboard control
             sim->carUpdater = [&]() {
                 sim->track->fillTrackGrid(grid, sim->car->position, sim->car->direction);
-
                 CarControl control = CarControl();
 
                 bool gas = isKeyDown(GLFW_KEY_UP);
