@@ -3,6 +3,10 @@
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>
 #include <core/Keyboard.h>
+#include <experiments/Experiment.h>
+#include <experiments/ManualControl.h>
+#include <experiments/FixedNetworkMidline.h>
+#include <experiments/NEATNetworkMidline.h>
 #include "SimulationState.h"
 #include "NeatXOR.h"
 #include "NeatTrainer.h"
@@ -12,10 +16,30 @@
 // 2 = AI training
 // 3 = AI running XOR
 // 4 = AI training, compare to mid line, fixed topology, fixed speed
-int EXPERIMENT = 3;
+int EXPERIMENT = 4;
 
 int main(void) {
-	
+    Experiment* experiment;
+    int chosen_experiment;
+    std::cout   << "Experiments available: "    << std::endl
+                << "(1) Manual Control"         << std::endl
+                << "(2) Fixed Midline"          << std::endl
+                << "(3) NEAT Midline"           << std::endl
+                << "Input the number you want to run: ";
+    std::cin >> chosen_experiment;
+    switch (chosen_experiment) {
+        case 1:
+            experiment = new ManualControl();
+            break;
+        case 2:
+            experiment = new FixedNetworkMidline();
+            break;
+        case 3:
+            //experiment = new NEATNetworkMidline();
+            break;
+    }
+    experiment->run();
+
     if (EXPERIMENT == 0 || EXPERIMENT == 1) {
         Window * window = new Window;
         Simulator * sim = new Simulator();
@@ -85,7 +109,7 @@ int main(void) {
                 // Track data
                 sim->track->fillTrackGrid(grid, sim->car->position, sim->car->direction);
 
-                
+
                 // Fire network
                 neural::NetworkIO out;
                 out.value_count = network->outputSize();
@@ -118,8 +142,8 @@ int main(void) {
         nt->run();
 
         delete nt;
-	} else if (EXPERIMENT == 4) {
-		//AI training, compare to mid line, fixed topology, fixed speed
+    } else if (EXPERIMENT == 4) {
+        //AI training, compare to mid line, fixed topology, fixed speed
         neural::FixedNetworkTrainer trainer = neural::FixedNetworkTrainer();
         trainer.run();
 
@@ -152,7 +176,7 @@ int main(void) {
             trainer.network->fire(network_indata, output);
 
             CarControl control = trainer.makeCarControl(output);
-            
+
             //cout << control.steer << "\n";
 
             return control;
@@ -166,7 +190,7 @@ int main(void) {
         delete window;
         delete sim;
         delete network_indata.values;
-	}
+    }
 
 	return 0;
 }
