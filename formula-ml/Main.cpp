@@ -25,6 +25,9 @@ int main(void) {
         case 3:
             experiment = new NEATNetworkMidline();
             break;
+		default:
+			experiment = new ManualControl();
+			break;
     }
     experiment->run();
 
