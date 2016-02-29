@@ -1,22 +1,10 @@
 #include <iostream>
-#include <core/Window.h>
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>
-#include <core/Keyboard.h>
 #include <experiments/Experiment.h>
 #include <experiments/ManualControl.h>
 #include <experiments/FixedNetworkMidline.h>
 #include <experiments/NEATNetworkMidline.h>
-#include "SimulationState.h"
-#include "NeatXOR.h"
-#include "NeatTrainer.h"
-
-// 0 = Simulator with keyboard control
-// 1 = AI running the simulator
-// 2 = AI training
-// 3 = AI running XOR
-// 4 = AI training, compare to mid line, fixed topology, fixed speed
-int EXPERIMENT = 4;
 
 int main(void) {
     Experiment* experiment;
