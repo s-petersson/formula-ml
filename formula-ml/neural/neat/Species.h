@@ -10,9 +10,8 @@ namespace neat {
     public:        
         Species();
         ~Species();
-       
 
-        Genome Species::breedChild();
+        Genome breedChild();
         void calculate_average_fitness();
 
         std::vector<Genome> genomes;
