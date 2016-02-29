@@ -42,8 +42,6 @@ add_executable(formula_ml
         NeatXOR.cpp
         NeatTrainer.cpp
         experiments/ManualControl.cpp
-        experiments/NEATNetworkXOR.cpp
-        experiments/NEATNetworkGridTrack.cpp
         experiments/FixedNetworkMidline.cpp
         experiments/NEATNetworkMidline.cpp
         experiments/Experiment.h)

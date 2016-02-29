@@ -20,9 +20,9 @@ ManualControl::ManualControl() {
     const int TRACK_GRID_DEPTH  = 18;
     const int OTHER_INPUTS      = 1;
 
-    neural::NetworkIO network_indata = neural::NetworkIO();
-    network_indata.value_count = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
-    network_indata.values = new float[network_indata.value_count];
+    neural::NetworkIO network_indata    = neural::NetworkIO();
+    network_indata.value_count          = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
+    network_indata.values               = new float[network_indata.value_count];
 
     grid                    = new TrackGrid();
     grid->data              = &network_indata.values[OTHER_INPUTS];
@@ -52,12 +52,12 @@ std::function<CarControl()> ManualControl::updater() {
                                         simulator->car->position,
                                         simulator->car->direction);
 
-        const bool gas = isKeyDown(GLFW_KEY_UP);
-        const bool brake = isKeyDown(GLFW_KEY_DOWN);
-        const bool steerLeft = isKeyDown(GLFW_KEY_LEFT);
-        const bool steerRight = isKeyDown(GLFW_KEY_RIGHT);
-        const bool steerCareful = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
-        const bool accelerateMax = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
+        const bool gas              = isKeyDown(GLFW_KEY_UP);
+        const bool brake            = isKeyDown(GLFW_KEY_DOWN);
+        const bool steerLeft        = isKeyDown(GLFW_KEY_LEFT);
+        const bool steerRight       = isKeyDown(GLFW_KEY_RIGHT);
+        const bool steerCareful     = isKeyDown(GLFW_KEY_RIGHT_CONTROL);
+        const bool accelerateMax    = isKeyDown(GLFW_KEY_RIGHT_SHIFT);
 
         CarControl control = CarControl();
         if (gas) {

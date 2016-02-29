@@ -20,13 +20,13 @@ FixedNetworkMidline::FixedNetworkMidline() {
     trainer.run();
     trainer.buildNetwork(trainer.bestGenome);
 
-    network_indata = neural::NetworkIO();
-    network_indata.value_count = 2;
-    network_indata.values = new float[network_indata.value_count];
+    network_indata              = neural::NetworkIO();
+    network_indata.value_count  = 2;
+    network_indata.values       = new float[network_indata.value_count];
 
-    network_output = neural::NetworkIO();
-    network_output.value_count = 1;
-    network_output.values = new float;
+    network_output              = neural::NetworkIO();
+    network_output.value_count  = 1;
+    network_output.values       = new float;
 }
 
 FixedNetworkMidline::~FixedNetworkMidline() {
