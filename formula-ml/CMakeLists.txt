@@ -41,6 +41,11 @@ add_executable(formula_ml
         neural/neat/Species.cpp
         NeatXOR.cpp
         NeatTrainer.cpp
-        )
+        experiments/ManualControl.cpp
+        experiments/NEATNetworkXOR.cpp
+        experiments/NEATNetworkGridTrack.cpp
+        experiments/FixedNetworkMidline.cpp
+        experiments/NEATNetworkMidline.cpp
+        experiments/Experiment.h)
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
