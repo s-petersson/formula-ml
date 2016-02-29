@@ -33,7 +33,14 @@ add_executable(formula_ml
         neural/EvolvingNetwork.cpp
         neural/FixedNetworkTrainer.cpp
         neural/FixedNetworkXOR.cpp
+        neural/neat/Constants.h
+        neural/neat/Gene.cpp
+        neural/neat/Genome.cpp
+        neural/neat/Network.cpp
+        neural/neat/Pool.cpp
+        neural/neat/Species.cpp
         NeatXOR.cpp
+        NeatTrainer.cpp
         )
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
