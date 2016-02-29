@@ -35,7 +35,7 @@ int main(void) {
             experiment = new FixedNetworkMidline();
             break;
         case 3:
-            //experiment = new NEATNetworkMidline();
+            experiment = new NEATNetworkMidline();
             break;
     }
     experiment->run();

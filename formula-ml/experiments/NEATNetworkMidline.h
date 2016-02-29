@@ -1,14 +1,21 @@
-//
-// Created by Simon Petersson on 29/02/16.
-//
-
 #ifndef FORMULA_ML_NEATNETWORKMIDLINE_H
 #define FORMULA_ML_NEATNETWORKMIDLINE_H
 
 
-class NEATNetworkMidline {
+#include <sim/model/CarModel.h>
+#include <functional>
+#include <NeatTrainer.h>
+#include "Experiment.h"
 
+class NEATNetworkMidline : public Experiment {
+public:
+    NEATNetworkMidline();
+    ~NEATNetworkMidline();
+
+    virtual void run();
+    virtual std::function<CarControl()> updater();
+private:
+    NeatTrainer* trainer;
 };
 
-
-#endif //FORMULA_ML_NEATNETWORKMIDLINE_H
+#endif

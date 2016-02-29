@@ -1,5 +1,17 @@
-//
-// Created by Simon Petersson on 29/02/16.
-//
-
 #include "NEATNetworkMidline.h"
+
+NEATNetworkMidline::NEATNetworkMidline() {
+    trainer = new NeatTrainer();
+}
+
+NEATNetworkMidline::~NEATNetworkMidline() {
+    delete trainer;
+}
+
+void NEATNetworkMidline::run() {
+    trainer->run();
+}
+
+std::function<CarControl()> NEATNetworkMidline::updater() {
+
+}
