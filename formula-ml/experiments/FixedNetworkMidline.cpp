@@ -41,7 +41,7 @@ void FixedNetworkMidline::run() {
 
 std::function<CarControl()> FixedNetworkMidline::updater() {
     return [&](){
-//        trainer.setLineData(&network_indata, 0, simulator);
+        trainer.setLineData(&network_indata, 0, simulator);
         trainer.network->fire(network_indata, network_output);
         return trainer.makeCarControl(network_output);
     };
