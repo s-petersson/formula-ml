@@ -6,7 +6,9 @@ ManualControl::ManualControl() {
     window          = new Window();
 
     simulator->progress_timeout = 5;
-    simulator->track            = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+    simulator->track            = new TrackModel(glm::vec3(35.169220,
+                                                           -702.223755,
+                                                           5.000004));
     simulator->car              = new CarModel();
     simulator->car->position    = simulator->track->get_start_grid_pos();
 
@@ -36,6 +38,8 @@ ManualControl::ManualControl() {
 
 ManualControl::~ManualControl() {
     delete window;
+    delete simulationState;
+    delete grid;
 }
 
 void ManualControl::run() {
