@@ -46,6 +46,8 @@ void ManualControl::run() {
     window->run();
 }
 
+int print_counter = 0;
+
 std::function<CarControl()> ManualControl::updater() {
     return [&]() {
         simulator->track->fillTrackGrid(*grid,
@@ -72,7 +74,25 @@ std::function<CarControl()> ManualControl::updater() {
         } else if (!steerLeft && steerRight) {
             control.steer = steerCareful ? -0.5f : -1;
         }
-
+        /*
+        // If this is removed, also remove the global variable print_counter
+        if (print_counter++ % 100 == 0) {
+            float data[10];
+            int i = 0;
+            simulator->write_track_curve(&data[0], i, 5);
+            cout << "Track curve data: \n"
+                << "counter i incremented to " << i << "\n"
+                << data[0] << "\n"
+                << data[1] << "\n"
+                << data[2] << "\n"
+                << data[3] << "\n"
+                << data[4] << "\n"
+                << data[5] << "\n"
+                << data[6] << "\n"
+                << data[7] << "\n"
+                << data[8] << "\n"
+                << data[9] << "\n\n\n";
+        /**/
         return control;
     };
 }

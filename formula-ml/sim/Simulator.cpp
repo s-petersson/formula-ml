@@ -53,6 +53,39 @@ float Simulator::angle_to_line() {
 }
 
 /*
+Write to 'target' with 'offset'
+Updates offset to include what write_track_curve() writes
+*/
+void Simulator::write_track_curve(float* target, int& offset, int nbr_of_checkpoints) {
+
+    int current_checkpoint = glm::max(car->checkpoint, 0);
+
+    glm::vec3 next_checkpoint = track->get_checkpoints()[current_checkpoint].middle;
+    glm::vec3 last_line = next_checkpoint - car->position;
+
+    // Angle + distance to the next checkpoint, from the perspective of the car
+    if (nbr_of_checkpoints >= 1) {
+        target[offset++] = angle(car->direction, glm::normalize(last_line));
+        target[offset++] = glm::length(last_line);
+    }
+
+    // Angle + distance to the next checkpoint, from the perspective of the last checkpoint
+    glm::vec3 last_checkpoint = next_checkpoint;
+    for (int i = 2; i <= nbr_of_checkpoints; i++) {
+        current_checkpoint++;
+        next_checkpoint = track->get_checkpoints()[current_checkpoint].middle;
+
+        glm::vec3 next_line = next_checkpoint - last_checkpoint;
+
+        target[offset++] = angle(glm::normalize(next_line), glm::normalize(last_line));
+        target[offset++] = glm::length(next_line);
+
+        last_line = next_line;
+        last_checkpoint = next_checkpoint;
+    }
+}
+
+/*
 	Run a complete simulation until failure
 	Each simulation step update with time dt
 */
@@ -110,4 +143,8 @@ void Simulator::update(float dt) {
         car->setSpeed(0.0f);
     }
 
+}
+
+int Simulator::write_track_curve_size(int nbr_of_checkpoints) {
+    return 2 * nbr_of_checkpoints;
 }
