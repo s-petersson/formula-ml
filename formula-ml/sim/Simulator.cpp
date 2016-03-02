@@ -144,7 +144,3 @@ void Simulator::update(float dt) {
     }
 
 }
-
-int Simulator::write_track_curve_size(int nbr_of_checkpoints) {
-    return 2 * nbr_of_checkpoints;
-}
