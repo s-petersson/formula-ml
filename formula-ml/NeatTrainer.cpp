@@ -128,7 +128,7 @@ void NeatTrainer::showBest() {
         return control;
     };
     Window * window = new Window();
-    vector<SimulationRenderer*> renderers;
+    vector<Renderer*> renderers;
     renderers.push_back(new StandardRenderer(sim));
     SimulationState * s= new SimulationState(sim, renderers);
 

@@ -15,7 +15,7 @@ FixedNetworkMidline::FixedNetworkMidline() {
     simulator->car->position    = simulator->track->get_start_grid_pos();
     simulator->car->setSpeed(15.f);
 
-    vector<SimulationRenderer*> renderers;
+    vector<Renderer*> renderers;
     renderers.push_back(new StandardRenderer(simulator));
     simulationState                 = new SimulationState(simulator, renderers);
     window->setState(simulationState);
