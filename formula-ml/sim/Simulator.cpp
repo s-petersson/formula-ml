@@ -14,7 +14,7 @@ Simulator::~Simulator() {
 /*
     Angle between two normalized vectors
 */
-inline float angle(glm::vec3& v1, glm::vec3& v2) {
+inline float angle(glm::vec3 v1, glm::vec3 v2) {
     float angle;
 
     // Set the angle
