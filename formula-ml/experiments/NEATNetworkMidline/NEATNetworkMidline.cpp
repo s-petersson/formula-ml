@@ -14,7 +14,7 @@ void NEATNetworkMidline::run() {
 
 std::function<CarControl()> NEATNetworkMidline::updater() {
 	return [&]() {
-		CarControl control;
+		CarControl control = CarControl();
 
 		return control;
 	};
