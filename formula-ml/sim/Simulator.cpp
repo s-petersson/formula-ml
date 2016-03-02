@@ -11,6 +11,33 @@ Simulator::Simulator() {
 Simulator::~Simulator() {
 }
 
+/*
+    Angle between two normalized vectors
+*/
+inline float angle(glm::vec3& v1, glm::vec3& v2) {
+    float angle;
+
+    // Set the angle
+    float dot = glm::dot(v1, v2);
+    if (dot > 0.9999999f) {
+        angle = 0;
+    }
+    else if (dot < -0.9999999f) {
+        // TODO: use definition of pi
+        // TODO: use a number slightly less than pi, for stability reasons?
+        angle = 3.14159265359f; 
+    }
+    else {
+        angle = glm::acos(glm::dot(v1, v2));
+    }
+
+    // Set the correct sign
+    if (glm::cross(v1, v2).z < 0) {
+        angle = -angle;
+    }
+    return angle;
+}
+
 float Simulator::distance_to_middle() {
     glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].middle - track->get_checkpoints()[car->checkpoint - 1].middle);
     glm::vec3 car_pos = car->position - track->get_checkpoints()[car->checkpoint - 1].middle;
@@ -19,18 +46,10 @@ float Simulator::distance_to_middle() {
 }
 
 float Simulator::angle_to_line() {
-
     glm::vec3 last_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint - 1, 0)].middle;
     glm::vec3 next_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint, 0)].middle;
-    
     glm::vec3 line = glm::normalize(next_checkpoint - last_checkpoint);
-
-    float angle_to_line = glm::acos(glm::dot(line, car->direction));
-
-    if (glm::cross(line, car->direction).z < 0) {
-        angle_to_line = -angle_to_line;
-    }
-    return angle_to_line;
+    return angle(line, car->direction);
 }
 
 /*
