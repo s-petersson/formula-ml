@@ -7,24 +7,21 @@
 #include <sim/view/CarView.h>
 #include <sim/view/TrackView.h>
 #include <sim/view/GridView.h>
+#include <core/gfx/Renderer.h>
+#include "SimulationRenderer.h"
 
 struct Grid;
 
 class SimulationState : public WindowState {
 public:
-	SimulationState(Simulator* simulator);
+	SimulationState(Simulator * simulator, vector<Renderer*> renderers);
 	~SimulationState();
 
-	void update(float dt);
-	void render();
+	void run(float dt);
 
 private:
-	Simulator * sim;
-    Camera * camera;
-
-    GridView * gridView;
-    TrackView *trackView;
-    CarView *carView;
+	Simulator * simulator;
+    vector<Renderer*> renderers;
 };
 
 #endif

@@ -3,8 +3,8 @@
 
 #include <core/Window.h>
 #include <core/Keyboard.h>
-#include <SimulationState.h>
-#include "Experiment.h"
+#include <experiments/Experiment.h>
+#include <sim/SimulationState.h>
 
 class ManualControl : public Experiment {
 public:

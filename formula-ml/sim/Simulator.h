@@ -7,7 +7,6 @@
 #include <neural/Neural.h>
 #include <functional>
 
-
 struct SimulationResult {
 	float distance_driven;
 	float time_alive;
@@ -31,9 +30,9 @@ public:
 
     float distance_to_middle();
     float angle_to_line();
-    void write_track_curve(float* target, int& offset, int nbr_of_checkpoints);
-    int write_track_curve_size(int nbr_of_checkpoints);
 
-private:
+	void write_track_curve(float* target, int& offset, int nbr_of_checkpoints);
+	int write_track_curve_size(int nbr_of_checkpoints);
 };
+
 #endif

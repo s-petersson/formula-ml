@@ -1,24 +1,29 @@
 #include <iostream>
+#include <sim/SimulationState.h>
 #include "ManualControl.h"
+#include <experiments/StandardRenderer.h>
+#include <core/gfx/Renderer.h>
+
+// Set input values
+const int TRACK_GRID_WIDTH  = 10;
+const int TRACK_GRID_DEPTH  = 18;
+const int OTHER_INPUTS      = 1;
 
 ManualControl::ManualControl() {
-    simulator       = new Simulator();
-    window          = new Window();
+    simulator                       = new Simulator();
+    window                          = new Window();
 
-    simulator->progress_timeout = 5;
-    simulator->track            = new TrackModel(glm::vec3(35.169220,
-                                                           -702.223755,
-                                                           5.000004));
-    simulator->car              = new CarModel();
-    simulator->car->position    = simulator->track->get_start_grid_pos();
+    simulator->progress_timeout     = 5;
+    simulator->track                = new TrackModel(glm::vec3(35.169220,
+                                                               -702.223755,
+                                                               5.000004));
+    simulator->car                  = new CarModel();
+    simulator->car->position        = simulator->track->get_start_grid_pos();
 
-    simulationState = new SimulationState(simulator);
+    std::vector<Renderer*> renderers;
+    renderers.push_back(new StandardRenderer(simulator));
+    simulationState                 = new SimulationState(simulator, renderers);
     window->setState(simulationState);
-
-    // Set input values
-    const int TRACK_GRID_WIDTH  = 10;
-    const int TRACK_GRID_DEPTH  = 18;
-    const int OTHER_INPUTS      = 1;
 
     neural::NetworkIO network_indata    = neural::NetworkIO();
     network_indata.value_count          = OTHER_INPUTS + TRACK_GRID_WIDTH * TRACK_GRID_DEPTH;
@@ -43,6 +48,8 @@ ManualControl::~ManualControl() {
 }
 
 void ManualControl::run() {
+    // Display the window and run it's loop.
+    // This will run SimulationState update/render.
     window->run();
 }
 

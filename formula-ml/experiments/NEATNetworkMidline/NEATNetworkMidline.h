@@ -5,7 +5,7 @@
 #include <sim/model/CarModel.h>
 #include <functional>
 #include <NeatTrainer.h>
-#include "Experiment.h"
+#include <experiments/Experiment.h>
 
 class NEATNetworkMidline : public Experiment {
 public:

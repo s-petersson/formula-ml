@@ -1,3 +1,4 @@
+#include <experiments/StandardRenderer.h>
 #include "FixedNetworkMidline.h"
 
 FixedNetworkMidline::FixedNetworkMidline() {
@@ -14,7 +15,9 @@ FixedNetworkMidline::FixedNetworkMidline() {
     simulator->car->position    = simulator->track->get_start_grid_pos();
     simulator->car->setSpeed(15.f);
 
-    simulationState = new SimulationState(simulator);
+    vector<SimulationRenderer*> renderers;
+    renderers.push_back(new StandardRenderer(simulator));
+    simulationState                 = new SimulationState(simulator, renderers);
     window->setState(simulationState);
 
     trainer.run();

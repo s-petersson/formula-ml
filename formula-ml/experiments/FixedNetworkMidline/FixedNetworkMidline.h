@@ -1,11 +1,10 @@
 #ifndef FORMULA_ML_FIXEDNETWORKMIDLINE_H
 #define FORMULA_ML_FIXEDNETWORKMIDLINE_H
 
-
 #include <core/Window.h>
-#include <SimulationState.h>
+#include <sim/SimulationState.h>
 #include <neural/FixedNetworkTrainer.h>
-#include "Experiment.h"
+#include <experiments/Experiment.h>
 
 class FixedNetworkMidline : public Experiment {
 public:

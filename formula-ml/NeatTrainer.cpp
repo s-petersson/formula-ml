@@ -4,7 +4,8 @@
 #include <core/Window.h>
 #include <sim/Simulator.h>
 #include <neural/EvolvingNetwork.h>
-#include "SimulationState.h"
+#include <sim/SimulationState.h>
+#include <experiments/StandardRenderer.h>
 
 using namespace neat;
 using namespace std;
@@ -127,8 +128,10 @@ void NeatTrainer::showBest() {
         return control;
     };
     Window * window = new Window();
-    SimulationState * s = new SimulationState(sim);
-    
+    vector<SimulationRenderer*> renderers;
+    renderers.push_back(new StandardRenderer(sim));
+    SimulationState * s= new SimulationState(sim, renderers);
+
     window->setState(s);
     window->run();
     delete window;

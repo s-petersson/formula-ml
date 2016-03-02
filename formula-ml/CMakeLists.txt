@@ -13,7 +13,6 @@ include_directories(${PROJECT_SOURCE_DIR}/external/include)
 # Find and set source files.
 add_executable(formula_ml
         Main.cpp
-        SimulationState.cpp
         sim/Simulator.cpp
         core/Keyboard.cpp
         core/Window.cpp
@@ -23,6 +22,7 @@ add_executable(formula_ml
         core/util/Util.cpp
         core/util/Random.cpp
         core/gfx/Model.cpp
+        sim/SimulationState.cpp
         sim/view/CarView.cpp
         sim/model/CarModel.cpp
         sim/model/TrackModel.cpp
@@ -41,9 +41,12 @@ add_executable(formula_ml
         neural/neat/Species.cpp
         NeatXOR.cpp
         NeatTrainer.cpp
-        experiments/ManualControl.cpp
-        experiments/FixedNetworkMidline.cpp
-        experiments/NEATNetworkMidline.cpp
-        experiments/Experiment.h)
+        experiments/Experiment.h
+        experiments/ManualControl/ManualControl.cpp
+        experiments/FixedNetworkMidline/FixedNetworkMidline.cpp
+        experiments/NEATNetworkMidline/NEATNetworkMidline.cpp
+        experiments/StandardRenderer.cpp
+        sim/SimulationRenderer.h
+        core/gfx/Renderer.h)
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

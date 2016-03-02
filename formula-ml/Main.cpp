@@ -2,9 +2,9 @@
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>
 #include <experiments/Experiment.h>
-#include <experiments/ManualControl.h>
-#include <experiments/FixedNetworkMidline.h>
-#include <experiments/NEATNetworkMidline.h>
+#include <experiments/ManualControl/ManualControl.h>
+#include <experiments/FixedNetworkMidline/FixedNetworkMidline.h>
+#include <experiments/NEATNetworkMidline/NEATNetworkMidline.h>
 
 int main(void) {
     Experiment* experiment;

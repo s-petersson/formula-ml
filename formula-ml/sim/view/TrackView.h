@@ -2,6 +2,7 @@
 #define SIM_VIEW_TRACK
 
 #include <core/gfx/Model.h>
+#include <sim/model/TrackModel.h>
 
 class TrackView {
 public:
