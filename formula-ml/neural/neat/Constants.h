@@ -4,7 +4,7 @@
 
 namespace neat {
     /** Constants */
-    const int Inputs = 3; // 2 + 1 bias
+    const int Inputs = 3 + 10; // 2 + 1 bias
     const int Outputs = 1;
 
     const int Population = 100;

@@ -12,6 +12,11 @@ SimulationState::~SimulationState() {
 
 void SimulationState::run(float dt) {
     simulator->update(dt);
+    simulator->update(dt);
+    simulator->update(dt);
+    simulator->update(dt);
+    simulator->update(dt);
+    simulator->update(dt);
     for(auto && renderer : renderers) {
         renderer->render();
     }
