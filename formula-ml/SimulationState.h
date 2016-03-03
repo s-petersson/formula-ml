@@ -7,6 +7,7 @@
 #include <sim/view/CarView.h>
 #include <sim/view/TrackView.h>
 #include <sim/view/GridView.h>
+#include <core/gui/View.h>
 
 struct Grid;
 
@@ -25,6 +26,7 @@ private:
     GridView * gridView;
     TrackView *trackView;
     CarView *carView;
+    gui::View * gui;
 };
 
 #endif

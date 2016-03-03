@@ -28,6 +28,12 @@ SimulationState::SimulationState(Simulator* simulator) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
+
+    gui = new gui::View();
+    gui->add_line(glm::vec3(0,0,0), glm::vec3(1280, 720.0f, 0), glm::vec4(1,0,0,0.5f));
+
+    gui->add_line(glm::vec3(0, 720, 0), glm::vec3(1280, 0, 0), glm::vec4(0, 1.0f, 0, 0.5f));
+    gui->add_rect(glm::vec3(0, 0, 0), glm::vec3(640, 360, 0), glm::vec4(0, 0, 1, 0.5f));
 }
 
 
@@ -49,9 +55,9 @@ void SimulationState::update(float dt) {
 
 void SimulationState::render() {
     glDisable(GL_CULL_FACE);
-
     // Draw with appropriate shader, we only have one
     // shader so we use it to draw all things.
+ 
     glUseProgram(shader);
 
     // Upload camera view and projection matrices to the shader.
@@ -65,4 +71,6 @@ void SimulationState::render() {
     // Render the model, this uploads a model matrix and renders using that.
     trackView->render();
     carView->render();
+ 
+    gui->render();
 }

@@ -19,11 +19,15 @@ namespace gui {
         void clear();
 
         void add_line(const glm::vec3 & a, const glm::vec3 & b, const glm::vec4 & color);
-        void add_rect();
+        void add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4 & color);
         void add_text();
 
-    private:
 
+        void set_transform(const glm::mat4& mat);
+        void set_projection(const glm::mat4& mat);
+        void set_view(const glm::mat4& mat);
+    
+    private:
         struct Text {
             glm::vec3 pos;
             glm::vec4 color;
@@ -36,12 +40,18 @@ namespace gui {
         glm::vec3 origin;
         std::vector<glm::vec4> line_positions;
         std::vector<glm::vec4> line_colors;
+
+        std::vector<glm::vec4> quad_positions;
+        std::vector<glm::vec4> quad_colors;
+
         std::vector<Text> texts;
 
         GLuint  line_vao;
+        GLuint  quad_vao;
+
         GLuint  primitive_program;
         GLuint  text_vao;
-        GLuint   text_program;
+        GLuint  text_program;
     };
 
 }
