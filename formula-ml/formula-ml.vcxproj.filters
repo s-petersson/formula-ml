@@ -30,6 +30,7 @@
     <ClCompile Include="experiments\FixedNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl.cpp" />
     <ClCompile Include="experiments\NEATNetworkMidline.cpp" />
+    <ClCompile Include="core\gui\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="experiments\FixedNetworkMidline.h" />
     <ClInclude Include="experiments\ManualControl.h" />
     <ClInclude Include="experiments\NEATNetworkMidline.h" />
+    <ClInclude Include="core\gui\View.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

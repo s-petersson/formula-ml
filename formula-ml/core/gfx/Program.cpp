@@ -25,7 +25,6 @@ GLuint CreateShader(std::string vertex_source, std::string fragment_source) {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Invoke helper functions (in glutil.h/cpp) to load text files for vertex and fragment shaders.
 	std::string vs = textFileRead(vertex_source);
 	std::string fs = textFileRead(fragment_source);
 
