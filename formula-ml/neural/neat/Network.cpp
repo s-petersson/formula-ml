@@ -29,9 +29,10 @@ float Network::sigmoid(float x) {
 /* Network                                                          */
 /*==================================================================*/
 
-Network::Network() {}
+Network::Network() 
+    : Inputs(Config::Inputs), Outputs(Config::Outputs) {}
 
-Network::Network(std::vector<Gene> genes) {
+Network::Network(std::vector<Gene> genes) : Network(){
     
     for (int i = 1; i <= Inputs; i++) {
         neurons[i] = Neuron();

@@ -1,12 +1,16 @@
-#pragma once
 #ifndef NEURAL_NEAT_CONSTANTS
 #define NEURAL_NEAT_CONSTANTS
 
 namespace neat {
-    /** Constants */
-    const int Inputs = 3 + 10; // 2 + 1 bias
-    const int Outputs = 1;
 
+    class Config {
+    public:
+
+        static void set_config(int inputs, int outputs);
+        /** Constants */
+        static int Inputs; //= 3 + 10; // 2 + 1 bias
+        static int Outputs;// = 1;
+    };
     const int Population = 100;
     const float DeltaDisjoint = 2.0f;
     const float DeltaWeights = 0.4f;
@@ -26,7 +30,6 @@ namespace neat {
     const float EnableMutationChance = 0.2f;
 
     const int MaxNodes = 1000000;
-
 }
 
 #endif

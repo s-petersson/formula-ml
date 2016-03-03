@@ -6,12 +6,14 @@
 #include <neural/EvolvingNetwork.h>
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
+#include <neural/neat/Constants.h>
 
 using namespace neat;
 using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
+    Config::set_config(13, 1);
     pool = new Pool();
 }
 

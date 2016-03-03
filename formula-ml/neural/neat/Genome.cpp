@@ -33,16 +33,16 @@ int Genome::randomNeuron(bool input) {
     set<int> neurons;
 
     if (input) {
-        for (int i = 1; i <= Inputs; i++) {
+        for (int i = 1; i <= Config::Inputs; i++) {
             neurons.insert(i);
         }
     }
-    for (int i = 1; i <= Outputs; i++) {
+    for (int i = 1; i <= Config::Outputs; i++) {
         neurons.insert(MaxNodes + i);
     }
 
     for (auto && gene : genes) {
-        if (gene.into > Inputs) neurons.insert(gene.into);
+        if (gene.into > Config::Inputs) neurons.insert(gene.into);
         neurons.insert(gene.out);
     }
     int i = rngi(neurons.size());
@@ -85,8 +85,8 @@ void Genome::linkMutate(bool forceBias) {
     Gene new_link;
 
     // No links between input nodes.
-    if (neuron1 < Inputs && neuron2 < Inputs) return;
-    if (neuron2 < Inputs) { // No edges into the inputs.
+    if (neuron1 < Config::Inputs && neuron2 < Config::Inputs) return;
+    if (neuron2 < Config::Inputs) { // No edges into the inputs.
         int temp = neuron2;
         neuron2 = neuron1;
         neuron1 = temp;
@@ -95,7 +95,7 @@ void Genome::linkMutate(bool forceBias) {
     new_link.out = neuron2;
 
     if (forceBias) {
-        new_link.into = Inputs; // Changed the Bias node index to index 0.
+        new_link.into = Config::Inputs; // Changed the Bias node index to index 0.
     }
 
     // Dont add duplicates

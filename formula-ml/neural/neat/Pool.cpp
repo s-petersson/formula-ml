@@ -8,6 +8,7 @@ using namespace neat;
 using namespace std;
 
 Pool::Pool() {
+
     generation = 0;
     innovation = 0;
     currentSpecies = 1;
@@ -125,7 +126,7 @@ void Pool::addToSpecies(Genome child) {
 
 Genome Pool::basic_genome() {
     Genome genome;
-    genome.maxneuron = Inputs;
+    genome.maxneuron = Config::Inputs;
     genome.mutate();
     return genome;
 }

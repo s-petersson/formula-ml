@@ -31,6 +31,7 @@
     <ClCompile Include="experiments\NEATNetworkMidline\NEATNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
     <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
+    <ClCompile Include="neural\neat\Constants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />

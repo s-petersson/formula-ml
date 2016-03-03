@@ -158,6 +158,7 @@
     <ClCompile Include="neural\neat\Genome.cpp" />
     <ClCompile Include="neural\neat\Network.cpp" />
     <ClCompile Include="neural\neat\Pool.cpp" />
+    <ClCompile Include="neural\neat\Constants.cpp" />
     <ClCompile Include="neural\neat\Species.cpp" />
     <ClCompile Include="sim\model\CarModel.cpp" />
     <ClCompile Include="sim\model\TrackModel.cpp" />

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Species.h"
+#include "Constants.h"
 
 namespace neat {
     class Pool {
@@ -22,6 +23,8 @@ namespace neat {
         float maxFitness;
 
     private:
+        //Config config;
+
         Genome basic_genome();
         void cullSpecies(bool);
         void removeWeakSpecies();
@@ -30,7 +33,6 @@ namespace neat {
         void rankGlobally();
 
         bool sameSpecies(const Genome& genome1, const Genome& genome2);
-
         float totalAverageFitness();
 
     };
