@@ -43,7 +43,7 @@ float fitness(SimulationResult result, float termination_distance, float maximum
 
 void NeatTrainer::evaluate(Genome& genome) {
     static int nbr_of_checkpoints = 5;
-    static int nbr_of_inputs = 3 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 3 + Simulator::write_checkpoints_size(nbr_of_checkpoints);
     const float termination_distance = 5700.f;
     const float maximum_time = 2000.f;
 
@@ -79,7 +79,7 @@ void NeatTrainer::evaluate(Genome& genome) {
         int i = 0;
         inputs[i++] = sim->distance_to_middle();
         inputs[i++] = sim->angle_to_line();
-        sim->write_track_curve(inputs, i, nbr_of_checkpoints);
+        sim->write_checkpoints(inputs, i, nbr_of_checkpoints);
         inputs[i++] = 1.0f;
 
 
@@ -130,7 +130,7 @@ void NeatTrainer::showBest() {
     sim->progress_timeout = 0.1f;
 
     static int nbr_of_checkpoints = 5;
-    static int nbr_of_inputs = 3 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 3 + Simulator::write_checkpoints_size(nbr_of_checkpoints);
 
     float * in = new float[nbr_of_inputs];
     float * out = new float[1];
@@ -147,7 +147,7 @@ void NeatTrainer::showBest() {
         int i = 0;
         network_indata.values[i++] = sim->distance_to_middle();
         network_indata.values[i++] = sim->angle_to_line();
-        sim->write_track_curve(network_indata.values, i, nbr_of_checkpoints);
+        sim->write_checkpoints(network_indata.values, i, nbr_of_checkpoints);
         network_indata.values[i++] = 1.0f;
 
         best->fire(network_indata, output);

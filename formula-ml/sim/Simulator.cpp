@@ -56,7 +56,7 @@ float Simulator::angle_to_line() {
 Write to 'target' with 'offset'
 Updates offset to include what write_track_curve() writes
 */
-void Simulator::write_track_curve(float* target, int& offset, int nbr_of_checkpoints) {
+void Simulator::write_checkpoints(float* target, int& offset, int nbr_of_checkpoints) {
 
     int current_checkpoint = glm::max(car->checkpoint, 0);
 
