@@ -22,6 +22,7 @@ View::View(const vec3& o) : View() {
 
 View::~View() {
 
+
 }
 
 void View::render() {
