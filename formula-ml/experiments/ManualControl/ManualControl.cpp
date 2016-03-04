@@ -86,7 +86,7 @@ std::function<CarControl()> ManualControl::updater() {
         if (print_counter++ % 100 == 0) {
             float data[10];
             int i = 0;
-            simulator->write_checkpoints(&data[0], i, 5);
+            simulator->write_track_curve(&data[0], i, 10);
             cout << "Track curve data: \n"
                 << "counter i incremented to " << i << "\n"
                 << data[0] << "\n"
