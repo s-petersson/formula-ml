@@ -7,6 +7,7 @@
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
 #include <neural/neat/Constants.h>
+#include <thread>
 
 using namespace neat;
 using namespace std;
@@ -82,7 +83,6 @@ void NeatTrainer::evaluate(Genome& genome) {
         inputs[i++] = sim->car->getSpeed();
         sim->write_track_curve(inputs, i, nbr_of_checkpoints);
         inputs[i++] = 1.0f;
-
 
         n->fire(network_indata, output);
 
@@ -177,14 +177,48 @@ void NeatTrainer::showBest() {
     delete sim;
 }
 
+void NeatTrainer::evaluate_thread() {
+    bool run_thread = true;
+    while(run_thread) {
+        mtx.lock();
+        if (active_genomes.size() > 0) {
+            neat::Genome * genome = active_genomes.at(0);
+            active_genomes.erase(active_genomes.begin());
+            mtx.unlock();
+
+            evaluate(*genome);
+        } else {
+            run_thread = false;
+            mtx.unlock();
+        }
+    }
+}
+
 void NeatTrainer::run() {
+    std::vector<std::thread> thread_pool;
+
     int i = 0;
     while (true) {
+        // Build a vector with pointers to all genomes within this generation.
         for (auto && species : pool->species) {
             for (auto && genome : species.genomes) {
-                evaluate(genome);
+                active_genomes.push_back(&genome);
             }
         }
+
+        // Start as many threads as we have processors in order to evaluate more
+        // efficiently.
+        for (int i = 0; i < std::thread::hardware_concurrency(); i++) {
+            thread_pool.push_back(std::thread(&NeatTrainer::evaluate_thread, this));
+        }
+
+        // Wait for all threads evaluating, since next generation will
+        // depend on this generation.
+        for (int i = 0; i < thread_pool.size(); i++) {
+            thread_pool[i].join();
+            thread_pool.erase(thread_pool.begin() + i);
+        }
+
         i++;
         pool->new_generation();
         cout << "New Generation: " << i << endl;
