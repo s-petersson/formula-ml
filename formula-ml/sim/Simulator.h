@@ -22,7 +22,8 @@ public:
 	// To be set by the user before start:
 	CarModel * car;
 	TrackModel * track;
-	float progress_timeout;
+	float progress_timeout = 0;
+    float termination_distance = std::numeric_limits<float>::max();
     std::function<CarControl()> carUpdater;
 
 	// Readable by user:

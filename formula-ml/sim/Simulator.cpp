@@ -101,6 +101,13 @@ SimulationResult Simulator::run(const float dt) {
 			break;
 		}
 
+        // Check termination limits
+        if (result.distance_driven >= termination_distance) {
+            // Call it quits
+            result.distance_driven = termination_distance;
+            break;
+        }
+
 		// Check for progress
 		if (result.distance_driven > best.distance_driven) {
 			// The car has progressed
