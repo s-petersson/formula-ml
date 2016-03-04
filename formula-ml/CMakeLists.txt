@@ -33,7 +33,7 @@ add_executable(formula_ml
         neural/EvolvingNetwork.cpp
         neural/FixedNetworkTrainer.cpp
         neural/FixedNetworkXOR.cpp
-        neural/neat/Constants.h
+        neural/neat/Constants.cpp
         neural/neat/Gene.cpp
         neural/neat/Genome.cpp
         neural/neat/Network.cpp
