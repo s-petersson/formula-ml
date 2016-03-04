@@ -13,7 +13,7 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
-    Config::set_config(13, 1);
+    Config::set_config(14, 2);
     pool = new Pool();
 }
 
@@ -43,7 +43,7 @@ float fitness(SimulationResult result, float termination_distance, float maximum
 
 void NeatTrainer::evaluate(Genome& genome) {
     static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 3 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 3 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
     const float termination_distance = 5700.f;
     const float maximum_time = 2000.f;
 
@@ -63,6 +63,7 @@ void NeatTrainer::evaluate(Genome& genome) {
     // Place car at the tracks starting grid.
     sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(12.f);
+    sim->car->maxSpeed = 12.f;
     sim->progress_timeout = 0.1f;
     sim->termination_distance = termination_distance;
 
@@ -71,14 +72,14 @@ void NeatTrainer::evaluate(Genome& genome) {
     network_indata.value_count = nbr_of_inputs;
     network_indata.values = inputs;
     neural::NetworkIO output = neural::NetworkIO();
-    output.value_count = 1;
+    output.value_count = Config::Outputs;
     output.values = outputs;
 
     sim->carUpdater = [&]() {
-
         int i = 0;
         inputs[i++] = sim->distance_to_middle();
         inputs[i++] = sim->angle_to_line();
+        inputs[i++] = sim->car->getSpeed();
         sim->write_track_curve(inputs, i, nbr_of_checkpoints);
         inputs[i++] = 1.0f;
 
@@ -87,7 +88,7 @@ void NeatTrainer::evaluate(Genome& genome) {
 
         CarControl control;
         control.acceleration = 0;
-        control.brake = 0;
+        control.brake = outputs[1];
         control.steer = outputs[0];
 
         return control;
@@ -127,10 +128,11 @@ void NeatTrainer::showBest() {
     // Place car at the tracks starting grid.
     sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(12.f);
+    sim->car->maxSpeed = 12.f;
     sim->progress_timeout = 0.1f;
 
     static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 3 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 3 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
 
     float * in = new float[nbr_of_inputs];
     float * out = new float[1];
@@ -139,7 +141,7 @@ void NeatTrainer::showBest() {
     network_indata.value_count = nbr_of_inputs;
     network_indata.values = in;
     neural::NetworkIO output = neural::NetworkIO();
-    output.value_count = 1;
+    output.value_count = Config::Outputs;
     output.values = out;
 
     sim->carUpdater = [&]() {
@@ -147,6 +149,7 @@ void NeatTrainer::showBest() {
         int i = 0;
         network_indata.values[i++] = sim->distance_to_middle();
         network_indata.values[i++] = sim->angle_to_line();
+        network_indata.values[i++] = sim->car->getSpeed();
         sim->write_track_curve(network_indata.values, i, nbr_of_checkpoints);
         network_indata.values[i++] = 1.0f;
 
@@ -154,7 +157,7 @@ void NeatTrainer::showBest() {
 
         CarControl control;
         control.acceleration = 0;
-        control.brake = 0;
+        control.brake = out[1];
         control.steer = out[0];
 
         return control;

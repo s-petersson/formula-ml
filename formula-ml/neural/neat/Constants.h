@@ -2,7 +2,6 @@
 #define NEURAL_NEAT_CONSTANTS
 
 namespace neat {
-
     class Config {
     public:
 

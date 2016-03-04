@@ -47,6 +47,7 @@ public:
 
     int checkpoint;
     float distance_on_track;
+	float maxSpeed;
 
 private:
     float maxRotation(float speed, float forwardForce, float dt);
