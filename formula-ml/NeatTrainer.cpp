@@ -23,11 +23,29 @@ NeatTrainer::~NeatTrainer()
     if (pool) delete pool;
 }
 
+float fitness(SimulationResult result, float termination_distance, float maximum_time) {
+    float fitness = result.distance_driven;
 
+    // If the car has come to the end of the track, let the time
+    if (glm::abs(result.distance_driven - termination_distance) < 1) {
+        // (sqrt(t_max) - sqrt(t))^2 gives increases the fitness for lower times with
+        // higher resolution at lower values. *5 stretches the result to equal the
+        // size of distance somewhat.
+        float root_difference = glm::sqrt(maximum_time) - glm::sqrt(result.time_alive);
+        float time_fitness = root_difference * root_difference * 5.f;
+
+        // If the car would drive slower than the maximum_time constant, make the time a penalty instead
+        fitness += result.time_alive < maximum_time ? time_fitness : -time_fitness;
+    }
+
+    return fitness;
+}
 
 void NeatTrainer::evaluate(Genome& genome) {
     static int nbr_of_checkpoints = 5;
     static int nbr_of_inputs = 3 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    const float termination_distance = 5700.f;
+    const float maximum_time = 2000.f;
 
     float * inputs = new float[nbr_of_inputs];
     float * outputs = new float[1];
@@ -46,6 +64,7 @@ void NeatTrainer::evaluate(Genome& genome) {
     sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(5.f);
     sim->progress_timeout = 0.1f;
+    sim->termination_distance = termination_distance;
 
     // Define struct for ai indata
     neural::NetworkIO network_indata = neural::NetworkIO();
@@ -75,12 +94,14 @@ void NeatTrainer::evaluate(Genome& genome) {
     };
     SimulationResult result = sim->run(0.01f);
 
-    genome.fitness = result.distance_driven;
+    genome.fitness = fitness(result, termination_distance, maximum_time);
     if (genome.fitness > pool->maxFitness) {
         pool->maxFitness = genome.fitness;
         delete best;
         best = n;
-        cout << "New maximum fitness: " << genome.fitness << endl;
+        cout << "New maximum fitness: " << genome.fitness << endl
+             << "Distance: " << result.distance_driven << endl
+             << "Time: " << result.time_alive << endl << endl;
         improved = true;
     }
     else {
