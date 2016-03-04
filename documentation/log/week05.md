@@ -1,5 +1,7 @@
 # Week 5, February 15-21
-Concerning training algorithms
+Summary: Most time went to implementation/reseach and preparation for next weeks first training algorithm. Simon and Gabriel worked on measuring distance travelled on the road, neccesary for the performance function, and input interpretation of the road as a grid. Martin and Daniel worked with implementations of neural networks. Martin also worked with a NEAT training algorithm.
+
+### Concerning training algorithms
  - Hill climbing. Use result from simulation to score an AI instance. Stochastically take steps in different directions to increase the overall score. The direction of good steps may be repeated(?).
  - Hebbian learning, Hayken. During a network fire, if to adjacent synapses fire at the same time, increase their weight. If non fire, decrease weight. Back to the simulation as foundation for scoring. But if the simulation prove good behaviour, one might possibly go back in time to empower the behaviour for the previous input.
  
@@ -31,10 +33,16 @@ Helped Simon to find the algorithm to build a line out of the triangle structure
 
 Implemented an algorithm that read the track and build a grid with information about the road ahead of the car. It iterates over the triangles, translates and rotates them to a frame of reference of the car, define a bounding box for the triangle, check all cells/points in the bounding box if they collide with the triangle and marks the cell as road if it do.
 
-Simon also helped me to refactor the the structural parts of the simulation and test setup. The code is now more modular. For example the simulator now expects its users to define the important parts such as track, car, input processing to ai, output processing and the ai. This let the same Simulator implementation be used for different tests, with different implementations. Interfaces for example different parts of the ai may be needed later on.
+Simon an I also refactored the the structural parts of the simulation and test setup. The code is now more modular. For example the simulator now expects its users to define the important parts such as track, car, input processing to ai, output processing and the ai. This let the same Simulator implementation be used for different tests, with different implementations. Interfaces for example different parts of the ai may be needed later on.
 
 Made a quick fix in the physic simulation. Multiplied the force capacity of the tyres by a constant. The car behaved much better now, more realistic steering capabilities and brakes faster than it accelerates.
 
+### Simon
+Made a refactorisation with Gabriel.
+
+Planned and implemented an algorithm to take out checkpoints from the triangles representing the track. The checkpoints can then be used to build a line representing the middle of the track.
+In order to write a fitness function that measure how far the car gets on the track, the distance driven is not relevant since the car could drive in zigzag. It must be related to the distance of the track.
+The distance on the track sums the length of the line from start to the last checkpoint and the distance from the last checkpoint to the car. For a car that drives in the direction of the track, the function will always be increasing and make small jumps when a new last checkpoint is set.
 
 ### Martin
 
