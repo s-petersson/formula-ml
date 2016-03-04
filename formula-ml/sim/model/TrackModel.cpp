@@ -30,7 +30,7 @@ bool overlaps(const glm::vec3& point, const glm::vec3& v1, const glm::vec3& v2, 
     return 0 <= a && a <= 1 && 0 <= b && b <= 1 && 0 <= c && c <= 1;
 }
 
-bool overlaps(const Triangle& tri, vector<Vertex> vertices, const glm::vec3& point) {
+bool overlaps(const Triangle& tri, vector<Vertex>& vertices, const glm::vec3& point) {
     glm::vec3 v1 = vertices[tri.i1].pos;
     glm::vec3 v2 = vertices[tri.i2].pos;
     glm::vec3 v3 = vertices[tri.i3].pos;
@@ -38,9 +38,10 @@ bool overlaps(const Triangle& tri, vector<Vertex> vertices, const glm::vec3& poi
 }
 
 bool TrackModel::on_track(const glm::vec3& point) {
-    for (int i = 0; i < model->get_mesh()->triangles.size(); i++) {
-        if (overlaps(model->get_mesh()->triangles[i], model->get_mesh()->vertices, point)) return true;
+    for (auto && t : model->get_mesh()->triangles) {
+        if (overlaps(t, model->get_mesh()->vertices, point)) return true;
     }
+
     return false;
 }
 
