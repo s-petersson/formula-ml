@@ -9,6 +9,9 @@ Simulator::Simulator() {
 }
 
 Simulator::~Simulator() {
+    delete car;
+    delete track;
+
 }
 
 /**
