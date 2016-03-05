@@ -14,18 +14,38 @@ const float minTurningRadius = 4;		// Guessed
 
 using namespace glm;
 
-CarModel::CarModel() {
-    model = new Model("./res/models/car.model");
-    position = vec3();
-    direction = vec3(-0.616278410f, -0.787541449f, 0);
-    velocity = vec3();
-	currentControl = CarControl();
-    checkpoint = 0;
-    distance_on_track = 0;
+CarModel::CarModel(vec3 position, vec3 direction, float max_speed) {
+    model                   = new Model("./res/models/car.model");
+    this->position          = position;
+    this->initial_position  = position;
+
+    //    direction = vec3(-0.616278410f, -0.787541449f, 0);
+    this->direction         = direction;
+    this->initial_direciton = direction;
+
+    this->max_speed         = max_speed;
+    this->initial_max_speed = max_speed;
+
+    checkpoint              = 0;
+    distance_on_track       = 0;
+    velocity                = vec3();
+	current_control         = CarControl();
 }
 
 CarModel::~CarModel() {
 
+}
+
+void CarModel::reset() {
+    position                        = initial_position;
+    direction                       = initial_direciton;
+    max_speed                       = initial_max_speed;
+    checkpoint                      = 0;
+    distance_on_track               = 0;
+    velocity                        = vec3();
+    current_control.acceleration    = 0;
+    current_control.brake           = 0;
+    current_control.steer           = 0;
 }
 
 float CarModel::getSpeed() {
@@ -48,22 +68,22 @@ void smoothChange(float* value, float new_value, float dt, float value_range) {
 void CarModel::update(float dt, struct CarControl control) {
 
 	// Update current control state with smoothing
-    smoothChange(&currentControl.acceleration, control.acceleration, dt, 1.f);
-    smoothChange(&currentControl.brake, control.brake, dt, 1.f);
-    smoothChange(&currentControl.steer, control.steer, dt, 2.f);
+    smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
+    smoothChange(&current_control.brake, control.brake, dt, 1.f);
+    smoothChange(&current_control.steer, control.steer, dt, 2.f);
 
     float currentSpeed = getSpeed();
 
     // Acceleration in the direction of the car
     float forwardForce = 0;
-    if (currentControl.acceleration > 0 && currentSpeed < maxSpeed) {
-        forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * currentControl.acceleration;
+    if (current_control.acceleration > 0 && currentSpeed < max_speed) {
+        forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * current_control.acceleration;
         velocity += direction * (forwardForce * dt / mass);
-    } else if (currentControl.brake <= 0 && currentSpeed < maxSpeed) {
+    } else if (current_control.brake <= 0 && currentSpeed < max_speed) {
         forwardForce = glm::min(gasForce, maxTyreForce(currentSpeed)) * 1;
         velocity += direction * (forwardForce * dt / mass);
-    } else if (currentControl.brake > 0) {
-        forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * currentControl.brake;
+    } else if (current_control.brake > 0) {
+        forwardForce = -glm::min(brakeForce, maxTyreForce(currentSpeed)) * current_control.brake;
         velocity += direction * (forwardForce * dt / mass);
         if (length(normalize(velocity) + direction) < 1) {
             velocity *= 0;
@@ -71,8 +91,8 @@ void CarModel::update(float dt, struct CarControl control) {
     }
 
     // Rotation due to steering
-    if (currentControl.steer != 0) {
-        float rotation = maxRotation(currentSpeed, forwardForce, dt) * currentControl.steer;
+    if (current_control.steer != 0) {
+        float rotation = maxRotation(currentSpeed, forwardForce, dt) * current_control.steer;
         direction = glm::rotateZ(direction, rotation);
         velocity = glm::rotateZ(velocity, rotation);
     }

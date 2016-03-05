@@ -35,9 +35,12 @@ struct CarControl {
 
 class CarModel {
 public:
-    CarModel();
+    CarModel(vec3 position, vec3 direction, float max_speed);
     ~CarModel();
+
+	void reset();
     void update(float dt, struct CarControl control);
+
 	float getSpeed();
 	void setSpeed(float speed);
 	Model* get_model();
@@ -47,7 +50,7 @@ public:
 
     int checkpoint;
     float distance_on_track;
-	float maxSpeed;
+	float max_speed;
 
 private:
     float maxRotation(float speed, float forwardForce, float dt);
@@ -56,7 +59,11 @@ private:
 	float dragForce(float speed);
 
 	glm::vec3 velocity;
-	CarControl currentControl;
+	CarControl current_control;
 	Model* model;
+
+	glm::vec3 initial_position;
+	glm::vec3 initial_direciton;
+	float initial_max_speed;
 };
 #endif

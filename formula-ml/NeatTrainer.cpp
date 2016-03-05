@@ -64,7 +64,7 @@ void NeatTrainer::evaluate(Genome& genome) {
     // Place car at the tracks starting grid.
     sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(12.f);
-    sim->car->maxSpeed = 12.f;
+    sim->car->max_speed = 12.f;
     sim->progress_timeout = 0.1f;
     sim->termination_distance = termination_distance;
 
@@ -128,7 +128,7 @@ void NeatTrainer::showBest() {
     // Place car at the tracks starting grid.
     sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(12.f);
-    sim->car->maxSpeed = 12.f;
+    sim->car->max_speed = 12.f;
     sim->progress_timeout = 0.1f;
 
     static int nbr_of_checkpoints = 10;

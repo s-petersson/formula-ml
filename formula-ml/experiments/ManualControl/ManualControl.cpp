@@ -19,7 +19,7 @@ ManualControl::ManualControl() {
                                                                5.000004));
     simulator->car                  = new CarModel();
     simulator->car->position        = simulator->track->get_start_grid_pos();
-    simulator->car->maxSpeed        = 15.f;
+    simulator->car->max_speed = 15.f;
 
     std::vector<Renderer*> renderers;
     renderers.push_back(new StandardRenderer(simulator));

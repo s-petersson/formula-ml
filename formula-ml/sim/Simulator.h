@@ -16,6 +16,8 @@ class Simulator {
 public:
 	Simulator();
 	~Simulator();
+
+	void reset();
 	void update(float dt);
 	SimulationResult run(float dt);
 

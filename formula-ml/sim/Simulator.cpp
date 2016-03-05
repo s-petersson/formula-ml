@@ -11,9 +11,22 @@ Simulator::Simulator() {
 Simulator::~Simulator() {
 }
 
-/*
-    Angle between two normalized vectors
-*/
+/**
+ * Reset all the values for the simulator, this provides flexibility so that new simulators doesn't have to
+ * be created when one wants to rerun a simulation. Instead one can simply reset the simulator.
+ */
+void Simulator::reset() {
+    // Reset the simulators values
+    result.distance_driven = 0;
+    result.time_alive = 0;
+
+    // Now reset the cars values.
+    car->reset();
+}
+
+/**
+ * Calculate the angle between two normalized vectors
+ */
 inline float angle(glm::vec3 v1, glm::vec3 v2) {
     float angle;
 
@@ -38,6 +51,10 @@ inline float angle(glm::vec3 v1, glm::vec3 v2) {
     return angle;
 }
 
+/**
+ * Returns the distance to the middle for the current position of the car.
+ * TODO Move this to TrackModel and take a vec3 as input, calculate distance to middle from that point.
+ */
 float Simulator::distance_to_middle() {
     glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].middle - track->get_checkpoints()[car->checkpoint - 1].middle);
     glm::vec3 car_pos = car->position - track->get_checkpoints()[car->checkpoint - 1].middle;
