@@ -111,9 +111,7 @@ void NeatTrainer::showBest() {
 
 
     // Place car at the tracks starting grid.
-    sim->car->position = sim->track->get_start_grid_pos();
     sim->car->setSpeed(12.f);
-    sim->car->max_speed = 12.f;
     sim->progress_timeout = 0.1f;
 
     static int nbr_of_checkpoints = 10;
@@ -157,8 +155,6 @@ void NeatTrainer::showBest() {
     delete window;
     delete[] in;
     delete[] out;
-    delete sim->car;
-    delete sim->track;
     delete sim;
 }
 
@@ -204,21 +200,16 @@ Simulator* create_simulator() {
 }
 
 void NeatTrainer::run() {
-    std::cout << "running" << std::endl;
     int thread_count = std::thread::hardware_concurrency();
 	std::thread *thread_pool = new std::thread[thread_count];
-    Simulator *sim_pool[thread_count];
+	Simulator **sim_pool = new Simulator*[thread_count];
 
-    std::cout << "creating simulators" << std::endl;
     for (int i = 0; i < thread_count; ++i) {
         sim_pool[i] = create_simulator();
     }
-    std::cout << "created simulators" << std::endl;
 
 	int i = 0;
-    std::cout << "starting training" << std::endl;
 	while (true) {
-        std::cout << "training" << std::endl;
 		// Build a vector with pointers to all genomes within this generation.
 		for (auto && species : pool->species) {
 			for (auto && genome : species.genomes) {
