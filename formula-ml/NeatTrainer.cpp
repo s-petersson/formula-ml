@@ -49,7 +49,7 @@ void NeatTrainer::evaluate(Genome& genome) {
     const float maximum_time = 2000.f;
 
     float * inputs = new float[nbr_of_inputs];
-    float * outputs = new float[1];
+    float * outputs = new float[Config::Outputs];
     Network *n = new Network(genome.genes);
 
     Simulator * sim = new Simulator();
@@ -135,7 +135,7 @@ void NeatTrainer::showBest() {
     static int nbr_of_inputs = 3 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
 
     float * in = new float[nbr_of_inputs];
-    float * out = new float[1];
+    float * out = new float[Config::Outputs];
     // Define struct for ai indata
     neural::NetworkIO network_indata = neural::NetworkIO();
     network_indata.value_count = nbr_of_inputs;
@@ -195,36 +195,40 @@ void NeatTrainer::evaluate_thread() {
 }
 
 void NeatTrainer::run() {
-    std::vector<std::thread> thread_pool;
+	int thread_count = std::thread::hardware_concurrency();
+	std::thread *thread_pool = new std::thread[thread_count];
+	//std::vector<std::thread> thread_pool;
 
-    int i = 0;
-    while (true) {
-        // Build a vector with pointers to all genomes within this generation.
-        for (auto && species : pool->species) {
-            for (auto && genome : species.genomes) {
-                active_genomes.push_back(&genome);
-            }
-        }
+	int i = 0;
+	while (true) {
+		// Build a vector with pointers to all genomes within this generation.
+		for (auto && species : pool->species) {
+			for (auto && genome : species.genomes) {
+				active_genomes.push_back(&genome);
+			}
+		}
 
-        // Start as many threads as we have processors in order to evaluate more
-        // efficiently.
-        for (int i = 0; i < std::thread::hardware_concurrency(); i++) {
-            thread_pool.push_back(std::thread(&NeatTrainer::evaluate_thread, this));
-        }
+		// Start as many threads as we have processors in order to evaluate more
+		// efficiently.
+		for (int i = 0; i < thread_count; i++) {
+			thread_pool[i] = std::thread(&NeatTrainer::evaluate_thread, this);
+			//thread_pool.push_back(std::thread(&NeatTrainer::evaluate_thread, this));
+		}
 
-        // Wait for all threads evaluating, since next generation will
-        // depend on this generation.
-        for (int i = 0; i < thread_pool.size(); i++) {
-            thread_pool[i].join();
-            thread_pool.erase(thread_pool.begin() + i);
-        }
+		// Wait for all threads evaluating, since next generation will
+		// depend on this generation.
+		for (int i = 0; i < thread_count; i++) {
+			thread_pool[i].join();
+			//thread_pool.erase(thread_pool.begin() + i);
+		}
 
-        i++;
-        pool->new_generation();
-        cout << "New Generation: " << i << endl;
-        if (improved) {
-            showBest();
-            improved = false;
-        }
-    }
+		i++;
+		pool->new_generation();
+		cout << "New Generation: " << i << endl;
+		if (improved && pool->maxFitness > 2000) {
+			showBest();
+			improved = false;
+		}
+	}
+	delete[] thread_pool;
 }

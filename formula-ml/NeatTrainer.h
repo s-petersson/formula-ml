@@ -4,6 +4,7 @@
 #include <neural/neat/Pool.h>
 #include <neural/neat/Network.h>
 #include <thread>
+#include <mutex>
 
 class NeatTrainer
 {
