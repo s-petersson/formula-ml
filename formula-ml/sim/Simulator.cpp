@@ -160,7 +160,7 @@ SimulationResult Simulator::run(const float dt) {
 		} else if(result.time_alive > best.time_alive + progress_timeout) {
 			// No progress for a while
 			// Call it quits
-			//break;
+			break;
 		}
 	}
 	return result;
