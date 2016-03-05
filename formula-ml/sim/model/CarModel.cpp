@@ -14,12 +14,11 @@ const float minTurningRadius = 4;		// Guessed
 
 using namespace glm;
 
-CarModel::CarModel(vec3 position, vec3 direction, float max_speed) {
+CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float max_speed) {
     model                   = new Model("./res/models/car.model");
     this->position          = position;
     this->initial_position  = position;
 
-    //    direction = vec3(-0.616278410f, -0.787541449f, 0);
     this->direction         = direction;
     this->initial_direciton = direction;
 

@@ -35,7 +35,7 @@ struct CarControl {
 
 class CarModel {
 public:
-    CarModel(vec3 position, vec3 direction, float max_speed);
+    CarModel(glm::vec3 position, glm::vec3 direction, float max_speed);
     ~CarModel();
 
 	void reset();

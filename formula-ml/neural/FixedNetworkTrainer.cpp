@@ -99,12 +99,11 @@ SimulationResult FixedNetworkTrainer::testGenome(FixedNetworkGenome& genome) {
 
 SimulationResult FixedNetworkTrainer::runSimulation(neural::Network* network, TrackModel* track) {
 	Simulator* sim = new Simulator();
-    CarModel carModel = CarModel();
+    CarModel carModel = CarModel(sim->track->get_start_grid_pos(), glm::vec3(), 15.f);
 	sim->track = track;
 	sim->car = &carModel;
 
 	// Place car with speed at the tracks starting grid.
-	sim->car->position = sim->track->get_start_grid_pos();
 	sim->car->setSpeed(15.f);
 	sim->progress_timeout = 0.1f;
 

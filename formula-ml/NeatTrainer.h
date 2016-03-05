@@ -5,6 +5,7 @@
 #include <neural/neat/Network.h>
 #include <thread>
 #include <mutex>
+#include <sim/Simulator.h>
 
 class NeatTrainer
 {
@@ -15,8 +16,8 @@ public:
     void run();
 
 private:
-    void evaluate(neat::Genome& genome);
-    void evaluate_thread();
+    void evaluate(neat::Genome& genome, Simulator * sim);
+    void evaluate_thread(Simulator * sim);
     void showBest();
     bool improved = false;
     neat::Pool * pool;
