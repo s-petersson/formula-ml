@@ -6,12 +6,11 @@
 
 Algorithm
 - Add grid as it is today (Martin)
-- Input data: Curve data with fixed distances
 - "Convolutional neural network" like tools for in data processing
   - Upgrade curve data
   - Upgrade grid
 - Output data processing: Braking & Accelerating (Simon)
-- Fitness function: Consider time
+- Fitness function: Consider time (Gabriel)
 
 Refactoring
 - States/Views  (Simon)
@@ -28,7 +27,8 @@ Help features
   - Physics info
 
 ### Done this week
-- Input data: Track as curve (Gabriel)
+- Input data: Checkpoints (Gabriel)
+- Input data: Curve data with fixed distances (Gabriel)
 - Output data processing: Braking (Simon)
 
 

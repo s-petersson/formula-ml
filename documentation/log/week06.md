@@ -52,4 +52,5 @@ A proposed solution that originated from Gabriel was to use both the cars positi
 Refactorisation
 
 ### Daniel
+
 Prepared for the mid-term presentation
