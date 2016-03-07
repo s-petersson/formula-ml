@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include <core/util/Random.h>
 #include <set>
+#include <fstream>
 
 
 
@@ -26,6 +27,26 @@ Genome::~Genome() {}
 
 int new_innovation() {
     return ++innovation;
+}
+
+void Genome::toFile(std::string path) {
+	ofstream file;
+	file.open(path);
+
+	file << fitness << endl;
+	file << adjustedFitness << endl;
+	file << maxneuron << endl;
+	file << globalRank << endl;
+	file << "Genes" << endl;
+
+	for (int i = 0; i < genes.size(); i++) {
+		file << genes.at(i).out << " ";
+		file << genes.at(i).into << " ";
+		file << genes.at(i).weight << " ";
+		file << genes.at(i).enabled << " ";
+		file << genes.at(i).innovation << " ";
+		file << genes.at(i).created << endl;
+	}
 }
 
 /** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/

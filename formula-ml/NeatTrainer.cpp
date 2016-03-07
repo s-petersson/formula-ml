@@ -81,6 +81,7 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
 
     genome.fitness = fitness(result, termination_distance, maximum_time);
     if (genome.fitness > pool->maxFitness) {
+		genome.toFile("testBest.txt");
         pool->maxFitness = genome.fitness;
         delete best;
         best = n;

@@ -14,6 +14,7 @@ namespace neat {
     class Genome {
     public:
         Genome();
+		//Genome(string path);
         ~Genome();
 
         void mutate();
@@ -27,6 +28,8 @@ namespace neat {
         //neat::Network network;
         int maxneuron = 0;
         int globalRank = 0;
+
+		void toFile(std::string path);
         
     private:
         
