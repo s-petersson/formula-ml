@@ -31,6 +31,8 @@
     <ClCompile Include="experiments\ManualControl.cpp" />
     <ClCompile Include="experiments\NEATNetworkMidline.cpp" />
     <ClCompile Include="core\gui\View.cpp" />
+    <ClCompile Include="core\gfx\Texture.cpp" />
+    <ClCompile Include="core\gui\Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -70,6 +72,8 @@
     <ClInclude Include="experiments\ManualControl.h" />
     <ClInclude Include="experiments\NEATNetworkMidline.h" />
     <ClInclude Include="core\gui\View.h" />
+    <ClInclude Include="core\gfx\Texture.h" />
+    <ClInclude Include="core\gui\Font.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -77,5 +81,11 @@
     <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
+    <None Include="res\shaders\text.vert" />
+    <None Include="res\shaders\text.frag" />
+    <None Include="res\fonts\comic.fnt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\fonts\comic.tga" />
   </ItemGroup>
 </Project>

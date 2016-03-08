@@ -29,11 +29,13 @@ SimulationState::SimulationState(Simulator* simulator) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
 
-    gui = new gui::View();
-    gui->add_line(glm::vec3(0,0,0), glm::vec3(1280, 720.0f, 0), glm::vec4(1,0,0,0.5f));
+    gui = new gui::View(glm::vec3(640,360,0));
+    //gui->add_line(glm::vec3(0,0,0), glm::vec3(1280, 720.0f, 0), glm::vec4(1,0,0,0.5f));
 
-    gui->add_line(glm::vec3(0, 720, 0), glm::vec3(1280, 0, 0), glm::vec4(0, 1.0f, 0, 0.5f));
-    gui->add_rect(glm::vec3(0, 0, 0), glm::vec3(640, 360, 0), glm::vec4(0, 0, 1, 0.5f));
+    //gui->add_line(glm::vec3(0, 720, 0), glm::vec3(1280, 0, 0), glm::vec4(0, 1.0f, 0, 0.5f));
+    //gui->add_rect(glm::vec3(200, 200, 0), glm::vec3(1000, 500, 0), glm::vec4(0, 0, 1, 0.5f));
+    gui->add_text("swag", glm::vec3(100,100,0), glm::vec4(0,1,0,1));
+    gui->add_text("YOLO", glm::vec3(0, -100, 0), glm::vec4(0, 1, 1, 1));
 }
 
 
