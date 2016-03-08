@@ -37,14 +37,14 @@ void Genome::toFile(std::string path) {
 	file << adjustedFitness << endl;
 	file << maxneuron << endl;
 	file << globalRank << endl;
-	file << "Genes" << endl;
+	file << "out\tin\tweight\tenabled\tinnovation\tcreated" << endl;
 
 	for (int i = 0; i < genes.size(); i++) {
-		file << genes.at(i).out << " ";
-		file << genes.at(i).into << " ";
-		file << genes.at(i).weight << " ";
-		file << genes.at(i).enabled << " ";
-		file << genes.at(i).innovation << " ";
+		file << genes.at(i).out << "\t";
+		file << genes.at(i).into << "\t";
+		file << genes.at(i).weight << "\t";
+		file << genes.at(i).enabled << "\t";
+		file << genes.at(i).innovation << "\t";
 		file << genes.at(i).created << endl;
 	}
 }
