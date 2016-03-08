@@ -20,11 +20,13 @@ private:
     void evaluate_thread(Simulator * sim);
     void showBest();
     bool improved = false;
+	int generation;
     neat::Pool * pool;
     neat::Network *best;
 
     std::mutex mtx;
     std::vector<neat::Genome*> active_genomes;
+	std::string savePath;
 };
 
 #endif

@@ -8,6 +8,7 @@
 #include <experiments/StandardRenderer.h>
 #include <neural/neat/Constants.h>
 #include <thread>
+#include <sstream>
 
 using namespace neat;
 using namespace std;
@@ -16,6 +17,9 @@ NeatTrainer::NeatTrainer()
 {
     Config::set_config(14, 2);
     pool = new Pool();
+	
+
+	savePath = "saves\\";
 }
 
 
@@ -81,7 +85,10 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
 
     genome.fitness = fitness(result, termination_distance, maximum_time);
     if (genome.fitness > pool->maxFitness) {
-		genome.toFile("testBest.txt");
+		std::ostringstream oss;
+		oss << savePath << "Generation" << generation <<".txt";
+		std::string path = oss.str();
+		genome.toFile(path);
         pool->maxFitness = genome.fitness;
         delete best;
         best = n;
@@ -209,7 +216,7 @@ void NeatTrainer::run() {
         sim_pool[i] = create_simulator();
     }
 
-	int i = 0;
+	int  i = 0;
 	while (true) {
 		// Build a vector with pointers to all genomes within this generation.
 		for (auto && species : pool->species) {
@@ -233,10 +240,11 @@ void NeatTrainer::run() {
 		}
 
 		i++;
+		generation = i;
 		pool->new_generation();
 		cout << "New Generation: " << i << endl;
 		if (improved) {
-			showBest();
+			//showBest();
 			improved = false;
 		}
 	}
@@ -244,4 +252,8 @@ void NeatTrainer::run() {
     for (int i = 0; i < thread_count; ++i) {
         delete sim_pool[i];
     }
+	
+
+
 }
+
