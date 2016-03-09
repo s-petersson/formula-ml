@@ -43,7 +43,15 @@ void View::render() {
 }
 
 void View::clear() {
+	line_positions.clear();
+	line_colors.clear();
 
+	quad_positions.clear();
+	quad_colors.clear();
+
+	text_positions.clear();
+	text_colors.clear();
+	text_uvs.clear();
 }
 
 
