@@ -21,7 +21,7 @@ namespace gui {
 
         void add_line(const glm::vec3 & a, const glm::vec3 & b, const glm::vec4 & color);
         void add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4 & color);
-        void add_text(const std::string& text, glm::vec3 origin, glm::vec4 color);
+        void add_text(const std::string& text, float size, glm::vec3 origin, glm::vec4 color);
 
 
         void set_transform(const glm::mat4& mat);

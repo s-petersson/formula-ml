@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -175,6 +175,8 @@
     <None Include=".gitignore" />
     <None Include="Readme.md" />
     <None Include="res\fonts\comic.fnt" />
+    <None Include="res\fonts\georgia.fnt" />
+    <None Include="res\fonts\helvetica.fnt" />
     <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
@@ -227,6 +229,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />
+    <Image Include="res\fonts\georgia.png" />
+    <Image Include="res\fonts\georgia.tga" />
+    <Image Include="res\fonts\helvetica.png" />
+    <Image Include="res\fonts\helvetica.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

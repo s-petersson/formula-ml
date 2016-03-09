@@ -7,7 +7,7 @@ in vec2 out_uv;
 
 out vec4 fragmentColor;
 
-const float smoothing = 1.0/64.0;
+const float smoothing = 1.0/32.0;
 
 void main() 
 {

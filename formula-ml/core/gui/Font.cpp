@@ -8,8 +8,8 @@ using namespace std;
 using namespace glm;
 
 Font::Font() {
-    fontmap = load_tga("res/fonts/comic.tga", 0, false);
-    load_glyphs("res/fonts/comic.fnt");
+    fontmap = load_tga("res/fonts/helvetica.tga", 0, false);
+    load_glyphs("res/fonts/helvetica.fnt");
 }
 
 Font::~Font() {
@@ -38,9 +38,17 @@ void Font::load_glyphs(std::string loc) {
     {
         throw std::runtime_error(std::string("Failed to open file: ") + loc);
     }
+	float psize = 32.0f;
     string line;
     string token, word;
     int c;
+	getline(file, line);
+	stringstream ss(line);
+	while(token.find("size") == string::npos) ss >> token;
+	stringstream s(strip(token));
+	s >> psize;
+
+
     while (getline(file, line)) {
         stringstream ss(line);
         ss >> token;
@@ -85,10 +93,10 @@ void Font::load_glyphs(std::string loc) {
 
             vec2 size(fontmap.width, fontmap.height);
             g.uv_pos = g.uv_pos / size;
-            g.size = g.uv_dim / 32.0f;
+            g.size = g.uv_dim / psize;
             g.uv_dim = g.uv_dim / size;
-            g.offset = g.offset * (1.0f / 32);
-            g.advance /= 32.0f;
+            g.offset = g.offset * (1.0f / psize);
+			g.advance /= psize;
             glyphs[(char)c] = g;
         }
     }

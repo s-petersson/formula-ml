@@ -112,10 +112,7 @@ void View::add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4
     glBindVertexArray(0);
 }
 
-void View::add_text(const std::string& text, glm::vec3 p, glm::vec4 color) {
-    float size = 64.0f;
-
-
+void View::add_text(const std::string& text, float size,glm::vec3 p, glm::vec4 color) {
     for (int i = 0; i < text.length(); i++) {
         
         Glyph g = font->get_glyph(text[i]);
@@ -146,7 +143,7 @@ void View::add_text(const std::string& text, glm::vec3 p, glm::vec4 color) {
         
         text_positions.push_back(vec4(c + vec3(0, -g.size.y, 0), 1));
         text_uvs.push_back(vec2(u, v - dv));
-        p.x += g.advance * size * 0.8f;
+        p.x += g.advance * size;
     }
 
     for (int i = 0; i < 6 * text.length(); i++) {
