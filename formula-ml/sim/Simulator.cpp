@@ -128,7 +128,7 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points)
 
     for (int i = 0; i < nbr_of_points; i++) {
         // Skip line segments until target_distance is withing the next line segment
-        while (line_length - distance_on_line > target_distance) {
+        while (line_length - distance_on_line < target_distance) {
             // Add the distance for the last line segment
             target_distance -= line_length - distance_on_line;
             next_point += line_normalized * (line_length - distance_on_line);
