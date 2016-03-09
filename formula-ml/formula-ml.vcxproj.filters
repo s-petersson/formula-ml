@@ -3,11 +3,18 @@
   <ItemGroup>
     <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
+    <ClCompile Include="core\gfx\Texture.cpp" />
+    <ClCompile Include="core\gui\Font.cpp" />
+    <ClCompile Include="core\gui\View.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
     <ClCompile Include="core\util\Random.cpp" />
     <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
+    <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
+    <ClCompile Include="experiments\NEATNetworkMidline\NEATNetworkMidline.cpp" />
+    <ClCompile Include="experiments\StandardRenderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NeatTrainer.cpp" />
     <ClCompile Include="NeatXOR.cpp" />
@@ -19,29 +26,34 @@
     <ClCompile Include="neural\neat\Genome.cpp" />
     <ClCompile Include="neural\neat\Network.cpp" />
     <ClCompile Include="neural\neat\Pool.cpp" />
+    <ClCompile Include="neural\neat\Constants.cpp" />
     <ClCompile Include="neural\neat\Species.cpp" />
     <ClCompile Include="sim\model\CarModel.cpp" />
     <ClCompile Include="sim\model\TrackModel.cpp" />
+    <ClCompile Include="sim\SimulationState.cpp" />
     <ClCompile Include="sim\Simulator.cpp" />
     <ClCompile Include="sim\view\CarView.cpp" />
     <ClCompile Include="sim\view\GridView.cpp" />
     <ClCompile Include="sim\view\TrackView.cpp" />
-    <ClCompile Include="sim\SimulationState.cpp" />
-    <ClCompile Include="experiments\StandardRenderer.cpp" />
-    <ClCompile Include="experiments\NEATNetworkMidline\NEATNetworkMidline.cpp" />
-    <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
-    <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
-    <ClCompile Include="neural\neat\Constants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
+    <ClInclude Include="core\gfx\Renderer.h" />
+    <ClInclude Include="core\gfx\Texture.h" />
+    <ClInclude Include="core\gui\Font.h" />
+    <ClInclude Include="core\gui\View.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />
     <ClInclude Include="core\util\Random.h" />
     <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowState.h" />
+    <ClInclude Include="experiments\Experiment.h" />
+    <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
+    <ClInclude Include="experiments\ManualControl\ManualControl.h" />
+    <ClInclude Include="experiments\NEATNetworkMidline\NEATNetworkMidline.h" />
+    <ClInclude Include="experiments\StandardRenderer.h" />
     <ClInclude Include="external\include\GL\glew.h" />
     <ClInclude Include="external\include\GL\glxew.h" />
     <ClInclude Include="external\include\GL\wglew.h" />
@@ -60,25 +72,31 @@
     <ClInclude Include="neural\Neural.h" />
     <ClInclude Include="sim\model\CarModel.h" />
     <ClInclude Include="sim\model\TrackModel.h" />
+    <ClInclude Include="sim\SimulationRenderer.h" />
+    <ClInclude Include="sim\SimulationState.h" />
     <ClInclude Include="sim\Simulator.h" />
     <ClInclude Include="sim\Track.h" />
     <ClInclude Include="sim\view\CarView.h" />
     <ClInclude Include="sim\view\GridView.h" />
     <ClInclude Include="sim\view\TrackView.h" />
-    <ClInclude Include="experiments\Experiment.h" />
-    <ClInclude Include="sim\SimulationRenderer.h" />
-    <ClInclude Include="sim\SimulationState.h" />
-    <ClInclude Include="experiments\StandardRenderer.h" />
-    <ClInclude Include="experiments\NEATNetworkMidline\NEATNetworkMidline.h" />
-    <ClInclude Include="experiments\ManualControl\ManualControl.h" />
-    <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
-    <ClInclude Include="core\gfx\Renderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\fonts\comic.tga" />
+    <Image Include="res\fonts\georgia.png" />
+    <Image Include="res\fonts\georgia.tga" />
+    <Image Include="res\fonts\helvetica.png" />
+    <Image Include="res\fonts\helvetica.tga" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="Readme.md" />
+    <None Include="res\fonts\comic.fnt" />
     <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
+    <None Include="res\shaders\text.frag" />
+    <None Include="res\shaders\text.vert" />
+    <None Include="res\fonts\georgia.fnt" />
+    <None Include="res\fonts\helvetica.fnt" />
   </ItemGroup>
 </Project>

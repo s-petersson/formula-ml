@@ -6,6 +6,7 @@
 #include <sim/view/CarView.h>
 #include <sim/view/GridView.h>
 #include <sim/SimulationRenderer.h>
+#include <core/gui/View.h>
 
 class StandardRenderer : public SimulationRenderer {
 public:
@@ -19,7 +20,7 @@ private:
     GridView * grid_view;
     TrackView * track_view;
     CarView * car_view;
-
+	gui::View * gui;
     GLuint shader;
 };
 

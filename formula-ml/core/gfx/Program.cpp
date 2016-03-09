@@ -1,7 +1,8 @@
 #include "Program.h"
 #include <fstream>
 #include <sstream>
-
+#include <vector>
+#include<iostream>
 
 std::string textFileRead(const std::string& filePath)
 {
@@ -16,6 +17,7 @@ std::string textFileRead(const std::string& filePath)
 	//read whole file into stringstream buffer
 	std::stringstream buffer;
 	buffer << f.rdbuf();
+
 	return buffer.str();
 }
 
@@ -25,9 +27,25 @@ GLuint CreateShader(std::string vertex_source, std::string fragment_source) {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Invoke helper functions (in glutil.h/cpp) to load text files for vertex and fragment shaders.
 	std::string vs = textFileRead(vertex_source);
 	std::string fs = textFileRead(fragment_source);
+
+    std::vector<std::string> attributes;
+    std::stringstream parser;
+    parser << vs;
+    
+    std::string word;
+    while (parser >> word) {
+        if (word == "in") {
+            parser >> word;
+            parser >> word;
+            if (word.back() == ';') {
+                word.pop_back();
+            }
+            attributes.push_back(word);
+        }
+    }
+    
 
 	const char * vsp = vs.c_str();
 	const char * fsp = fs.c_str();
@@ -87,9 +105,11 @@ GLuint CreateShader(std::string vertex_source, std::string fragment_source) {
 	glDeleteShader(fragmentShader);
 
 
-	glBindAttribLocation(pid, 0, "position");
 
-	glBindAttribLocation(pid, 1, "color");
+    for (int i = 0; i < attributes.size(); i++) {
+        glBindAttribLocation(pid, i, attributes[i].c_str());
+
+    }
 
 	//glBindFragDataLocation(pid, 0, "fragmentColor");
 

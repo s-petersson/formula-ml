@@ -105,46 +105,58 @@ void Simulator::write_checkpoints(float* target, int& offset, int nbr_of_checkpo
     }
 }
 
-void Simulator::write_track_curve(float* target, int& offset, int nbr_of_checkpoints) {
+void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points) {
     float point_spacing = 10.f;
     float point_spacing_increment_factor = 1.15f;
 
+    // Variables for the mid line
     int checkpoint_index = glm::max(car->checkpoint, 0);
     glm::vec3 next_checkpoint = track->get_checkpoints()[checkpoint_index].middle;
-    glm::vec3 last_checkpoint = track->get_checkpoints()[checkpoint_index-1].middle;
+    glm::vec3 last_checkpoint = track->get_checkpoints()[checkpoint_index - 1].middle;
 
+    // The current line segment
     glm::vec3 line = next_checkpoint - last_checkpoint;
     glm::vec3 line_normalized = glm::normalize(line);
     float line_length = glm::length(line);
     float distance_on_line = glm::dot(car->position - last_checkpoint, line_normalized); // Projection of the car
 
+    // Variables to track the traversing position
     float target_distance = point_spacing;
+    glm::vec3 next_point = last_checkpoint + line_normalized * distance_on_line;
+    glm::vec3 last_point = next_point;
     glm::vec3 last_direction = line_normalized;
 
-    for (int i = 0; i < nbr_of_checkpoints; i++) {
-        // Skip line segments until it reaches target_distance
-        while(line_length - distance_on_line < target_distance) {
-            // Update distances
+    for (int i = 0; i < nbr_of_points; i++) {
+        // Skip line segments until target_distance is withing the next line segment
+        while (line_length - distance_on_line < target_distance) {
+            // Add the distance for the last line segment
             target_distance -= line_length - distance_on_line;
+            next_point += line_normalized * (line_length - distance_on_line);
             distance_on_line = 0;
 
-            // Update checkpoints
+            // Hop to the next pair of checkpoints
             checkpoint_index++;
             last_checkpoint = next_checkpoint;
             next_checkpoint = track->get_checkpoints()[checkpoint_index].middle;
 
-            // Update line
+            // Update current line segment
             line = next_checkpoint - last_checkpoint;
             line_normalized = glm::normalize(line);
             line_length = glm::length(line);
         }
-        // Compare the direction of the last point and the current line
-        // Write the angle to target
-        target[offset++] = angle(last_direction, line_normalized);
-        last_direction = line_normalized;
+
+        // Add the part that remains on the current line segment
+        next_point += target_distance * line_normalized;
+        distance_on_line = target_distance;
+
+        // Calculate the next direction from the last point
+        // Write the angle to the last direction to target
+        glm::vec3 new_direction = glm::normalize(next_point - last_point);
+        target[offset++] = angle(last_direction, new_direction);
+        last_point = next_point;
+        last_direction = new_direction;
 
         // Reset distance counters
-        distance_on_line = target_distance;
         point_spacing *= point_spacing_increment_factor;
         target_distance = point_spacing;
     }

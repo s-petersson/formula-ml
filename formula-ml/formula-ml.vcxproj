@@ -138,6 +138,9 @@
   <ItemGroup>
     <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
+    <ClCompile Include="core\gfx\Texture.cpp" />
+    <ClCompile Include="core\gui\Font.cpp" />
+    <ClCompile Include="core\gui\View.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
     <ClCompile Include="core\util\Random.cpp" />
@@ -171,14 +174,22 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="Readme.md" />
+    <None Include="res\fonts\comic.fnt" />
+    <None Include="res\fonts\georgia.fnt" />
+    <None Include="res\fonts\helvetica.fnt" />
     <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
+    <None Include="res\shaders\text.frag" />
+    <None Include="res\shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\gfx\Renderer.h" />
+    <ClInclude Include="core\gfx\Texture.h" />
+    <ClInclude Include="core\gui\Font.h" />
+    <ClInclude Include="core\gui\View.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />
     <ClInclude Include="core\util\Random.h" />
@@ -215,6 +226,13 @@
     <ClInclude Include="sim\view\CarView.h" />
     <ClInclude Include="sim\view\GridView.h" />
     <ClInclude Include="sim\view\TrackView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\fonts\comic.tga" />
+    <Image Include="res\fonts\georgia.png" />
+    <Image Include="res\fonts\georgia.tga" />
+    <Image Include="res\fonts\helvetica.png" />
+    <Image Include="res\fonts\helvetica.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

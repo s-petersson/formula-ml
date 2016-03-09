@@ -1,6 +1,7 @@
 #include <sim/Simulator.h>
 #include <core/gfx/Program.h>
 #include "StandardRenderer.h"
+#include <string>
 
 StandardRenderer::StandardRenderer(Simulator* simulator) {
     this->simulator = simulator;
@@ -33,7 +34,8 @@ void StandardRenderer::initialize() {
     car_view->setUniformLocations(shader, "modelMatrix");
     track_view->setUniformLocations(shader, "modelMatrix");
     grid_view->setUniformLocations(shader, "modelMatrix");
-
+	gui = new gui::View();
+	gui->add_text("Distance: " + std::to_string(0.0f), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
@@ -57,4 +59,7 @@ void StandardRenderer::render() {
     // Render the model, this uploads a model matrix and renders using that.
     track_view->render();
     car_view->render();
+	gui->clear();
+	gui->add_text("Distance: " + std::to_string(0.0f), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
+	gui->render();
 }
