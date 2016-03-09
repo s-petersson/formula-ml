@@ -154,6 +154,7 @@
     <ClCompile Include="NeatTrainer.cpp" />
     <ClCompile Include="NeatXOR.cpp" />
     <ClCompile Include="neural\EvolvingNetwork.cpp" />
+    <ClCompile Include="neural\FileWriter.cpp" />
     <ClCompile Include="neural\FixedNetwork.cpp" />
     <ClCompile Include="neural\FixedNetworkTrainer.cpp" />
     <ClCompile Include="neural\FixedNetworkXOR.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="external\include\GL\wglew.h" />
     <ClInclude Include="NeatTrainer.h" />
     <ClInclude Include="NeatXOR.h" />
+    <ClInclude Include="neural\FileWriter.h" />
     <ClInclude Include="neural\FixedNetwork.h" />
     <ClInclude Include="neural\FixedNetworkTrainer.h" />
     <ClInclude Include="neural\FixedNetworkXOR.h" />

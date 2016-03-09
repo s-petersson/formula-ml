@@ -17,9 +17,6 @@ NeatTrainer::NeatTrainer()
 {
     Config::set_config(14, 2);
     pool = new Pool();
-	
-
-	savePath = "saves\\";
 }
 
 
@@ -88,7 +85,6 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
 		std::ostringstream oss;
 		oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
-		genome.toFile(path);
         pool->maxFitness = genome.fitness;
         delete best;
         best = n;
@@ -244,7 +240,7 @@ void NeatTrainer::run() {
 		pool->new_generation();
 		cout << "New Generation: " << i << endl;
 		if (improved) {
-			//showBest();
+			showBest();
 			improved = false;
 		}
 	}

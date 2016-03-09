@@ -35,6 +35,7 @@
     <ClCompile Include="sim\view\CarView.cpp" />
     <ClCompile Include="sim\view\GridView.cpp" />
     <ClCompile Include="sim\view\TrackView.cpp" />
+    <ClCompile Include="neural\FileWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -79,6 +80,7 @@
     <ClInclude Include="sim\view\CarView.h" />
     <ClInclude Include="sim\view\GridView.h" />
     <ClInclude Include="sim\view\TrackView.h" />
+    <ClInclude Include="neural\FileWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />

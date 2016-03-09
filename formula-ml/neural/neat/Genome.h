@@ -29,7 +29,6 @@ namespace neat {
         int maxneuron = 0;
         int globalRank = 0;
 
-		void toFile(std::string path);
         
     private:
         
