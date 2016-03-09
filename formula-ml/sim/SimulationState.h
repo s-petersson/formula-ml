@@ -10,6 +10,7 @@
 #include <core/gfx/Renderer.h>
 #include "SimulationRenderer.h"
 
+
 struct Grid;
 
 class SimulationState : public WindowState {
@@ -22,6 +23,12 @@ public:
 private:
 	Simulator * simulator;
     vector<Renderer*> renderers;
+	Simulator * sim;
+    Camera * camera;
+
+    GridView * gridView;
+    TrackView *trackView;
+    CarView *carView;
 };
 
 #endif

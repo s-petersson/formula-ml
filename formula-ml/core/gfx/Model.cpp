@@ -88,12 +88,9 @@ void parse_file(string path, vector<Vertex>* vertices, vector<Triangle>* triangl
 }
 
 void Model::create_vao() {
-
     vector<float> vertices = get_raw_vertices();
-    std::cout << "vertices: " << vertices.size() << std::endl;
     vector<int> indices = get_indices();
-    std::cout << "indices: " << indices.size() << std::endl;
-
+    
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
