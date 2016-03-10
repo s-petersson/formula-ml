@@ -17,6 +17,7 @@ NeatTrainer::NeatTrainer()
 {
     Config::set_config(14, 2);
     pool = new Pool();
+	fw = new neural::FileWriter();
 }
 
 
@@ -240,6 +241,7 @@ void NeatTrainer::run() {
 		pool->new_generation();
 		cout << "New Generation: " << i << endl;
 		if (improved) {
+			(*fw).poolToFile(*pool, "C:\\saves");
 			showBest();
 			improved = false;
 		}

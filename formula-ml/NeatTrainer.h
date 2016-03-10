@@ -6,6 +6,7 @@
 #include <thread>
 #include <mutex>
 #include <sim/Simulator.h>
+#include <neural/FileWriter.h>
 
 class NeatTrainer
 {
@@ -27,6 +28,8 @@ private:
     std::mutex mtx;
     std::vector<neat::Genome*> active_genomes;
 	std::string savePath;
+
+	neural::FileWriter * fw;
 };
 
 #endif

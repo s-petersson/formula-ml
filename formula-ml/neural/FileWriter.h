@@ -19,14 +19,14 @@ namespace neural {
 		~FileWriter();
 
 		void poolToFile(neat::Pool pool, std::string path);
-		neat::Pool poolFromFile(std::string path);
+		//neat::Pool poolFromFile(std::string path);
 
 
 	private:
 		std::string path;
 
-		void genomeToFile(neat::Genome genomde, string path);
-		neat::Genome genomefromFile(std::string path);
+		void genomeToFile(neat::Genome genomde, std::string path);
+		//neat::Genome genomefromFile(std::string path);
 
 	};
 
