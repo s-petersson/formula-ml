@@ -49,6 +49,9 @@ public:
     glm::vec3 direction;
 
     int checkpoint;
+	glm::vec3 measure_point;
+	float distance_at_measurepoint;
+
     float distance_on_track;
 	float max_speed;
 

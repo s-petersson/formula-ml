@@ -1,6 +1,7 @@
 #include "Simulator.h"
 #include <neural/FixedNetwork.h>
 #include <iostream>
+#include "glm/ext.hpp"
 
 using namespace neural;
 
@@ -189,10 +190,13 @@ SimulationResult Simulator::run(const float dt) {
 		if (result.distance_driven > best.distance_driven) {
 			// The car has progressed
 			best = result;
-		} else if(result.time_alive > best.time_alive + progress_timeout) {
-			// No progress for a while
-			// Call it quits
-			break;
+		} else {
+			std::cout << "Distance not better: " << result.distance_driven << " | " << best.distance_driven << std::endl;
+			if (result.time_alive > best.time_alive + progress_timeout) {
+				// No progress for a while
+				// Call it quits
+				break;
+			}
 		}
 	}
 	return result;
@@ -202,29 +206,74 @@ SimulationResult Simulator::run(const float dt) {
 	Update the simulation with one time step dt [seconds]
 */
 void Simulator::update(float dt) {
+
+	if (!track->on_track(car->position)) {
+		car->setSpeed(0.0000f);
+	}
+
 	// Update result
 	result.time_alive += dt;
     result.distance_driven = car->distance_on_track;
 
-    Checkpoint next_checkpoint = track->get_checkpoints()[car->checkpoint];
-    glm::vec3 car_p = car->position - next_checkpoint.left;
-    glm::vec3 gate = glm::normalize(next_checkpoint.left - next_checkpoint.right);
-    glm::vec3 point_on_gate = glm::dot(car_p, gate) * gate;
+	// Save the checkpoints that are currently close to the car.
+	Checkpoint last_checkpoint	= track->get_checkpoints()[car->checkpoint - 1];	// The one the car just passed
+	Checkpoint checkpoint		= track->get_checkpoints()[car->checkpoint];		// The one the car will pass next
+	Checkpoint next_checkpoint	= track->get_checkpoints()[car->checkpoint + 1];	// The one in front of the one the car will pass next
 
-    if (glm::length(car_p - point_on_gate) < 0.5) {
-        car->distance_on_track = track->get_checkpoints()[car->checkpoint].distance_on_track;
-        car->checkpoint++;
-    } else {
-        int last_checkpoint = glm::max(car->checkpoint - 1, 0);
-        float d = track->get_checkpoints()[last_checkpoint].distance_on_track + glm::distance(car->position, track->get_checkpoints()[last_checkpoint].middle);
-        car->distance_on_track = d;
-    }
+	glm::vec3 midline				= glm::normalize(last_checkpoint.middle - checkpoint.middle);
+	glm::vec3 point_on_midline		= checkpoint.middle + glm::dot(midline, car->position - checkpoint.middle) * midline;
+	float distance_to_car			= glm::distance(last_checkpoint.middle, point_on_midline);
+	float distance_to_checkpoint	= glm::distance(last_checkpoint.middle, checkpoint.middle);
+
+	if (distance_to_car < distance_to_checkpoint) {
+		float new_distance = last_checkpoint.distance_on_track + distance_to_car;
+		if (new_distance < car->distance_on_track) {
+			std::cout << "error" << std::endl;
+		}
+		car->distance_on_track = new_distance;
+	} else {
+		midline = glm::normalize(checkpoint.middle - next_checkpoint.middle);
+		point_on_midline = next_checkpoint.middle + glm::dot(midline, car->position - next_checkpoint.middle) * midline;
+		distance_to_car = glm::distance(checkpoint.middle, point_on_midline);
+
+		float new_distance = checkpoint.distance_on_track + distance_to_car;
+		if (new_distance < car->distance_on_track) {
+			std::cout << "error" << std::endl;
+		}
+		//car->distance_on_track = new_distance;
+		car->checkpoint++;
+	}
+	/*
+	float new_distance			= last_checkpoint.distance_on_track + glm::distance(last_checkpoint.middle, point_on_midline);
+
+	if (new_distance < checkpoint.distance_on_track) {
+		if (new_distance < car->distance_on_track) {
+			std::cout << "error" << std::endl;
+		}
+		car->distance_on_track	= new_distance;
+	} else {
+		midline					= glm::normalize(checkpoint.middle - next_checkpoint.middle);
+		point_on_midline		= next_checkpoint.middle + glm::dot(midline, car->position - next_checkpoint.middle) * midline;
+		new_distance			= checkpoint.distance_on_track + glm::distance(checkpoint.middle, point_on_midline);
+		if (new_distance < car->distance_on_track) {
+			std::cout << "error" << std::endl;
+		}
+		car->distance_on_track	= new_distance;
+	}*/
+
+	//else {
+        //int last_checkpoint = glm::max(car->checkpoint - 1, 0);
+		//float new_distance = car->distance_at_measurepoint + glm::distance(car->measure_point, car->position);
+        // float d = track->get_checkpoints()[last_checkpoint].distance_on_track + glm::distance(car->position, track->get_checkpoints()[last_checkpoint].middle);
+		//if (new_distance < result.distance_driven)
+		//{
+		//	std::cout << "Soemthings wrong 2" << std::endl;
+		//}
+		//car->distance_on_track += new_distance;
+    //}
+
+	// Now we update the cars driven distance.
 
     CarControl control = this->carUpdater();
 	car->update(dt, control);
-
-    if (!track->on_track(car->position)) {
-        car->setSpeed(0.0f);
-    }
-
 }

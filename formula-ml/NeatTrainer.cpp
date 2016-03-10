@@ -193,7 +193,7 @@ Simulator* create_simulator() {
 
     // Place car at the tracks starting grid.
     sim->car->setSpeed(12.f);
-    sim->progress_timeout = 0.1f;
+    sim->progress_timeout = 0.5f;
     sim->termination_distance = termination_distance;
 
     return sim;
@@ -201,6 +201,7 @@ Simulator* create_simulator() {
 
 void NeatTrainer::run() {
     int thread_count = std::thread::hardware_concurrency();
+	thread_count = 1;
 	std::thread *thread_pool = new std::thread[thread_count];
 	Simulator **sim_pool = new Simulator*[thread_count];
 
