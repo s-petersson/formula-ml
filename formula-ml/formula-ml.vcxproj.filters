@@ -36,6 +36,7 @@
     <ClCompile Include="sim\view\GridView.cpp" />
     <ClCompile Include="sim\view\TrackView.cpp" />
     <ClCompile Include="neural\FileWriter.cpp" />
+    <ClCompile Include="neural\Helpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="sim\view\GridView.h" />
     <ClInclude Include="sim\view\TrackView.h" />
     <ClInclude Include="neural\FileWriter.h" />
+    <ClInclude Include="neural\Helpers.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />
