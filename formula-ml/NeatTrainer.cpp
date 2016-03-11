@@ -7,6 +7,7 @@
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
 #include <neural/neat/Constants.h>
+#include <neural/Helpers.h>
 #include <thread>
 #include <sstream>
 
@@ -15,7 +16,7 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
-    Config::set_config(14, 2);
+    Config::set_config(15, 2);
     pool = new Pool();
 	fw = new neural::FileWriter();
 }
@@ -49,7 +50,7 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
     const float termination_distance = 5700.f;
     const float maximum_time = 2000.f;
     static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 3 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 4 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
 
     float * inputs = new float[nbr_of_inputs];
     float * outputs = new float[Config::Outputs];
@@ -68,7 +69,9 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
         inputs[i++] = sim->distance_to_middle();
         inputs[i++] = sim->angle_to_line();
         inputs[i++] = sim->car->getSpeed();
+        int curve_data_start = i;
         sim->write_track_curve(inputs, i, nbr_of_checkpoints);
+        inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], sim->write_track_curve_size(nbr_of_checkpoints));
         inputs[i++] = 1.0f;
 
         n->fire(network_indata, output);
@@ -124,7 +127,7 @@ void NeatTrainer::showBest() {
     sim->progress_timeout = 0.1f;
 
     static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 3 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
+    static int nbr_of_inputs = 4 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
 
     float * in = new float[nbr_of_inputs];
     float * out = new float[Config::Outputs];
@@ -142,7 +145,9 @@ void NeatTrainer::showBest() {
         network_indata.values[i++] = sim->distance_to_middle();
         network_indata.values[i++] = sim->angle_to_line();
         network_indata.values[i++] = sim->car->getSpeed();
+        int curve_data_start = i;
         sim->write_track_curve(network_indata.values, i, nbr_of_checkpoints);
+        network_indata.values[i++] = neural::sum_absolutes(&network_indata.values[curve_data_start], sim->write_track_curve_size(nbr_of_checkpoints));
         network_indata.values[i++] = 1.0f;
 
         bestNetwork->fire(network_indata, output);
