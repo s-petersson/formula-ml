@@ -23,7 +23,8 @@ private:
     bool improved = false;
 	int generation;
     neat::Pool * pool;
-    neat::Network *best;
+    neat::Network *bestNetwork;
+	neat::Genome *bestGenome;
 
     std::mutex mtx;
     std::vector<neat::Genome*> active_genomes;

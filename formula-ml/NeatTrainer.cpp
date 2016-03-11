@@ -24,6 +24,7 @@ NeatTrainer::NeatTrainer()
 NeatTrainer::~NeatTrainer()
 {
     if (pool) delete pool;
+	if (fw) delete fw;
 }
 
 float fitness(SimulationResult result, float termination_distance, float maximum_time) {
@@ -87,8 +88,11 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
 		oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
         pool->maxFitness = genome.fitness;
-        delete best;
-        best = n;
+		delete bestGenome;
+        delete bestNetwork;
+        bestNetwork = n;
+		bestGenome = new Genome(genome);
+		//*bestGenome = genome;
         cout << "New maximum fitness: " << genome.fitness << endl
              << "Distance: " << result.distance_driven << endl
              << "Time: " << result.time_alive << endl << endl;
@@ -141,7 +145,7 @@ void NeatTrainer::showBest() {
         sim->write_track_curve(network_indata.values, i, nbr_of_checkpoints);
         network_indata.values[i++] = 1.0f;
 
-        best->fire(network_indata, output);
+        bestNetwork->fire(network_indata, output);
 
         CarControl control;
         control.acceleration = 0;
@@ -241,7 +245,11 @@ void NeatTrainer::run() {
 		pool->new_generation();
 		cout << "New Generation: " << i << endl;
 		if (improved) {
-			(*fw).poolToFile(*pool, "C:\\saves");
+			ostringstream path;
+			path << "saves\\Generation " << generation;
+
+			(*fw).poolToFile(*pool, path.str());
+			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
 			showBest();
 			improved = false;
 		}

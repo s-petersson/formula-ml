@@ -1,7 +1,7 @@
 #include "Filewriter.h"
 #include <fstream>
 #include <sstream>
-
+#include <direct.h>
 #include <windows.h>
 
 
@@ -40,12 +40,12 @@ void FileWriter::genomeToFile(Genome genome, string path) {
 //Path with generation given
 void FileWriter::poolToFile(Pool pool, string path) {
 	
-	bool created = CreateDirectory(path.c_str(), NULL);
+	int created = _mkdir(path.c_str());
 
 	for (int s = 0; s < pool.species.size(); s++) {
 		ostringstream speciesPath;
 		speciesPath << path <<"\\Species_" << s;
-		bool secondCreated = CreateDirectory(speciesPath.str().c_str(), NULL);
+		int secondCreated = _mkdir(speciesPath.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
 			genomePath << speciesPath.str() << "\\Genome_" << g << "_" << pool.species.at(s).genomes.at(g).fitness;
