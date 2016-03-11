@@ -47,6 +47,7 @@ add_executable(formula_ml
         experiments/NEATNetworkMidline/NEATNetworkMidline.cpp
         experiments/StandardRenderer.cpp
         sim/SimulationRenderer.h
-        core/gfx/Renderer.h)
+        core/gfx/Renderer.h
+        neural/FileWriter.cpp)
 
 target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
