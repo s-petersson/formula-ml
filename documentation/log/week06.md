@@ -49,7 +49,7 @@ We also connected a network trained with the NEAT algorithm to the simulator and
 A proposed solution that originated from Gabriel was to use both the cars position and angle relative to the track. The goal behaviour is then to steer towards the centre of the track if the car is far from the centre, and to align its direction with the track so that it does not drive sideways. 
 
 ### Simon 
-Refactorisation
+Spent most of my time refactoring the code in a way so that we can separate our different methods of implementing the AI into "experiments". This gives us an easy way of implementing several different methods for solving the problem, without having to remove the old tries.
 
 ### Daniel
 
