@@ -2,6 +2,42 @@
 
 ## Papers
 
+### The 2009 Simulated Car Racing Championship
+Presents the competition and the methods used by the top 5 performing teams
+Team C cited Evolving Neural Networks through Augmenting Topologies
+
+Notes:
+They used an open source racing simulator called TORCS, C++. Even if TORCS seemed to be an open platform, this was limited in the purpose of the competition to a set of sensor data.
+
+
+Team A: Had six different controllers; gear control, target speed, speed control, steering control, learning, opponent management. Learning updated knowledge on speed for different sections from experience, target speed module instructed the speed control.
+[Comment, Gabriel: Team A approach to max speed seemed very simple and straight forward. Building it in to a function that base the result on solely sensor data seems more complex.]
+
+
+Team B: Used a function that determined the speed and target angle out of sensor data, but took also experience in to account.
+
+
+Team C: NEAT with scripted behaviour for start, straights, crash-recovery, gear change and overtaking. During the straights, the car was forced to accelerate as much as possible. Focused on inputs that correlates to driving actions: speed and sensor data. Two outputs: steering and brake/acc. 
+
+The developer says that a strength of this approach is that it demands very little domain knowledge. It also seemed to produce more general behaviour than other approaches, it managed to learn from only driving at one track. The track he trained at was the track with presented most of the interesting features in the game.
+
+He only managed to evolve careful ai, that mostly drove at the center of the track and was unable to get optimal racing lines.
+
+[Comment, Gabriel: Is out-of-the-box NEAT to narrow in its search to find out efficient solutions in this domain? Bare in mind that it is very easy to find a network that stays on the middle of the road.]
+
+
+Team D: Used a state machine, to remember what type of segment the car is in or if it is about to do a specific action such as overtaking and a location to write behaviour code, a fuzzy logic module, to identify/handle transitions between states, and a classifier, to identify the shape and properties of the track. They then used evolutionary algorithms to train the fuzzy logic module.
+
+The fuzzy module seldom gave full gas or brake outputs. The developer said that fuzzy module originally was developed for autonomous vehicles, that should drive safe, but would investigate wither it is possible to tweak it.
+
+
+Team E: Used a evolutionary algorithm for speed control. Experience showed that it gave a more robust solution when training on a track with a wide variety of track features.
+
+
+Organisers comment: Participants that used imitation based learning did not score well, and that is is congruent with a paper. It states that imitation learning generally fails for racing ai.
+
+
+
 #### Introduction to the Theory of Neural Computation
 (Martin)
 Introductory paper to neural networks.
