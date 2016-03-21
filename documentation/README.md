@@ -3,40 +3,43 @@
 ### Project overall
 - Research
 
+- Leta buggar i experimenten
+- Experiment with ai testing 
+
 
 Algorithm
 - Add grid as it is today (Martin)
 - "Convolutional neural network" like tools for in data processing
   - Upgrade curve data
   - Upgrade grid
-- Output data processing: Braking & Accelerating (Simon)
-- Fitness function: Consider time (Gabriel)
+- Input data: Sum for absolute angle curve   (Gabriel)
+- Solve behaviour consistency for left/right (Daniel)
+- Fix bug with distance (Simon)
+- Recurrent loops in NEAT
 
-Refactoring
-- States/Views  (Simon)
+Archetecture
+- Refactor out contents from NEAT trainer to Experiments (Gabriel)
+
+Experiments
+- Track with increasing difficulty (Martin)
+- Broad track
 
 Optimisation
 - Quad tree track
-- Reset Simulator   (Simon)
-- Concurrency       (Martin)
 
 Help features
-- Save/Load networks to file + train without showing
-- Debug features    (Daniel)
+- Save/Load networks to file + train without showing (Daniel)
+- Debug features    
   - Visualise networks
   - Physics info
 
-### Done this week
-- Input data: Checkpoints (Gabriel)
-- Input data: Curve data with fixed distances (Gabriel)
-- Output data processing: Braking (Simon)
+### Done last week
 
 
 ##### Daniel
 - Debug features
 
 ##### Gabriel
-- Write diary
 
 ##### Martin
 

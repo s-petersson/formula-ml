@@ -10,16 +10,20 @@ Appears often together with reinforcement learning in the context of Markov deci
 ### Dynamic programming?
 Appears often together with reinforcement learning in the context of Markov decision problem
 
+### NEAT with heurustics?
 
 # Top priority papers
-### Deep learning in neural networks: An overview
+### Deep learning in neural networks: An overview 
+(Simon)
 Hot paper & Highly cited
 Review of a number of different algorithms
 cited Evolving Neural Networks through augmenting topologies
 
 ### The 2009 Simulated Car Racing Championship
+Gabriel started, see notes in literature/README.md
 Presents the competition and the methods used by the top 5 performing teams
 cited Evolving Neural Networks through augmenting topologies
+
 
 ### Combining NEAT and PSO for learning tactical human behavior
 Probably discusses relevant problems concerning planning and strategy! Discusses an algorithm called PIGEON.
@@ -33,6 +37,10 @@ cited Evolving Neural Networks through augmenting topologies
 ### Efficient non-linear control through neuroevolution
 Also discusses CoSyNE and the pole balancing problem
 cited Evolving Neural Networks through augmenting topologies
+
+### Incremental Evolution of Complex General Behavior
+Different domain but might have some good thoughts in general.
+Gabriel: Incremental evolution in some way is necessary to obtain complex behaviour.
 
 
 
