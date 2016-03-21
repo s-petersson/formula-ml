@@ -34,3 +34,5 @@ The formulas used was
 Wrote in the method and problem definition chapters of the report. Wrote a lot of the basics of the simulator implementations, ie. window handling, rendering etc. 
 
 ### Simon Petersson
+
+I spent most of the week modeling a basic car and track model using Autodesk Maya. I also spent time setting up the project with CMake, so that we can start development on OSX computers aswell as implementing some camera functionality to the simulator.
