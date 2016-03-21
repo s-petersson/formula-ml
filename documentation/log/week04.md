@@ -35,3 +35,5 @@ The algortihm would need to optimize for time to a specific place on the track, 
 ### Martin Nilsson
 
 ### Simon Petersson
+
+Spent most of my time working on the planning report. Although I spent some time refactoring the simulator for easier future development.
