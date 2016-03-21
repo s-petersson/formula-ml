@@ -32,3 +32,8 @@ We managed to do a decent halftime presentation in my oppinion. We got the quest
 
 
 We went over a the racing domain as well as how reinforcement learning works, but I think that the audience thought everything to be to abstract to get a good understanding of. It is a complex subject that we do adress, but the report need to address this problem that we realised.
+
+## Simon
+
+### Revisited distance driven
+We have noticed during our training sessions that the distance driven by the car is not consistent between the visualization and the AI trainer. I started investigating the reasoning behind this behaviour. The current implementation to check wether a simulation should continue running or not, is dependent on the distance driven by the car aswell as a "progress timeout". Meaning that if the car has not made progress within this time, the simulator is reset and the evaluation of that network is finished. I noticed that the progress timeout is the reason behind the inconsistent behaviour, and thus I've started working on new ways to check wether the simulation should continue or not.
