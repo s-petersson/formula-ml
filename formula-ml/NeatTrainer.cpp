@@ -16,7 +16,6 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
-    Config::set_config(15, 2);
     pool = new Pool();
 	fw = new neural::FileWriter();
 }
@@ -28,64 +27,10 @@ NeatTrainer::~NeatTrainer()
 	if (fw) delete fw;
 }
 
-float fitness(SimulationResult result, float termination_distance, float maximum_time) {
-    float fitness = result.distance_driven;
-
-    // If the car has come to the end of the track, let the time
-    if (glm::abs(result.distance_driven - termination_distance) < 1) {
-        // (sqrt(t_max) - sqrt(t))^2 gives increases the fitness for lower times with
-        // higher resolution at lower values. *5 stretches the result to equal the
-        // size of distance somewhat.
-        float root_difference = glm::sqrt(maximum_time) - glm::sqrt(result.time_alive);
-        float time_fitness = root_difference * root_difference * 5.f;
-
-        // If the car would drive slower than the maximum_time constant, make the time a penalty instead
-        fitness += result.time_alive < maximum_time ? time_fitness : -time_fitness;
-    }
-
-    return fitness;
-}
-
-void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
-    const float termination_distance = 5700.f;
-    const float maximum_time = 2000.f;
-    static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 4 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
-
-    float * inputs = new float[nbr_of_inputs];
-    float * outputs = new float[Config::Outputs];
+void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
     Network *n = new Network(genome.genes);
+    genome.fitness = evaluator->evaluate_network(n);
 
-    // Define struct for ai indata
-    neural::NetworkIO network_indata = neural::NetworkIO();
-    network_indata.value_count = nbr_of_inputs;
-    network_indata.values = inputs;
-    neural::NetworkIO output = neural::NetworkIO();
-    output.value_count = Config::Outputs;
-    output.values = outputs;
-
-    sim->carUpdater = [&]() {
-        int i = 0;
-        inputs[i++] = sim->distance_to_middle();
-        inputs[i++] = sim->angle_to_line();
-        inputs[i++] = sim->car->getSpeed();
-        int curve_data_start = i;
-        sim->write_track_curve(inputs, i, nbr_of_checkpoints);
-        inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], sim->write_track_curve_size(nbr_of_checkpoints));
-        inputs[i++] = 1.0f;
-
-        n->fire(network_indata, output);
-
-        CarControl control;
-        control.acceleration = 0;
-        control.brake = outputs[1];
-        control.steer = outputs[0];
-
-        return control;
-    };
-    SimulationResult result = sim->run(0.01f);
-
-    genome.fitness = fitness(result, termination_distance, maximum_time);
     if (genome.fitness > pool->maxFitness) {
 		std::ostringstream oss;
 		oss << savePath << "Generation" << generation <<".txt";
@@ -96,83 +41,16 @@ void NeatTrainer::evaluate(Genome& genome, Simulator * sim) {
         bestNetwork = n;
 		bestGenome = new Genome(genome);
 		//*bestGenome = genome;
-        cout << "New maximum fitness: " << genome.fitness << endl
-             << "Distance: " << result.distance_driven << endl
-             << "Time: " << result.time_alive << endl << endl;
         improved = true;
     }
     else {
         delete n;
     }
-    delete[] inputs;
-    delete[] outputs;
 //    delete cm;
 //    delete tm;
 }
 
-
-void NeatTrainer::showBest() {
-    Simulator * sim = new Simulator();
-    // Create simulated objects
-    // NOTE: Starting grid is at first "checkpoint". In order
-    //       to change this, offset the checkpoint order.
-    sim->track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
-    sim->car = new CarModel(sim->track->get_start_grid_pos(),
-                            glm::vec3(-0.616278410f, -0.787541449f, 0),
-                            12.f);
-
-
-    // Place car at the tracks starting grid.
-    sim->car->setSpeed(12.f);
-    sim->progress_timeout = 0.1f;
-
-    static int nbr_of_checkpoints = 10;
-    static int nbr_of_inputs = 4 + 1 + Simulator::write_track_curve_size(nbr_of_checkpoints);
-
-    float * in = new float[nbr_of_inputs];
-    float * out = new float[Config::Outputs];
-    // Define struct for ai indata
-    neural::NetworkIO network_indata = neural::NetworkIO();
-    network_indata.value_count = nbr_of_inputs;
-    network_indata.values = in;
-    neural::NetworkIO output = neural::NetworkIO();
-    output.value_count = Config::Outputs;
-    output.values = out;
-
-    sim->carUpdater = [&]() {
-
-        int i = 0;
-        network_indata.values[i++] = sim->distance_to_middle();
-        network_indata.values[i++] = sim->angle_to_line();
-        network_indata.values[i++] = sim->car->getSpeed();
-        int curve_data_start = i;
-        sim->write_track_curve(network_indata.values, i, nbr_of_checkpoints);
-        network_indata.values[i++] = neural::sum_absolutes(&network_indata.values[curve_data_start], sim->write_track_curve_size(nbr_of_checkpoints));
-        network_indata.values[i++] = 1.0f;
-
-        bestNetwork->fire(network_indata, output);
-
-        CarControl control;
-        control.acceleration = 0;
-        control.brake = out[1];
-        control.steer = out[0];
-
-        return control;
-    };
-    Window * window = new Window();
-    vector<Renderer*> renderers;
-    renderers.push_back(new StandardRenderer(sim));
-    SimulationState * s= new SimulationState(sim, renderers);
-
-    window->setState(s);
-    window->run();
-    delete window;
-    delete[] in;
-    delete[] out;
-    delete sim;
-}
-
-void NeatTrainer::evaluate_thread(Simulator * sim) {
+void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
     bool run_thread = true;
     while(run_thread) {
         mtx.lock();
@@ -181,9 +59,7 @@ void NeatTrainer::evaluate_thread(Simulator * sim) {
             active_genomes.erase(active_genomes.begin());
             mtx.unlock();
 
-            sim->reset();
-            sim->car->setSpeed(12.f);
-            evaluate(*genome, sim);
+            evaluate(*genome, evaluator);
         } else {
             run_thread = false;
             mtx.unlock();
@@ -191,35 +67,13 @@ void NeatTrainer::evaluate_thread(Simulator * sim) {
     }
 }
 
-Simulator* create_simulator() {
-    const float termination_distance = 5700.f;
-
-    Simulator * sim = new Simulator();
-    // Create simulated objects
-    // NOTE: Starting grid is at first "checkpoint". In order
-    //       to change this, offset the checkpoint order.
-    TrackModel * tm = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
-    sim->track = tm;
-    CarModel * cm = new CarModel(sim->track->get_start_grid_pos(),
-                                 glm::vec3(-0.616278410f, -0.787541449f, 0),
-                                 12.f);
-    sim->car = cm;
-
-    // Place car at the tracks starting grid.
-    sim->car->setSpeed(12.f);
-    sim->progress_timeout = 0.1f;
-    sim->termination_distance = termination_distance;
-
-    return sim;
-}
-
 void NeatTrainer::run() {
     int thread_count = std::thread::hardware_concurrency();
 	std::thread *thread_pool = new std::thread[thread_count];
-	Simulator **sim_pool = new Simulator*[thread_count];
+	NeatEvaluator **eval_pool = new NeatEvaluator*[thread_count];
 
     for (int i = 0; i < thread_count; ++i) {
-        sim_pool[i] = create_simulator();
+        eval_pool[i] = evaluator_factory();
     }
 
 	int  i = 0;
@@ -234,7 +88,7 @@ void NeatTrainer::run() {
 		// Start as many threads as we have processors in order to evaluate more
 		// efficiently.
 		for (int i = 0; i < thread_count; i++) {
-			thread_pool[i] = std::thread(&NeatTrainer::evaluate_thread, this, sim_pool[i]);
+			thread_pool[i] = std::thread(&NeatTrainer::evaluate_thread, this, eval_pool[i]);
 			//thread_pool.push_back(std::thread(&NeatTrainer::evaluate_thread, this));
 		}
 
@@ -247,21 +101,29 @@ void NeatTrainer::run() {
 
 		i++;
 		generation = i;
+
+        if (on_generation_done) {
+            on_generation_done(generation);
+        }
+
 		pool->new_generation();
-		cout << "New Generation: " << i << endl;
 		if (improved) {
 			ostringstream path;
 			path << "saves\\Generation " << generation;
 
 			(*fw).poolToFile(*pool, path.str());
 			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
-			showBest();
+
+            if (on_new_best) {
+                on_new_best(bestNetwork, bestGenome->fitness);
+            }
+
 			improved = false;
 		}
 	}
 	delete[] thread_pool;
     for (int i = 0; i < thread_count; ++i) {
-        delete sim_pool[i];
+        delete eval_pool[i];
     }
 	
 

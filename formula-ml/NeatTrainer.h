@@ -8,17 +8,30 @@
 #include <sim/Simulator.h>
 #include <neural/FileWriter.h>
 
+
+class NeatEvaluator
+{
+public:
+    virtual float evaluate_network(neural::Network* network) = 0;
+};
+
 class NeatTrainer
 {
 public:
     NeatTrainer();
     ~NeatTrainer();
-
     void run();
 
+    // Manditory
+    std::function<NeatEvaluator*()> evaluator_factory;
+
+    // Optional
+    std::function<void(neural::Network* new_best, float fitness)> on_new_best;
+    std::function<void(int generation)> on_generation_done;
+
 private:
-    void evaluate(neat::Genome& genome, Simulator * sim);
-    void evaluate_thread(Simulator * sim);
+    void evaluate(neat::Genome& genome, NeatEvaluator* eval);
+    void evaluate_thread(NeatEvaluator* eval);
     void showBest();
     bool improved = false;
 	int generation;

@@ -23,7 +23,13 @@ int main(void) {
             experiment = new FixedNetworkMidline();
             break;
         case 3:
-            experiment = new NEATNetworkMidline();
+            {
+                NEATNetworkMidline* e = new NEATNetworkMidline();
+                experiment = e;
+                e->nbr_of_curve_points = 10;
+                e->max_time = 2000.f;
+                e->termination_distance = 5700.f;
+            }
             break;
 		default:
 			experiment = new ManualControl();
