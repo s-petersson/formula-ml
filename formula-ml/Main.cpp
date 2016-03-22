@@ -12,7 +12,7 @@ int main(void) {
     std::cout   << "Experiments available: "    << std::endl
                 << "(1) Manual Control"         << std::endl
                 << "(2) Fixed Midline"          << std::endl
-                << "(3) NEAT Midline"           << std::endl
+                << "(3) NEAT with curve data"   << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -24,7 +24,7 @@ int main(void) {
             break;
         case 3:
             {
-                NEATNetworkMidline* e = new NEATNetworkMidline();
+                NeatCurveDataExperiment* e = new NeatCurveDataExperiment();
                 experiment = e;
                 e->nbr_of_curve_points = 10;
                 e->max_time = 2000.f;

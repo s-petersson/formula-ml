@@ -12,10 +12,10 @@
 #include <neural/Helpers.h>
 
 
-class NEATNetworkMidline : public Experiment {
+class NeatCurveDataExperiment : public Experiment {
 public:
-    NEATNetworkMidline();
-    ~NEATNetworkMidline();
+    NeatCurveDataExperiment();
+    ~NeatCurveDataExperiment();
     virtual void run();
     virtual std::function<CarControl()> updater();
 
@@ -28,11 +28,11 @@ private:
     NeatTrainer* trainer;
 };
 
-class MidlineEvaluator : public NeatEvaluator
+class CurveEvaluator : public NeatEvaluator
 {
 public:
-    MidlineEvaluator();
-    ~MidlineEvaluator();
+    CurveEvaluator();
+    ~CurveEvaluator();
     virtual float evaluate_network(neural::Network* network);
     SimulationResult run(neural::Network* network);
     void reset(neural::Network* network);
