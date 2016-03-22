@@ -2,7 +2,7 @@
 #include <core/Window.h>
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
-#include "NEATNetworkMidline.h"
+#include "NeatCurveDataExperiment.h"
 #include "NeatTrainer.h"
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>

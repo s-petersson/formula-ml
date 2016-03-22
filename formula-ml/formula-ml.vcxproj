@@ -148,7 +148,7 @@
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
-    <ClCompile Include="experiments\NEATNetworkMidline\NEATNetworkMidline.cpp" />
+    <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NeatTrainer.cpp" />
@@ -201,7 +201,7 @@
     <ClInclude Include="experiments\Experiment.h" />
     <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
     <ClInclude Include="experiments\ManualControl\ManualControl.h" />
-    <ClInclude Include="experiments\NEATNetworkMidline\NEATNetworkMidline.h" />
+    <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />
     <ClInclude Include="external\include\GL\glew.h" />
     <ClInclude Include="external\include\GL\glxew.h" />

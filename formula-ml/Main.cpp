@@ -4,7 +4,7 @@
 #include <experiments/Experiment.h>
 #include <experiments/ManualControl/ManualControl.h>
 #include <experiments/FixedNetworkMidline/FixedNetworkMidline.h>
-#include <experiments/NEATNetworkMidline/NEATNetworkMidline.h>
+#include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
 
 int main(void) {
     Experiment* experiment;
