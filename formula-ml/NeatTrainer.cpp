@@ -33,7 +33,7 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 
     if (genome.fitness > pool->maxFitness) {
 		std::ostringstream oss;
-		oss << savePath << "Generation" << generation <<".txt";
+		//oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
         pool->maxFitness = genome.fitness;
 		delete bestGenome;

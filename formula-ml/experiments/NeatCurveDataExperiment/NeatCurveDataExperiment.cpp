@@ -88,10 +88,8 @@ CurveEvaluator::CurveEvaluator() {
     // Create simulated objects
     // NOTE: Starting grid is at first "checkpoint". In order
     //       to change this, offset the checkpoint order.
-    simulator->track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
-    simulator->car = new CarModel(simulator->track->get_start_grid_pos(),
-        glm::vec3(-0.616278410f, -0.787541449f, 0),
-        12.f);;
+    simulator->track = new TrackModel(glm::vec3());
+    simulator->car = new CarModel(simulator->track->get_start_grid_pos(),glm::vec3(0,1,0),15.0f);
 
     simulator->progress_timeout = 0.1f;
     simulator->termination_distance = NeatCurveDataExperiment::termination_distance;

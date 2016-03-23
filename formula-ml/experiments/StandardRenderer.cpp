@@ -20,7 +20,8 @@ void StandardRenderer::initialize() {
 
     // Create views for simulated objects.
     car_view = new CarView(this->simulator->car);
-    track_view = new TrackView(this->simulator->track);
+    
+	track_view = new TrackView(this->simulator->track);
 
     // And one grid to keep one from loosing ones mind.
     grid_view = new GridView();
