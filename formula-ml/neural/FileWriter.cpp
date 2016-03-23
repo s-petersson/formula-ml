@@ -3,6 +3,7 @@
 #include <sstream>
 #include <direct.h>
 #include <windows.h>
+#include <exception>  
 
 
 using namespace std;
@@ -48,9 +49,36 @@ void FileWriter::poolToFile(Pool pool, string path) {
 		int secondCreated = _mkdir(speciesPath.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
-			genomePath << speciesPath.str() << "\\Genome_" << g << "_" << pool.species.at(s).genomes.at(g).fitness;
+			genomePath << speciesPath.str() << "\\Genome_" << g;
 			genomeToFile(pool.species.at(s).genomes.at(g), genomePath.str()+".txt");
 		}
 
 	}
+}
+/*
+* Root path for a single pool/generation
+*/
+Pool FileWriter::poolFromFile(string path) {
+	Pool * pool = new Pool();
+	int s = 0;
+	int g = 0;
+	ostringstream filePath;
+	filePath << path << "\\Species_" << s << "\\Genome_" << g << ".txt";
+
+	ifstream file;
+	if (!file.good()) {
+		throw runtime_error("Incorrect path");
+	}
+
+	while (true) {
+		
+	}
+		
+}
+
+/*
+* .txt of a genome file
+*/
+Genome FileWriter::genomefromFile(string path) {
+
 }

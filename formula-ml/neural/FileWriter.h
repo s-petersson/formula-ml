@@ -20,16 +20,13 @@ namespace neural {
 
 		void genomeToFile(neat::Genome genomde, std::string path);
 		void poolToFile(neat::Pool pool, std::string path);
-		void poolToFile(neat::Pool pool, neat::Genome best, std::string path);
-		//neat::Pool poolFromFile(std::string path);
+		//void poolToFile(neat::Pool pool, neat::Genome best, std::string path);
+		neat::Pool poolFromFile(std::string path);
 
 
 	private:
-		//void writePool
-		//std::string path;
 
-		//void genomeToFile(neat::Genome genomde, std::string path);
-		//neat::Genome genomefromFile(std::string path);
+	neat::Genome genomefromFile(std::string path);
 
 	};
 
