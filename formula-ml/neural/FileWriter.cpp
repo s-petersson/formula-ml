@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <direct.h>
-#include <windows.h>
+#include <iostream>
 #include <exception>  
 
 
@@ -58,27 +58,101 @@ void FileWriter::poolToFile(Pool pool, string path) {
 /*
 * Root path for a single pool/generation
 */
-Pool FileWriter::poolFromFile(string path) {
+Pool * FileWriter::poolFromFile(string path) {
 	Pool * pool = new Pool();
 	int s = 0;
 	int g = 0;
-	ostringstream filePath;
-	filePath << path << "\\Species_" << s << "\\Genome_" << g << ".txt";
-
-	ifstream file;
-	if (!file.good()) {
+	
+	/*
+	ifstream file(genomePath(path, s , g));
+	if (!file.is_open()) {
 		throw runtime_error("Incorrect path");
 	}
+	file.close();
 
+	*/
+	//double means end of input
+	bool lastFail = false;
+
+	//TODO replace while-true
 	while (true) {
-		
+		Genome * nextGenome = genomeFromFile(genomePath(path, s, g));
+		if (nextGenome == nullptr) {
+			if (lastFail) {
+				return pool;
+			}
+			lastFail = true;
+			s++;
+			g = 0;
+		}
+		else {
+			lastFail = false;
+			g++;
+			pool->addToSpecies(*nextGenome);
+			cout << "Species " << s << " Genome " << g << endl;
+		}
 	}
 		
+}
+
+string FileWriter::genomePath(string root, int species, int genome) {
+	ostringstream file_path;
+	file_path << root << "\\Species_" << species << "\\Genome_" << genome << ".txt";
+	return file_path.str();
 }
 
 /*
 * .txt of a genome file
 */
-Genome FileWriter::genomefromFile(string path) {
+Genome * FileWriter::genomeFromFile(string path) {
+	ifstream file(path);
+	if (file.is_open()) {
+		return nullptr;
+	}
 
+	Genome * genome = new Genome();
+	string line;
+	string::size_type st;
+
+	//Data
+	getline(file, line);
+	float fitness = stof(line, &st);
+	getline(file, line);
+	float adjustedFitness = stoi(line, &st);
+	getline(file, line);
+	int maxNeuron = stoi(line, &st);
+	getline(file, line);
+	int globalRank = stoi(line, &st);
+	
+	//One format line
+	getline(file, line);
+	int out, into;
+	float weight;
+	bool enabled;
+	int innovation;
+	bool created;
+	std::vector<Gene> genes;
+
+
+	while (getline(file, line)) {
+		istringstream in(line);
+		in >> out >> into >> weight >> enabled >> innovation >> created;
+		Gene gene;
+		gene.out = out;
+		gene.into = into;
+		gene.weight = weight;
+		gene.enabled = enabled;
+		gene.innovation = innovation;
+		gene.created = created;
+
+		genes.push_back(gene);
+	}
+
+	genome->adjustedFitness = adjustedFitness;
+	genome->fitness = fitness;
+	genome->maxneuron = maxNeuron;
+	genome->globalRank = globalRank;
+	genome->genes = genes;
+
+	return genome;
 }

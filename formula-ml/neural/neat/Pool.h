@@ -13,6 +13,7 @@ namespace neat {
         ~Pool();
 
         void new_generation();
+		void addToSpecies(Genome child);
 
         std::vector<Species> species;
         int generation;
@@ -28,7 +29,7 @@ namespace neat {
         Genome basic_genome();
         void cullSpecies(bool);
         void removeWeakSpecies();
-        void addToSpecies(Genome child);
+        
         void removeStaleSpecies();
         void rankGlobally();
 
