@@ -49,7 +49,8 @@ void NeatCurveDataExperiment::run() {
 
     trainer->on_new_best = [](neural::Network* new_best, float fitness)
     {
-        CurveEvaluator eval = CurveEvaluator();
+        /* No longer relevant due to the changed visualisation.
+		CurveEvaluator eval = CurveEvaluator();
         SimulationResult result = eval.run(new_best);
         cout << "New maximum fitness: " << fitness << endl
             << "Distance: " << result.distance_driven << endl
@@ -65,10 +66,13 @@ void NeatCurveDataExperiment::run() {
         window->setState(s);
         window->run();
         delete window;
+		*/
     };
 
     // Start the trainer
+	std::thread vt = std::thread(&NeatCurveDataExperiment::visualise, this);
     trainer->run();
+	vt.join();
 }
 
 std::function<CarControl()> NeatCurveDataExperiment::updater() {
@@ -78,6 +82,70 @@ std::function<CarControl()> NeatCurveDataExperiment::updater() {
 		return control;
 	};
 }
+
+
+void NeatCurveDataExperiment::visualise() {
+
+	Simulator* simulator = new Simulator();
+	Network * network = new Network();
+	// Create simulated objects
+	// NOTE: Starting grid is at first "checkpoint". In order
+	//       to change this, offset the checkpoint order.
+	simulator->track = new TrackModel(glm::vec3());
+	simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), 15.0f);
+
+	simulator->progress_timeout = 5.0f;
+	simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
+	neural::NetworkIO network_input, network_output;
+	network_input.value_count = Config::Inputs;
+	network_input.values = new float[Config::Inputs];
+	network_output.value_count = Config::Outputs;
+	network_output.values = new float[Config::Outputs];
+
+	simulator->carUpdater = [&]() {
+		if (simulator->has_terminated()) {
+			simulator->reset();
+			cout << "CRASH BOOM BANG" << endl;
+			delete network;
+			network = new Network(trainer->get_best().genes);
+		}
+		float* inputs = network_input.values;
+		float* outputs = network_output.values;
+
+		int i = 0;
+		inputs[i++] = simulator->distance_to_middle();
+		inputs[i++] = simulator->angle_to_line();
+		inputs[i++] = simulator->car->getSpeed();
+		int curve_data_start = i;
+		simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points);
+		inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], 
+											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
+		inputs[i++] = 1.0f;
+
+		network->fire(network_input, network_output);
+
+		CarControl control;
+		control.acceleration = 0;
+		control.brake = outputs[1];
+		control.steer = outputs[0];
+
+		return control;
+	};
+
+	Window * window = new Window();
+	vector<Renderer*> renderers;
+
+	StandardRenderer * sr = new StandardRenderer(simulator);
+	renderers.push_back(sr);
+	SimulationState * s = new SimulationState(simulator, renderers);
+
+	window->setState(s);
+	window->run();
+	delete window;
+	//delete s;
+	//delete sr;
+}
+
 
 
 //---  CurveEvaluator  ---//
@@ -91,7 +159,7 @@ CurveEvaluator::CurveEvaluator() {
     simulator->track = new TrackModel(glm::vec3());
     simulator->car = new CarModel(simulator->track->get_start_grid_pos(),glm::vec3(0,1,0),15.0f);
 
-    simulator->progress_timeout = 0.1f;
+    simulator->progress_timeout = 5.0f;
     simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
 
     network_indata.value_count = Config::Inputs;
@@ -109,7 +177,8 @@ CurveEvaluator::CurveEvaluator() {
         inputs[i++] = simulator->car->getSpeed();
         int curve_data_start = i;
         simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points);
-        inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
+        inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start],
+											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
         inputs[i++] = 1.0f;
 
         network->fire(network_indata, network_output);

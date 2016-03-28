@@ -35,13 +35,7 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 		std::ostringstream oss;
 		//oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
-        pool->maxFitness = genome.fitness;
-		delete bestGenome;
-        delete bestNetwork;
-        bestNetwork = n;
-		bestGenome = new Genome(genome);
-		//*bestGenome = genome;
-        improved = true;
+		set_best(genome);
     }
     else {
         delete n;
@@ -115,7 +109,7 @@ void NeatTrainer::run() {
 			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
 
             if (on_new_best) {
-                on_new_best(bestNetwork, bestGenome->fitness);
+                on_new_best(&Network(bestGenome->genes), bestGenome->fitness);
             }
 
 			improved = false;
@@ -125,8 +119,20 @@ void NeatTrainer::run() {
     for (int i = 0; i < thread_count; ++i) {
         delete eval_pool[i];
     }
-	
-
-
 }
 
+
+
+neat::Genome NeatTrainer::get_best() {
+	return Genome(*bestGenome);
+}
+void NeatTrainer::set_best(neat::Genome& genome) {
+	best_genome_mutex.lock();
+	if ( bestGenome == nullptr || genome.fitness > bestGenome->fitness) {
+		delete bestGenome;
+		bestGenome = new Genome(genome);
+		pool->maxFitness = genome.fitness;
+		improved = true;
+	}
+	best_genome_mutex.unlock();
+}
