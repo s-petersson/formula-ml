@@ -16,6 +16,7 @@
 class NeatCurveDataExperiment : public Experiment {
 public:
     NeatCurveDataExperiment();
+	NeatCurveDataExperiment(string path);
     ~NeatCurveDataExperiment();
     virtual void run();
     virtual std::function<CarControl()> updater();

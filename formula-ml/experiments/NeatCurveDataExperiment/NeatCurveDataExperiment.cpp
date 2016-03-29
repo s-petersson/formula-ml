@@ -20,7 +20,12 @@ float NeatCurveDataExperiment::max_time;
 
 NeatCurveDataExperiment::NeatCurveDataExperiment() {
 	// Construct the NeatTrainer
-	//trainer = new NeatTrainer();
+	trainer = new NeatTrainer();
+}
+
+NeatCurveDataExperiment::NeatCurveDataExperiment(string path) {
+	// Construct the NeatTrainer
+	trainer = new NeatTrainer(path);
 }
 
 NeatCurveDataExperiment::~NeatCurveDataExperiment() {
@@ -35,7 +40,7 @@ void NeatCurveDataExperiment::run() {
    
 	Config::set_config(nbr_of_inputs, 2);
 	
-	trainer = new NeatTrainer();
+	//trainer = new NeatTrainer();
     
 	trainer->evaluator_factory = []()
     {

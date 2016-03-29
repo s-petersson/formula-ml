@@ -18,16 +18,14 @@ NeatTrainer::NeatTrainer()
 {
 	std::cout << "main main";
 	fw = new neural::FileWriter();
-	//pool = new Pool();
-	//pool->fill();
-	pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 19");
+	pool = new Pool();
+	pool->fill();
+	//pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 19");
 }
 
 NeatTrainer::NeatTrainer(string path) {
-	std::cout << "main path";
 	fw = new neural::FileWriter();
 	pool = (*fw).poolFromFile(path);
-	//pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 217");
 }
 
 
@@ -138,7 +136,7 @@ void NeatTrainer::run() {
 
 		if (improved) {
 			ostringstream path;
-			path << "saves\\Generation " << generation;
+			path << "saves\\Generation_" << generation;
 
 			(*fw).poolToFile(*pool, path.str());
 			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");

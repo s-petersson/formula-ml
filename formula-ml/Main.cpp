@@ -33,13 +33,18 @@ int main(void) {
             }
             break;
 		case 4:
-			{
-				NeatCurveDataExperiment* e = new NeatCurveDataExperiment();
+			{	
+				std::string path;
+				std::cout << "Abosultue path of designated pool/generation: ";
+				std::cin >> path;
+				//NeatCurveDataExperiment* e = new NeatCurveDataExperiment("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 19");
+				NeatCurveDataExperiment* e = new NeatCurveDataExperiment(path);
 				experiment = e;
 				e->nbr_of_curve_points = 10;
 				e->max_time = 2000.f;
 				e->termination_distance = 5700.f; 
 			}
+			break;
 		default:
 			experiment = new ManualControl();
 			break;
