@@ -15,15 +15,15 @@ Pool::Pool() {
     currentGenome = 1;
     currentFrame = 0;
     maxFitness = 0;
-
-    for (int i = 0; i < Population; i++) {
-        addToSpecies(basic_genome());
-    }
-    
 }
 
 Pool::~Pool() {
 
+}
+void Pool::fill() {
+	for (int i = 0; i < Population; i++) {
+		addToSpecies(basic_genome());
+	}
 }
 
 void Pool::new_generation() {

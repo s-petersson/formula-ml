@@ -2,7 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <direct.h>
-#include <windows.h>
+#include <iostream>
+#include <exception>  
 
 
 using namespace std;
@@ -48,9 +49,114 @@ void FileWriter::poolToFile(Pool pool, string path) {
 		int secondCreated = _mkdir(speciesPath.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
-			genomePath << speciesPath.str() << "\\Genome_" << g << "_" << pool.species.at(s).genomes.at(g).fitness;
+			genomePath << speciesPath.str() << "\\Genome_" << g;
 			genomeToFile(pool.species.at(s).genomes.at(g), genomePath.str()+".txt");
 		}
 
 	}
+}
+/*
+* Root path for a single pool/generation
+*/
+Pool * FileWriter::poolFromFile(string path) {
+	Pool * pool = new Pool();
+	int s = 0;
+	int g = 0;
+	
+	
+	ifstream file(genomePath(path, s , g));
+	if (!file.is_open()) {
+		throw runtime_error("Incorrect path");
+	}
+	file.close();
+
+	
+	//double means end of input
+	bool lastFail = false;
+
+	//TODO replace while-true
+	while (true) {
+		Genome * nextGenome = genomeFromFile(genomePath(path, s, g));
+		if (nextGenome == nullptr) {
+			if (lastFail) {
+				return pool;
+			}
+			lastFail = true;
+			s++;
+			g = 0;
+		}
+		else {
+			lastFail = false;
+			pool->addToSpecies(*nextGenome);
+			cout << "Species " << s << " Genome " << g << endl;
+			g++;
+			if (nextGenome->fitness > pool->maxFitness) {
+				pool->maxFitness = nextGenome->fitness;
+				cout << "new max fittnes " << pool->maxFitness;
+			}
+		}
+	}
+		
+}
+
+string FileWriter::genomePath(string root, int species, int genome) {
+	ostringstream file_path;
+	file_path << root << "\\Species_" << species << "\\Genome_" << genome << ".txt";
+	return file_path.str();
+}
+
+/*
+* .txt of a genome file
+*/
+Genome * FileWriter::genomeFromFile(string path) {
+	ifstream file(path);
+	if (!file.is_open()) {
+		return nullptr;
+	}
+
+	Genome * genome = new Genome();
+	string line;
+	string::size_type st;
+
+	//Data
+	getline(file, line);
+	float fitness = stof(line, &st);
+	getline(file, line);
+	float adjustedFitness = stoi(line, &st);
+	getline(file, line);
+	int maxNeuron = stoi(line, &st);
+	getline(file, line);
+	int globalRank = stoi(line, &st);
+	
+	//One format line
+	getline(file, line);
+	int out, into;
+	float weight;
+	bool enabled;
+	int innovation;
+	bool created;
+	std::vector<Gene> genes;
+
+
+	while (getline(file, line)) {
+		istringstream in(line);
+		in >> out >> into >> weight >> enabled >> innovation >> created;
+		Gene gene;
+		gene.out = out;
+		gene.into = into;
+		gene.weight = weight;
+		gene.enabled = enabled;
+		gene.innovation = innovation;
+		gene.created = created;
+
+		genes.push_back(gene);
+	}
+
+	genome->adjustedFitness = adjustedFitness;
+	genome->fitness = fitness;
+	genome->maxneuron = maxNeuron;
+	genome->globalRank = globalRank;
+	genome->genes = genes;
+
+	return genome;
 }

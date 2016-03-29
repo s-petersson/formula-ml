@@ -19,6 +19,7 @@ class NeatTrainer
 {
 public:
     NeatTrainer();
+	NeatTrainer(string path);
     ~NeatTrainer();
     void run();
 
@@ -38,8 +39,8 @@ private:
     void showBest();
     bool improved = false;
 	int generation;
-    neat::Pool * pool;
 
+    neat::Network *bestNetwork;
 	neat::Genome *bestGenome;
 	std::mutex best_genome_mutex;
 
@@ -47,6 +48,7 @@ private:
     std::vector<neat::Genome*> active_genomes;
 	std::string savePath;
 
+	neat::Pool * pool;
 	neural::FileWriter * fw;
 };
 

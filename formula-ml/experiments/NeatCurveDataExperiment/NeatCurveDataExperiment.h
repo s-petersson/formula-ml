@@ -5,6 +5,7 @@
 #include <sim/model/CarModel.h>
 #include <functional>
 #include <NeatTrainer.h>
+
 #include <experiments/Experiment.h>
 
 #include <neural/neat/Network.h>
@@ -15,6 +16,7 @@
 class NeatCurveDataExperiment : public Experiment {
 public:
     NeatCurveDataExperiment();
+	NeatCurveDataExperiment(string path);
     ~NeatCurveDataExperiment();
     virtual void run();
     virtual std::function<CarControl()> updater();

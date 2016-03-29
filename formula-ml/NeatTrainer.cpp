@@ -16,9 +16,19 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
-    pool = new Pool();
+	std::cout << "main main";
 	fw = new neural::FileWriter();
+	pool = new Pool();
+	pool->fill();
+	//pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 19");
 }
+
+NeatTrainer::NeatTrainer(string path) {
+	fw = new neural::FileWriter();
+	pool = (*fw).poolFromFile(path);
+}
+
+
 
 
 NeatTrainer::~NeatTrainer()
@@ -61,6 +71,28 @@ void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
     }
 }
 
+Simulator* create_simulator() {
+    const float termination_distance = 5700.f;
+
+    Simulator * sim = new Simulator();
+    // Create simulated objects
+    // NOTE: Starting grid is at first "checkpoint". In order
+    //       to change this, offset the checkpoint order.
+    TrackModel * tm = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+    sim->track = tm;
+    CarModel * cm = new CarModel(sim->track->get_start_grid_pos(),
+                                 glm::vec3(-0.616278410f, -0.787541449f, 0),
+                                 12.f);
+    sim->car = cm;
+
+    // Place car at the tracks starting grid.
+    sim->car->setSpeed(12.f);
+    sim->progress_timeout = 1.0f;
+    sim->termination_distance = termination_distance;
+
+    return sim;
+}
+
 void NeatTrainer::run() {
     int thread_count = std::thread::hardware_concurrency();
 	std::thread *thread_pool = new std::thread[thread_count];
@@ -101,9 +133,10 @@ void NeatTrainer::run() {
         }
 
 		pool->new_generation();
+
 		if (improved) {
 			ostringstream path;
-			path << "saves\\Generation " << generation;
+			path << "saves\\Generation_" << generation;
 
 			(*fw).poolToFile(*pool, path.str());
 			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
