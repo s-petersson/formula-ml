@@ -10,8 +10,6 @@ FBO createFBO(int width, int height, bool multisample) {
     
     int samples;
     glGetIntegerv(GL_MAX_SAMPLES, &samples);
-    printf("Max sample count: %i.\n", samples);
-
     glGenFramebuffers(1, &fbo.id);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
 

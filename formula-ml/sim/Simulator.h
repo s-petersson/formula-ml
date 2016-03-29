@@ -39,6 +39,10 @@ public:
 
     void write_checkpoints(float* target, int& offset, int nbr_of_checkpoints);
     static int write_checkpoints_size(int nbr_of_checkpoints) { return 2 * nbr_of_checkpoints; };
+	bool has_terminated();
+private:
+	bool terminated;
+	SimulationResult best = SimulationResult();
 };
 
 #endif

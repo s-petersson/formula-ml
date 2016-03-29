@@ -7,11 +7,14 @@ using namespace glm;
 using namespace std;
 
 TrackView::TrackView(TrackModel *dataModel) {
-    this->dataModel = dataModel;
+    
+	this->dataModel = dataModel;
 
     viewModel = dataModel->get_model();
-    viewModel->create_vao();
-    // Per vertex color.
+    
+	viewModel->create_vao();
+    
+	// Per vertex color.
     std::vector<float> color;
     for(int i = 0; i < viewModel->get_raw_vertices().size(); i += 4) {
         color.push_back(0.5f); // Red
@@ -47,7 +50,6 @@ TrackView::TrackView(TrackModel *dataModel) {
     glBindVertexArray(checkpoints_vao);
 
     GLuint posbuf, colbuf;
-
     glGenBuffers(1, &posbuf);
     glBindBuffer(GL_ARRAY_BUFFER, posbuf);
     glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(vec4), &positions[0], GL_STATIC_DRAW);

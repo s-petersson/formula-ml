@@ -6,6 +6,7 @@ using namespace neural;
 
 Simulator::Simulator() {
 	result = SimulationResult();
+	terminated = false;
 }
 
 Simulator::~Simulator() {
@@ -25,6 +26,8 @@ void Simulator::reset() {
 
     // Now reset the cars values.
     car->reset();
+	terminated = false;
+	best = SimulationResult();
 }
 
 /**
@@ -202,6 +205,8 @@ SimulationResult Simulator::run(const float dt) {
 	Update the simulation with one time step dt [seconds]
 */
 void Simulator::update(float dt) {
+	
+	
 	// Update result
 	result.time_alive += dt;
     result.distance_driven = car->distance_on_track;
@@ -221,10 +226,35 @@ void Simulator::update(float dt) {
     }
 
     CarControl control = this->carUpdater();
+	
+	if (!track->on_track(car->position)) {
+		car->setSpeed(0.0f);
+		terminated = true;
+		return;
+	}
+
+	if (result.distance_driven >= termination_distance) {
+		// Call it quits
+		result.distance_driven = termination_distance;
+		terminated = true;
+		return;
+	}
+
+	// Check for progress
+	if (result.distance_driven > best.distance_driven) {
+		// The car has progressed
+		best = result;
+	}
+	else if (result.time_alive > best.time_alive + progress_timeout) {
+		// No progress for a while
+		// Call it quits
+		terminated = true;
+		return;
+	}
+
 	car->update(dt, control);
+}
 
-    if (!track->on_track(car->position)) {
-        car->setSpeed(0.0f);
-    }
-
+bool Simulator::has_terminated() {
+	return terminated;
 }

@@ -19,12 +19,16 @@ public:
     virtual void run();
     virtual std::function<CarControl()> updater();
 
+	
+
     // Manditory
     static int nbr_of_curve_points;
     static float termination_distance;
     static float max_time;
 
 private:
+	void visualise();
+
     NeatTrainer* trainer;
 };
 

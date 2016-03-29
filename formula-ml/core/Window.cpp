@@ -37,7 +37,7 @@ Window::Window() {
 	glfwSetKeyCallback(window, key_callback);
 
 	glfwGetFramebufferSize(window, &screen_width, &screen_height);
-    fbo = createFBO(screen_width, screen_height, false);
+    fbo = createFBO(screen_width, screen_height, true);
 }
 
 Window::~Window() {

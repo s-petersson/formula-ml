@@ -7,9 +7,11 @@
 using namespace glm;
 
 TrackModel::TrackModel(vec3 start_grid_pos) {
-    model = new Model("./res/models/spa_circuit.model");
+    model = new Model("./res/models/custom_circuit.model");
     this->start_grid_pos = start_grid_pos;
-    create_checkpoints();
+   
+	create_checkpoints();
+
 }
 
 TrackModel::~TrackModel() {
@@ -119,7 +121,8 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
 }
 
 glm::vec3 TrackModel::get_start_grid_pos() {
-    return start_grid_pos;
+    //return start_grid_pos;
+	return checkpoints[0].middle;
 }
 
 /**
@@ -213,12 +216,10 @@ void TrackModel::create_checkpoints() {
         try_insert(&all_pairs, &path_map, tri.i2, tri.i3);
         try_insert(&all_pairs, &path_map, tri.i3, tri.i1);
     }
-
     vector<Pair> ordered_path_pairs;
     create_path_pairs(&ordered_path_pairs, &path_map, 0);
 
     int size = ordered_path_pairs.size();
-
     for (int i = 0; i < ordered_path_pairs.size() / 2; i++) {
         Checkpoint checkpoint;
         Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[2 * i].a];

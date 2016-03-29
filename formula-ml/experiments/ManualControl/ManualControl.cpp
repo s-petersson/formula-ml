@@ -14,13 +14,12 @@ ManualControl::ManualControl() {
     window                          = new Window();
 
     simulator->progress_timeout     = 5;
-    simulator->track                = new TrackModel(glm::vec3(35.169220,
-                                                               -702.223755,
-                                                               5.000004));
-    simulator->car                  = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(-0.616278410f, -0.787541449f, 0), 15.f);
+    simulator->track                = new TrackModel(glm::vec3(0,0,0));
+    simulator->car                  = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), 15.f);
 
     std::vector<Renderer*> renderers;
-    renderers.push_back(new StandardRenderer(simulator));
+
+	renderers.push_back(new StandardRenderer(simulator));
     simulationState                 = new SimulationState(simulator, renderers);
     window->setState(simulationState);
 

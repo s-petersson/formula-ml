@@ -22,7 +22,10 @@ public:
     ~NeatTrainer();
     void run();
 
-    // Manditory
+	neat::Genome get_best();
+	void set_best(neat::Genome& genome);
+
+    // Mandatory
     std::function<NeatEvaluator*()> evaluator_factory;
 
     // Optional
@@ -36,8 +39,9 @@ private:
     bool improved = false;
 	int generation;
     neat::Pool * pool;
-    neat::Network *bestNetwork;
+
 	neat::Genome *bestGenome;
+	std::mutex best_genome_mutex;
 
     std::mutex mtx;
     std::vector<neat::Genome*> active_genomes;

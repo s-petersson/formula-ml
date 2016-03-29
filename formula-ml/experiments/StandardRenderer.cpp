@@ -20,7 +20,8 @@ void StandardRenderer::initialize() {
 
     // Create views for simulated objects.
     car_view = new CarView(this->simulator->car);
-    track_view = new TrackView(this->simulator->track);
+    
+	track_view = new TrackView(this->simulator->track);
 
     // And one grid to keep one from loosing ones mind.
     grid_view = new GridView();
@@ -60,6 +61,6 @@ void StandardRenderer::render() {
     track_view->render();
     car_view->render();
 	gui->clear();
-	gui->add_text("Distance: " + std::to_string(0.0f), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
+	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
 	gui->render();
 }
