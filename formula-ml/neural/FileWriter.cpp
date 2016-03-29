@@ -87,9 +87,10 @@ Pool * FileWriter::poolFromFile(string path) {
 		}
 		else {
 			lastFail = false;
-			g++;
+			
 			pool->addToSpecies(*nextGenome);
 			cout << "Species " << s << " Genome " << g << endl;
+			g++;
 		}
 	}
 		
@@ -106,7 +107,7 @@ string FileWriter::genomePath(string root, int species, int genome) {
 */
 Genome * FileWriter::genomeFromFile(string path) {
 	ifstream file(path);
-	if (file.is_open()) {
+	if (!file.is_open()) {
 		return nullptr;
 	}
 

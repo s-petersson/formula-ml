@@ -19,7 +19,7 @@ NeatTrainer::NeatTrainer()
     
 	fw = new neural::FileWriter();
 	//pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula - ml\\formula - ml\\saves\\Generation 217");
-	pool = (*fw).poolFromFile("saves\\Generation 217");
+	pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 217");
 }
 
 
