@@ -19,6 +19,8 @@ public:
 	~SimulationState();
 
 	void run(float dt);
+	void add_renderer(Renderer* r);
+	void clear_renderers();
 
 private:
 	Simulator * simulator;

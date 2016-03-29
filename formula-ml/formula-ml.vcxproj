@@ -162,6 +162,7 @@
     <ClCompile Include="neural\neat\Gene.cpp" />
     <ClCompile Include="neural\neat\Genome.cpp" />
     <ClCompile Include="neural\neat\Network.cpp" />
+    <ClCompile Include="experiments\NetworkView.cpp" />
     <ClCompile Include="neural\neat\Pool.cpp" />
     <ClCompile Include="neural\neat\Constants.cpp" />
     <ClCompile Include="neural\neat\Species.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="neural\neat\Gene.h" />
     <ClInclude Include="neural\neat\Genome.h" />
     <ClInclude Include="neural\neat\Network.h" />
+    <ClInclude Include="experiments\NetworkView.h" />
     <ClInclude Include="neural\neat\Pool.h" />
     <ClInclude Include="neural\neat\Species.h" />
     <ClInclude Include="neural\Neural.h" />

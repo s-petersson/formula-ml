@@ -31,11 +31,11 @@ namespace neat {
 
         int inputSize();
         int outputSize();
-
+		std::map<int, Neuron> neurons;
     private:
         void evaluateNetwork(float* inputs, int input_count, float* outputs, int output_count);
         float sigmoid(float x);
-        std::map<int, Neuron> neurons;
+        
         const int Inputs;
         const int Outputs;
 

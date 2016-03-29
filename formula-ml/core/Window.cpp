@@ -25,7 +25,8 @@ Window::Window() {
 		glfwTerminate();
 		throw std::runtime_error("Window creation failed.");
 	}
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 

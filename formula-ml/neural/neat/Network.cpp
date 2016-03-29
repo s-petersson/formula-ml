@@ -33,7 +33,6 @@ Network::Network()
     : Inputs(Config::Inputs), Outputs(Config::Outputs) {}
 
 Network::Network(std::vector<Gene> genes) : Network(){
-    
     for (int i = 1; i <= Inputs; i++) {
         neurons[i] = Neuron();
     }

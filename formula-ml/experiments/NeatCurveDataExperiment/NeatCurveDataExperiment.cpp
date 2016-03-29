@@ -7,7 +7,8 @@
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
-
+#include <experiments/NetworkView.h>
+#include <core/Keyboard.h>
 using namespace neat;
 
 // Static variables
@@ -108,12 +109,20 @@ void NeatCurveDataExperiment::visualise() {
 	network_output.value_count = Config::Outputs;
 	network_output.values = new float[Config::Outputs];
 
+	StandardRenderer * sr;
+	NetworkView * nv;
+	SimulationState * s;
+
 	simulator->carUpdater = [&]() {
-		if (simulator->has_terminated()) {
+		if (simulator->has_terminated() || isKeyDown(GLFW_KEY_HOME)) {
 			simulator->reset();
-			cout << "CRASH BOOM BANG" << endl;
 			delete network;
 			network = new Network(trainer->get_best().genes);
+			delete nv;
+			nv = new NetworkView(network);
+			s->clear_renderers();
+			s->add_renderer(sr);
+			s->add_renderer(nv);
 		}
 		float* inputs = network_input.values;
 		float* outputs = network_output.values;
@@ -141,9 +150,10 @@ void NeatCurveDataExperiment::visualise() {
 	Window * window = new Window();
 	vector<Renderer*> renderers;
 
-	StandardRenderer * sr = new StandardRenderer(simulator);
+	sr = new StandardRenderer(simulator);
+	nv = new NetworkView(network);
 	renderers.push_back(sr);
-	SimulationState * s = new SimulationState(simulator, renderers);
+	s = new SimulationState(simulator, renderers);
 
 	window->setState(s);
 	window->run();

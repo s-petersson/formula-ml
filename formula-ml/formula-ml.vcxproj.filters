@@ -37,6 +37,7 @@
     <ClCompile Include="neural\FileWriter.cpp" />
     <ClCompile Include="neural\Helpers.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
+    <ClCompile Include="experiments\NetworkView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="neural\FileWriter.h" />
     <ClInclude Include="neural\Helpers.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
+    <ClInclude Include="experiments\NetworkView.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />

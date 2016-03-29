@@ -21,3 +21,10 @@ void SimulationState::run(float dt) {
         renderer->render();
     }
 }
+
+void SimulationState::add_renderer(Renderer* r) {
+	renderers.push_back(r);
+}
+void SimulationState::clear_renderers() {
+	renderers.clear();
+}
