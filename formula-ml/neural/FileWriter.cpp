@@ -63,14 +63,14 @@ Pool * FileWriter::poolFromFile(string path) {
 	int s = 0;
 	int g = 0;
 	
-	/*
+	
 	ifstream file(genomePath(path, s , g));
 	if (!file.is_open()) {
 		throw runtime_error("Incorrect path");
 	}
 	file.close();
 
-	*/
+	
 	//double means end of input
 	bool lastFail = false;
 
@@ -87,7 +87,6 @@ Pool * FileWriter::poolFromFile(string path) {
 		}
 		else {
 			lastFail = false;
-			
 			pool->addToSpecies(*nextGenome);
 			cout << "Species " << s << " Genome " << g << endl;
 			g++;
