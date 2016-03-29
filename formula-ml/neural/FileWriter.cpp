@@ -90,6 +90,10 @@ Pool * FileWriter::poolFromFile(string path) {
 			pool->addToSpecies(*nextGenome);
 			cout << "Species " << s << " Genome " << g << endl;
 			g++;
+			if (nextGenome->fitness > pool->maxFitness) {
+				pool->maxFitness = nextGenome->fitness;
+				cout << "new max fittnes " << pool->maxFitness;
+			}
 		}
 	}
 		

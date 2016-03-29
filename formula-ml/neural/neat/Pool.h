@@ -14,6 +14,7 @@ namespace neat {
 
         void new_generation();
 		void addToSpecies(Genome child);
+		void fill();
 
         std::vector<Species> species;
         int generation;

@@ -19,7 +19,8 @@ float NeatCurveDataExperiment::max_time;
 //---  NeatCurveDataExperiment  ---//
 
 NeatCurveDataExperiment::NeatCurveDataExperiment() {
-    
+	// Construct the NeatTrainer
+	//trainer = new NeatTrainer();
 }
 
 NeatCurveDataExperiment::~NeatCurveDataExperiment() {
@@ -31,12 +32,12 @@ void NeatCurveDataExperiment::run() {
     int nbr_of_inputs = 
         5 + 
         Simulator::write_track_curve_size(nbr_of_curve_points);
-    Config::set_config(nbr_of_inputs, 2);
-
-    // Construct the NeatTrainer
-    trainer = new NeatTrainer();
-
-    trainer->evaluator_factory = []()
+   
+	Config::set_config(nbr_of_inputs, 2);
+	
+	trainer = new NeatTrainer();
+    
+	trainer->evaluator_factory = []()
     {
         return new CurveEvaluator();
     };
