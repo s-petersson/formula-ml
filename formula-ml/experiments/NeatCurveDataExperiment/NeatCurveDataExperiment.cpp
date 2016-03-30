@@ -145,7 +145,7 @@ void NeatCurveDataExperiment::visualise() {
 		control.acceleration = 0;
 		control.brake = outputs[1];
 		control.steer = outputs[0];
-        control.steer = control.steer > 0 ? control.steer : -control.steer;
+        control.steer = inputs[curve_data_start] > 0 ? control.steer : -control.steer;
 
 		return control;
 	};
@@ -207,7 +207,7 @@ CurveEvaluator::CurveEvaluator() {
         control.acceleration = 0;
         control.brake = outputs[1];
         control.steer = outputs[0];
-        control.steer = control.steer > 0 ? control.steer : -control.steer;
+        control.steer = inputs[curve_data_start] > 0 ? control.steer : -control.steer;
 
         return control;
     };
