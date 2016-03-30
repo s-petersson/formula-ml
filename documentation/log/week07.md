@@ -50,3 +50,11 @@ We went over a the racing domain as well as how reinforcement learning works, bu
 
 ### Revisited distance driven
 I implemented multithreading into the training simulator, since the training sessions started to require more computation power. I also implemented a way of reseting the simulator to its initial state, since creating a new simulator for every evaluation of a network, like we have done thus far, requires a lot of time. The evaluation of a network is now significantly faster than previously.
+
+## Martin 
+
+### Halftime presentation
+Worked on the halftime presentation, which in my opinion went okay. It was quite difficult because our topic is quite hard to explain in such a short amount of time, and thus if we wanted to explain what we are doing and why we had almost no time to explain how it all works. 
+
+### GUI
+I started working on a GUI system which will be used to display debug information from the simulator. The functionality includes drawing rectangles, lines and texts. The idea is also that we can visualise the neural networks with the system, so that we can understand what the training algorithm is doing and how particular decisions are made within a network. 
