@@ -137,12 +137,15 @@ void NeatCurveDataExperiment::visualise() {
 											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
 		inputs[i++] = 1.0f;
 
+        neural::flip_parity_if(&inputs[curve_data_start], NeatCurveDataExperiment::nbr_of_curve_points, inputs[curve_data_start] > 0);
+
 		network->fire(network_input, network_output);
 
 		CarControl control;
 		control.acceleration = 0;
 		control.brake = outputs[1];
 		control.steer = outputs[0];
+        control.steer = control.steer > 0 ? control.steer : -control.steer;
 
 		return control;
 	};
@@ -196,6 +199,7 @@ CurveEvaluator::CurveEvaluator() {
         inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start],
 											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
         inputs[i++] = 1.0f;
+        neural::flip_parity_if(&inputs[curve_data_start], NeatCurveDataExperiment::nbr_of_curve_points, inputs[curve_data_start] > 0);
 
         network->fire(network_indata, network_output);
 
@@ -203,6 +207,7 @@ CurveEvaluator::CurveEvaluator() {
         control.acceleration = 0;
         control.brake = outputs[1];
         control.steer = outputs[0];
+        control.steer = control.steer > 0 ? control.steer : -control.steer;
 
         return control;
     };
