@@ -56,13 +56,13 @@ void NeatCurveDataExperiment::run() {
 
     trainer->on_new_best = [](neural::Network* new_best, float fitness)
     {
-        /* No longer relevant due to the changed visualisation.
+        
 		CurveEvaluator eval = CurveEvaluator();
         SimulationResult result = eval.run(new_best);
         cout << "New maximum fitness: " << fitness << endl
             << "Distance: " << result.distance_driven << endl
             << "Time: " << result.time_alive << endl << endl;
-
+        /* No longer relevant due to the changed visualisation.
         eval.reset(new_best);
 
         Window * window = new Window();
