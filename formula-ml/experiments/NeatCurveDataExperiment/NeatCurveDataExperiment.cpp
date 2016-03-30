@@ -82,15 +82,6 @@ void NeatCurveDataExperiment::run() {
 	vt.join();
 }
 
-std::function<CarControl()> NeatCurveDataExperiment::updater() {
-	return [&]() {
-		CarControl control = CarControl();
-
-		return control;
-	};
-}
-
-
 void NeatCurveDataExperiment::visualise() {
 
 	Simulator* simulator = new Simulator();

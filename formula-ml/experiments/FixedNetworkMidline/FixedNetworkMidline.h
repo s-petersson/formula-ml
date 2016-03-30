@@ -12,7 +12,7 @@ public:
     ~FixedNetworkMidline();
 
     virtual void run();
-    virtual std::function<CarControl()> updater();
+    std::function<CarControl()> updater();
 
 private:
     SimulationState* simulationState;

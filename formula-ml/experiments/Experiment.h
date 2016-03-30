@@ -10,7 +10,6 @@ public:
     }
 
     virtual void run() = 0;
-    virtual std::function<CarControl()> updater() = 0;
 
 protected:
     Simulator* simulator;

@@ -18,10 +18,7 @@ public:
     NeatCurveDataExperiment();
 	NeatCurveDataExperiment(string path);
     ~NeatCurveDataExperiment();
-    virtual void run();
-    virtual std::function<CarControl()> updater();
-
-	
+    virtual void run();	
 
     // Manditory
     static int nbr_of_curve_points;
