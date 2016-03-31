@@ -52,5 +52,6 @@ A proposed solution that originated from Gabriel was to use both the cars positi
 Spent most of my time refactoring the code in a way so that we can separate our different methods of implementing the AI into "experiments". This gives us an easy way of implementing several different methods for solving the problem, without having to remove the old tries.
 
 ### Daniel
+Found paper (Adaptive representations for reinforcement learning) going over diffrent types of NEAT, and similar algorithm. In this paper, our implementation is calles fs-NEAT, and means that we start without edges from each input. Normal NEAT does have at least one edge from each input node according to this paper, and that is not what we have done in our neat implementation so far.
 
-Prepared for the mid-term presentation
+I also prepared for the mid-term presentation

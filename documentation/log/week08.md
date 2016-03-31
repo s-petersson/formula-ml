@@ -14,3 +14,8 @@ We have noticed during our training sessions that the distance driven by the car
 
 ## Martin
 Finished up the GUI-rendering used in debugging. 
+
+## Daniel
+Working on saving Pools/Generations and their networks/genomes that have been trained. When this would be complete, we would be able to train a Pool, save our progress and later show result or continue the training. This is a key feature for us right now, as the training requires a lot of CPO power to compute everything.
+
+We should also decide what vocabluray to use, as some things av multiple names (see above).

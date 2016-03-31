@@ -58,3 +58,5 @@ The NEAT algorithm is an evolutionary neural network machine learning algorithm 
 
 The algorithms works by applying slight mutations to a large population of Genomes, removing the ones that perform the worst. A genome can be seen as a specific DNA, or one individual or one neural network. A genome is basically a set of genes. A gene is a neural connection, an edge in the neural network. The actual nodes in the network are derived from the edges, ie if we have and edge from A to B we know that the nodes A and B must exist. 
 
+### Daniel 
+Been working on an implementation of a mutating directed  graph, to be used later on for mutations. The implementation makes sure that there is no cycles in the graph, wich could be devestating for recursive computation through the graph every time a "fire" event happens in the simulation/training.
