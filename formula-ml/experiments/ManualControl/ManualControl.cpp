@@ -79,12 +79,12 @@ std::function<CarControl()> ManualControl::updater() {
         } else if (!steerLeft && steerRight) {
             control.steer = steerCareful ? -0.5f : -1;
         }
-        /*
+        /**/
         // If this is removed, also remove the global variable print_counter
         if (print_counter++ % 100 == 0) {
             float data[10];
             int i = 0;
-            simulator->write_track_curve(&data[0], i, 10);
+            simulator->write_track_curve(&data[0], i, 10, 15.f, 0.30f);
             cout << "Track curve data: \n"
                 << "counter i incremented to " << i << "\n"
                 << data[0] << "\n"

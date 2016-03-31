@@ -108,9 +108,9 @@ void Simulator::write_checkpoints(float* target, int& offset, int nbr_of_checkpo
     }
 }
 
-void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points) {
-    float point_spacing = 10.f;
-    float point_spacing_increment_factor = 1.15f;
+void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points, float initial_spacing, float spacing_incrementation_percentage) {
+    float point_spacing = initial_spacing;
+    float point_spacing_increment_factor = 1 + spacing_incrementation_percentage;
 
     // Variables for the mid line
     int checkpoint_index = glm::max(car->checkpoint, 0);

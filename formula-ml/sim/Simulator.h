@@ -34,7 +34,7 @@ public:
     float distance_to_middle();
     float angle_to_line();
 
-    void write_track_curve(float* target, int& offset, int nbr_of_points);
+    void write_track_curve(float* target, int& offset, int nbr_of_points, float initial_spacing, float spacing_incrementation_percentage);
     static int write_track_curve_size(int nbr_of_points) { return nbr_of_points; };
 
     void write_checkpoints(float* target, int& offset, int nbr_of_checkpoints);
