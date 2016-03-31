@@ -15,7 +15,9 @@ using namespace neat;
 int NeatCurveDataExperiment::nbr_of_curve_points;
 float NeatCurveDataExperiment::termination_distance;
 float NeatCurveDataExperiment::max_time;
-
+float NeatCurveDataExperiment::car_speed;
+float NeatCurveDataExperiment::curve_point_spacing;
+float NeatCurveDataExperiment::curve_point_spacing_incremental_percentage;
 
 //---  NeatCurveDataExperiment  ---//
 
@@ -90,7 +92,7 @@ void NeatCurveDataExperiment::visualise() {
 	// NOTE: Starting grid is at first "checkpoint". In order
 	//       to change this, offset the checkpoint order.
 	simulator->track = new TrackModel(glm::vec3());
-	simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), 15.0f);
+	simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), NeatCurveDataExperiment::car_speed);
 
 	simulator->progress_timeout = 5.0f;
 	simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
@@ -123,7 +125,7 @@ void NeatCurveDataExperiment::visualise() {
 		inputs[i++] = simulator->angle_to_line();
 		inputs[i++] = simulator->car->getSpeed();
 		int curve_data_start = i;
-		simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points);
+		simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points, curve_point_spacing_incremental_percentage, curve_point_spacing_incremental_percentage);
 		inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], 
 											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
 		inputs[i++] = 1.0f;
@@ -167,7 +169,7 @@ CurveEvaluator::CurveEvaluator() {
     // NOTE: Starting grid is at first "checkpoint". In order
     //       to change this, offset the checkpoint order.
     simulator->track = new TrackModel(glm::vec3());
-    simulator->car = new CarModel(simulator->track->get_start_grid_pos(),glm::vec3(0,1,0),15.0f);
+    simulator->car = new CarModel(simulator->track->get_start_grid_pos(),glm::vec3(0,1,0), NeatCurveDataExperiment::car_speed);
 
     simulator->progress_timeout = 5.0f;
     simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
@@ -186,7 +188,10 @@ CurveEvaluator::CurveEvaluator() {
         inputs[i++] = simulator->angle_to_line();
         inputs[i++] = simulator->car->getSpeed();
         int curve_data_start = i;
-        simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points);
+        simulator->write_track_curve(inputs, i, 
+            NeatCurveDataExperiment::nbr_of_curve_points, 
+            NeatCurveDataExperiment::curve_point_spacing,
+            NeatCurveDataExperiment::curve_point_spacing_incremental_percentage);
         inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start],
 											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
         inputs[i++] = 1.0f;

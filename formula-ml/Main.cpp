@@ -27,9 +27,12 @@ int main(void) {
             {
                 NeatCurveDataExperiment* e = new NeatCurveDataExperiment();
                 experiment = e;
-                e->nbr_of_curve_points = 10;
-                e->max_time = 2000.f;
-                e->termination_distance = 5700.f;
+                e->nbr_of_curve_points = 5;
+                e->curve_point_spacing = 15.f;
+                e->curve_point_spacing_incremental_percentage = 0.3f;
+                e->max_time = 400.f;
+                e->termination_distance = 5200.f;
+                e->car_speed = 15.f;
             }
             break;
 		case 4:
@@ -41,8 +44,9 @@ int main(void) {
 				NeatCurveDataExperiment* e = new NeatCurveDataExperiment(path);
 				experiment = e;
 				e->nbr_of_curve_points = 10;
-				e->max_time = 2000.f;
-				e->termination_distance = 5700.f; 
+				e->max_time = 400.f;
+				e->termination_distance = 5200.f;
+                e->car_speed = 15.f;
 			}
 			break;
 		default:

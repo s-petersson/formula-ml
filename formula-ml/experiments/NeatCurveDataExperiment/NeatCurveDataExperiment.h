@@ -21,9 +21,13 @@ public:
     virtual void run();	
 
     // Manditory
-    static int nbr_of_curve_points;
     static float termination_distance;
     static float max_time;
+    static float car_speed;
+
+    static int nbr_of_curve_points;
+    static float curve_point_spacing;
+    static float curve_point_spacing_incremental_percentage;
 
 private:
 	void visualise();
