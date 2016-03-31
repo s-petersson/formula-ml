@@ -1,16 +1,20 @@
 # Techniques 
+
 ### NEAT
 
-### Linear programming
-
-
-### Q-learning?
-Appears often together with reinforcement learning in the context of Markov decision problem
-
-### Dynamic programming?
-Appears often together with reinforcement learning in the context of Markov decision problem
-
 ### NEAT with heurustics?
+
+### ESP?
+Mentioned as a preceeding algorithm to CoSyNE
+
+### Q-learning
+Appears often together with reinforcement learning in the context of Markov decision problem
+
+### Dynamic programming
+Appears often together with reinforcement learning in the context of Markov decision problem
+
+### Linear programming
+Said to scale badly when the state space become large, for example a continius space (CoSyNE paper)
 
 
 
@@ -27,9 +31,16 @@ Probably discusses relevant problems concerning planning and strategy! Discusses
 cited Evolving Neural Networks through augmenting topologies
 
 ### Accelerated neural evolution through cooperatively coevolved synapses
+(Gabriel)
+published 2008
 Compares a neuroevolution method called Cooperative Synapse Neuroevolution (CoSyNE) to other reinforcement algorithms.
 Benchmark tests the pole balancing problem.
 cited Evolving Neural Networks through augmenting topologies
+
+Notes:
+Introduction: Problem targeted (1.) non-linear and noisy, difficult to engineer a models, (2.) and complex so it is difficult to find reasonable first control strategy.
+Dynamic programing scales bad when the state space increases, for example continuous world.
+
 
 ### Efficient non-linear control through neuroevolution
 Also discusses CoSyNE and the pole balancing problem

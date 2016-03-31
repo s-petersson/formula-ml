@@ -28,6 +28,7 @@ The formulas used was
 ### Gabriel Alpsten
 
 ### Daniel Eineving
+Working with Gabriel on the physics for the simulator, with focus on how to make it to depend on few variables and still be lifelike.
 
 ### Martin Nilsson
 
