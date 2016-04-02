@@ -95,6 +95,7 @@ Simulator* create_simulator() {
 
 void NeatTrainer::run() {
     int thread_count = std::thread::hardware_concurrency();
+	thread_count = 1;
 	std::thread *thread_pool = new std::thread[thread_count];
 	NeatEvaluator **eval_pool = new NeatEvaluator*[thread_count];
 

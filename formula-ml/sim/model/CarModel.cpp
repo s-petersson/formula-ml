@@ -18,6 +18,7 @@ CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float max_speed) {
     model                   = new Model("./res/models/car.model");
     this->position          = position;
     this->initial_position  = position;
+	this->measure_point		= position;
 
     this->direction         = direction;
     this->initial_direciton = direction;
@@ -25,7 +26,7 @@ CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float max_speed) {
     this->max_speed         = max_speed;
     this->initial_max_speed = max_speed;
 
-    checkpoint              = 0;
+    checkpoint              = 1;
     distance_on_track       = 0;
     velocity                = vec3();
 	current_control         = CarControl();

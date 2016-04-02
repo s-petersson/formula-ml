@@ -43,6 +43,7 @@ public:
 private:
 	bool terminated;
 	SimulationResult best = SimulationResult();
+	float calculate_distance_driven();
 };
 
 #endif

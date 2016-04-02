@@ -1,6 +1,7 @@
 #include "Simulator.h"
 #include <neural/FixedNetwork.h>
 #include <iostream>
+#include "glm/ext.hpp"
 
 using namespace neural;
 
@@ -192,42 +193,68 @@ SimulationResult Simulator::run(const float dt) {
 		if (result.distance_driven > best.distance_driven) {
 			// The car has progressed
 			best = result;
-		} else if(result.time_alive > best.time_alive + progress_timeout) {
-			// No progress for a while
-			// Call it quits
-			break;
+		} else {
+			std::cout << "Distance not better: " << result.distance_driven << " | " << best.distance_driven << std::endl;
+			if (result.time_alive > best.time_alive + progress_timeout) {
+				// No progress for a while
+				// Call it quits
+				break;
+			}
 		}
 	}
 	return result;
 }
 
+float Simulator::calculate_distance_driven() {
+    // Save the checkpoints that are currently close to the car.
+    Checkpoint last_checkpoint	= track->get_checkpoints()[car->checkpoint - 1];
+    Checkpoint checkpoint		= track->get_checkpoints()[car->checkpoint];
+
+    glm::vec3 midline	            = glm::normalize(checkpoint.middle - last_checkpoint.middle);
+    float car_scalar                = glm::dot(car->position - last_checkpoint.middle, midline);
+    glm::vec3 car_on_midline        = last_checkpoint.middle + car_scalar * midline;
+    float distance_to_car           = glm::distance(car_on_midline, last_checkpoint.middle);
+    float distance_to_checkpoint    = checkpoint.distance_on_track - last_checkpoint.distance_on_track;
+
+    // Check if car has passed the checkpoint ahead.
+    if (distance_to_car >= distance_to_checkpoint) {
+        // Increase the checkpoint, since we passed one.
+        car->checkpoint++;
+
+        // Redefine the checkpoints, so that they are correct for our calculations above.
+        last_checkpoint	= track->get_checkpoints()[car->checkpoint - 1];
+        checkpoint		= track->get_checkpoints()[car->checkpoint];
+
+        midline                 = glm::normalize(checkpoint.middle - last_checkpoint.middle);
+        car_scalar              = glm::dot(car->position - last_checkpoint.middle, midline);
+        car_on_midline          = last_checkpoint.middle + car_scalar * midline;
+        distance_to_car         = glm::distance(car_on_midline, last_checkpoint.middle);
+        distance_to_checkpoint  = checkpoint.distance_on_track - last_checkpoint.distance_on_track;
+    }
+
+    if (car_scalar < 0) {
+        return last_checkpoint.distance_on_track;
+    } else {
+        return last_checkpoint.distance_on_track + distance_to_car;
+    }
+}
+
 /*
 	Update the simulation with one time step dt [seconds]
 */
+
+/*
+ * Update the simulation with one time step dt [seconds]
+ */
 void Simulator::update(float dt) {
-	
-	
-	// Update result
-	result.time_alive += dt;
-    result.distance_driven = car->distance_on_track;
-
-    Checkpoint next_checkpoint = track->get_checkpoints()[car->checkpoint];
-    glm::vec3 car_p = car->position - next_checkpoint.left;
-    glm::vec3 gate = glm::normalize(next_checkpoint.left - next_checkpoint.right);
-    glm::vec3 point_on_gate = glm::dot(car_p, gate) * gate;
-
-    if (glm::length(car_p - point_on_gate) < 0.5) {
-        car->distance_on_track = track->get_checkpoints()[car->checkpoint].distance_on_track;
-        car->checkpoint++;
-    } else {
-        int last_checkpoint = glm::max(car->checkpoint - 1, 0);
-        float d = track->get_checkpoints()[last_checkpoint].distance_on_track + glm::distance(car->position, track->get_checkpoints()[last_checkpoint].middle);
-        car->distance_on_track = d;
-    }
-
+    // Now we update the cars driven distance.
     CarControl control = this->carUpdater();
-	
+    car->update(dt, control);
+
+    // Check if the car is no longer on the track
 	if (!track->on_track(car->position)) {
+        // Stop the car in that case
+        // TODO: Set boolean on car instead, so that it cannot move.
 		car->setSpeed(0.0f);
 		terminated = true;
 		return;
@@ -252,7 +279,11 @@ void Simulator::update(float dt) {
 		return;
 	}
 
-	car->update(dt, control);
+    car->distance_on_track = calculate_distance_driven();
+
+    // Update result
+    result.time_alive += dt;
+    result.distance_driven = car->distance_on_track;
 }
 
 bool Simulator::has_terminated() {
