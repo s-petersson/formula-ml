@@ -194,7 +194,6 @@ SimulationResult Simulator::run(const float dt) {
 			// The car has progressed
 			best = result;
 		} else {
-			std::cout << "Distance not better: " << result.distance_driven << " | " << best.distance_driven << std::endl;
 			if (result.time_alive > best.time_alive + progress_timeout) {
 				// No progress for a while
 				// Call it quits
