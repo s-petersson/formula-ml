@@ -143,7 +143,8 @@ void NeatTrainer::run() {
 			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
 
             if (on_new_best) {
-                on_new_best(&Network(bestGenome->genes), bestGenome->fitness);
+                neural::Network * network = new Network(bestGenome->genes);
+                on_new_best(network, bestGenome->fitness);
             }
 
 			improved = false;
