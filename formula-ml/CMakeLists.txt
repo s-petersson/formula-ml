@@ -18,6 +18,7 @@ add_executable(formula_ml
         core/Window.cpp
         core/WindowState.h
         core/gfx/Program.cpp
+        core/gfx/Texture.cpp
         core/util/Camera.cpp
         core/util/Util.cpp
         core/util/Random.cpp
@@ -36,6 +37,7 @@ add_executable(formula_ml
         neural/EvolvingNetwork.cpp
         neural/FixedNetworkTrainer.cpp
         neural/FixedNetworkXOR.cpp
+        neural/Helpers.cpp
         neural/neat/Constants.cpp
         neural/neat/Gene.cpp
         neural/neat/Genome.cpp
@@ -47,8 +49,9 @@ add_executable(formula_ml
         experiments/Experiment.h
         experiments/ManualControl/ManualControl.cpp
         experiments/FixedNetworkMidline/FixedNetworkMidline.cpp
-        experiments/NEATNetworkMidline/NEATNetworkMidline.cpp
+        experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.cpp
         experiments/StandardRenderer.cpp
+        experiments/NetworkView.cpp
         sim/SimulationRenderer.h
         core/gfx/Renderer.h
         neural/FileWriter.cpp)
