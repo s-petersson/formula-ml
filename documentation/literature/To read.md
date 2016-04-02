@@ -20,6 +20,10 @@ Said to scale badly when the state space become large, for example a continius s
 
 
 # Top priority papers
+### Efficient Reinforcement Learning through Evolving Neural Network Topologies
+(Simon)
+Discusses difference in efficiency between evolving a network with fixed topology and evolving one without fixed topology. 
+
 ### Deep learning in neural networks: An overview 
 (Simon)
 Hot paper & Highly cited
