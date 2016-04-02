@@ -12,12 +12,12 @@ Window::Window() {
 	if (!glfwInit()) {
 		throw std::runtime_error("GLFW Initialization failed.");
 	}
-	/*
+	
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	*/
+
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1280, 720, "Formula ML", NULL, NULL);
 	if (!window)
