@@ -22,6 +22,9 @@ add_executable(formula_ml
         core/util/Util.cpp
         core/util/Random.cpp
         core/gfx/Model.cpp
+        core/gfx/Texture.cpp
+        core/gui/Font.cpp
+        core/gui/View.cpp
         sim/SimulationState.cpp
         sim/view/CarView.cpp
         sim/model/CarModel.cpp
