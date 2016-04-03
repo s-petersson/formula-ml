@@ -1,11 +1,11 @@
-% Titel
-% En preliminär titel ska vara angiven i planeringsrapporten.
 \documentclass[a4paper, 12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{titling}
 \graphicspath{ {images/} }
+\usepackage[acronym]{glossaries}
+\makeglossaries
 
 \title{Formula ML \\\large Planning Report}
 
@@ -19,19 +19,19 @@ Martin Nilsson
 Simon Petersson 
 } 
 \date{February 2016}
+
+
 \begin{document}
    
     \maketitle
-    \input{00_abstract} 
+    \input{01_abstract} 
     
     \tableofcontents
-    
-    \input{01_background}
-    \input{02_purpose}
-    \input{03_problem}
-    \input{04_limitation}
-    \input{05_method}
-    \input{06_result}
+    \input{02_introduction}
+    \input{03_vocab}
+    \input{04_method}
+    \input{05_result}
+    \input{06_summary}
 
     \bibliographystyle{ieeetr}
     \bibliography{bibliography}

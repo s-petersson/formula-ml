@@ -4,8 +4,12 @@ Something seemed weird with the distance calculation. If the progress timeout wa
 
 ## Gabriel
 
+### Refactoring NetTrainer
+Prepared for a refactoring of NeatTrainer. It has a tight dependency to the simulation/evaluation and code is repeated for different purposes. Thus, we have support only for one setting of experiment and it is tricky to change details. 
+
 ### Notes: Evolving Neural Networks through Augmenting Topologies
 In section 6, the paper mentions a concept called Incremental Evolution. It is about increasing the difficulty of the task as the ai evolve. Neuro evolution is likely to get stuck on a local optimum if the problem is too hard. If one let is solve a simple problem first, that will probably produce a good starting ground for the more complex problem.
+
 
 ## Simon
 
