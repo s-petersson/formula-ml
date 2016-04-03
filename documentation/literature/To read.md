@@ -20,6 +20,9 @@ Said to scale badly when the state space become large, for example a continius s
 
 
 # Top priority papers
+
+###
+
 ### Efficient Reinforcement Learning through Evolving Neural Network Topologies
 (Simon)
 Discusses difference in efficiency between evolving a network with fixed topology and evolving one without fixed topology. 
@@ -71,6 +74,24 @@ Gabriel: Incremental evolution in some way is necessary to obtain complex behavi
 
 
 # Probably relevant papers
+
+### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
+http://www.ice.ci.ritsumei.ac.jp/~ruck/CLASSES/INTELISYS/NN-Q.pdf
+Discusses the use of reinforcement learning neural networks for controlling an autonomous vehicle such that it can move around freely in a space and avoid obstacles that are in its way.
+
+### Autonomous Helicopter Control using Reinforcement Learning Policy Search Methods
+http://repository.cmu.edu/cgi/viewcontent.cgi?article=1082&context=robotics
+Discusses the use of neural networks and reinforcement learning used to control a helicopter in flight.
+
+### Autonomous inverted helicopter flight via reinforcement learning
+http://www.robotics.stanford.edu/~ang/papers/iser04-invertedflight.pdf
+Discusses the use of neural networks and reinforcement learning used to control a helicopter in inverted flight (upside-down).
+
+### Reinforcement Learning Using Neural Networks, with Applications to Motor Control
+http://www.remi-coulom.fr/Publications/Thesis.pdf
+Walks through reinforcement learning with regards to neural networks and tries to apply this to building controllers for motor tasks such as driving a car, swimming or walking.
+*NOTE:* They discuss the actual task of finding the quickest way for driving a racecar around a track. However I quickly glanced over the article and it wasn't very in-depth. Thus it might not be extremely relevant, however still a good read.
+
 ### Neural Modularity Helps Organisms Evolve to Learn New Skills without Forgetting Old Skills
 Might be relevant in an incremental training process. Dependant on stimuli, nodes take on different resistance to change.
 cited Evolving Neural Networks through augmenting topologies
