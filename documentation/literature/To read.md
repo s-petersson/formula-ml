@@ -39,15 +39,14 @@ cited Evolving Neural Networks through augmenting topologies
 Different domain but might have some good thoughts in general.
 Gabriel: Incremental evolution in some way is necessary to obtain complex behaviour.
 
-### Neural Modularity Helps Organisms Evolve to Learn New Skills without Forgetting Old Skills
-Might be relevant in an incremental training process. In this method one change the resistance of nodes to change. This supposedly lead to faster learning of new tasks and a preservation of old learned knowledge.
-
-
-
+### Active guidance for a finless rocket using neuroevolution
+http://nn.cs.utexas.edu/downloads/papers/gomez.gecco03.pdf
+Martin: They use neuroevolution to control a finless rocket. In their abstract they state that the method can be effective at learning real world non-linear control tasks. Related to NEAT in that it is released shortly after by one of the neat authors. It seems like they use a similar approach to species or sub-populations.
 
 # Probably relevant papers
 
 ### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
+(Simon)
 http://www.ice.ci.ritsumei.ac.jp/~ruck/CLASSES/INTELISYS/NN-Q.pdf
 Discusses the use of reinforcement learning neural networks for controlling an autonomous vehicle such that it can move around freely in a space and avoid obstacles that are in its way.
 
@@ -63,10 +62,6 @@ Discusses the use of neural networks and reinforcement learning used to control 
 http://www.remi-coulom.fr/Publications/Thesis.pdf
 Walks through reinforcement learning with regards to neural networks and tries to apply this to building controllers for motor tasks such as driving a car, swimming or walking.
 *NOTE:* They discuss the actual task of finding the quickest way for driving a racecar around a track. However I quickly glanced over the article and it wasn't very in-depth. Thus it might not be extremely relevant, however still a good read.
-
-### Neural Modularity Helps Organisms Evolve to Learn New Skills without Forgetting Old Skills
-Might be relevant in an incremental training process. Dependant on stimuli, nodes take on different resistance to change.
-cited Evolving Neural Networks through augmenting topologies
 
 ### Introduction to Evolutionary Algorithms
 A book
@@ -84,9 +79,9 @@ cited Evolving Neural Networks through augmenting topologies
 ### Opposition-Based Learning: A New Scheme for Machine Intelligence
 "Possibilities for extensions of existing learning algorithms are discussed"
 
-
-
-
+### An Anarchy of Methods: Current Trends in How Intelligence Is Abstracted in AI
+http://www.evolvingai.org/files/2014-LehmanCluneRisi-IEEE-IntelligentSystems.pdf
+An overview of different approaches to AI and machine learning. Might be useful in the background or if we need to cite something about some specific approach. 
 
 # Relevant if we modifies the problem
 ### Playing Atari with Deep Reinforcement Learning

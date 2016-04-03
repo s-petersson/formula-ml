@@ -2,6 +2,71 @@
 
 ## Papers
 
+### Neural Fitted Q Iteration - First Experiences with a Data Efficient Neural Reinforcement Learning Method
+**NOTE:** One should have knowledge about `Markov Decision Processes` and `Q-Learning` before reading this summary.
+
+This paper focusses on Q-learning modified to fit neural networks. The problem that it tries to solve is the following:
+```
+How can the positive effects of global multi-layer perceptrons (neural networks)
+learning be utilized and at the same time avoid the negative aspects of them?
+```
+Meaning that they want to avoid the negative effects of "forgetting" something that the network has already learned, because it is trying to learn something else (It learns globally, not locally).
+
+They solve this problem by applying Q-Learning to neural networks. Note that Q-learning applied to neural networks, from what I can conclude, means that the networks looks as following:
+**Inputs:** Current state + Possible actions
+**Hidden layers:** Anything you want really.
+**Outputs:** One value. The Q-value.
+The reasoning behind this is that the neural network will represent the Q-function. The Q-function looks as following `Q(s, a)`. It takes the state and an action, and returns a value after having performed that action to that state. We can then chose the action that gives us the highest value back from the Q-function for that state.
+
+**The algorithm:** `Neural Fitted Q Iteration (or NFQ)`
+The basic idea is the following: 
+```
+They collect a set of "experiences" by performing a random action `a` in a given
+state `s` in order to achieve the next state `s'`. They save these experiences
+into memory, such that they can then be used to perform *supervised learning*
+based on theese experiences.
+```
+**NOTE:** They use something caled Rprop for supervised learning. Which they claim to be advanced supervised learning and to be very effective.
+
+The algorithm consists of two major steps:
+
+1. The generation of the training set P and
+2. the training of these patterns within a multi-layer perceptron (neural network).
+
+The input part of each training pattern consists of one state `s` and an action `a`. Theese will be the inputs supplied to the neural network. The target value that we want the neural network to compute will be the following:
+```
+c(s, a, s') , 			 		   if sl ∈ S+
+C−, 							   if sl ∈ S−
+c(sl, ul, sl) + γ*minb*Q_k(s', b), else (standard case)
+```
+where
+`S+` = The set of goal states (Were we have performed the task correctly). Often simply a positive constant value.
+`S-` = The set of forbidden states (Were we have failed performing the task).
+`c` = The cost function of going from `s` to `s'` by performing `a`.
+`C-` = Maximum output value that the neural network can provide.
+`Q_k` = Current estimate of the Q-function (the neural network).
+
+#### Comments
+I do not yet know how the value that is received by the neural network, the "Q-value" can be used. I've read somewhere that we can determine what action to take in a certain state based on the highest or lowest Q-value received for all available actions (however we chose to set that up). But how to do this I am yet to understand.
+Maybe reading this one more time will make things clearer: https://www.reddit.com/r/MachineLearning/comments/1kc8o7/understanding_qlearning_in_neural_networks/.
+
+#### Notes
+I think this can be useful if we manage to figure out exactly how to use it. The fact that we can use supervised learning by "generating data" is very interesting.
+
+### Neural Modularity Helps Organisms Evolve to Learn New Skills without 
+Forgetting Old Skills
+
+#### Comments
+Might be relevant in an incremental training process. In this method one change the resistance of nodes to change. This supposedly lead to faster learning of new tasks and a preservation of old learned knowledge. (Gabriel?)
+
+Could be relevant if we decide to treat the different controls of the car as different tasks, ie. by training steering, braking and accelerating as different problems. -Martin.
+
+
+#### Notes
+The key conclusions of the paper is that modularity can reduce catastrophic forgetting when learning new tasks. For example if we have a network that should solve several tasks we can restrict the training to one module when we train the network to solve task 1, then when it should learn task 2, we only allow mutations in module 2. Furthermore the conclude that modularity can be achieved my imposing a cost on neural connections. 
+
+>"Moreover,the modularity-inducing effects of adding a connection cost were shown to occur in a wide range of environments, suggesting that adding a selection pressure to reduce connection costs is a robust, general way to encourage modularity [23]."
+
 
 
 ### Accelerated neural evolution through cooperatively coevolved synapses (CoSyNE)

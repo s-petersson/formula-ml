@@ -4,10 +4,11 @@
 \usepackage{hyperref}
 \usepackage{titling}
 \graphicspath{ {images/} }
-\usepackage[acronym]{glossaries}
+\usepackage[acronym, toc, nonumberlist]{glossaries}
 \makeglossaries
 
-\title{Formula ML \\\large Planning Report}
+
+\title{Formula ML}
 
 \author{ 
 Gabriel Alpsten
@@ -16,23 +17,21 @@ Daniel Eineving \\
 \and
 Martin Nilsson
 \and
-Simon Petersson 
-} 
+Simon Petersson} 
 \date{February 2016}
 
 
 \begin{document}
-   
     \maketitle
-    \input{01_abstract} 
+    \input{report/01_abstract} 
     
     \tableofcontents
-    \input{02_introduction}
-    \input{03_vocab}
-    \input{04_method}
-    \input{05_result}
-    \input{06_summary}
+    \input{report/02_introduction}
+    \input{report/03_vocab}
+    \input{report/04_method}
+    \input{report/05_result}
+    \input{report/06_summary}
 
     \bibliographystyle{ieeetr}
-    \bibliography{bibliography}
+    \bibliography{report/bibliography}
 \end{document}
