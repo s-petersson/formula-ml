@@ -2,6 +2,39 @@
 
 ## Papers
 
+
+
+### Accelerated neural evolution through cooperatively coevolved synapses (CoSyNE)
+(Gabriel, 31/3)
+published 2008
+Describe a neuroevolution method CoSyNE and benchmark it to other reinforcement algorithms.
+Cited and compared to NEAT.
+
+#### Comments
+Seems like it may be an efficient algorithm for where it is suitable. 
+Probable disadvantage to NEAT:
+ - Fixed topology
+ - No speciation, may not handle different strategies in parallel
+In an exhaustive setting for NEAT, could this method be part of the evolution of a specific species. In that local usage, to find weights, the topology is fixed. Is it still problematic that it does not handle different strategies?
+
+#### Notes
+Introduction: Problem targeted (1.) non-linear and noisy, difficult to engineer a models, (2.) and complex so it is difficult to find reasonable first control strategy.
+Dynamic programing scales bad when the state space increases, for example continuous world.
+
+Algorithm: Based on arbitrary fixed network topology where each weight w_1..n has a corresponding population p_1..n with m numbers. The values way be represented by a matrix x_ij, i=1..n, j=1..m.
+First step: Build a genome from for value j, (x_1j, x_2j, ..., x_nj), and evaluate them. 
+Second step: The quarter with best performance are recombined with crossover and mutation, replacing the worst performing.
+Third step: The fitness of a genome determines the probability that it's values are permuted inside their corresponding sub populations. A well performing genome is less likely to permuted, but the behaviour of the probability function may be customised in detail.
+The researchers permuted every value in step three, but suggested that it might not be efficient for larger networks.
+
+Described other methods and compared benchmark, but did not compare them to CoSyNE in theoretical analysis.
+
+#### Further reading: Efficient non-linear control through neuroevolution
+Also discusses CoSyNE and the pole balancing problem
+cited Evolving Neural Networks through augmenting topologies
+
+
+
 ### The 2009 Simulated Car Racing Championship
 Presents the competition and the methods used by the top 5 performing teams
 Team C cited Evolving Neural Networks through Augmenting Topologies
@@ -9,30 +42,20 @@ Team C cited Evolving Neural Networks through Augmenting Topologies
 Notes:
 They used an open source racing simulator called TORCS, C++. Even if TORCS seemed to be an open platform, this was limited in the purpose of the competition to a set of sensor data.
 
-
 Team A: Had six different controllers; gear control, target speed, speed control, steering control, learning, opponent management. Learning updated knowledge on speed for different sections from experience, target speed module instructed the speed control.
 [Comment, Gabriel: Team A approach to max speed seemed very simple and straight forward. Building it in to a function that base the result on solely sensor data seems more complex.]
 
-
 Team B: Used a function that determined the speed and target angle out of sensor data, but took also experience in to account.
 
-
 Team C: NEAT with scripted behaviour for start, straights, crash-recovery, gear change and overtaking. During the straights, the car was forced to accelerate as much as possible. Focused on inputs that correlates to driving actions: speed and sensor data. Two outputs: steering and brake/acc. 
-
 The developer says that a strength of this approach is that it demands very little domain knowledge. It also seemed to produce more general behaviour than other approaches, it managed to learn from only driving at one track. The track he trained at was the track with presented most of the interesting features in the game.
-
 He only managed to evolve careful ai, that mostly drove at the center of the track and was unable to get optimal racing lines.
-
 [Comment, Gabriel: Is out-of-the-box NEAT to narrow in its search to find out efficient solutions in this domain? Bare in mind that it is very easy to find a network that stays on the middle of the road.]
 
-
 Team D: Used a state machine, to remember what type of segment the car is in or if it is about to do a specific action such as overtaking and a location to write behaviour code, a fuzzy logic module, to identify/handle transitions between states, and a classifier, to identify the shape and properties of the track. They then used evolutionary algorithms to train the fuzzy logic module.
-
 The fuzzy module seldom gave full gas or brake outputs. The developer said that fuzzy module originally was developed for autonomous vehicles, that should drive safe, but would investigate wither it is possible to tweak it.
 
-
 Team E: Used a evolutionary algorithm for speed control. Experience showed that it gave a more robust solution when training on a track with a wide variety of track features.
-
 
 Organisers comment: Participants that used imitation based learning did not score well, and that is is congruent with a paper. It states that imitation learning generally fails for racing ai.
 
@@ -41,6 +64,8 @@ Organisers comment: Participants that used imitation based learning did not scor
 #### Introduction to the Theory of Neural Computation
 (Martin)
 Introductory paper to neural networks.
+
+
 
 #### Evolving Neural Networks through augmenting topologies
 (Martin)
@@ -71,6 +96,12 @@ speed result. Improved efficiency results from topologies being minimized throug
 evolution, rather than only at the very end.
 ````
 
+##### Adaptive Representations for Reinforcement Learning
+(Daniel)
+Shimon Whiteson
+Paper going through different types of reinforcement learning, including NEAT and fs-NEAT and what their differences can give.
+A most relevant paper as it describes how to drive car around a track with fs-NEAT with a lot of in-data.
+
 #### Game AI: Simulating Car Racing Game by Applying Pathfinding Algorithms
 (Gabriel)
 Jung-Ying Wang and Yong-Bin Lin
@@ -78,12 +109,16 @@ International Journal of Machine Learning and Computing, Vol. 2, No. 1, February
 ````
 Not relevant. They used a modified A* algorithm but did not appear to focus on lap times. They found gates to drive the shortest possible path.
 
+
+
 #### An AI tool: Generating paths for racing game
 (Gabriel)
 Charlie Irawan Tan, Chan-Min Chen, Wen-Kai Tai, Shi-Jim Yen
 ````
 Uses a modified version of A*. Used in a horse racing game.
 Probably not relevant. Not read yet. 
+
+
 
 ## Books
 
