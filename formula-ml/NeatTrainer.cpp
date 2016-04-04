@@ -16,7 +16,6 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {
-	std::cout << "main main";
 	fw = new neural::FileWriter();
 	pool = new Pool();
 	pool->fill();

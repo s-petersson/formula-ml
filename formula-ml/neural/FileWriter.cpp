@@ -40,13 +40,15 @@ void FileWriter::genomeToFile(Genome genome, string path) {
 
 //Path with generation given
 void FileWriter::poolToFile(Pool pool, string path) {
-	
-	int created = _mkdir(path.c_str());
+	ostringstream rootCmd;
+	rootCmd << "mkdir \"" << path.c_str();
+	system(rootCmd.str().c_str());
 
 	for (int s = 0; s < pool.species.size(); s++) {
-		ostringstream speciesPath;
-		speciesPath << path <<"\\Species_" << s;
-		int secondCreated = _mkdir(speciesPath.str().c_str());
+		ostringstream speciesPath, speciesPathCmd;
+		speciesPath << path << "\\Species_" << s;
+		speciesPathCmd << "mkdir \"" << speciesPath.str();
+		system(speciesPathCmd.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
 			genomePath << speciesPath.str() << "\\Genome_" << g;
