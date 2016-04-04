@@ -23,7 +23,7 @@ float NeatCurveDataExperiment::curve_point_spacing_incremental_percentage;
 
 NeatCurveDataExperiment::NeatCurveDataExperiment() {
 	// Construct the NeatTrainer
-	trainer = new NeatTrainer();
+	//trainer = new NeatTrainer();
 }
 
 NeatCurveDataExperiment::NeatCurveDataExperiment(string path) {
@@ -43,7 +43,7 @@ void NeatCurveDataExperiment::run() {
    
 	Config::set_config(nbr_of_inputs, 2);
 	
-	//trainer = new NeatTrainer();
+	trainer = new NeatTrainer();
     
 	trainer->evaluator_factory = []()
     {

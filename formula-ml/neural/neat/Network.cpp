@@ -29,10 +29,11 @@ float Network::sigmoid(float x) {
 /* Network                                                          */
 /*==================================================================*/
 
-Network::Network() 
-    : Inputs(Config::Inputs), Outputs(Config::Outputs) {}
+Network::Network() : Inputs(Config::Inputs), Outputs(Config::Outputs) {}
 
 Network::Network(std::vector<Gene> genes) : Network(){
+    neurons[0] = Neuron();
+    neurons[0].value = 1.0f;
     for (int i = 1; i <= Inputs; i++) {
         neurons[i] = Neuron();
     }
@@ -81,9 +82,9 @@ int Network::outputSize() {
 
 /** Fills the array of outputs by computing the network with the provided inputs. */
 void Network::evaluateNetwork(float* inputs, int input_count, float* outputs, int output_count) {
-    for (auto && n : neurons) {
+    /*for (auto && n : neurons) {
         n.second.value = 0.0f;
-    }
+    }*/
 
     if (input_count != Inputs) {
         cout << "Incorrect number of inputs." << endl;

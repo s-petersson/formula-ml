@@ -4,6 +4,7 @@
 #include <set>
 #include <fstream>
 
+#include <iostream>
 
 
 using namespace neat;
@@ -47,16 +48,19 @@ int Genome::randomNeuron(bool input) {
     }
    
     for (auto && gene : genes) {
-        if (gene.out < MaxNodes) neurons.insert(gene.out);
-        neurons.insert(gene.out);
+        if (gene.out < MaxNodes) {
+            neurons.insert(gene.out);
+        }
     }
 
     int i = rngi(neurons.size());
+    i = 0;
     for (auto && v : neurons) {
-        if (i == 0) return v;
-        i--;
+        if (--i <= 0) {
+            return v;
+        }
     }
-    return *neurons.end(); // should never occur
+    return *neurons.begin(); // should never occur
 
 }
 
@@ -88,15 +92,20 @@ void Genome::linkMutate(bool forceBias) {
     int neuron1 = randomNeuron(true);
     int neuron2 = randomNeuron(false);
 
+    
+
     Gene new_link;
 
     // No links between input nodes.
-    if (neuron1 <= Config::Inputs && neuron2 <= Config::Inputs) return;
+    if (neuron1 <= Config::Inputs && neuron2 <= Config::Inputs) {
+        return;
+    }
+    /*
     if (neuron2 <= Config::Inputs) { // No edges into the inputs.
         int temp = neuron2;
         neuron2 = neuron1;
         neuron1 = temp;
-    }
+    }*/
     new_link.into = neuron1;
     new_link.out = neuron2;
 
