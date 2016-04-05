@@ -136,10 +136,10 @@ void NeatTrainer::run() {
 
 		if (improved) {
 			ostringstream path;
-			path << "saves\\Generation_" << generation;
+			path << "saves/Generation_" << generation;
 
 			(*fw).poolToFile(*pool, path.str());
-			(*fw).genomeToFile(*bestGenome, path.str() + "\\best.txt");
+			(*fw).genomeToFile(*bestGenome, path.str() + "/best.txt");
 
             if (on_new_best) {
                 neural::Network * network = new Network(bestGenome->genes);

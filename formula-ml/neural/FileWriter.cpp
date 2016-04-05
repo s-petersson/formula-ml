@@ -1,7 +1,6 @@
 #include "Filewriter.h"
 #include <fstream>
 #include <sstream>
-#include <direct.h>
 #include <iostream>
 #include <exception>  
 
@@ -41,17 +40,17 @@ void FileWriter::genomeToFile(Genome genome, string path) {
 //Path with generation given
 void FileWriter::poolToFile(Pool pool, string path) {
 	ostringstream rootCmd;
-	rootCmd << "mkdir \"" << path.c_str();
+	rootCmd << "mkdir " << path.c_str();
 	system(rootCmd.str().c_str());
 
 	for (int s = 0; s < pool.species.size(); s++) {
 		ostringstream speciesPath, speciesPathCmd;
-		speciesPath << path << "\\Species_" << s;
-		speciesPathCmd << "mkdir \"" << speciesPath.str();
+		speciesPath << path << "/Species_" << s;
+		speciesPathCmd << "mkdir " << speciesPath.str();
 		system(speciesPathCmd.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
-			genomePath << speciesPath.str() << "\\Genome_" << g;
+			genomePath << speciesPath.str() << "/Genome_" << g;
 			genomeToFile(pool.species.at(s).genomes.at(g), genomePath.str()+".txt");
 		}
 
@@ -103,7 +102,7 @@ Pool * FileWriter::poolFromFile(string path) {
 
 string FileWriter::genomePath(string root, int species, int genome) {
 	ostringstream file_path;
-	file_path << root << "\\Species_" << species << "\\Genome_" << genome << ".txt";
+	file_path << root << "/Species_" << species << "/Genome_" << genome << ".txt";
 	return file_path.str();
 }
 
