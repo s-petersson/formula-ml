@@ -132,8 +132,7 @@ void NeatCurveDataExperiment::visualise() {
 		inputs[i++] = 1.0f;
 
         neural::flip_parity_if(&inputs[curve_data_start], NeatCurveDataExperiment::nbr_of_curve_points, inputs[curve_data_start] > 0);
-
-		network->fire(network_input, network_output);
+        network->fire(network_input, network_output);
 
 		CarControl control;
 		control.acceleration = 0;

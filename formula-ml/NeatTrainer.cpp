@@ -27,9 +27,6 @@ NeatTrainer::NeatTrainer(string path) {
 	pool = (*fw).poolFromFile(path);
 }
 
-
-
-
 NeatTrainer::~NeatTrainer()
 {
     if (pool) delete pool;
