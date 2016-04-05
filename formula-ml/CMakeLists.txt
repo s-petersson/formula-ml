@@ -6,9 +6,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # the project.
 find_package(OpenGL REQUIRED)
 
-link_directories(${PROJECT_SOURCE_DIR}/external/lib)
 include_directories("./")
 include_directories(${PROJECT_SOURCE_DIR}/external/include)
+link_directories(${PROJECT_SOURCE_DIR}/external/lib)
 
 # Find and set source files.
 add_executable(formula_ml
@@ -56,4 +56,4 @@ add_executable(formula_ml
         core/gfx/Renderer.h
         neural/FileWriter.cpp)
 
-target_link_libraries (formula_ml ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
+target_link_libraries (formula_ml ${OPENGL_LIBRARIES} glfw3 GLEW)
