@@ -38,13 +38,19 @@ namespace gui {
         
         std::vector<glm::vec4> line_positions;
         std::vector<glm::vec4> line_colors;
+        GLuint line_buffers[2];
+
 
         std::vector<glm::vec4> quad_positions;
         std::vector<glm::vec4> quad_colors;
+        GLuint quad_buffers[2];
+
 
         std::vector<glm::vec4> text_positions;
         std::vector<glm::vec4> text_colors;
         std::vector<glm::vec2> text_uvs;
+        GLuint text_buffers[3];
+
 
         GLuint  line_vao;
         GLuint  quad_vao;

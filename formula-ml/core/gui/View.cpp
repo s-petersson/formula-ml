@@ -26,6 +26,15 @@ View::View(const vec3& o) : View() {
 
 View::~View() {
     if (font) delete font;
+    clear();
+    glDeleteBuffers(3, &text_buffers[0]);
+    glDeleteVertexArrays(1, &text_vao);
+    glDeleteBuffers(2, &line_buffers[0]);
+    glDeleteVertexArrays(1, &line_vao);
+    glDeleteBuffers(2, &quad_buffers[0]);
+    glDeleteVertexArrays(1, &quad_vao);
+    glDeleteProgram(text_program);
+    glDeleteProgram(primitive_program);
 }
 
 void View::render() {
@@ -62,21 +71,21 @@ void View::add_line(const vec3 & a, const vec3 & b, const vec4 & color) {
     line_positions.push_back(vec4(origin + b, 1.0f));
     line_colors.push_back(color);
 
+    glDeleteBuffers(2, &line_buffers[0]);
     //Rebuild VAO
     glDeleteVertexArrays(1, &line_vao);
     glGenVertexArrays(1, &line_vao);
     glBindVertexArray(line_vao);
 
-    GLuint buffers[2];
-    glGenBuffers(2, &buffers[0]);
+    glGenBuffers(2, &line_buffers[0]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, line_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, line_positions.size() * sizeof(vec4), &line_positions[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
 
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, line_buffers[1]);
     glBufferData(GL_ARRAY_BUFFER, line_colors.size() * sizeof(vec4), &line_colors[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
@@ -98,21 +107,22 @@ void View::add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4
         quad_colors.push_back(color);
     }
 
+
+    glDeleteBuffers(2, &quad_buffers[0]);
     //Rebuild VAO
     glDeleteVertexArrays(1, &quad_vao);
     glGenVertexArrays(1, &quad_vao);
     glBindVertexArray(quad_vao);
 
-    GLuint buffers[2];
-    glGenBuffers(2, &buffers[0]);
+    glGenBuffers(2, &quad_buffers[0]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, quad_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, quad_positions.size() * sizeof(vec4), &quad_positions[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
 
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, quad_buffers[1]);
     glBufferData(GL_ARRAY_BUFFER, quad_colors.size() * sizeof(vec4), &quad_colors[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
@@ -157,31 +167,31 @@ void View::add_text(const std::string& text, float size,glm::vec3 p, glm::vec4 c
     for (int i = 0; i < 6 * text.length(); i++) {
         text_colors.push_back(color);
     }
-   
+    glDeleteBuffers(3, &text_buffers[0]);
+
     //Rebuild VAO
     glDeleteVertexArrays(1, &text_vao);
     glGenVertexArrays(1, &text_vao);
     glBindVertexArray(text_vao);
 
-    GLuint buffers[3];
-    glGenBuffers(3, &buffers[0]);
+    glGenBuffers(3, &text_buffers[0]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, text_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, text_positions.size() * sizeof(vec4), &text_positions[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
 
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+    glBindBuffer(GL_ARRAY_BUFFER, text_buffers[1]);
     glBufferData(GL_ARRAY_BUFFER, text_colors.size() * sizeof(vec4), &text_colors[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+    glBindBuffer(GL_ARRAY_BUFFER, text_buffers[2]);
     glBufferData(GL_ARRAY_BUFFER, text_uvs.size() * sizeof(vec2), &text_uvs[0], GL_STATIC_DRAW);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(2);
-
+    
 
     glBindVertexArray(0);
 }
