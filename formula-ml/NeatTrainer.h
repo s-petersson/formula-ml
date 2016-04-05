@@ -36,6 +36,8 @@ public:
 private:
     void evaluate(neat::Genome& genome, NeatEvaluator* eval);
     void evaluate_thread(NeatEvaluator* eval);
+	std::string NeatTrainer::getTimestamp();
+
     void showBest();
     bool improved = false;
 	int generation;

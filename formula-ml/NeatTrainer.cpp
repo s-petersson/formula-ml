@@ -15,15 +15,15 @@ using namespace neat;
 using namespace std;
 
 NeatTrainer::NeatTrainer()
-{
-	fw = new neural::FileWriter();
+{	
+	cout << getTimestamp();
+	fw = new neural::FileWriter("saves/" + getTimestamp() + "/");
 	pool = new Pool();
 	pool->fill();
-	//pool = (*fw).poolFromFile("C:\\Users\\Daniel\\code\\formula-ml\\formula-ml\\saves\\Generation 19");
 }
 
 NeatTrainer::NeatTrainer(string path) {
-	fw = new neural::FileWriter();
+	fw = new neural::FileWriter("saves/" + getTimestamp()+"/");
 	pool = (*fw).poolFromFile(path);
 }
 
@@ -34,6 +34,12 @@ NeatTrainer::~NeatTrainer()
 {
     if (pool) delete pool;
 	if (fw) delete fw;
+}
+
+std::string NeatTrainer::getTimestamp() {
+	std::stringstream stamp;
+	stamp << current_time();
+	return stamp.str();
 }
 
 void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
@@ -112,11 +118,11 @@ void NeatTrainer::run() {
 		pool->new_generation();
 
 		if (improved) {
-			ostringstream path;
-			path << "saves/Generation_" << generation;
-
-			(*fw).poolToFile(*pool, path.str());
-			(*fw).genomeToFile(*bestGenome, path.str() + "/best.txt");
+			/*ostringstream path;
+			path << "Generation_" << generation;
+			*/
+			(*fw).poolToFile(*pool, generation);
+			//(*fw).genomeToFile(*bestGenome, generation);
 
             if (on_new_best) {
                 neural::Network * network = new Network(bestGenome->genes);

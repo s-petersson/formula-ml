@@ -9,14 +9,14 @@ using namespace std;
 using namespace neural;
 using namespace neat;
 
-FileWriter::FileWriter() {
-
+FileWriter::FileWriter(std::string input) {
+	root = input;
 }
 
 FileWriter::~FileWriter() {
 
 }
-void FileWriter::genomeToFile(Genome genome, string path) {
+void FileWriter::genomeToFile(Genome genome, std::string path) {
 	ofstream file;
 	file.open(path);
 
@@ -38,15 +38,17 @@ void FileWriter::genomeToFile(Genome genome, string path) {
 }
 
 //Path with generation given
-void FileWriter::poolToFile(Pool pool, string path) {
-	ostringstream rootCmd;
-	rootCmd << "mkdir " << path.c_str();
-	system(rootCmd.str().c_str());
+void FileWriter::poolToFile(Pool pool, int generation) {
+	ostringstream generationPath;
+	generationPath << root.c_str() << "Generation_" << generation;
+	//ostringstream rootCmd;
+	//rootCmd << "mkdir \"" << ;
+	system(("mkdir \""+ generationPath.str()).c_str());
 
 	for (int s = 0; s < pool.species.size(); s++) {
 		ostringstream speciesPath, speciesPathCmd;
-		speciesPath << path << "/Species_" << s;
-		speciesPathCmd << "mkdir " << speciesPath.str();
+		speciesPath << generationPath.str() << "/Species_" << s;
+		speciesPathCmd << "mkdir \"" << speciesPath.str();
 		system(speciesPathCmd.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;
