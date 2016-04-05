@@ -60,7 +60,7 @@ void StandardRenderer::render() {
     // Render the model, this uploads a model matrix and renders using that.
     track_view->render();
     car_view->render();
-	gui->clear();
-	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
+	//gui->clear();
+	//gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
 	gui->render();
 }

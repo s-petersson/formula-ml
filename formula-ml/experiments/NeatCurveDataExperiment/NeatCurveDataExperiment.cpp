@@ -79,9 +79,9 @@ void NeatCurveDataExperiment::run() {
     };
 
     // Start the trainer
-	std::thread vt = std::thread(&NeatCurveDataExperiment::visualise, this);
-    trainer->run();
-	vt.join();
+	std::thread tt = std::thread(&NeatTrainer::run, trainer);
+    visualise();
+	tt.join();
 }
 
 void NeatCurveDataExperiment::visualise() {
