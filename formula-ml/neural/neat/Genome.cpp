@@ -34,34 +34,25 @@ int new_innovation() {
 
 /** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/
 int Genome::randomNeuron(bool input) {
-    set<int> neurons;
+    vector<int> neurons;
 
     if (input) {
         for (int i = 1; i <= Config::Inputs; i++) {
-            neurons.insert(i);
+            neurons.push_back(i);
         }
     }
     else {
         for (int i = 1; i <= Config::Outputs; i++) {
-            neurons.insert(MaxNodes + i);
+            neurons.push_back(MaxNodes + i);
         }
     }
    
     for (auto && gene : genes) {
         if (gene.out < MaxNodes) {
-            neurons.insert(gene.out);
+            neurons.push_back(gene.out);
         }
     }
-
-    int i = rngi(neurons.size());
-    i = 0;
-    for (auto && v : neurons) {
-        if (--i <= 0) {
-            return v;
-        }
-    }
-    return *neurons.begin(); // should never occur
-
+    return neurons[rngi(neurons.size())];
 }
 
 bool Genome::containsLink(Gene link) {
@@ -120,7 +111,6 @@ void Genome::linkMutate(bool forceBias) {
     new_link.innovation = new_innovation();
     new_link.weight = rngf() * 4.0f - 2.0f;
 
-    //cout << "NEW LINK " << newLink.into << " -> " << newLink.out << endl;
     genes.push_back(new_link);
 }
 
