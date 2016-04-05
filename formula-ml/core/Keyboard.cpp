@@ -16,4 +16,5 @@ bool isKeyDown(int key) {
 	if (key >= 0 && key < 512) {
 		return key_pressed[key];
 	}
+    return false;
 }
