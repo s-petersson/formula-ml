@@ -105,15 +105,16 @@ void NeatCurveDataExperiment::visualise() {
 	StandardRenderer * sr;
 	NetworkView * nv;
 	SimulationState * s;
-
-	simulator->carUpdater = [&]() {
+    simulator->carUpdater = [&]() {
 		if (simulator->has_terminated() || isKeyDown(GLFW_KEY_HOME)) {
 			simulator->reset();
 			delete network;
 			network = new Network(trainer->get_best().genes);
-			delete nv;
+			
+            delete nv;
 			nv = new NetworkView(network);
-			s->clear_renderers();
+			
+            s->clear_renderers();
 			s->add_renderer(sr);
 			s->add_renderer(nv);
 		}

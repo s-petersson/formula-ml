@@ -15,7 +15,7 @@ public:
 	virtual void render();
 private:
 	neat::Network* network;
-	gui::View gui;
+	gui::View* gui;
 	std::map<int, glm::vec3> positions;
 };
 
