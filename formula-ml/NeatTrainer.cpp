@@ -72,7 +72,6 @@ void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
 
 void NeatTrainer::run() {
     int thread_count = std::thread::hardware_concurrency();
-	thread_count = 1;
 	std::thread *thread_pool = new std::thread[thread_count];
 	NeatEvaluator **eval_pool = new NeatEvaluator*[thread_count];
 
@@ -136,7 +135,10 @@ void NeatTrainer::run() {
 
 
 neat::Genome NeatTrainer::get_best() {
-	return Genome(*bestGenome);
+    best_genome_mutex.lock();
+    Genome temp = Genome(*bestGenome);
+    best_genome_mutex.unlock();
+    return temp;
 }
 void NeatTrainer::set_best(neat::Genome& genome) {
 	best_genome_mutex.lock();
