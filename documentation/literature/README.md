@@ -2,6 +2,13 @@
 
 ## Papers
 
+
+
+### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
+Developes a robot that autonomously drives around in an environment with obstacles in it, without crashing into these obstacles. This is done using Q-Learning and representing/approximating the Q-function (or the Q-table) as a neural network.
+
+
+
 ### Neural Fitted Q Iteration - First Experiences with a Data Efficient Neural Reinforcement Learning Method
 **NOTE:** One should have knowledge about `Markov Decision Processes` and `Q-Learning` before reading this summary.
 
@@ -52,6 +59,8 @@ Maybe reading this one more time will make things clearer: https://www.reddit.co
 
 #### Notes
 I think this can be useful if we manage to figure out exactly how to use it. The fact that we can use supervised learning by "generating data" is very interesting.
+
+
 
 ### Neural Modularity Helps Organisms Evolve to Learn New Skills without 
 Forgetting Old Skills
@@ -161,18 +170,12 @@ speed result. Improved efficiency results from topologies being minimized throug
 evolution, rather than only at the very end.
 ````
 
+
 ##### Adaptive Representations for Reinforcement Learning
 (Daniel)
 Shimon Whiteson
 Paper going through different types of reinforcement learning, including NEAT and fs-NEAT and what their differences can give.
 A most relevant paper as it describes how to drive car around a track with fs-NEAT with a lot of in-data.
-
-#### Game AI: Simulating Car Racing Game by Applying Pathfinding Algorithms
-(Gabriel)
-Jung-Ying Wang and Yong-Bin Lin
-International Journal of Machine Learning and Computing, Vol. 2, No. 1, February 2012
-````
-Not relevant. They used a modified A* algorithm but did not appear to focus on lap times. They found gates to drive the shortest possible path.
 
 
 
@@ -187,9 +190,22 @@ Probably not relevant. Not read yet.
 
 ## Books
 
+
+
+#### Game AI: Simulating Car Racing Game by Applying Pathfinding Algorithms
+(Gabriel)
+Jung-Ying Wang and Yong-Bin Lin
+International Journal of Machine Learning and Computing, Vol. 2, No. 1, February 2012
+````
+Not relevant. They used a modified A* algorithm but did not appear to focus on lap times. They found gates to drive the shortest possible path.
+
+
+
 #### Neural Networks - A Comprehensive Foundation
 (Martin)
 Course literature for the Artificial Neural Networks course at Chalmers.
+
+
 
 #### Artificial intelligence: approaches, tools, and applications
 (Gabriel)
@@ -197,6 +213,8 @@ Gordon, Brend M
 2011
 Found at: Chalmers Library Online
 Comment: Not read yet, but might be a good book to look in to.
+
+
 
 #### Machine learning
 (Gabriel)
@@ -212,6 +230,7 @@ All bounded continuous real functions can be represented by a neural network wit
 All real functions can be represented with a network with two hidden layers of sigmond nodes and the output layer with linear nodes. (Cybenko 1989). Better approximation with larger number of nodes.
 
 
+
 ## Articles
 
 #### The Racing Line + Driving Corners Fast
@@ -219,6 +238,8 @@ All real functions can be represented with a network with two hidden layers of s
 http://www.drivingfast.net/techniques/racing-line.htm
 http://www.drivingfast.net/techniques/track-corner.htm
 Easy guide for racing theory. Useful for discussing level of physically correctness and judgement of ai result.
+
+
 
 #### The Physics of Racing
 (Gabriel)

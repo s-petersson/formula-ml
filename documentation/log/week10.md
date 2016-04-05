@@ -12,7 +12,14 @@ I created a circuit with the intention that the difficulty of the corners should
 
 
 ## Daniel 
-Finished the ability to save networks, but just a prototype where the path is absolute and not changeable. It have taken me more time than I thought it would, and that is because that I am not quite familiar with C++ yet. I thought I was done with loading a network as well, but I misunderstood some of the I/O in C++, but that will be fixed the next week. 
+Finished the ability to save networks, but just a prototype where the path is absolute and not changeable. It have taken me more time than I thought it would, and that is because that I am not quite familiar with C++ yet. I thought I was done with loading a network as well, but I misunderstood some of the I/O in C++, but that will be fixed the next week.
+
+## Simon
+While trying to figure out new ways to figure out when to terminate the simulation I discovered that the distance driven algorithm that is currently in place is incorrect. More specifically when the car drives over a set of checkpoints, at a specific area on each checkpoints the distance driven decreases relative to the last distance driven.
+
+This should in fact never happen, since the car cannot move backwards nor can it move to the side without moving forward at the same time. Thus the distance driven should ALWAYS be increased every simulation update.
+
+My week has been spent trying to solve this problem.
 
 
 ## Gabriel

@@ -1,30 +1,60 @@
 \chapter{Method}
 
 
-\section{Desired properties of the AI}
- Racing theory
- Properties of a professional racer
- Properties of the ai. Answer questions like:
-    What do it see?
-    When?
-    
-\section{Techniques}
- Reinforcement learning
- Search Space reduction
- Genetic algorithms
- NEAT
+\section{Desired behaviour of the AI}
+A racing line denotes the path a car drive around the track. The classical optimal racing line for a single right hand corner that separate two straights is to drive as far to the left, brake and turn as lata as possible to take a late apex\cite{beckman_racing_line_intro}. That allows for early acceleration onto the straight that increases the average speed.
 
- Indata...
+The optimal line depends both of the corner before and after, but a skilled driver might take the whole track in consideration since even small changes in the racing line can have effects for a large portions of the track \cite{beckman_racing_line_intro}. He states that it is generally the best to optimise the racing line for maximum speed on the straights. That result in that the goal of the strategy for close subsequent corners is to minimise the time for the section as a whole. There is a fine balance between optimising the time spent one corner and the position and speed to optimise the others.
+
+The web site \textit{drivingfast.net} describe and show figures the characteristics of racing lines for a number of classical corners and how to control the car in each phase of the corner\cite{driving_fast_racing_line}\cite{driving_fast_corners}.
+
+
+%\subsection{Racing theory}
+% What does racing theory say?
+
+\subsection{Behaviour of a professional driver}
+% What are the properties of a professional driver. How do they behave?
+The optimal behaviour varies somewhat between different types of competitions. During the qualifying lap a single driver at the time tries to get the fastest lap time. During the Grand Prix the goal is to be the first to finish or to get a good emplacement. 
+
+In order to drive fast, a number of factors must be taking in consideration. Firstly, the way that a car accelerates, brakes and turns is by applying a force with the tyres on the road and the ability to do so is limited\cite{beckman_traction_budget}. During a Grand Prix, when many cars compete at the same time, a driver in addition to drive fast also have to add aspects such as blocking. A driver that is chased may not drive the fastest racing line, but position itself so that the chasing car have difficulties to overtake.
+
+\subsection{Desired behaviour}
+
+    
+\section{Machine Learning}
+% In this section we explain machine learning and the specific algorithms we use.
+% There are several different types of algorithms
+% Not every type of machine learning it applicable on our problem. 
+
+\subsection{Reinforcement Learning}
+A central aspect of the learning process is evaluating the performance of the actor. Algorithms withing supervised learning rely on comparing results with example data. However if there is no example data to rely on feedback has to be acquired in some other way. One type of machine learning algorithms called Reinforcement learning. In reinforcement learning each actor is given a score based on a set of rules or heuristic that rewards the actor for actions with positive outcomes and vice versa.
+
+The performance or fitness of an actor is then used as the basis of some transforming process that improves the actor itself or the whole population. The modification process differs based on what kind of knowledge model the actors are based upon. In a Markov process the modification could be an alteration of a probability, in a neural network a change to the connection weights or a new connection.  
+
+\subsection{Neuroevolution}
+% Inspired by evolutionary processes in nature.
+
+
+\subsection{Augmenting Topologies}
+
+
+\section{Applied Machine Learning (Temp. Title)}
+%In this section we describe how we apply machine learning to solve our problem, ie. problem modeling, search space reductions improvements etc. 
+
 
 \section{Experiments}
- Simulation
- Evaluation
- 
- Tracks, and their properties
- Settings with indata
- Run this and that configuration and compare in this and that way
+% Introduce the format of our project
 
- Experiments:
-    NEAT + curve data + fixed speed/braking + spa/custom
-    Grid??
-    more as we do them...
+\subsection{Simulating Formula 1}
+% How does our simulator work?
+
+% The car
+
+% The track
+
+\subsection{Evaluating results}
+
+\subsection{Curve Data as input}
+
+\subsection{Grid Data as input}
+ 

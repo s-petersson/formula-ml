@@ -1,13 +1,45 @@
 \chapter{Result}
+% Discussion of the behaviour
+% Present current results
+This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken is not optimal, neither in the aspect of the race lines taken to get around the track, nor the time that it takes for the car to travel around the track.
 
-Present current results
-Discussion of the behaviour
+The project was divided up into several experiments in order to give flexibility in the way which we chose to represent the environment and the complexity of the problem that we are trying to solve. These experiments have all resulted in varying results. The results for each experiments are presented and discussed below in section 3.2. (There has also been several different methods of achieving machine learning behaviour involved during the course of the project. The results and observations made for each of these are presented and discussed section 3.1).
+
+\section{Machine learning techniques}
+Introduce this section, where we discuss the different kind of machine learning techniques that we have tried in order to achieve results, and present these results for each and every approach.
+
+\subsection{Fixed network}
+Discuss the results that we got here, and why we chose to abandon this approach rather quickly.
+
+\subsection{Evolving Neural Networks through augmenting topologies (NEAT)}
+Discuss the NEAT approach and what kind of results we have gotten. What are the benefits and downsides to using this approach? What tendencies can we see when using this particular technique? Is it possible to expand on this solution further?
+
+\section{Experiments}
+% Introduce this section somehow.
+
+\subsection{Curve Data as input}
+% Present and discuss what results this method achieved for us.
+% What kind of machine learning techniques did we use? What did they do differently?
+% What behaviour did we see? Why is that?
+% Is this behaviour similar or identical to a real race-car driver?
+% Is it the most optimal route around the track, with regards to lap time?
+% Can we expand this solution further? If so, how?
+This experiment was the first one that was carried out with any real progress towards the goal. We managed to produce a machine learning algorithm efficient enough to drive the car around the track without crashing, however given some simplifications; The car automatically accelerates in a straight line, up to a certain point where it stops accelerating and keeps the same constant speed. The neural network has the possibility of controlling the amount of breaking and turning the car does, overriding any automatic acceleration that the car does by itself.
+
+This results in a neural network successfully driving the car around the track. However the path taken is not the optimal one. The path starts of by oscillating left and right between the middle of the track. After a few generations of training, the neural network starts to adjust the oscillating such that the sharper curves can be taken with a wider radius. Given even more training the oscillating almost disappears completely, it only remains before and after some curves.
+
+This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimizing for maximal speed or time.
+
+The training algorithm seems to converge towards a simple neural network between all of the training sessions that has been performed. The neural network produced is one with only one connection between an input and an output. The training required in order to make a complete lap, takes no more than a few minutes. These factors leads us to believe that we can increase the complexity quite significantly before the search space has become to large to be solved within a reasonable time. Thus the limit of NEAT with respect to our problem has not been reached yet.
+
+
+\subsection{Grid Data as input}
+% Present and discuss what results this method achieved.
+% What are the benefits and downsides to this compared to other approaches?
 
 
 
-
-
-% ################################################
+% ------------------------------------------------------------------------------------
 % Introduction
 % Method
 % Result

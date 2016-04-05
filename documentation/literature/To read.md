@@ -20,6 +20,9 @@ Said to scale badly when the state space become large, for example a continius s
 
 
 # Top priority papers
+### Read paper Uri Alon modular network http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000355
+
+### Richard Dawkins evolutionary program
 
 ### Efficient Reinforcement Learning through Evolving Neural Network Topologies
 (Simon)
