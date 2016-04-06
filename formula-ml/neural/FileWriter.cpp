@@ -10,6 +10,7 @@ using namespace neural;
 using namespace neat;
 
 FileWriter::FileWriter(std::string input) {
+	system(("mkdir \"" + input + "\"").c_str());
 	root = input;
 }
 
@@ -43,12 +44,12 @@ void FileWriter::poolToFile(Pool pool, int generation) {
 	generationPath << root.c_str() << "Generation_" << generation;
 	//ostringstream rootCmd;
 	//rootCmd << "mkdir \"" << ;
-	system(("mkdir \""+ generationPath.str()).c_str());
+	system(("mkdir \"" + generationPath.str() + "\"").c_str());
 
 	for (int s = 0; s < pool.species.size(); s++) {
 		ostringstream speciesPath, speciesPathCmd;
 		speciesPath << generationPath.str() << "/Species_" << s;
-		speciesPathCmd << "mkdir \"" << speciesPath.str();
+		speciesPathCmd << "mkdir \"" << speciesPath.str() << "\"";
 		system(speciesPathCmd.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
 			ostringstream genomePath;

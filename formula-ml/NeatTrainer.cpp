@@ -23,7 +23,7 @@ NeatTrainer::NeatTrainer()
 }
 
 NeatTrainer::NeatTrainer(string path) {
-	fw = new neural::FileWriter("saves/" + getTimestamp()+"/");
+	fw = new neural::FileWriter("saves/" + getTimestamp()+ "/");
 	pool = (*fw).poolFromFile(path);
 }
 
@@ -35,7 +35,7 @@ NeatTrainer::~NeatTrainer()
 
 std::string NeatTrainer::getTimestamp() {
 	std::stringstream stamp;
-	stamp << current_time();
+	stamp << "Current Timestamp: " << current_time() << std::endl;
 	return stamp.str();
 }
 
