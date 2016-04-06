@@ -49,9 +49,7 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 		std::string path = oss.str();
 		set_best(genome);
     }
-    else {
-        delete n;
-    }
+    delete n;
 //    delete cm;
 //    delete tm;
 }

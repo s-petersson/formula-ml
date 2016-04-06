@@ -20,11 +20,6 @@ Neuron::Neuron(const Neuron &neuron) {
 
 Neuron::~Neuron(){}
 
-/** Sigmoid function */
-float Network::sigmoid(float x) {
-    return 2.0f / (1.0f + glm::exp(-x)) - 1.0f;
-    //return 1.0f / (1.0f + glm::exp(-2.0f*x));
-}
 
 /* Network                                                          */
 /*==================================================================*/
@@ -106,7 +101,7 @@ void Network::evaluateNetwork(float* inputs, int input_count, float* outputs, in
             node.second.value += g.weight * neurons[g.into].value;
         }
         // The "original" uses a > 0 check here before using the sigmoid function.
-        node.second.value = sigmoid(node.second.value);
+        node.second.value = Config::sigmoid(node.second.value);
     }
 
     for (int i = 0; i < Outputs; i++) {

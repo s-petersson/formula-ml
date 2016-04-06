@@ -150,6 +150,7 @@
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
+    <ClCompile Include="experiments\xor\XORExperiment.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NeatTrainer.cpp" />
     <ClCompile Include="NeatXOR.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="experiments\ManualControl\ManualControl.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />
+    <ClInclude Include="experiments\xor\XORExperiment.h" />
     <ClInclude Include="external\include\GL\glew.h" />
     <ClInclude Include="external\include\GL\glxew.h" />
     <ClInclude Include="external\include\GL\wglew.h" />

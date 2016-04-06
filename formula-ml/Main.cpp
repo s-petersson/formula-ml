@@ -5,6 +5,7 @@
 #include <experiments/ManualControl/ManualControl.h>
 #include <experiments/FixedNetworkMidline/FixedNetworkMidline.h>
 #include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
+#include <experiments/xor/XORExperiment.h>
 
 int main(void) {
     Experiment* experiment;
@@ -14,6 +15,7 @@ int main(void) {
                 << "(2) Fixed Midline"          << std::endl
                 << "(3) NEAT with curve data"   << std::endl
 				<< "(4) Loaded NEAT generation with curve data" << std::endl
+                << "(5) XOR " << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -49,6 +51,10 @@ int main(void) {
                 e->car_speed = 15.f;
 			}
 			break;
+        case 5:
+            //experiment = new XORExperiment();
+            experiment = new XORExperiment();
+            break;
 		default:
 			experiment = new ManualControl();
 			break;

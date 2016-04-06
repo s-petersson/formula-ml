@@ -38,6 +38,7 @@
     <ClCompile Include="neural\Helpers.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
     <ClCompile Include="experiments\NetworkView.cpp" />
+    <ClCompile Include="experiments\xor\XORExperiment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -85,6 +86,7 @@
     <ClInclude Include="neural\Helpers.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
     <ClInclude Include="experiments\NetworkView.h" />
+    <ClInclude Include="experiments\xor\XORExperiment.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />

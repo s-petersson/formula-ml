@@ -1,5 +1,7 @@
 #ifndef NEURAL_NEAT_CONSTANTS
 #define NEURAL_NEAT_CONSTANTS
+#include <functional>
+#include <glm/glm.hpp>
 
 namespace neat {
     class Config {
@@ -9,6 +11,8 @@ namespace neat {
         /** Constants */
         static int Inputs; //= 3 + 10; // 2 + 1 bias
         static int Outputs;// = 1;
+
+        static std::function<float(float x)> sigmoid;
     };
     const int Population = 100;
     const float DeltaDisjoint = 2.0f;
@@ -16,6 +20,7 @@ namespace neat {
     const float DeltaThreshold = 1.0f;
 
     const int StaleSpecies = 15;
+
 
     const float MutateConnectionsChance = 0.25f;
     const float PerturbChance = 0.90f;

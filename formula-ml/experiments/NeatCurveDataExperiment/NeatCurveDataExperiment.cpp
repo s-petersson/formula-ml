@@ -42,7 +42,10 @@ void NeatCurveDataExperiment::run() {
         Simulator::write_track_curve_size(nbr_of_curve_points);
    
 	Config::set_config(nbr_of_inputs, 2);
-	
+    Config::sigmoid = [](float x) {
+        return -1.0f + 2.0f / (1.0f + glm::exp(-x));
+    };
+
 	trainer = new NeatTrainer();
     
 	trainer->evaluator_factory = []()
