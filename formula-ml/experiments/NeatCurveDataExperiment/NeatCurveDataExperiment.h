@@ -32,6 +32,8 @@ public:
 private:
 	void visualise();
 
+    string load_network_path;
+
     NeatTrainer* trainer;
 };
 

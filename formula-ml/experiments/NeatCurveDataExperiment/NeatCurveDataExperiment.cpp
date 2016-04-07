@@ -21,14 +21,10 @@ float NeatCurveDataExperiment::curve_point_spacing_incremental_percentage;
 
 //---  NeatCurveDataExperiment  ---//
 
-NeatCurveDataExperiment::NeatCurveDataExperiment() {
-	// Construct the NeatTrainer
-	//trainer = new NeatTrainer();
-}
+NeatCurveDataExperiment::NeatCurveDataExperiment() { }
 
-NeatCurveDataExperiment::NeatCurveDataExperiment(string path) {
-	// Construct the NeatTrainer
-	trainer = new NeatTrainer(path);
+NeatCurveDataExperiment::NeatCurveDataExperiment(string path_to_network) {
+    this->load_network_path = path_to_network;
 }
 
 NeatCurveDataExperiment::~NeatCurveDataExperiment() {
@@ -37,17 +33,19 @@ NeatCurveDataExperiment::~NeatCurveDataExperiment() {
 
 void NeatCurveDataExperiment::run() {
     // Decide network size
-    int nbr_of_inputs = 
-        5 + 
-        Simulator::write_track_curve_size(nbr_of_curve_points);
-   
+    int nbr_of_inputs = 5 + Simulator::write_track_curve_size(nbr_of_curve_points);
+
 	Config::set_config(nbr_of_inputs, 2);
     Config::sigmoid = [](float x) {
         return -1.0f + 2.0f / (1.0f + glm::exp(-x));
     };
 
-	trainer = new NeatTrainer();
-    
+    if(this->load_network_path != "") {
+        trainer = new NeatTrainer(this->load_network_path);
+    } else {
+        trainer = new NeatTrainer();
+    }
+
 	trainer->evaluator_factory = []()
     {
         return new CurveEvaluator();
@@ -61,24 +59,11 @@ void NeatCurveDataExperiment::run() {
 
     trainer->on_new_best = [](neural::Network* new_best, float fitness)
     {
-        
 		CurveEvaluator eval = CurveEvaluator();
         SimulationResult result = eval.run(new_best);
-        cout << "New maximum fitness: " << fitness << endl
-            << "Distance: " << result.distance_driven << endl
-            << "Time: " << result.time_alive << endl << endl;
-        /* No longer relevant due to the changed visualisation.
-        eval.reset(new_best);
-
-        Window * window = new Window();
-        vector<Renderer*> renderers;
-        renderers.push_back(new StandardRenderer(eval.getSimulator()));
-        SimulationState * s = new SimulationState(eval.getSimulator(), renderers);
-
-        window->setState(s);
-        window->run();
-        delete window;
-		*/
+        cout << "New maximum fitness: " << fitness                  << endl
+             << "Distance: "            << result.distance_driven   << endl
+             << "Time: "                << result.time_alive        << endl << endl;
     };
 
     // Start the trainer
