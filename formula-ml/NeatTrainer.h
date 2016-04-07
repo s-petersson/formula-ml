@@ -23,7 +23,7 @@ public:
     ~NeatTrainer();
     void run();
 
-	neat::Genome get_best();
+	neat::Genome* get_best();
 	void set_best(neat::Genome& genome);
 
     // Mandatory

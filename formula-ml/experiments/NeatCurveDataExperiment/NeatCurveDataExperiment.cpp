@@ -111,15 +111,18 @@ void NeatCurveDataExperiment::visualise() {
     simulator->carUpdater = [&]() {
 		if (simulator->has_terminated() || isKeyDown(GLFW_KEY_HOME)) {
 			simulator->reset();
-			delete network;
-			network = new Network(trainer->get_best().genes);
-			
-            delete nv;
-			nv = new NetworkView(network);
-			
-            s->clear_renderers();
-			s->add_renderer(sr);
-			s->add_renderer(nv);
+            Genome * bestGenome = trainer->get_best();
+            if (bestGenome) {
+                delete network;
+                network = new Network(bestGenome->genes);
+
+                delete nv;
+                nv = new NetworkView(network);
+
+                s->clear_renderers();
+                s->add_renderer(sr);
+                s->add_renderer(nv);
+            }
 		}
 		float* inputs = network_input.values;
 		float* outputs = network_output.values;
@@ -157,8 +160,6 @@ void NeatCurveDataExperiment::visualise() {
 	window->setState(s);
 	window->run();
 	delete window;
-	//delete s;
-	//delete sr;
 }
 
 
