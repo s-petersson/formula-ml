@@ -119,25 +119,27 @@ void Genome::nodeMutate() {
     if (genes.size() == 0) return;
     maxneuron++;
 
-    Gene* gene = &genes[rngi(genes.size())];
+    Gene * gene = &genes[rngi(genes.size())];
     if (!gene->enabled) return;
     // disable the old link
     gene->enabled = false;
 
-    // Add the two new links. 
-    Gene gene1 = *gene;
+    // Copy the genes into two new genes.
+    Gene gene1 = Gene(*gene);
+    Gene gene2 = Gene(*gene);
+
+    // Modify the first gene.
     gene1.out = maxneuron;
     gene1.weight = 1.0f;
     gene1.innovation = new_innovation();
     gene1.enabled = true;
     genes.push_back(gene1);
 
-    Gene gene2 = *gene;
+    // Modify the second gene
     gene2.into = maxneuron;
     gene2.innovation = new_innovation();
     gene2.enabled = true;
     genes.push_back(gene2);
-
 }
 
 void Genome::enableDisableMutate( bool enable) {
