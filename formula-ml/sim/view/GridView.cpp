@@ -1,35 +1,36 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "GridView.h"
+#include <vector>
 
 GridView::GridView() {
-    glm::vec4 * positions = new glm::vec4[84];
-    glm::vec4 * colours = new glm::vec4[84];
+    std::vector<glm::vec4> positions;
+    std::vector<glm::vec4> colours;
 
     for (int i = 0; i < 21; i++) {
-        positions[2 * i] = glm::vec4(-1000 + 100 * i, 1000.0f, 0, 1.0f);
-        positions[2 * i + 1] = glm::vec4(-1000 + 100 * i, -1000.0f, 0, 1.0f);
+        positions.push_back(glm::vec4(-1000 + 100 * i, 1000.0f, 0, 1.0f));
+        positions.push_back(glm::vec4(-1000 + 100 * i, -1000.0f, 0, 1.0f));
     }
 
     for (int i = 0; i < 21; i++) {
-        positions[42 + 2 * i] = glm::vec4(-1000.0f , -1000 + 100 * i, 0, 1.0f);
-        positions[42 + 2 * i + 1] = glm::vec4(1000.0f, -1000 + 100 * i, 0, 1.0f);
+        positions.push_back(glm::vec4(-1000.0f , -1000 + 100 * i, 0, 1.0f));
+        positions.push_back(glm::vec4(1000.0f, -1000 + 100 * i, 0, 1.0f));
     }
 
 
     for (int i = 0; i < 84; i++) {
-        colours[i] = glm::vec4(0.7f, 0.7f, 1.0f, 1.0f);
+        colours.push_back(glm::vec4(0.7f, 0.7f, 1.0f, 1.0f));
     }
 
     GLuint positionBuffer;
     glGenBuffers(1, &positionBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, &positions[0], GL_STATIC_DRAW);
 
     GLuint colorBuffer;
     glGenBuffers(1, &colorBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, colours, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * 88, &colours[0], GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -41,8 +42,6 @@ GridView::GridView() {
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    delete[] positions;
-    delete[] colours;
 }
 
 void GridView::setUniformLocations(GLuint shaderProgram, char* modelMatrix) {
