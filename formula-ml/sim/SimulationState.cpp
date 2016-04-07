@@ -11,12 +11,10 @@ SimulationState::~SimulationState() {
 }
 
 void SimulationState::run(float dt) {
-    simulator->update(dt);
-    simulator->update(dt);
-    simulator->update(dt);
-    simulator->update(dt);
-    simulator->update(dt);
-    simulator->update(dt);
+    for (int i = 0; i < 10; i++) {
+        simulator->update(dt);
+    }
+
     for(auto && renderer : renderers) {
         renderer->render();
     }

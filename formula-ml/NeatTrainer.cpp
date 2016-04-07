@@ -47,7 +47,6 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 
     if (genome.fitness > pool->maxFitness) {
 		std::ostringstream oss;
-		//oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
 		set_best(genome);
         on_new_best(&genome, bestGenome->fitness);
@@ -95,14 +94,12 @@ void NeatTrainer::run() {
 		// efficiently.
 		for (int i = 0; i < thread_count; i++) {
 			thread_pool[i] = std::thread(&NeatTrainer::evaluate_thread, this, eval_pool[i]);
-			//thread_pool.push_back(std::thread(&NeatTrainer::evaluate_thread, this));
 		}
 
 		// Wait for all threads evaluating, since next generation will
 		// depend on this generation.
 		for (int i = 0; i < thread_count; i++) {
 			thread_pool[i].join();
-			//thread_pool.erase(thread_pool.begin() + i);
 		}
 
 		i++;
@@ -115,11 +112,7 @@ void NeatTrainer::run() {
 		pool->new_generation();
 
 		if (improved) {
-			/*ostringstream path;
-			path << "Generation_" << generation;
-			*/
 			(*fw).poolToFile(*pool, generation);
-			//(*fw).genomeToFile(*bestGenome, generation);
 			improved = false;
 		}
 	}

@@ -36,7 +36,6 @@ void StandardRenderer::initialize() {
     track_view->setUniformLocations(shader, "modelMatrix");
     grid_view->setUniformLocations(shader, "modelMatrix");
 	gui = new gui::View();
-	gui->add_text("Distance: " + std::to_string(0.0f), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
