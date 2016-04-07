@@ -30,7 +30,7 @@ public:
     std::function<NeatEvaluator*()> evaluator_factory;
 
     // Optional
-    std::function<void(neural::Network* new_best, float fitness)> on_new_best;
+    std::function<void(neat::Genome * new_best, float fitness)> on_new_best;
     std::function<void(int generation)> on_generation_done;
 
 private:

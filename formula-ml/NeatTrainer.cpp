@@ -50,6 +50,7 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 		//oss << savePath << "Generation" << generation <<".txt";
 		std::string path = oss.str();
 		set_best(genome);
+        on_new_best(&genome, bestGenome->fitness);
     }
 
     delete n;
@@ -119,12 +120,6 @@ void NeatTrainer::run() {
 			*/
 			(*fw).poolToFile(*pool, generation);
 			//(*fw).genomeToFile(*bestGenome, generation);
-
-            if (on_new_best) {
-                neural::Network * network = new Network(bestGenome->genes);
-                on_new_best(network, bestGenome->fitness);
-            }
-
 			improved = false;
 		}
 	}

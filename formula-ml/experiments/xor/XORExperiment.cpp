@@ -20,7 +20,7 @@ XORExperiment::XORExperiment()
         cout << "New Generation: " << generation << endl;
     };
 
-    trainer->on_new_best = [](neural::Network* new_best, float fitness){
+    trainer->on_new_best = [](neat::Genome* new_best, float fitness){
         cout << "New best fitness: " << fitness << endl;
     };
 }

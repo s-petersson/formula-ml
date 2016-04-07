@@ -57,13 +57,16 @@ void NeatCurveDataExperiment::run() {
         cout << "New Generation: " << generation << endl;
     };
 
-    trainer->on_new_best = [](neural::Network* new_best, float fitness)
+    trainer->on_new_best = [](neat::Genome* new_best, float fitness)
     {
-		CurveEvaluator eval = CurveEvaluator();
-        SimulationResult result = eval.run(new_best);
+        Network *n = new Network(new_best->genes);
+        SimulationResult result = CurveEvaluator().run(n);
+
         cout << "New maximum fitness: " << fitness                  << endl
              << "Distance: "            << result.distance_driven   << endl
              << "Time: "                << result.time_alive        << endl << endl;
+
+        delete n;
     };
 
     // Start the trainer
@@ -82,7 +85,7 @@ void NeatCurveDataExperiment::visualise() {
 	simulator->track = new TrackModel(glm::vec3());
 	simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), NeatCurveDataExperiment::car_speed);
 
-	simulator->progress_timeout = 5.0f;
+	simulator->progress_timeout = 1.0f;
 	simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
 	neural::NetworkIO network_input, network_output;
 	network_input.value_count = Config::Inputs;
@@ -95,6 +98,7 @@ void NeatCurveDataExperiment::visualise() {
 	SimulationState * s;
     simulator->carUpdater = [&]() {
 		if (simulator->has_terminated() || isKeyDown(GLFW_KEY_HOME)) {
+            printf("final distance: %f \n", simulator->result.distance_driven);
 			simulator->reset();
             Genome * bestGenome = trainer->get_best();
             if (bestGenome) {
@@ -117,7 +121,10 @@ void NeatCurveDataExperiment::visualise() {
 		inputs[i++] = simulator->angle_to_line();
 		inputs[i++] = simulator->car->getSpeed();
 		int curve_data_start = i;
-		simulator->write_track_curve(inputs, i, NeatCurveDataExperiment::nbr_of_curve_points, curve_point_spacing_incremental_percentage, curve_point_spacing_incremental_percentage);
+        simulator->write_track_curve(inputs, i,
+                                     NeatCurveDataExperiment::nbr_of_curve_points,
+                                     NeatCurveDataExperiment::curve_point_spacing,
+                                     NeatCurveDataExperiment::curve_point_spacing_incremental_percentage);
 		inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start], 
 											simulator->write_track_curve_size(NeatCurveDataExperiment::nbr_of_curve_points));
 		inputs[i++] = 1.0f;
@@ -160,7 +167,7 @@ CurveEvaluator::CurveEvaluator() {
     simulator->track = new TrackModel(glm::vec3());
     simulator->car = new CarModel(simulator->track->get_start_grid_pos(),glm::vec3(0,1,0), NeatCurveDataExperiment::car_speed);
 
-    simulator->progress_timeout = 5.0f;
+    simulator->progress_timeout = 1.0f;
     simulator->termination_distance = NeatCurveDataExperiment::termination_distance;
 
     network_indata.value_count = Config::Inputs;
@@ -218,5 +225,5 @@ SimulationResult CurveEvaluator::run(neural::Network* network) {
 void CurveEvaluator::reset(neural::Network* network) {
     this->network = network;
     simulator->reset();
-    simulator->car->setSpeed(12.f);
+//    simulator->car->setSpeed(NeatCurveDataExperiment::car_speed);
 }

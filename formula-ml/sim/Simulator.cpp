@@ -13,7 +13,6 @@ Simulator::Simulator() {
 Simulator::~Simulator() {
     delete car;
     delete track;
-
 }
 
 /**
@@ -173,33 +172,8 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
 SimulationResult Simulator::run(const float dt) {
 	SimulationResult best = SimulationResult();
 
-	while (true) {
+	while (!terminated) {
 		update(dt);
-
-		// Check for crash
-		if (!track->on_track(car->position)) {
-			// Call it quits
-			break;
-		}
-
-        // Check termination limits
-        if (result.distance_driven >= termination_distance) {
-            // Call it quits
-            result.distance_driven = termination_distance;
-            break;
-        }
-
-		// Check for progress
-		if (result.distance_driven > best.distance_driven) {
-			// The car has progressed
-			best = result;
-		} else {
-			if (result.time_alive > best.time_alive + progress_timeout) {
-				// No progress for a while
-				// Call it quits
-				break;
-			}
-		}
 	}
 	return result;
 }
@@ -270,8 +244,7 @@ void Simulator::update(float dt) {
 	if (result.distance_driven > best.distance_driven) {
 		// The car has progressed
 		best = result;
-	}
-	else if (result.time_alive > best.time_alive + progress_timeout) {
+	} else if (result.time_alive > best.time_alive + progress_timeout) {
 		// No progress for a while
 		// Call it quits
 		terminated = true;
