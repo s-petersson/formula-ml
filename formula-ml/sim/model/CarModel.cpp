@@ -40,7 +40,7 @@ void CarModel::reset() {
     position                        = initial_position;
     direction                       = initial_direciton;
     max_speed                       = initial_max_speed;
-    checkpoint                      = 0;
+    checkpoint                      = 1;
     distance_on_track               = 0;
     velocity                        = vec3();
     current_control.acceleration    = 0;
