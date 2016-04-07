@@ -16,15 +16,17 @@ using namespace std;
 
 NeatTrainer::NeatTrainer()
 {	
-	cout << getTimestamp();
+    cout << "Current Timestamp: " << getTimestamp() << std::endl;
 	fw = new neural::FileWriter("saves/" + getTimestamp() + "/");
 	pool = new Pool();
 	pool->fill();
+    bestGenome = new Genome();
 }
 
 NeatTrainer::NeatTrainer(string path) {
 	fw = new neural::FileWriter("saves/" + getTimestamp()+ "/");
 	pool = (*fw).poolFromFile(path);
+    bestGenome = new Genome();
 }
 
 NeatTrainer::~NeatTrainer()
@@ -35,7 +37,7 @@ NeatTrainer::~NeatTrainer()
 
 std::string NeatTrainer::getTimestamp() {
 	std::stringstream stamp;
-	stamp << "Current Timestamp: " << current_time() << std::endl;
+	stamp << current_time();
 	return stamp.str();
 }
 
@@ -49,9 +51,8 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
 		std::string path = oss.str();
 		set_best(genome);
     }
+
     delete n;
-//    delete cm;
-//    delete tm;
 }
 
 void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
@@ -133,18 +134,22 @@ void NeatTrainer::run() {
     }
 }
 
-
-
-neat::Genome NeatTrainer::get_best() {
+neat::Genome* NeatTrainer::get_best() {
     best_genome_mutex.lock();
-    Genome temp = Genome(*bestGenome);
+    Genome * temp;
+    if (bestGenome) {
+        temp = new Genome(*bestGenome);
+    } else {
+        temp = nullptr;
+    }
     best_genome_mutex.unlock();
     return temp;
 }
+
 void NeatTrainer::set_best(neat::Genome& genome) {
 	best_genome_mutex.lock();
-	if ( bestGenome == nullptr || genome.fitness > bestGenome->fitness) {
-		delete bestGenome;
+	if (bestGenome == nullptr || genome.fitness > bestGenome->fitness) {
+		if(bestGenome != nullptr) delete bestGenome;
 		bestGenome = new Genome(genome);
 		pool->maxFitness = genome.fitness;
 		improved = true;
