@@ -40,6 +40,7 @@ void FileWriter::genomeToFile(Genome genome, std::string path) {
 
 //Path with generation given
 void FileWriter::poolToFile(Pool pool, int generation) {
+	Genome best = pool.species.at(0).genomes.at(0);
 	ostringstream generationPath;
 	generationPath << root.c_str() << "Generation_" << generation;
 	//ostringstream rootCmd;
@@ -52,12 +53,18 @@ void FileWriter::poolToFile(Pool pool, int generation) {
 		speciesPathCmd << "mkdir \"" << speciesPath.str() << "\"";
 		system(speciesPathCmd.str().c_str());
 		for (int g = 0; g < pool.species.at(s).genomes.size(); g++) {
+			if (pool.species.at(s).genomes.at(g).fitness > best.fitness) {
+				best = pool.species.at(s).genomes.at(g);
+			}
 			ostringstream genomePath;
 			genomePath << speciesPath.str() << "/Genome_" << g;
 			genomeToFile(pool.species.at(s).genomes.at(g), genomePath.str()+".txt");
 		}
-
 	}
+
+	genomeToFile(best, generationPath.str() + "/best.txt");
+
+	
 }
 /*
 * Root path for a single pool/generation

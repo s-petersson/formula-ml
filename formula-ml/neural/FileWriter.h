@@ -18,7 +18,6 @@ namespace neural {
 		FileWriter(std::string root);
 		~FileWriter();
 
-		void genomeToFile(neat::Genome genome, std::string path);
 		void poolToFile(neat::Pool pool, int generation);
 		neat::Pool * poolFromFile(std::string path);
 
@@ -26,6 +25,7 @@ namespace neural {
 	private:
 		std::string root;
 
+		void genomeToFile(neat::Genome genome, std::string path);
 		neat::Genome * genomeFromFile(std::string path);
 		std::string genomePath(std::string root, int species, int genome);
 
