@@ -56,10 +56,8 @@ public:
 	float max_speed;
 
 private:
-    float maxRotation(float speed, float forwardForce, float dt);
-    float minRadius(float speed, float forwardForce);
-    float maxTyreForce(float speed);
-	float dragForce(float speed);
+    float minRadius(float speed);
+	float maxRotation(float speed, float dt);
 
 	glm::vec3 velocity;
 	CarControl current_control;
