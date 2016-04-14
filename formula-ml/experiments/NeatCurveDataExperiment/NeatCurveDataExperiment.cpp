@@ -12,15 +12,6 @@
 #include <core/Keyboard.h>
 using namespace neat;
 
-// Static variables
-int NeatCurveDataExperiment::nbr_of_curve_points;
-float NeatCurveDataExperiment::termination_distance;
-float NeatCurveDataExperiment::max_time;
-float NeatCurveDataExperiment::car_speed;
-float NeatCurveDataExperiment::curve_point_spacing;
-float NeatCurveDataExperiment::curve_point_spacing_incremental_percentage;
-
-//---  NeatCurveDataExperiment  ---//
 
 NeatCurveDataExperiment::NeatCurveDataExperiment() { }
 
