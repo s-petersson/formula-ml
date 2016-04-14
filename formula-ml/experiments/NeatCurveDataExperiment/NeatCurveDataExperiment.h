@@ -37,21 +37,4 @@ private:
     ExperimentWindow* window;
 };
 
-class CurveEvaluator : public NeatEvaluator
-{
-public:
-    CurveEvaluator();
-    ~CurveEvaluator();
-    virtual float evaluate_network(neat::Network* network);
-    SimulationResult run(neat::Network* network);
-    void reset(neat::Network* network);
-
-    Simulator* simulator;
-    neat::Network* network;
-
-private:
-    neural::NetworkIO network_indata = neural::NetworkIO();
-    neural::NetworkIO network_output = neural::NetworkIO();
-};
-
 #endif

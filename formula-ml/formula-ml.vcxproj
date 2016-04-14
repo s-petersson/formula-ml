@@ -150,6 +150,7 @@
     <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
+    <ClCompile Include="experiments\SimulationEvaluator.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
     <ClCompile Include="experiments\xor\XORExperiment.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
     <ClInclude Include="experiments\ManualControl\ManualControl.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
+    <ClInclude Include="experiments\SimulationEvaluator.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />
     <ClInclude Include="experiments\xor\XORExperiment.h" />
     <ClInclude Include="external\include\GL\glew.h" />
