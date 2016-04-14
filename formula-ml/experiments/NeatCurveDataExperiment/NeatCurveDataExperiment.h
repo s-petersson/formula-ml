@@ -7,6 +7,7 @@
 #include <NeatTrainer.h>
 
 #include <experiments/Experiment.h>
+#include <experiments/ExperimentWindow.h>
 
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
@@ -30,11 +31,10 @@ public:
     static float curve_point_spacing_incremental_percentage;
 
 private:
-	void visualise();
-
     string load_network_path;
 
     NeatTrainer* trainer;
+    ExperimentWindow* window;
 };
 
 class CurveEvaluator : public NeatEvaluator
@@ -46,11 +46,10 @@ public:
     SimulationResult run(neat::Network* network);
     void reset(neat::Network* network);
 
-    Simulator* getSimulator() { return simulator; };
+    Simulator* simulator;
+    neat::Network* network;
 
 private:
-    neural::Network* network;
-    Simulator* simulator;
     neural::NetworkIO network_indata = neural::NetworkIO();
     neural::NetworkIO network_output = neural::NetworkIO();
 };
