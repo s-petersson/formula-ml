@@ -60,7 +60,13 @@ Network::Network(std::vector<Gene> genes) : Network(){
 
 Network::~Network() {}
 
-
+void Network::reset() {
+    typedef std::map<int, Neuron>::iterator it_type;
+    for (it_type iterator = neurons.begin(); iterator != neurons.end(); iterator++) {
+        iterator->second.value = 0.0f;
+    }
+    neurons[0].value = 1.0f;
+}
 
 void Network::fire(const neural::NetworkIO &input, neural::NetworkIO &output) {
     evaluateNetwork(input.values, input.value_count, output.values, output.value_count);

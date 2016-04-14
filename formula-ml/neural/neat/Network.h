@@ -26,7 +26,7 @@ namespace neat {
         Network(std::vector<Gene> genes);
         ~Network();
 
-    
+        void reset();
         void fire(const neural::NetworkIO &input, neural::NetworkIO &output);
 
         int inputSize();
