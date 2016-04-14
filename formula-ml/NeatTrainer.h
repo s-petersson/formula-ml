@@ -12,7 +12,7 @@
 class NeatEvaluator
 {
 public:
-    virtual float evaluate_network(neural::Network* network) = 0;
+    virtual float evaluate_network(neat::Network* network) = 0;
 };
 
 class NeatTrainer

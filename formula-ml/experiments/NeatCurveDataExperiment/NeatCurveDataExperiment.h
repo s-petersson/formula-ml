@@ -42,9 +42,9 @@ class CurveEvaluator : public NeatEvaluator
 public:
     CurveEvaluator();
     ~CurveEvaluator();
-    virtual float evaluate_network(neural::Network* network);
-    SimulationResult run(neural::Network* network);
-    void reset(neural::Network* network);
+    virtual float evaluate_network(neat::Network* network);
+    SimulationResult run(neat::Network* network);
+    void reset(neat::Network* network);
 
     Simulator* getSimulator() { return simulator; };
 

@@ -212,17 +212,17 @@ CurveEvaluator::~CurveEvaluator() {
     delete simulator->car;
 }
 
-float CurveEvaluator::evaluate_network(neural::Network* network) {
+float CurveEvaluator::evaluate_network(neat::Network* network) {
     SimulationResult result = run(network);
     return neural::fitness_distance_time(result, NeatCurveDataExperiment::termination_distance, NeatCurveDataExperiment::max_time);
 }
 
-SimulationResult CurveEvaluator::run(neural::Network* network) {
+SimulationResult CurveEvaluator::run(neat::Network* network) {
     reset(network);
     return simulator->run(0.01f);
 }
 
-void CurveEvaluator::reset(neural::Network* network) {
+void CurveEvaluator::reset(neat::Network* network) {
     this->network = network;
     simulator->reset();
 //    simulator->car->setSpeed(NeatCurveDataExperiment::car_speed);

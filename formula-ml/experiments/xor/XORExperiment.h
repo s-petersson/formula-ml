@@ -12,18 +12,15 @@ public:
     ~XORExperiment();
 
     virtual void run();
+
 private:
     NeatTrainer * trainer;
-
-
-  
-
 };
 
 class XOREvaluator : public NeatEvaluator
 {
 public:
-    virtual float evaluate_network(neural::Network* network);
+    virtual float evaluate_network(neat::Network* network);
 };
 
 #endif

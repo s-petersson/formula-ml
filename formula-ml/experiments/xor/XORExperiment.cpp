@@ -36,7 +36,7 @@ void XORExperiment::run() {
     trainer->run();
 }
 
-float XOREvaluator::evaluate_network(neural::Network* network) {
+float XOREvaluator::evaluate_network(neat::Network* network) {
     // Network IO init
     neural::NetworkIO *in, *out;
     in = new neural::NetworkIO;
