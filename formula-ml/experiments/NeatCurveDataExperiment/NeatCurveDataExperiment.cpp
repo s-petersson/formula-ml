@@ -28,7 +28,6 @@ void NeatCurveDataExperiment::run() {
     // Decide network size
     int nbr_of_inputs = 5 + Simulator::write_track_curve_size(nbr_of_curve_points);
 
-	Config::set_config(nbr_of_inputs, 2);
     Config::sigmoid = [](float x) {
         return -1.0f + 2.0f / (1.0f + glm::exp(-x));
     };
@@ -39,10 +38,24 @@ void NeatCurveDataExperiment::run() {
     experiment.max_time = max_time;
     experiment.car_speed = car_speed;
 
-    experiment.nbr_of_curve_points = nbr_of_curve_points;
-    experiment.curve_point_spacing = curve_point_spacing;
-    experiment.curve_point_spacing_incremental_percentage = curve_point_spacing_incremental_percentage;
 
+    AiSettings settings = AiSettings();
+    settings.angle_to_line =
+    settings.distance_to_middle =
+    settings.speed =
+    settings.curve_data = 
+    settings.curve_data_sum_absolutes =
+        true;
+
+    settings.nbr_of_curve_points = nbr_of_curve_points;
+    settings.curve_point_spacing = curve_point_spacing;
+    settings.curve_point_spacing_incremental_percentage = curve_point_spacing_incremental_percentage;
+
+
+    print_settings(settings);
+    set_neat_config(settings);
+
+    experiment.ai_settings = settings;
     experiment.init();
 
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();

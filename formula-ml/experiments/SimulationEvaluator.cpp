@@ -3,8 +3,59 @@
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
+#include <iostream>
 
 using namespace neat;
+
+
+int required_nbr_of_inputs(const AiSettings& settings) {
+    int sum = 0;
+
+    if (settings.distance_to_middle) sum++;
+    if (settings.angle_to_line)      sum++;
+    if (settings.speed)              sum++;
+
+    if (settings.curve_data) {
+        sum += Simulator::write_track_curve_size(settings.nbr_of_curve_points);
+        if (settings.curve_data_sum_absolutes) sum++;
+    }
+
+    return sum;
+}
+
+int required_nbr_of_outputs(const AiSettings& settings) {
+    return 2; // TODO, make general
+}
+
+void set_neat_config(const AiSettings& settings) {
+    Config::set_config(
+        required_nbr_of_inputs(settings),
+        required_nbr_of_outputs(settings)
+    );
+}
+
+void print_settings_helper(int& counter, bool predicate, const std::string& description) {
+    if (predicate) {
+        cout << counter++ << ". " << description << endl;
+    }
+}
+void print_settings(const AiSettings& settings) {
+    cout << endl << "Configuration of ai input values:" << endl;
+
+    int i = 0;
+    print_settings_helper(i, true, "Bias");
+    print_settings_helper(i, settings.distance_to_middle, "Distance to middle");
+    print_settings_helper(i, settings.angle_to_line, "Angle to mid line");
+    print_settings_helper(i, settings.speed, "Car speed");
+
+    if (settings.curve_data) {
+        print_settings_helper(i, true, "Curve data");
+        i += settings.nbr_of_curve_points > 0 ? settings.nbr_of_curve_points - 1 : 0;
+        print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
+    }
+
+    cout << endl;
+}
 
 SimulationEvaluator::SimulationEvaluator() {
 
@@ -17,6 +68,12 @@ SimulationEvaluator::~SimulationEvaluator() {
         if (simulator->track) delete simulator->track;
         if (simulator->car) delete simulator->car;
         //delete simulator;
+    }
+}
+
+void SimulationEvaluator::appendIf(bool predicate, float value) {
+    if (predicate) {
+        network_indata.values[input_iterator++] = value;
     }
 }
 
@@ -42,22 +99,36 @@ void SimulationEvaluator::init() {
     network_output.values = new float[Config::Outputs];
 
     simulator->carUpdater = [&]() {
+
+        this->input_iterator = 0;
+
         float* inputs = network_indata.values;
         float* outputs = network_output.values;
 
-        int i = 0;
-        inputs[i++] = simulator->distance_to_middle();
-        inputs[i++] = simulator->angle_to_line();
-        inputs[i++] = simulator->car->getSpeed();
-        int curve_data_start = i;
-        simulator->write_track_curve(inputs, i,
-            nbr_of_curve_points,
-            curve_point_spacing,
-            curve_point_spacing_incremental_percentage);
-        inputs[i++] = neural::sum_absolutes(&inputs[curve_data_start],
-            simulator->write_track_curve_size(nbr_of_curve_points));
-        inputs[i++] = 1.0f;
-        neural::flip_parity_if(&inputs[curve_data_start], nbr_of_curve_points, inputs[curve_data_start] > 0);
+
+        appendIf(ai_settings.distance_to_middle, simulator->distance_to_middle());
+        appendIf(ai_settings.angle_to_line,      simulator->angle_to_line());
+        appendIf(ai_settings.speed,              simulator->car->getSpeed());
+
+        int curve_data_start = input_iterator;
+        if (ai_settings.curve_data) {
+            simulator->write_track_curve(inputs, 
+                                         input_iterator,
+                                         ai_settings.nbr_of_curve_points,
+                                         ai_settings.curve_point_spacing,
+                                         ai_settings.curve_point_spacing_incremental_percentage);
+
+            appendIf(ai_settings.curve_data_sum_absolutes,
+                     neural::sum_absolutes(&inputs[curve_data_start],
+                            simulator->write_track_curve_size(ai_settings.nbr_of_curve_points)));
+            
+            if (ai_settings.curve_data_flip) {
+                neural::flip_parity_if(&inputs[curve_data_start], 
+                                        ai_settings.nbr_of_curve_points, 
+                                        inputs[curve_data_start] > 0);
+            }
+        }
+        
 
         network->fire(network_indata, network_output);
 
@@ -65,7 +136,10 @@ void SimulationEvaluator::init() {
         control.acceleration = 0;
         control.brake = outputs[1];
         control.steer = outputs[0];
-        control.steer = inputs[curve_data_start] > 0 ? control.steer : -control.steer;
+
+        if (ai_settings.curve_data && ai_settings.curve_data_flip) {
+            control.steer = inputs[curve_data_start] > 0 ? control.steer : -control.steer;
+        }
 
         return control;
     };

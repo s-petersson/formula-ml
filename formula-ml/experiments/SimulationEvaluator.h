@@ -3,6 +3,26 @@
 
 #include <NeatTrainer.h>
 
+struct AiSettings{
+    bool angle_to_line;
+    bool distance_to_middle;
+    bool speed;
+
+    bool curve_data;
+        int nbr_of_curve_points;
+        float curve_point_spacing;
+        float curve_point_spacing_incremental_percentage;
+
+        bool curve_data_sum_absolutes;
+        bool curve_data_flip;
+};
+
+int required_nbr_of_inputs(const AiSettings& settings);
+int required_nbr_of_outputs(const AiSettings& settings);
+void set_neat_config(const AiSettings& settings);
+void print_settings(const AiSettings& settings);
+
+
 class SimulationEvaluator : public NeatEvaluator
 {
 public:
@@ -24,11 +44,12 @@ public:
     float max_time;
     float car_speed;
 
-    int nbr_of_curve_points;
-    float curve_point_spacing;
-    float curve_point_spacing_incremental_percentage;
+    AiSettings ai_settings;
 
 private:
+    void appendIf(bool predicate, float value);
+    int input_iterator;
+
     neural::NetworkIO network_indata = neural::NetworkIO();
     neural::NetworkIO network_output = neural::NetworkIO();
 };
