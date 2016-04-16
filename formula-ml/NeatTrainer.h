@@ -12,7 +12,7 @@
 class NeatEvaluator
 {
 public:
-    virtual float evaluate_network(neat::Network* network) = 0;
+    virtual float evaluate_network(neat::Network* network) = 0; // also take memory ownage of network
 };
 
 class NeatTrainer
@@ -26,10 +26,10 @@ public:
 	neat::Genome* get_best();
 	void set_best(neat::Genome& genome);
 
-    // Mandatory
+    // Mandatory parameters
     std::function<NeatEvaluator*()> evaluator_factory;
 
-    // Optional
+    // Optional parameters
     std::function<void(neat::Genome * new_best, float fitness)> on_new_best;
     std::function<void(int generation)> on_generation_done;
 

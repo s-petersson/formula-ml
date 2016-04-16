@@ -151,10 +151,6 @@ float SimulationEvaluator::evaluate_network(neat::Network* network) {
 }
 
 SimulationResult SimulationEvaluator::run(neat::Network* network) {
-    // Memory responsibility???
-    //if (this->network) {
-    //    delete this->network;
-    //}
     this->network = network;
     reset();
     return simulator->run(0.01f);
@@ -171,4 +167,12 @@ std::function<SimulationEvaluator*()> SimulationEvaluator::makeFactory() {
         copy->init();
         return copy;
     };
+}
+
+Simulator* SimulationEvaluator::getSimulator() {
+    return simulator;
+}
+
+neat::Network** SimulationEvaluator::getNetworkLocation() {
+    return &network;
 }

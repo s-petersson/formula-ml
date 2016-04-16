@@ -29,7 +29,7 @@ public:
     void clear_renderers();
 
     void setNetworkLocation(neat::Network** network, bool delayed_update); // If called, only before run()
-    void updateNetwork(neat::Network* network); // Must only be called after setNetworkLocation()
+    void updateNetwork(neat::Network* network); // Takes memory responsibility of network. Must only be called after setNetworkLocation()
 
 private:
     class ExperimentState : public WindowState {

@@ -36,10 +36,10 @@ public:
 
     std::function<SimulationEvaluator*()> makeFactory();
 
-    Simulator* simulator;
-    neat::Network* network; // Memory responsibility?
+    Simulator* getSimulator();
+    neat::Network** getNetworkLocation();
 
-    // Manditory
+    // Manditory parameters
     float termination_distance;
     float max_time;
     float car_speed;
@@ -49,6 +49,9 @@ public:
 private:
     void appendIf(bool predicate, float value);
     int input_iterator;
+
+    Simulator* simulator;   // Memory owned by SimulationEvaluator
+    neat::Network* network; // Memory not owned!
 
     neural::NetworkIO network_indata = neural::NetworkIO();
     neural::NetworkIO network_output = neural::NetworkIO();

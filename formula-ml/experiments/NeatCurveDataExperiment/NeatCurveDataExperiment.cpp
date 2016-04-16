@@ -62,8 +62,8 @@ void NeatCurveDataExperiment::run() {
 
     // Prepare the window
     SimulationEvaluator* windowEnvironment = factory();
-    window = new ExperimentWindow(windowEnvironment->simulator);
-    window->setNetworkLocation(&windowEnvironment->network, true);
+    window = new ExperimentWindow(windowEnvironment->getSimulator());
+    window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 
     // Create the NeatTrainer
     if(this->load_network_path != "") {
