@@ -6,10 +6,12 @@ A racing line denotes the path a car drive around the track. The classical optim
 
 The optimal line depends both of the corner before and after, but a skilled driver might take the whole track in consideration since even small changes in the racing line can have effects for a large portions of the track \cite{beckman_racing_line_intro}. He states that it is generally the best to optimise the racing line for maximum speed on the straights. That result in that the goal of the strategy for close subsequent corners is to minimise the time for the section as a whole. There is a fine balance between optimising the time spent one corner and the position and speed to optimise the others.
 
+% Detta tycker jag att vi kan ta bort. // Simon
 The web site \textit{drivingfast.net} describe and show figures the characteristics of racing lines for a number of classical corners and how to control the car in each phase of the corner\cite{driving_fast_racing_line}\cite{driving_fast_corners}.
 
 
 %\subsection{Racing theory}
+
 % What does racing theory say?
 
 \subsection{Behaviour of a professional driver}
@@ -18,8 +20,13 @@ The optimal behaviour varies somewhat between different types of competitions. D
 
 In order to drive fast, a number of factors must be taking in consideration. Firstly, the way that a car accelerates, brakes and turns is by applying a force with the tyres on the road and the ability to do so is limited\cite{beckman_traction_budget}. During a Grand Prix, when many cars compete at the same time, a driver in addition to drive fast also have to add aspects such as blocking. A driver that is chased may not drive the fastest racing line, but position itself so that the chasing car have difficulties to overtake.
 
+% Needed?
 \subsection{Desired behaviour}
 
+
+\section{Simulation}
+
+\subsection{Evaluation of results}
     
 \section{Machine Learning}
 % In this section we explain machine learning and the specific algorithms we use.
@@ -41,10 +48,6 @@ The performance or fitness of an actor is then used as the basis of some transfo
 \section{Applied Machine Learning (Temp. Title)}
 %In this section we describe how we apply machine learning to solve our problem, ie. problem modeling, search space reductions improvements etc. 
 
-
-\section{Experiments}
-% Introduce the format of our project
-
 \subsection{Simulating Formula 1}
 % How does our simulator work?
 
@@ -54,7 +57,61 @@ The performance or fitness of an actor is then used as the basis of some transfo
 
 \subsection{Evaluating results}
 
+\section{Experiments}
+In order to achieve a great level of flexibility in the project, the process have been divided up into a sequence of experiments. These experiments allows for independently changing any part of the implementation such as the simulation, neural network, input/output data, learning algorithms and more. Thus these experiments have allowed for an easy way of gradually increasing the complexity of the problem, as well as providing a convenient way of analysing the behaviour of the neural network and its learning process in different environments.
+
+% TODO: Some more text here would be nice
+
 \subsection{Curve Data as input}
 
+
 \subsection{Grid Data as input}
+
+ 
+\iffalse
+
+=== DISPOSITION ===
+
+Desired behaviour (move racing theory to theory?)
+
+Simulation
+- Evaluation of results
+
+Limitation of techniques to Neat (move to introduction?)
+
+(Fixed network, exhaustive search)
+
+Fundamentals of Neat
+
+Usage/variations of Neat
+- Starting structure or not
+- Recurrent connections
+- Population size
+- Probabilities
+
+Aspects in our tests
+- Features in physics
+- Different indata
+  - (Grid)
+  - Curve data
+    - Angles?
+    - Checkpoints
+    - Sum
+    - Mirror
+- Different steering
+- Different tracks and their properties
+- Training process and task
+  - Fitness calculation
+  - Long single track
+  - Several short parts
+  - (Short alternating parts. Hopes for modular network. variants... what types of alternating tasks is needed?
+
+Experiments
+- Single long track
+  - Fixed low speed, only steering
+  - Steering and braking
+  - Steer, accelerate and braking
+- ...
+
+\fi
  

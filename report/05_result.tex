@@ -1,18 +1,9 @@
 \chapter{Result}
 % Discussion of the behaviour
 % Present current results
-This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken is not optimal, neither in the aspect of the race lines taken to get around the track, nor the time that it takes for the car to travel around the track.
+This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken by the car is neither optimal in respect to the race lines nor the time that it takes for the car to travel around the track.
 
-The project was divided up into several experiments in order to give flexibility in the way which we chose to represent the environment and the complexity of the problem that we are trying to solve. These experiments have all resulted in varying results. The results for each experiments are presented and discussed below in section 3.2. (There has also been several different methods of achieving machine learning behaviour involved during the course of the project. The results and observations made for each of these are presented and discussed section 3.1).
-
-\section{Machine learning techniques}
-Introduce this section, where we discuss the different kind of machine learning techniques that we have tried in order to achieve results, and present these results for each and every approach.
-
-\subsection{Fixed network}
-Discuss the results that we got here, and why we chose to abandon this approach rather quickly.
-
-\subsection{Evolving Neural Networks through augmenting topologies (NEAT)}
-Discuss the NEAT approach and what kind of results we have gotten. What are the benefits and downsides to using this approach? What tendencies can we see when using this particular technique? Is it possible to expand on this solution further?
+The experiments performed during the course of the project have given varying results. Every experiment have had a large impact on how the project has progressed and on the final results. The results for each experiment and the conclusions that could be drawn are presented and discussed in this chapter.
 
 \section{Experiments}
 % Introduce this section somehow.
@@ -28,7 +19,7 @@ This experiment was the first one that was carried out with any real progress to
 
 This results in a neural network successfully driving the car around the track. However the path taken is not the optimal one. The path starts of by oscillating left and right between the middle of the track. After a few generations of training, the neural network starts to adjust the oscillating such that the sharper curves can be taken with a wider radius. Given even more training the oscillating almost disappears completely, it only remains before and after some curves.
 
-This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimizing for maximal speed or time.
+This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimising for maximal speed or time.
 
 The training algorithm seems to converge towards a simple neural network between all of the training sessions that has been performed. The neural network produced is one with only one connection between an input and an output. The training required in order to make a complete lap, takes no more than a few minutes. These factors leads us to believe that we can increase the complexity quite significantly before the search space has become to large to be solved within a reasonable time. Thus the limit of NEAT with respect to our problem has not been reached yet.
 
@@ -37,64 +28,27 @@ The training algorithm seems to converge towards a simple neural network between
 % Present and discuss what results this method achieved.
 % What are the benefits and downsides to this compared to other approaches?
 
+\iffalse
+General structure for the results of an experiment:
+- Shortly describe the experiment and reference to the description in Method
+- Result data (See below)
+- Stages in the learning development
+  - Did it get stuck at some point?
+- What the behaviour became
+  - Description
+  - Image with interesting racing lines
+- Analyse
+- Compare to other experiments (if feasible)
+
+Result data:
+- Training time
+ - Number of generations etc.
+ - Number of evaluations
+- Fitness
+- Analysis of behaviour, may be of different aspects
+- Settings variables
+- Topology of network
+ - measurements of different kinds?
 
 
-% ------------------------------------------------------------------------------------
-% Introduction
-% Method
-% Result
-% Discussion
-
-% ## Theory
-
-% Racing theory / Properties we want the AI to have / Evaluation (Method)
-% Simulation
-
-% Relevant ML techniques (In Method)
-%     Reinforcement learning
-%     Genetic algorithms
-%     Search Space reduction
-
-% Other ML techniques
-%   Supervised
-%   Unsupervised
-%   Markov decision problem
-%   Linear programming
-%   Dynamic programming
- 
- 
-
-% ## What have we done
-% Methods
-%     Exhaustive search
-%     NEAT (FS-NEAT)
-
-% Indata
-%     Grid data as input
-%     Curve data as input
-%         Checkpoints
-%         Curve
-%         Sum of absolutes
-%         ...
-        
-% Evaluation tools
-%     Distance driven by car on track
-%     Neural Network visualisation.
-    
-% Saving/Loading networks
-
-% Ideas
-%     Stuck in local minima 
-%     Heurustics
-%         Benefit som types of crashed before others
-%         Benefit recing line properties
-
-% (Architecture/design of application)
-
-% (Graphics)
-
-
-% Result
-%     Stick to mid line
-%     Behaviour
-%     Difference in training times and result for different settings
+\fi

@@ -1,37 +1,62 @@
-\documentclass[a4paper, 12pt]{report}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{titling}
-\graphicspath{ {images/} }
-\usepackage[acronym, toc, nonumberlist]{glossaries}
+% CREATED BY DAVID FRISK, 2015
+
+% IMPORT SETTINGS
+\documentclass[12pt,a4paper,openright]{report}
+\input{report/settings/Settings}
 \makeglossaries
 
+\begin{document} 
 
-\title{Formula ML}
+% COVER PAGE, TITLE PAGE AND IMPRINT PAGE
+\pagenumbering{roman}			% Roman numbering (starting with i (one)) until first main chapter
+\input{report/frontmatter/Titlepage}
 
-\author{ 
-Gabriel Alpsten
-\and
-Daniel Eineving \\
-\and
-Martin Nilsson
-\and
-Simon Petersson} 
-\date{April 2016}
+% ABSTRACT
+\newpage
+\input{report/01_abstract}
 
 
-\begin{document}
-    \maketitle
-    \input{report/01_abstract} 
-    
-    \tableofcontents
-    \input{report/02_introduction}
-    \input{report/03_vocab}
-    \input{report/04_method}
-    \input{report/05_result}
-    \input{report/06_summary}
+% TABLE OF CONTENTS
+\newpage
+\tableofcontents
 
-    \bibliographystyle{ieeetr}
-    \bibliography{report/bibliography}
+% OTHER FRONTMATTER
+% List of figures (add to table of contents)
+% \cleardoublepage
+\input{report/03_vocab}
+
+
+% START OF MAIN DOCUMENT
+% \cleardoublepage
+\setcounter{page}{1}
+\pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
+\setlength{\parskip}{0pt plus 1pt}
+
+% INTRODUCTION
+\input{report/02_introduction}
+
+% METHODS
+\input{report/04_method}
+
+% RESULTS
+\input{report/05_result}
+
+% SUMMARY
+\input{report/06_summary}
+
+% REFERENCES / BIBLIOGRAPHY
+% \cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+% \input{report/backmatter/References}
+\bibliography{report/bibliography}
+
+% APPENDICES
+% \cleardoublepage
+\appendix
+\setcounter{page}{1}
+\pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+
+%\input{report/appendices/Appendix_1}
+
+
 \end{document}
