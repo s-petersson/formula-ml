@@ -126,6 +126,18 @@ void Pool::addToSpecies(Genome child) {
 
 Genome Pool::basic_genome() {
     Genome genome;
+    if (Config::InitialStructure) {
+        for (int i = 0; i < Config::Inputs; ++i) {
+            for (int o = 0; o < Config::Outputs; ++o) {
+                Gene g;
+                g.created = true;
+                g.into = i + 1;
+                g.out = MaxNodes + o + 1;
+                g.weight = rngf() * 4.0f - 2.0f;
+                genome.genes.push_back(g);
+            }
+        }
+    }
     genome.maxneuron = Config::Inputs;
     genome.mutate();
     return genome;

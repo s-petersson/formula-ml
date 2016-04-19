@@ -11,6 +11,7 @@ namespace neat {
         /** Constants */
         static int Inputs; //= 3 + 10; // 2 + 1 bias
         static int Outputs;// = 1;
+        static bool InitialStructure;
 
         static std::function<float(float x)> sigmoid;
     };
