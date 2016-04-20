@@ -4,7 +4,7 @@
 
 #include <sim/model/CarModel.h>
 #include <functional>
-#include <NeatTrainer.h>
+#include <neural/neat/Trainer.h>
 
 #include <experiments/Experiment.h>
 #include <experiments/ExperimentWindow.h>
@@ -33,7 +33,7 @@ public:
 private:
     string load_network_path;
 
-    NeatTrainer* trainer;
+    neat::Trainer* trainer;
     ExperimentWindow* window;
 };
 

@@ -3,7 +3,7 @@
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
 #include "NeatCurveDataExperiment.h"
-#include "NeatTrainer.h"
+#include <neural/neat/Trainer.h>
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
@@ -66,11 +66,11 @@ void NeatCurveDataExperiment::run() {
     window = new ExperimentWindow(windowEnvironment->getSimulator());
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 	
-    // Create the NeatTrainer
+    // Create the Trainer
     if(this->load_network_path != "") {
-        trainer = new NeatTrainer(this->load_network_path);
+        trainer = new Trainer(this->load_network_path);
     } else {
-        trainer = new NeatTrainer();
+        trainer = new Trainer();
     }
 
     trainer->evaluator_factory = factory;
@@ -95,7 +95,7 @@ void NeatCurveDataExperiment::run() {
     };
 	
     // Start the trainer
-	std::thread tt = std::thread(&NeatTrainer::run, trainer);
+	std::thread tt = std::thread(&Trainer::run, trainer);
     window->run();
 	tt.join();
 }

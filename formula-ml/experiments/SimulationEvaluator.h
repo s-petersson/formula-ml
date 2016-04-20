@@ -1,7 +1,7 @@
 #ifndef SIMULATION_EVALUATOR
 #define SIMULATION_EVALUATOR
 
-#include <NeatTrainer.h>
+#include <neural/neat/Trainer.h>
 #include <sim/Simulator.h>
 
 struct AiSettings{
@@ -24,7 +24,7 @@ void set_neat_config(const AiSettings& settings);
 void print_settings(const AiSettings& settings);
 
 
-class SimulationEvaluator : public NeatEvaluator
+class SimulationEvaluator : public neat::Evaluator
 {
 public:
     SimulationEvaluator();

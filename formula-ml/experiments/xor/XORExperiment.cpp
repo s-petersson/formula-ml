@@ -10,7 +10,7 @@ XORExperiment::XORExperiment()
 
     Config::set_config(2, 1);
 
-    trainer = new NeatTrainer();
+    trainer = new Trainer();
    
     trainer->evaluator_factory = []() {
         return new XOREvaluator;

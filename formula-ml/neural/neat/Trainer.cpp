@@ -1,4 +1,4 @@
-#include "NeatTrainer.h"
+#include "Trainer.h"
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
 #include <core/util/Util.h>
@@ -9,7 +9,14 @@
 using namespace neat;
 using namespace std;
 
-NeatTrainer::NeatTrainer()
+
+std::string getTimestamp() {
+	std::stringstream stamp;
+	stamp << current_time();
+	return stamp.str();
+}
+
+Trainer::Trainer()
 {	
     cout << "Current Timestamp: " << getTimestamp() << std::endl;
 	fw = new neural::FileWriter("saves/" + getTimestamp() + "/");
@@ -18,25 +25,21 @@ NeatTrainer::NeatTrainer()
     bestGenome = new Genome();
 }
 
-NeatTrainer::NeatTrainer(string path) {
+Trainer::Trainer(string path) {
 	fw = new neural::FileWriter("saves/" + getTimestamp()+ "/");
 	pool = (*fw).poolFromFile(path);
     bestGenome = new Genome();
 }
 
-NeatTrainer::~NeatTrainer()
+Trainer::~Trainer()
 {
     if (pool) delete pool;
 	if (fw) delete fw;
 }
 
-std::string NeatTrainer::getTimestamp() {
-	std::stringstream stamp;
-	stamp << current_time();
-	return stamp.str();
-}
 
-void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
+
+void Trainer::evaluate(Genome& genome, Evaluator* evaluator) {
     Network *n = new Network(genome.genes);
     genome.fitness = evaluator->evaluate_network(n);
 
@@ -50,7 +53,7 @@ void NeatTrainer::evaluate(Genome& genome, NeatEvaluator* evaluator) {
     delete n;
 }
 
-void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
+void Trainer::evaluate_thread(Evaluator* evaluator) {
     bool run_thread = true;
     while(run_thread) {
         mtx.lock();
@@ -67,10 +70,10 @@ void NeatTrainer::evaluate_thread(NeatEvaluator* evaluator) {
     }
 }
 
-void NeatTrainer::run() {
+void Trainer::run() {
     int thread_count = std::thread::hardware_concurrency();
 	std::thread *thread_pool = new std::thread[thread_count];
-	NeatEvaluator **eval_pool = new NeatEvaluator*[thread_count];
+	Evaluator **eval_pool = new Evaluator*[thread_count];
 
     for (int i = 0; i < thread_count; ++i) {
         eval_pool[i] = evaluator_factory();
@@ -88,7 +91,7 @@ void NeatTrainer::run() {
 		// Start as many threads as we have processors in order to evaluate more
 		// efficiently.
 		for (int i = 0; i < thread_count; i++) {
-			thread_pool[i] = std::thread(&NeatTrainer::evaluate_thread, this, eval_pool[i]);
+			thread_pool[i] = std::thread(&Trainer::evaluate_thread, this, eval_pool[i]);
 		}
 
 		// Wait for all threads evaluating, since next generation will
@@ -117,7 +120,7 @@ void NeatTrainer::run() {
     }
 }
 
-neat::Genome* NeatTrainer::get_best() {
+neat::Genome* Trainer::get_best() {
     best_genome_mutex.lock();
     Genome * temp;
     if (bestGenome) {
@@ -129,7 +132,7 @@ neat::Genome* NeatTrainer::get_best() {
     return temp;
 }
 
-void NeatTrainer::set_best(neat::Genome& genome) {
+void Trainer::set_best(neat::Genome& genome) {
 	best_genome_mutex.lock();
 	if (bestGenome == nullptr || genome.fitness > bestGenome->fitness) {
 		if(bestGenome != nullptr) delete bestGenome;

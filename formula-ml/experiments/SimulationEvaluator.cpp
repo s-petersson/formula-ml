@@ -1,5 +1,5 @@
 #include "SimulationEvaluator.h"
-#include "NeatTrainer.h"
+#include <neural/neat/Trainer.h>
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>

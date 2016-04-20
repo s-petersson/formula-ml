@@ -1,7 +1,7 @@
 #ifndef EXPERIMENTS_XOR
 #define EXPERIMENTS_XOR
 
-#include <NeatTrainer.h>
+#include <neural/neat/Trainer.h>
 #include <experiments/Experiment.h>
 
 
@@ -14,10 +14,10 @@ public:
     virtual void run();
 
 private:
-    NeatTrainer * trainer;
+    neat::Trainer* trainer;
 };
 
-class XOREvaluator : public NeatEvaluator
+class XOREvaluator : public neat::Evaluator
 {
 public:
     virtual float evaluate_network(neat::Network* network);
