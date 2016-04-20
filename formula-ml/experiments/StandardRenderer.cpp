@@ -15,6 +15,7 @@ StandardRenderer::~StandardRenderer() {
     if (follow_cam) delete follow_cam;
     if (car_view)   delete car_view;
     if (track_view) delete track_view;
+	if (simulator) delete simulator;
 }
 
 void StandardRenderer::initialize() {

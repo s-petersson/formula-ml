@@ -1,15 +1,10 @@
 #include "NeatTrainer.h"
-#include <core/util/Random.h>
-#include <iostream>
-#include <core/Window.h>
-#include <sim/Simulator.h>
-#include <neural/EvolvingNetwork.h>
-#include <sim/SimulationState.h>
-#include <experiments/StandardRenderer.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
+#include <core/util/Util.h>
 #include <thread>
 #include <sstream>
+#include <iostream>
 
 using namespace neat;
 using namespace std;

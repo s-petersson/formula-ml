@@ -2,6 +2,7 @@
 #define SIMULATION_EVALUATOR
 
 #include <NeatTrainer.h>
+#include <sim/Simulator.h>
 
 struct AiSettings{
     bool angle_to_line;
@@ -9,12 +10,12 @@ struct AiSettings{
     bool speed;
 
     bool curve_data;
-        int nbr_of_curve_points;
-        float curve_point_spacing;
-        float curve_point_spacing_incremental_percentage;
+    int nbr_of_curve_points;
+    float curve_point_spacing;
+    float curve_point_spacing_incremental_percentage;
 
-        bool curve_data_sum_absolutes;
-        bool curve_data_flip;
+    bool curve_data_sum_absolutes;
+    bool curve_data_flip;
 };
 
 int required_nbr_of_inputs(const AiSettings& settings);

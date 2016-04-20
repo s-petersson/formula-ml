@@ -57,9 +57,10 @@ int main(void) {
             break;
 		default:
 			experiment = new ManualControl();
-			break;
+			break; 
     }
-    experiment->run();
 
+    experiment->run();
+	delete experiment;
 	return 0;
 }

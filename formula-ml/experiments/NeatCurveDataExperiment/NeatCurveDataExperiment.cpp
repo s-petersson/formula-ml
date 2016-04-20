@@ -26,6 +26,7 @@ NeatCurveDataExperiment::~NeatCurveDataExperiment() {
 
 void NeatCurveDataExperiment::run() {
     // Decide network size
+	
     int nbr_of_inputs = 5 + Simulator::write_track_curve_size(nbr_of_curve_points);
 
     Config::sigmoid = [](float x) {
@@ -54,17 +55,17 @@ void NeatCurveDataExperiment::run() {
 
     print_settings(settings);
     set_neat_config(settings);
-
+	
     experiment.ai_settings = settings;
     experiment.init();
-
+	
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();
 
     // Prepare the window
     SimulationEvaluator* windowEnvironment = factory();
     window = new ExperimentWindow(windowEnvironment->getSimulator());
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
-
+	
     // Create the NeatTrainer
     if(this->load_network_path != "") {
         trainer = new NeatTrainer(this->load_network_path);
@@ -89,11 +90,10 @@ void NeatCurveDataExperiment::run() {
         cout << "New maximum fitness: " << fitness                  << endl
              << "Distance: "            << result.distance_driven   << endl
              << "Time: "                << result.time_alive        << endl << endl;
-
-        window->updateNetwork(new Network(new_best->genes));
+		window->updateNetwork(new Network(new_best->genes));
         delete n;
     };
-
+	
     // Start the trainer
 	std::thread tt = std::thread(&NeatTrainer::run, trainer);
     window->run();

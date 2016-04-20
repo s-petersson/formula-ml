@@ -76,7 +76,7 @@ void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUnifo
 
 // TODO: Get modelMatrixUniformLoc from Model class.
 void TrackView::render() {
-    glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
+	glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(viewModel->getVAO());
     glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

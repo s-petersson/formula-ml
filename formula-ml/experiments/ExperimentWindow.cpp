@@ -8,7 +8,7 @@ ExperimentWindow::ExperimentWindow(Simulator* simulator) {
     window = new Window();
     state = new ExperimentState();
 
-    state->simulator = simulator;
+	state->simulator = simulator;
     window->setState(state);
 
     add_renderer(new StandardRenderer(simulator));

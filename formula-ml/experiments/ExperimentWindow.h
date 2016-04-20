@@ -5,7 +5,6 @@
 #include <core/gfx/Renderer.h>
 #include <core/util/Camera.h>
 #include <sim/Simulator.h>
-#include <sim/SimulationRenderer.h>
 #include <sim/view/CarView.h>
 #include <sim/view/GridView.h>
 #include <sim/view/TrackView.h>

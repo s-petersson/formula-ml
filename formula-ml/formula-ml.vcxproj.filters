@@ -16,7 +16,6 @@
     <ClCompile Include="experiments\StandardRenderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NeatTrainer.cpp" />
-    <ClCompile Include="NeatXOR.cpp" />
     <ClCompile Include="neural\EvolvingNetwork.cpp" />
     <ClCompile Include="neural\FixedNetwork.cpp" />
     <ClCompile Include="neural\FixedNetworkTrainer.cpp" />
@@ -63,7 +62,6 @@
     <ClInclude Include="external\include\GL\glxew.h" />
     <ClInclude Include="external\include\GL\wglew.h" />
     <ClInclude Include="NeatTrainer.h" />
-    <ClInclude Include="NeatXOR.h" />
     <ClInclude Include="neural\FixedNetwork.h" />
     <ClInclude Include="neural\FixedNetworkTrainer.h" />
     <ClInclude Include="neural\FixedNetworkXOR.h" />
@@ -77,7 +75,6 @@
     <ClInclude Include="neural\Neural.h" />
     <ClInclude Include="sim\model\CarModel.h" />
     <ClInclude Include="sim\model\TrackModel.h" />
-    <ClInclude Include="sim\SimulationRenderer.h" />
     <ClInclude Include="sim\SimulationState.h" />
     <ClInclude Include="sim\Simulator.h" />
     <ClInclude Include="sim\Track.h" />

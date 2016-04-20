@@ -3,9 +3,8 @@
 
 #include <neural/neat/Pool.h>
 #include <neural/neat/Network.h>
-#include <thread>
+#include <string>
 #include <mutex>
-#include <sim/Simulator.h>
 #include <neural/FileWriter.h>
 
 
@@ -19,7 +18,7 @@ class NeatTrainer
 {
 public:
     NeatTrainer();
-	NeatTrainer(string path);
+	NeatTrainer(std::string path);
     ~NeatTrainer();
     void run();
 

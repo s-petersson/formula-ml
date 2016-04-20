@@ -7,8 +7,7 @@
 
 
 Window::Window() {
-
-	/* Initialize the library */
+	
 	if (!glfwInit()) {
 		throw std::runtime_error("GLFW Initialization failed.");
 	}
@@ -18,7 +17,6 @@ Window::Window() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1280, 720, "Formula ML", NULL, NULL);
 	if (!window)
 	{
@@ -27,7 +25,6 @@ Window::Window() {
 	}
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
 	glewExperimental = GL_TRUE;
@@ -39,6 +36,7 @@ Window::Window() {
 
 	glfwGetFramebufferSize(window, &screen_width, &screen_height);
     fbo = createFBO(screen_width, screen_height, true);
+	
 }
 
 Window::~Window() {
@@ -50,7 +48,7 @@ void Window::setState(WindowState * s) {
 }
 
 void Window::run() {
-    
+	
     glClearColor(0.f, 0.f, 0.f, 1.0f);
 	
     glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
@@ -90,6 +88,7 @@ void Window::run() {
 		glfwPollEvents();
         glfwSwapInterval(1);
 	}
-
+	
 	glfwTerminate();
+
 }

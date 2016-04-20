@@ -8,8 +8,6 @@
 #include <sim/view/TrackView.h>
 #include <sim/view/GridView.h>
 #include <core/gfx/Renderer.h>
-#include "SimulationRenderer.h"
-
 
 struct Grid;
 

@@ -2,13 +2,15 @@
 #define FORMULA_ML_MANUALCONTROLRENDERER_H
 
 #include <core/util/Camera.h>
+#include <core/gfx/Renderer.h>
+#include <core/gui/View.h>
 #include <sim/view/TrackView.h>
 #include <sim/view/CarView.h>
 #include <sim/view/GridView.h>
-#include <sim/SimulationRenderer.h>
-#include <core/gui/View.h>
+#include <sim/Simulator.h>
 
-class StandardRenderer : public SimulationRenderer {
+
+class StandardRenderer : public Renderer {
 public:
     StandardRenderer(Simulator * simulator);
     ~StandardRenderer();
@@ -16,6 +18,7 @@ public:
     virtual void initialize();
     virtual void render();
 private:
+	Simulator * simulator;
     Camera * global_cam;
     Camera * follow_cam;
 

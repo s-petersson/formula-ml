@@ -162,8 +162,9 @@ void SimulationEvaluator::reset() {
 }
 
 std::function<SimulationEvaluator*()> SimulationEvaluator::makeFactory() {
-    return [source = *this]() {
-        SimulationEvaluator* copy = new SimulationEvaluator(source);
+    return [this]() {
+        SimulationEvaluator* copy = new SimulationEvaluator(*this);
+		//SimulationEvaluator* copy = new SimulationEvaluator();
         copy->init();
         return copy;
     };
