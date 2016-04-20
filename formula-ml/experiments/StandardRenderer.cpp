@@ -2,6 +2,8 @@
 #include <core/gfx/Program.h>
 #include "StandardRenderer.h"
 #include <string>
+#include <core/Keyboard.h>
+#include <core/util/Util.h>
 
 StandardRenderer::StandardRenderer(Simulator* simulator) {
     this->simulator = simulator;
@@ -10,13 +12,14 @@ StandardRenderer::StandardRenderer(Simulator* simulator) {
 
 StandardRenderer::~StandardRenderer() {
     if (grid_view)  delete grid_view;
-    if (camera)     delete camera;
+    if (follow_cam) delete follow_cam;
     if (car_view)   delete car_view;
     if (track_view) delete track_view;
 }
 
 void StandardRenderer::initialize() {
-    camera = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
+    follow_cam = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
+    global_cam = new Camera(90.0f, 16.0f / 9, 0.f, 1000.0f);
 
     // Create views for simulated objects.
     car_view = new CarView(this->simulator->car);
@@ -31,7 +34,13 @@ void StandardRenderer::initialize() {
 
     // We set the appropriate uniform locations in all things that we
     // use to draw with.
-    camera->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
+    follow_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
+    follow_cam->up = glm::vec3(0, 1, 0);
+    
+    global_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
+    global_cam->up = glm::vec3(0, 1, 0);
+
+
     car_view->setUniformLocations(shader, "modelMatrix");
     track_view->setUniformLocations(shader, "modelMatrix");
     grid_view->setUniformLocations(shader, "modelMatrix");
@@ -49,9 +58,27 @@ void StandardRenderer::render() {
     glUseProgram(shader);
 
     // Upload camera view and projection matrices to the shader.
-    camera->follow(simulator->car->position, simulator->car->direction, 35.f);
-    camera->update();
+    //follow_cam->follow(simulator->car->position, simulator->car->direction, 35.f);
+    {
+        long time = current_time();
+        if (isKeyDown(GLFW_KEY_SPACE) && time > (camera_switch_time + 100)) {
+            follow = !follow;
+            camera_switch_time = time;
+        }
+    }
+    
 
+    if (follow) {
+        follow_cam->lookAt(simulator->car->position);
+        follow_cam->setPosition(simulator->car->position + glm::vec3(0, 0, 64));
+        follow_cam->update();
+    }
+    else {
+        global_cam->lookAt(glm::vec3(0,0,0));
+        global_cam->setPosition(glm::vec3(0, 0, 300));
+        global_cam->update();
+    }
+    
     // Upload model matrix for the grid to the shader and render the grid
     // using that.
     grid_view->render();

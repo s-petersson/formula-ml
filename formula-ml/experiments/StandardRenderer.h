@@ -16,12 +16,16 @@ public:
     virtual void initialize();
     virtual void render();
 private:
-    Camera * camera;
+    Camera * global_cam;
+    Camera * follow_cam;
+
     GridView * grid_view;
     TrackView * track_view;
     CarView * car_view;
 	gui::View * gui;
     GLuint shader;
+    bool follow;
+    long camera_switch_time;
 };
 
 

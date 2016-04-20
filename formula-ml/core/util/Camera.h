@@ -22,6 +22,7 @@ public:
     void setUniformLocations(GLuint shaderProgram, char* viewMatrixName, char* projectionMatrixName);
     void update();
 
+    glm::vec3 up = glm::vec3(0, 0, 1);
 private:
     glm::mat4x4 projectionMatrix;
     glm::vec3 position;

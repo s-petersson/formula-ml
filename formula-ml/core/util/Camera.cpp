@@ -17,7 +17,7 @@ glm::mat4x4 Camera::getProjectionMatrix() {
 }
 
 glm::mat4x4 Camera::getViewMatrix() {
-    return glm::lookAt(position, target, glm::vec3(0, 0, 1));
+    return glm::lookAt(position, target, up);
 }
 
 void Camera::setPosition(glm::vec3 pos) {
