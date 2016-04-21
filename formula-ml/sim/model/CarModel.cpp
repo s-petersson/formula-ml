@@ -10,7 +10,7 @@ const float downforceConstant = mass * g / 36.1111 / 36.1111; // c_down * v^2 = 
 const float dragConstant = g / 83.3333 / 83.3333; // c_drag * v^2 = 1g at 300 km/h
 const float gasForce = 14.2 * mass;		// [N]
 const float brakeForce = 39 * mass;	    // [N]
-const float minTurningRadius = 4;		// Guessed
+const float minTurningRadius = 10;		// Guessed
 const float maxCentipetalForce = 2500;	// Guessed [N]
 
 using namespace glm;
@@ -68,8 +68,8 @@ float CarModel::minRadius(float speed) {
 	return glm::max(result, minTurningRadius);
 }
 
-float CarModel::maxRotation(float speed, float dt) {
-	return speed * dt / minRadius(speed);
+float CarModel::maxRotation(float speed, float dt, float minimum_radius) {
+	return speed * dt / minimum_radius;
 }
 
 void smoothChange(float* value, float new_value, float dt, float value_range) {
@@ -77,6 +77,28 @@ void smoothChange(float* value, float new_value, float dt, float value_range) {
     const float max_change = dt * value_range / max_change_time;
     float change = new_value - *value;
     *value += change >= 0 ? glm::min(change, max_change) : glm::max(change, -max_change);
+}
+void CarModel::steer(float current_speed, float dt) {
+	//Make the rotation to not be bigger than the maximum allowed rotation
+
+	float rotation;
+	float max_rotation = maxRotation(current_speed, dt, minRadius(current_speed));
+	float desired_rotation = minTurningRadius * current_control.steer;
+
+	if (max_rotation < desired_rotation || max_rotation < desired_rotation*-1) {
+		if (desired_rotation < 0) {
+			rotation = max_rotation * -1;
+		}
+		else {
+			rotation = max_rotation;
+		}
+	}
+	else {
+		rotation = desired_rotation;
+	}
+
+	direction = glm::rotateZ(direction, rotation);
+	velocity = glm::rotateZ(velocity, rotation);
 }
 
 void CarModel::update(float dt, struct CarControl control) {
@@ -106,9 +128,7 @@ void CarModel::update(float dt, struct CarControl control) {
 
     // Rotation due to steering
     if (current_control.steer != 0) {
-        float rotation = maxRotation(currentSpeed, dt) * current_control.steer;
-        direction = glm::rotateZ(direction, rotation);
-        velocity = glm::rotateZ(velocity, rotation);
+		steer(currentSpeed, dt);
     }
 
 	// Apply drag

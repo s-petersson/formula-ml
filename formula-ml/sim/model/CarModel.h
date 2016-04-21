@@ -57,7 +57,8 @@ public:
 
 private:
     float minRadius(float speed);
-	float maxRotation(float speed, float dt);
+	float maxRotation(float speed, float dt, float minimum_radius);
+	void steer(float current_speed, float dt);
 
 	glm::vec3 velocity;
 	CarControl current_control;
