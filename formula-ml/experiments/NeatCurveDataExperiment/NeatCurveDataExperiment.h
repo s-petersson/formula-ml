@@ -8,6 +8,7 @@
 
 #include <experiments/Experiment.h>
 #include <experiments/ExperimentWindow.h>
+#include <experiments/SimulationEvaluator.h>
 
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
@@ -26,9 +27,7 @@ public:
     float max_time;
     float car_speed;
 
-    int nbr_of_curve_points;
-    float curve_point_spacing;
-    float curve_point_spacing_incremental_percentage;
+    AiSettings ai_settings;
 
 private:
     string load_network_path;
