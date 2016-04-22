@@ -10,6 +10,7 @@
 #include <experiments/NetworkView.h>
 #include <experiments/SimulationEvaluator.h>
 #include <core/Keyboard.h>
+#include <thread>
 using namespace neat;
 
 
