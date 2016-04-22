@@ -43,6 +43,7 @@ void ExperimentWindow::clear_renderers() {
 
 ExperimentWindow::ExperimentState::ExperimentState() {
     network_view = nullptr;
+    network_location = nullptr;
 }
 
 ExperimentWindow::ExperimentState::~ExperimentState() {

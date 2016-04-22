@@ -16,6 +16,7 @@ int required_nbr_of_inputs(const AiSettings& settings) {
     if (settings.speed)              sum++;
 
     if (settings.curve_data) {
+        // TODO: Wat? write track curve returns nbr of curve points
         sum += Simulator::write_track_curve_size(settings.nbr_of_curve_points);
         if (settings.curve_data_sum_absolutes) sum++;
     }
@@ -64,11 +65,7 @@ SimulationEvaluator::SimulationEvaluator() {
 SimulationEvaluator::~SimulationEvaluator() {
     if (network_indata.values) delete[] network_indata.values;
     if (network_output.values) delete[] network_output.values;
-    if (simulator) {
-        if (simulator->track) delete simulator->track;
-        if (simulator->car) delete simulator->car;
-        //delete simulator;
-    }
+    if (simulator) delete simulator;
 }
 
 void SimulationEvaluator::appendIf(bool predicate, float value) {
@@ -120,7 +117,7 @@ void SimulationEvaluator::init() {
 
             appendIf(ai_settings.curve_data_sum_absolutes,
                      neural::sum_absolutes(&inputs[curve_data_start],
-                            simulator->write_track_curve_size(ai_settings.nbr_of_curve_points)));
+                                           Simulator::write_track_curve_size(ai_settings.nbr_of_curve_points)));
             
             if (ai_settings.curve_data_flip) {
                 neural::flip_parity_if(&inputs[curve_data_start], 

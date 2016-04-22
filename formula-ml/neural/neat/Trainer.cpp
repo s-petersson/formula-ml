@@ -23,6 +23,7 @@ Trainer::Trainer()
 	pool = new Pool();
 	pool->fill();
     best_genome = Genome();
+    generation++;
 }
 
 Trainer::Trainer(string path) {
@@ -75,11 +76,10 @@ void Trainer::run() {
 	std::thread *thread_pool = new std::thread[thread_count];
 	Evaluator **eval_pool = new Evaluator*[thread_count];
 
-    for (int i = 0; i < thread_count; ++i) {
+    for (int i = 0; i < thread_count; i++) {
         eval_pool[i] = evaluator_factory();
     }
 
-	int  i = 0;
 	while (true) {
 		// Build a vector with pointers to all genomes within this generation.
 		for (auto && species : pool->species) {
@@ -100,8 +100,7 @@ void Trainer::run() {
 			thread_pool[i].join();
 		}
 
-		i++;
-		generation = i;
+		generation++;;
 
         if (on_generation_done) {
             on_generation_done(generation);

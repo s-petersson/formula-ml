@@ -170,8 +170,6 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
 	Each simulation step update with time dt
 */
 SimulationResult Simulator::run(const float dt) {
-	SimulationResult best = SimulationResult();
-
 	while (!terminated) {
 		update(dt);
 	}
