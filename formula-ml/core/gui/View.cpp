@@ -16,7 +16,19 @@ View::View() {
     set_transform(mat4(1));
     set_projection(ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f));
     set_view(mat4(1));
-   
+
+    for (int i = 0; i < 3; i++) {
+        text_buffers[i] = 0;
+    }
+    for (int i = 0; i < 2; i++) {
+        line_buffers[i] = 0;
+    }
+    for (int i = 0; i < 2; i++) {
+        quad_buffers[i] = 0;
+    }
+    text_vao = 0;
+    line_vao = 0;
+    quad_vao = 0;
 }
 
 View::View(const vec3& o) : View() {
