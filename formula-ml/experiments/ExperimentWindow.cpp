@@ -51,8 +51,10 @@ void ExperimentWindow::clear_renderers() {
 /* ExperimentState helper class */
 
 ExperimentWindow::ExperimentState::ExperimentState() {
-
+    network_view = nullptr;
+    network_buffer = nullptr;
 }
+
 ExperimentWindow::ExperimentState::~ExperimentState() {
     if (simulator) delete simulator;
     if (network_buffer) delete network_buffer;

@@ -58,7 +58,7 @@ void print_settings(const AiSettings& settings) {
 }
 
 SimulationEvaluator::SimulationEvaluator() {
-
+    network = nullptr;
 }
 
 SimulationEvaluator::~SimulationEvaluator() {

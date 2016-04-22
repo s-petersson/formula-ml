@@ -7,6 +7,7 @@
 
 StandardRenderer::StandardRenderer(Simulator* simulator) {
     this->simulator = simulator;
+    camera_switch_time = 0;
     initialize();
 }
 
