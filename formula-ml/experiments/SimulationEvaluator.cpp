@@ -109,7 +109,7 @@ void SimulationEvaluator::init() {
 
         int curve_data_start = input_iterator;
         if (ai_settings.curve_data) {
-            simulator->write_track_curve(inputs, 
+            simulator->write_track_curve(inputs,
                                          input_iterator,
                                          ai_settings.nbr_of_curve_points,
                                          ai_settings.curve_point_spacing,
@@ -142,15 +142,16 @@ void SimulationEvaluator::init() {
     };
 }
 
-float SimulationEvaluator::evaluate_network(neat::Network* network) {
-    SimulationResult result = run(network);
-    return neural::fitness_distance_time(result, termination_distance, max_time);
-}
-
-SimulationResult SimulationEvaluator::run(neat::Network* network) {
+EvaluationResult SimulationEvaluator::evaluate_network(neat::Network* network) {
     this->network = network;
     reset();
-    return simulator->run(0.01f);
+
+    EvaluationResult result = EvaluationResult();
+    result.simResult = simulator->run(0.01f);
+    result.fitness = neural::fitness_distance_time(result.simResult,
+                                                   termination_distance,
+                                                   max_time);
+    return result;
 }
 
 void SimulationEvaluator::reset() {

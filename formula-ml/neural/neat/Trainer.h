@@ -1,6 +1,7 @@
 #ifndef NEAT_TRAINER
 #define NEAT_TRAINER
 
+#include <experiments/Experiment.h>
 #include <neural/neat/Pool.h>
 #include <neural/neat/Network.h>
 #include <string>
@@ -12,7 +13,7 @@ namespace neat {
 	class Evaluator
 	{
 	public:
-		virtual float evaluate_network(neat::Network* network) = 0; // also take memory ownage of network
+		virtual EvaluationResult evaluate_network(neat::Network* network) = 0; // also take memory ownage of network
 	};
 
 	class Trainer
@@ -24,13 +25,13 @@ namespace neat {
 		void run();
 
 		neat::Genome get_best();
-		void set_best(neat::Genome& genome);
+		void set_best(neat::Genome& genome, EvaluationResult evaluationResult);
 
 		// Mandatory parameters
 		std::function<Evaluator*()> evaluator_factory;
 
 		// Optional parameters
-		std::function<void(neat::Genome * new_best, float fitness)> on_new_best;
+		std::function<void(EvaluationResult evaluationResult)> on_new_best;
 		std::function<void(int generation)> on_generation_done;
 
 	private:

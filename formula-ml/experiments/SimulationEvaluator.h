@@ -1,6 +1,7 @@
 #ifndef SIMULATION_EVALUATOR
 #define SIMULATION_EVALUATOR
 
+#include <experiments/Experiment.h>
 #include <neural/neat/Trainer.h>
 #include <sim/Simulator.h>
 
@@ -31,7 +32,7 @@ public:
     ~SimulationEvaluator();
     void init();
 
-    float evaluate_network(neat::Network* network);
+    EvaluationResult evaluate_network(neat::Network* network);
     SimulationResult run(neat::Network* network);
     void reset();
 

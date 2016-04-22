@@ -38,17 +38,13 @@ Trainer::~Trainer()
 	if (fw) delete fw;
 }
 
-
-
 void Trainer::evaluate(Genome& genome, Evaluator* evaluator) {
     Network *n = new Network(genome.genes);
-    genome.fitness = evaluator->evaluate_network(n);
+    EvaluationResult evaluationResult = evaluator->evaluate_network(n);
+    genome.fitness = evaluationResult.fitness;
 
     if (genome.fitness > pool->maxFitness) {
-		std::ostringstream oss;
-		std::string path = oss.str();
-		set_best(genome);
-        on_new_best(&genome, best_genome.fitness);
+		set_best(genome, evaluationResult);
     }
 
     delete n;
@@ -126,12 +122,13 @@ neat::Genome Trainer::get_best() {
     return temp;
 }
 
-void Trainer::set_best(neat::Genome& genome) {
+void Trainer::set_best(neat::Genome& genome, EvaluationResult evaluationResult) {
 	best_genome_mutex.lock();
 	if (genome.fitness > best_genome.fitness) {
 		best_genome = genome;
 		pool->maxFitness = genome.fitness;
 		improved = true;
+        on_new_best(evaluationResult);
 	}
 	best_genome_mutex.unlock();
 }

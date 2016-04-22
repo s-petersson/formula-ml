@@ -15,4 +15,9 @@ protected:
     Simulator* simulator;
 };
 
+struct EvaluationResult {
+    float fitness;
+    SimulationResult simResult;
+};
+
 #endif

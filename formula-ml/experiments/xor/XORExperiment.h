@@ -20,7 +20,7 @@ private:
 class XOREvaluator : public neat::Evaluator
 {
 public:
-    virtual float evaluate_network(neat::Network* network);
+    virtual EvaluationResult evaluate_network(neat::Network* network);
 };
 
 #endif

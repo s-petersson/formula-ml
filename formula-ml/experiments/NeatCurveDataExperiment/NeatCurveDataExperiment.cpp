@@ -41,7 +41,7 @@ void NeatCurveDataExperiment::run() {
 	
     experiment.ai_settings = ai_settings;
     experiment.init();
-	
+
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();
 
     // Create the Trainer
@@ -66,16 +66,12 @@ void NeatCurveDataExperiment::run() {
         cout << "New Generation: " << generation << endl;
     };
 
-    SimulationEvaluator* resultFetcher = factory();
-    trainer->on_new_best = [&, resultFetcher](neat::Genome* new_best, float fitness)
+    trainer->on_new_best = [&](EvaluationResult evaluationResult)
     {
-        Network n = Network(new_best->genes);
-        SimulationResult result = resultFetcher->run(&n);
+        cout << "New maximum fitness: " << evaluationResult.fitness                     << endl
+             << "Distance: "            << evaluationResult.simResult.distance_driven   << endl
+             << "Time: "                << evaluationResult.simResult.time_alive        << endl << endl;
 
-        cout << "New maximum fitness: " << fitness                  << endl
-             << "Distance: "            << result.distance_driven   << endl
-             << "Time: "                << result.time_alive        << endl << endl;
-		
     };
 	
     // Start the trainer

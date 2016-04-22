@@ -20,8 +20,8 @@ XORExperiment::XORExperiment()
         cout << "New Generation: " << generation << endl;
     };
 
-    trainer->on_new_best = [](neat::Genome* new_best, float fitness){
-        cout << "New best fitness: " << fitness << endl;
+    trainer->on_new_best = [](EvaluationResult evaluationResult){
+        cout << "New best fitness: " << evaluationResult.fitness << endl;
     };
 }
 
@@ -36,7 +36,7 @@ void XORExperiment::run() {
     trainer->run();
 }
 
-float XOREvaluator::evaluate_network(neat::Network* network) {
+EvaluationResult XOREvaluator::evaluate_network(neat::Network* network) {
     // Network IO init
     neural::NetworkIO *in, *out;
     in = new neural::NetworkIO;
@@ -75,5 +75,7 @@ float XOREvaluator::evaluate_network(neat::Network* network) {
     delete[] out->values;
     delete in;
     delete out;
-    return fitness;
+    EvaluationResult evaluationResult = EvaluationResult();
+    evaluationResult.fitness = fitness;
+    return evaluationResult;
 }
