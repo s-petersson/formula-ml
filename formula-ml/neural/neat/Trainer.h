@@ -23,7 +23,7 @@ namespace neat {
 		~Trainer();
 		void run();
 
-		neat::Genome* get_best();
+		neat::Genome get_best();
 		void set_best(neat::Genome& genome);
 
 		// Mandatory parameters
@@ -40,8 +40,7 @@ namespace neat {
 		bool improved = false;
 		int generation;
 
-		neat::Network *bestNetwork;
-		neat::Genome *bestGenome;
+		neat::Genome best_genome;
 		std::mutex best_genome_mutex;
 
 		std::mutex mtx;

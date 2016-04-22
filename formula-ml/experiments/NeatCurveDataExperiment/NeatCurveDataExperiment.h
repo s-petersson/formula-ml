@@ -13,6 +13,7 @@
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
 #include <neural/Helpers.h>
+#include <memory>
 
 
 class NeatCurveDataExperiment : public Experiment {
@@ -31,9 +32,11 @@ public:
 
 private:
     string load_network_path;
-
-    neat::Trainer* trainer;
-    ExperimentWindow* window;
+    
+    std::shared_ptr<neat::Trainer> trainer;
+    std::shared_ptr<ExperimentWindow> window;
+    //neat::Trainer* trainer;
+    //ExperimentWindow* window;
 };
 
 #endif

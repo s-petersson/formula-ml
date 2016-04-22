@@ -4,13 +4,13 @@
 
 /* ExperimentWindow */
 
-ExperimentWindow::ExperimentWindow(Simulator* simulator) {
+ExperimentWindow::ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer) {
     window = new Window();
     state = new ExperimentState();
 
 	state->simulator = simulator;
     window->setState(state);
-
+    state->trainer = _trainer;
     add_renderer(new StandardRenderer(simulator));
 }
 ExperimentWindow::~ExperimentWindow() {
@@ -63,22 +63,22 @@ ExperimentWindow::ExperimentState::~ExperimentState() {
 
 void ExperimentWindow::ExperimentState::reset() {
     simulator->reset();
-
     network_mutex.lock();
-    if (network_location && network_buffer) {
+    if (network_location) {
         if (*network_location) delete *network_location;
-        *network_location = network_buffer;
-
+        *network_location = new neat::Network(trainer->get_best().genes);
+       
         if (network_view) delete network_view;
-        network_view = new NetworkView(network_buffer);
+        network_view = new NetworkView(*network_location);
 
-        network_buffer = nullptr;
+        //network_buffer = nullptr;
     }
 
     if (network_location && *network_location) {
         (*network_location)->reset();
     }
     network_mutex.unlock();
+    
 }
 
 void ExperimentWindow::ExperimentState::run(float dt) {

@@ -21,8 +21,8 @@ NeatCurveDataExperiment::NeatCurveDataExperiment(string path_to_network) {
 }
 
 NeatCurveDataExperiment::~NeatCurveDataExperiment() {
-    delete trainer;
-    if (window) delete window;
+    //delete trainer;
+    //if (window) delete window;
 }
 
 void NeatCurveDataExperiment::run() {
@@ -44,17 +44,19 @@ void NeatCurveDataExperiment::run() {
 	
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();
 
+    // Create the Trainer
+    if (this->load_network_path != "") {
+        trainer = make_shared<Trainer>(this->load_network_path);
+    }
+    else {
+        trainer = make_shared<Trainer>();
+    }
+
     // Prepare the window
     SimulationEvaluator* windowEnvironment = factory();
-    window = new ExperimentWindow(windowEnvironment->getSimulator());
+    window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 	
-    // Create the Trainer
-    if(this->load_network_path != "") {
-        trainer = new Trainer(this->load_network_path);
-    } else {
-        trainer = new Trainer();
-    }
 
     trainer->evaluator_factory = factory;
 
@@ -67,14 +69,13 @@ void NeatCurveDataExperiment::run() {
     SimulationEvaluator* resultFetcher = factory();
     trainer->on_new_best = [&, resultFetcher](neat::Genome* new_best, float fitness)
     {
-        Network *n = new Network(new_best->genes);
-        SimulationResult result = resultFetcher->run(n);
+        Network n = Network(new_best->genes);
+        SimulationResult result = resultFetcher->run(&n);
 
         cout << "New maximum fitness: " << fitness                  << endl
              << "Distance: "            << result.distance_driven   << endl
              << "Time: "                << result.time_alive        << endl << endl;
-		window->updateNetwork(new Network(new_best->genes));
-        delete n;
+		//window->updateNetwork(new Network(new_best->genes));
     };
 	
     // Start the trainer

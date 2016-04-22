@@ -12,14 +12,15 @@
 #include <experiments/StandardRenderer.h>
 #include <neural/neat/Network.h>
 #include <experiments/NetworkView.h>
+#include <neural/neat/Trainer.h>
 #include <mutex>
-
+#include <memory>
 
 struct Grid;
 
 class ExperimentWindow {
 public:
-    ExperimentWindow(Simulator* simulator);
+    ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer);
     ~ExperimentWindow();
 
     void run();
@@ -46,10 +47,10 @@ private:
         neat::Network* network_buffer;
         std::mutex network_mutex;
 
+        std::shared_ptr<neat::Trainer> trainer;
         vector<Renderer*> renderers;
         NetworkView* network_view;
     };
-
     Window* window;
     ExperimentState* state;
 };

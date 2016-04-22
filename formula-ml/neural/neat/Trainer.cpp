@@ -22,13 +22,13 @@ Trainer::Trainer()
 	fw = new neural::FileWriter("saves/" + getTimestamp() + "/");
 	pool = new Pool();
 	pool->fill();
-    bestGenome = new Genome();
+    best_genome = Genome();
 }
 
 Trainer::Trainer(string path) {
 	fw = new neural::FileWriter("saves/" + getTimestamp()+ "/");
 	pool = (*fw).poolFromFile(path);
-    bestGenome = new Genome();
+    best_genome = Genome();
 }
 
 Trainer::~Trainer()
@@ -47,7 +47,7 @@ void Trainer::evaluate(Genome& genome, Evaluator* evaluator) {
 		std::ostringstream oss;
 		std::string path = oss.str();
 		set_best(genome);
-        on_new_best(&genome, bestGenome->fitness);
+        on_new_best(&genome, best_genome.fitness);
     }
 
     delete n;
@@ -120,23 +120,17 @@ void Trainer::run() {
     }
 }
 
-neat::Genome* Trainer::get_best() {
+neat::Genome Trainer::get_best() {
     best_genome_mutex.lock();
-    Genome * temp;
-    if (bestGenome) {
-        temp = new Genome(*bestGenome);
-    } else {
-        temp = nullptr;
-    }
+    Genome temp = best_genome;
     best_genome_mutex.unlock();
     return temp;
 }
 
 void Trainer::set_best(neat::Genome& genome) {
 	best_genome_mutex.lock();
-	if (bestGenome == nullptr || genome.fitness > bestGenome->fitness) {
-		if(bestGenome != nullptr) delete bestGenome;
-		bestGenome = new Genome(genome);
+	if (genome.fitness > best_genome.fitness) {
+		best_genome = genome;
 		pool->maxFitness = genome.fitness;
 		improved = true;
 	}
