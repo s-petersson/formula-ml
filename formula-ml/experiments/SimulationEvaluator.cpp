@@ -80,7 +80,7 @@ void SimulationEvaluator::init() {
     // Create simulated objects
     // NOTE: Starting grid is at first "checkpoint". In order
     //       to change this, offset the checkpoint order.
-    simulator->track = new TrackModel(glm::vec3());
+    simulator->track = new TrackModel(glm::vec3(), "./res/models/circuit_narrow.model");
     simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), car_speed);
 
     simulator->progress_timeout = 1.0f;
