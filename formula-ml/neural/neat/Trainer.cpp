@@ -23,7 +23,7 @@ Trainer::Trainer()
 	pool = new Pool();
 	pool->fill();
     best_genome = Genome();
-    generation++;
+    generation = 0;
 }
 
 Trainer::Trainer(string path) {
