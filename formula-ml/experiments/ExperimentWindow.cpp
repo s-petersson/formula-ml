@@ -14,8 +14,8 @@ ExperimentWindow::ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::T
     add_renderer(new StandardRenderer(simulator));
 }
 ExperimentWindow::~ExperimentWindow() {
-    if (window) delete window;
     if (state) delete state;
+    if (window) delete window;
 }
 
 void ExperimentWindow::run() {
@@ -27,15 +27,6 @@ void ExperimentWindow::setNetworkLocation(neat::Network** network, bool delayed_
 
     state->network_location = network;
     state->delayed_update = delayed_update;
-
-    state->network_mutex.unlock();
-}
-
-void ExperimentWindow::updateNetwork(neat::Network* network) {
-    state->network_mutex.lock();
-
-    if (state->network_buffer) delete state->network_buffer;
-    state->network_buffer = network;
 
     state->network_mutex.unlock();
 }
@@ -52,12 +43,10 @@ void ExperimentWindow::clear_renderers() {
 
 ExperimentWindow::ExperimentState::ExperimentState() {
     network_view = nullptr;
-    network_buffer = nullptr;
 }
 
 ExperimentWindow::ExperimentState::~ExperimentState() {
     if (simulator) delete simulator;
-    if (network_buffer) delete network_buffer;
     if (network_view) delete network_view;
 }
 
@@ -84,7 +73,7 @@ void ExperimentWindow::ExperimentState::reset() {
 void ExperimentWindow::ExperimentState::run(float dt) {
     // Possibly reset
     network_mutex.lock();
-    bool update_network = !delayed_update && network_buffer;
+    bool update_network = !delayed_update;
     network_mutex.unlock();
     if (update_network || isKeyDown(GLFW_KEY_HOME)) {
         reset();

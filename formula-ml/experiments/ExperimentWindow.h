@@ -29,7 +29,6 @@ public:
     void clear_renderers();
 
     void setNetworkLocation(neat::Network** network, bool delayed_update); // If called, only before run()
-    void updateNetwork(neat::Network* network); // Takes memory responsibility of network. Must only be called after setNetworkLocation()
 
 private:
     class ExperimentState : public WindowState {
@@ -44,7 +43,6 @@ private:
 
         bool delayed_update;
         neat::Network** network_location;
-        neat::Network* network_buffer;
         std::mutex network_mutex;
 
         std::shared_ptr<neat::Trainer> trainer;

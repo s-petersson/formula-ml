@@ -75,7 +75,7 @@ void NeatCurveDataExperiment::run() {
         cout << "New maximum fitness: " << fitness                  << endl
              << "Distance: "            << result.distance_driven   << endl
              << "Time: "                << result.time_alive        << endl << endl;
-		//window->updateNetwork(new Network(new_best->genes));
+		
     };
 	
     // Start the trainer
