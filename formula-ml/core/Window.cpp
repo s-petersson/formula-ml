@@ -40,7 +40,6 @@ Window::Window() {
 }
 
 Window::~Window() {
-    glfwTerminate();
 }
 
 void Window::setState(WindowState * s) {
@@ -88,7 +87,6 @@ void Window::run() {
 		glfwPollEvents();
         glfwSwapInterval(1);
 	}
-    glfwDestroyWindow(window);
-	
+    glfwTerminate();
 
 }
