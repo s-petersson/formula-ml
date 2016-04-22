@@ -24,9 +24,9 @@ Neuron::~Neuron(){}
 /* Network                                                          */
 /*==================================================================*/
 
-Network::Network() : Inputs(Config::Inputs), Outputs(Config::Outputs) {}
+Network::Network() : Network(std::vector<Gene>()) { }
 
-Network::Network(std::vector<Gene> genes) : Network(){
+Network::Network(std::vector<Gene> genes) : Inputs(Config::Inputs), Outputs(Config::Outputs) {
     neurons[0] = Neuron();
     neurons[0].value = 1.0f;
     for (int i = 1; i <= Inputs; i++) {
