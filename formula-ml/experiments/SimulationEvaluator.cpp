@@ -133,8 +133,7 @@ void SimulationEvaluator::init() {
         network->fire(network_indata, network_output);
 
         CarControl control;
-        control.acceleration = 0;
-        control.brake = outputs[1];
+        control.acceleration = outputs[1];
         control.steer = outputs[0];
 
         if (ai_settings.curve_data && ai_settings.curve_data_flip) {

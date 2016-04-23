@@ -45,7 +45,6 @@ void CarModel::reset() {
     distance_on_track               = 0;
     velocity                        = vec3();
     current_control.acceleration    = 0;
-    current_control.brake           = 0;
     current_control.steer           = 0;
 }
 
@@ -105,34 +104,31 @@ void CarModel::update(float dt, struct CarControl control) {
 
 	// Update current control state with smoothing
     smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
-    smoothChange(&current_control.brake, control.brake, dt, 1.f);
     smoothChange(&current_control.steer, control.steer, dt, 2.f);
 
     float currentSpeed = getSpeed();
 
     // Acceleration in the direction of the car
     float forwardForce = 0;
-    if (current_control.acceleration > 0 && currentSpeed < max_speed) {
-        forwardForce = gasForce * current_control.acceleration;
-        velocity += direction * (forwardForce * dt / mass);
-    } else if (current_control.brake <= 0 && currentSpeed < max_speed) {
-        forwardForce = gasForce;
-        velocity += direction * (forwardForce * dt / mass);
-    } else if (current_control.brake > 0) {
-        forwardForce = -brakeForce * current_control.brake;
-        velocity += direction * (forwardForce * dt / mass);
-        if (length(normalize(velocity) + direction) < 1) {
-            velocity *= 0;
-        }
-    }
+
+	if (current_control.acceleration > 0) {
+		if (currentSpeed < max_speed) {
+			forwardForce = gasForce * current_control.acceleration;
+			velocity += direction * (forwardForce * dt / mass);
+		}
+	}
+	else if (current_control.acceleration < 0) {
+		forwardForce = brakeForce * current_control.acceleration;
+		velocity += direction * (forwardForce * dt / mass);
+		if (length(normalize(velocity) + direction) < 1) {
+			velocity *= 0;
+		}
+	}
 
     // Rotation due to steering
     if (current_control.steer != 0) {
 		steer(currentSpeed, dt);
     }
-
-	// Apply drag
-	//velocity -= velocity * (dragForce(currentSpeed) * dt / mass);
 
     // Apply velocity
     position += velocity * dt;

@@ -11,17 +11,12 @@
 
 struct CarControl {
 	/*
-	Acceleration percentage
-	0 <= accelerate <= 1
+	Acceleration percentage of maximum acceleration or retardation
+	-1 <= accelerate <= 1
+	 0 < acceleration -> accelerate
+	 0 > acceleration -> retadation
 	*/
 	float acceleration;
-
-	/*
-	Brake percentage
-	Subordinated acceleration
-	0 <= brake <= 1
-	*/
-	float brake;
 
 	/*
 	Steering percentage
