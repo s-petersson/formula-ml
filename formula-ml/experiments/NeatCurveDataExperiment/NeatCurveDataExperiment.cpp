@@ -32,9 +32,7 @@ void NeatCurveDataExperiment::run() {
 
     // Prepare the experiment
     SimulationEvaluator experiment = SimulationEvaluator();
-    experiment.termination_distance = termination_distance;
-    experiment.max_time = max_time;
-    experiment.car_speed = car_speed;
+    experiment.sim_settings = sim_settings;
     
     print_settings(ai_settings);
     set_neat_config(ai_settings);

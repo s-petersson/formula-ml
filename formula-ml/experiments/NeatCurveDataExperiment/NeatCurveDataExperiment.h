@@ -29,6 +29,7 @@ public:
     float car_speed;
 
     AiSettings ai_settings;
+    SimulatorSettings sim_settings;
 
 private:
     string load_network_path;

@@ -30,11 +30,17 @@ int main(void) {
                 NeatCurveDataExperiment* e = new NeatCurveDataExperiment();
                 experiment = e;
 
-                e->max_time = 400.f;
-                e->termination_distance = 5200.f;
-                e->car_speed = 15.f;
 
-                AiSettings ai_settings;
+                SimulatorSettings sim_settings = SimulatorSettings();
+                sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+                sim_settings.termination_distance = 5200.f;
+                sim_settings.max_time = 400.f;
+                sim_settings.car_speed = 15.f;
+
+                e->sim_settings = sim_settings;
+
+
+                AiSettings ai_settings = AiSettings();
                 ai_settings.angle_to_line            = true;
                 ai_settings.distance_to_middle       = true;
                 ai_settings.speed                    = true;
