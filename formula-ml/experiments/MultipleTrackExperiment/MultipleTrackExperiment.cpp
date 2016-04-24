@@ -77,7 +77,7 @@ void MultipleTrackExperiment::run() {
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
     {
-        MultipleTrackEvaluator::print(evaluationResult);
+        _Evaluator::print(evaluationResult);
     };
 
     // Start the trainer
@@ -88,7 +88,7 @@ void MultipleTrackExperiment::run() {
 
 
 
-MultipleTrackExperiment::MultipleTrackEvaluator::MultipleTrackEvaluator(AiSettings ai_settings){
+MultipleTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings){
 
     {
         SimulationEvaluator* track_evaluator = new SimulationEvaluator();
@@ -122,11 +122,11 @@ MultipleTrackExperiment::MultipleTrackEvaluator::MultipleTrackEvaluator(AiSettin
     }
 }
 
-MultipleTrackExperiment::MultipleTrackEvaluator::~MultipleTrackEvaluator(){ 
+MultipleTrackExperiment::_Evaluator::~_Evaluator(){ 
     evaluators.erase(evaluators.begin(), evaluators.end());
 }
 
-EvaluationResult MultipleTrackExperiment::MultipleTrackEvaluator::evaluate_network(neat::Network* network) {
+EvaluationResult MultipleTrackExperiment::_Evaluator::evaluate_network(neat::Network* network) {
     EvaluationResult result = EvaluationResult();
 
     EvaluationResult ev0 = evaluators[0]->evaluate_network(network);
@@ -144,7 +144,7 @@ EvaluationResult MultipleTrackExperiment::MultipleTrackEvaluator::evaluate_netwo
     return result;
 }
 
-void MultipleTrackExperiment::MultipleTrackEvaluator::print(const EvaluationResult& result) {
+void MultipleTrackExperiment::_Evaluator::print(const EvaluationResult& result) {
     cout << endl 
          << "New Best:"                                                 << endl
          << "Total fitness:  "  << result.fitness                       << endl
@@ -164,7 +164,7 @@ void MultipleTrackExperiment::MultipleTrackEvaluator::print(const EvaluationResu
     cout << endl;
 }
 
-void MultipleTrackExperiment::MultipleTrackEvaluator::reset() {
+void MultipleTrackExperiment::_Evaluator::reset() {
     for (auto& sim_evaluator : evaluators) {
         sim_evaluator->reset();
     }

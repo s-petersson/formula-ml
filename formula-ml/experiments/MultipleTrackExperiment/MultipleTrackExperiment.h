@@ -21,10 +21,10 @@ private:
     std::shared_ptr<neat::Trainer> trainer;
     std::shared_ptr<ExperimentWindow> window;
 
-    class MultipleTrackEvaluator : public neat::Evaluator{
+    class _Evaluator : public neat::Evaluator{
     public:
-        MultipleTrackEvaluator(AiSettings ai_settings);
-        ~MultipleTrackEvaluator();
+        _Evaluator(AiSettings ai_settings);
+        ~_Evaluator();
 
         EvaluationResult evaluate_network(neat::Network* network);
         static void print(const EvaluationResult& result);
