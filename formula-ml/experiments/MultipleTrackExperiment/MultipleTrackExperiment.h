@@ -15,10 +15,6 @@ public:
     ~MultipleTrackExperiment();
     virtual void run();
 
-    // Manditory
-    AiSettings ai_settings;
-    //std::vector<SimulatorSettings> sim_settings_vect;
-
 private:
     string load_network_path;
 

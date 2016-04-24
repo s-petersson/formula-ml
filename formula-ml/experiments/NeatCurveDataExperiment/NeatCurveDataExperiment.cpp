@@ -31,12 +31,11 @@ void NeatCurveDataExperiment::run() {
     };
 
     // Prepare the experiment
-    SimulationEvaluator experiment = SimulationEvaluator();
-    experiment.sim_settings = sim_settings;
-    
     print_settings(ai_settings);
     set_neat_config(ai_settings);
-	
+
+    SimulationEvaluator experiment = SimulationEvaluator();
+    experiment.sim_settings = sim_settings;
     experiment.ai_settings = ai_settings;
     experiment.init();
 

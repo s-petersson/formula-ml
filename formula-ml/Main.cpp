@@ -93,23 +93,7 @@ int main(void) {
             experiment = new XORExperiment();
             break;
         case 6:
-            {
-                MultipleTrackExperiment* e = new MultipleTrackExperiment();
-                experiment = e;
-
-                AiSettings ai_settings;
-                ai_settings.angle_to_line = true;
-                ai_settings.distance_to_middle = true;
-                ai_settings.speed = true;
-                ai_settings.curve_data = true;
-                ai_settings.curve_data_sum_absolutes = true;
-
-                ai_settings.nbr_of_curve_points = 5;
-                ai_settings.curve_point_spacing = 15.f;
-                ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
-
-                e->ai_settings = ai_settings;
-            }
+            experiment = new MultipleTrackExperiment();
             break;
 		default:
 			experiment = new ManualControl();

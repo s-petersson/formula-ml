@@ -27,22 +27,19 @@ void MultipleTrackExperiment::run() {
     };
 
     // Prepare the experiment
+    AiSettings ai_settings;
+    ai_settings.angle_to_line = true;
+    ai_settings.distance_to_middle = true;
+    ai_settings.speed = true;
+    ai_settings.curve_data = true;
+    ai_settings.curve_data_sum_absolutes = true;
+
+    ai_settings.nbr_of_curve_points = 5;
+    ai_settings.curve_point_spacing = 15.f;
+    ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
+
     print_settings(ai_settings);
     set_neat_config(ai_settings);
-
-    std::function<MultipleTrackEvaluator*()> factory = [&]() {
-        MultipleTrackEvaluator* instance = new MultipleTrackEvaluator(ai_settings);
-        /* Suggestion for parameterizing ai_settings and vector<SimulationSettings> sim_settings_vect
-        for (auto& sim_settings : sim_settings_vect) {
-            SimulationEvaluator* track_evaluator = new SimulationEvaluator();
-            track_evaluator->ai_settings = ai_settings;
-            track_evaluator->sim_settings = sim_settings;
-            track_evaluator->init();
-            instance->evaluators.push_back(track_evaluator);
-        }
-        */
-        return instance;
-    };
 
     // Create the Trainer
     if (this->load_network_path != "") {
@@ -69,7 +66,9 @@ void MultipleTrackExperiment::run() {
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 
     // Define call backs
-    trainer->evaluator_factory = factory;
+    trainer->evaluator_factory = [=]() {
+        return new _Evaluator(ai_settings);
+    };
 
     trainer->on_generation_done = [](int generation)
     {
