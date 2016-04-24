@@ -71,7 +71,7 @@ std::function<CarControl()> ManualControl::updater() {
             control.acceleration = accelerateMax ? 1 : 0.5f;
         }
         if (brake) {
-            control.brake = accelerateMax ? 1 : 0.5f;
+            control.acceleration = (accelerateMax ? 1 : 0.5f) * -1;
         }
 
         if (steerLeft && !steerRight) {
@@ -92,7 +92,7 @@ std::function<CarControl()> ManualControl::updater() {
                 << data[2] << "\n"
                 << data[3] << "\n"
                 << data[4] << "\n"
-                << data[5] << "\n"
+                << data[5] << "\n"s
                 << data[6] << "\n"
                 << data[7] << "\n"
                 << data[8] << "\n"

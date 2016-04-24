@@ -11,17 +11,12 @@
 
 struct CarControl {
 	/*
-	Acceleration percentage
-	0 <= accelerate <= 1
+	Acceleration percentage of maximum acceleration or retardation
+	-1 <= accelerate <= 1
+	 0 < acceleration -> accelerate
+	 0 > acceleration -> retadation
 	*/
 	float acceleration;
-
-	/*
-	Brake percentage
-	Subordinated acceleration
-	0 <= brake <= 1
-	*/
-	float brake;
 
 	/*
 	Steering percentage
@@ -57,7 +52,8 @@ public:
 
 private:
     float minRadius(float speed);
-	float maxRotation(float speed, float dt);
+	float maxRotation(float speed, float dt, float minimum_radius);
+	void steer(float current_speed, float dt);
 
 	glm::vec3 velocity;
 	CarControl current_control;

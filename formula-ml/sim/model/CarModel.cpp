@@ -10,7 +10,7 @@ const float downforceConstant = mass * g / 36.1111 / 36.1111; // c_down * v^2 = 
 const float dragConstant = g / 83.3333 / 83.3333; // c_drag * v^2 = 1g at 300 km/h
 const float gasForce = 14.2 * mass;		// [N]
 const float brakeForce = 39 * mass;	    // [N]
-const float minTurningRadius = 4;		// Guessed
+const float minTurningRadius = 10;		// Guessed
 const float maxCentipetalForce = 2500;	// Guessed [N]
 
 using namespace glm;
@@ -45,7 +45,6 @@ void CarModel::reset() {
     distance_on_track               = 0;
     velocity                        = vec3();
     current_control.acceleration    = 0;
-    current_control.brake           = 0;
     current_control.steer           = 0;
 }
 
@@ -68,8 +67,8 @@ float CarModel::minRadius(float speed) {
 	return glm::max(result, minTurningRadius);
 }
 
-float CarModel::maxRotation(float speed, float dt) {
-	return speed * dt / minRadius(speed);
+float CarModel::maxRotation(float speed, float dt, float minimum_radius) {
+	return speed * dt / minimum_radius;
 }
 
 void smoothChange(float* value, float new_value, float dt, float value_range) {
@@ -78,41 +77,58 @@ void smoothChange(float* value, float new_value, float dt, float value_range) {
     float change = new_value - *value;
     *value += change >= 0 ? glm::min(change, max_change) : glm::max(change, -max_change);
 }
+void CarModel::steer(float current_speed, float dt) {
+	//Make the rotation to not be bigger than the maximum allowed rotation
+
+	float rotation;
+	float max_rotation = maxRotation(current_speed, dt, minRadius(current_speed));
+	float desired_rotation = minTurningRadius * current_control.steer;
+
+	if (max_rotation < desired_rotation || max_rotation < desired_rotation*-1) {
+		if (desired_rotation < 0) {
+			rotation = max_rotation * -1;
+		}
+		else {
+			rotation = max_rotation;
+		}
+	}
+	else {
+		rotation = desired_rotation;
+	}
+
+	direction = glm::rotateZ(direction, rotation);
+	velocity = glm::rotateZ(velocity, rotation);
+}
 
 void CarModel::update(float dt, struct CarControl control) {
 
 	// Update current control state with smoothing
     smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
-    smoothChange(&current_control.brake, control.brake, dt, 1.f);
     smoothChange(&current_control.steer, control.steer, dt, 2.f);
 
     float currentSpeed = getSpeed();
 
     // Acceleration in the direction of the car
     float forwardForce = 0;
-    if (current_control.acceleration > 0 && currentSpeed < max_speed) {
-        forwardForce = gasForce * current_control.acceleration;
-        velocity += direction * (forwardForce * dt / mass);
-    } else if (current_control.brake <= 0 && currentSpeed < max_speed) {
-        forwardForce = gasForce;
-        velocity += direction * (forwardForce * dt / mass);
-    } else if (current_control.brake > 0) {
-        forwardForce = -brakeForce * current_control.brake;
-        velocity += direction * (forwardForce * dt / mass);
-        if (length(normalize(velocity) + direction) < 1) {
-            velocity *= 0;
-        }
-    }
+
+	if (current_control.acceleration > 0) {
+		if (currentSpeed < max_speed) {
+			forwardForce = gasForce * current_control.acceleration;
+			velocity += direction * (forwardForce * dt / mass);
+		}
+	}
+	else if (current_control.acceleration < 0) {
+		forwardForce = brakeForce * current_control.acceleration;
+		velocity += direction * (forwardForce * dt / mass);
+		if (length(normalize(velocity) + direction) < 1) {
+			velocity *= 0;
+		}
+	}
 
     // Rotation due to steering
     if (current_control.steer != 0) {
-        float rotation = maxRotation(currentSpeed, dt) * current_control.steer;
-        direction = glm::rotateZ(direction, rotation);
-        velocity = glm::rotateZ(velocity, rotation);
+		steer(currentSpeed, dt);
     }
-
-	// Apply drag
-	//velocity -= velocity * (dragForce(currentSpeed) * dt / mass);
 
     // Apply velocity
     position += velocity * dt;
