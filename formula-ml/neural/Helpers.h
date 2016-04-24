@@ -11,6 +11,7 @@ namespace neural {
     void flip_parity_if(float* target, int size, bool predicate);
 
     float fitness_distance_time(SimulationResult result, float termination_distance, float max_time);
+    float fitness_distance_time_exp(SimulationResult result, float termination_distance, float max_time, float min_time);
 }
 
 #endif

@@ -6,8 +6,8 @@
 
 using namespace glm;
 
-TrackModel::TrackModel(vec3 start_grid_pos) {
-    model = new Model("./res/models/circuit_narrow.model");
+TrackModel::TrackModel(vec3 start_grid_pos, const string& path) {
+    model = new Model(path);
     this->start_grid_pos = start_grid_pos;
    
 	create_checkpoints();

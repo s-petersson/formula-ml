@@ -150,6 +150,7 @@
     <ClCompile Include="experiments\ExperimentWindow.cpp" />
     <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
+    <ClCompile Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
     <ClCompile Include="experiments\SimulationEvaluator.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="experiments\ExperimentWindow.h" />
     <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
     <ClInclude Include="experiments\ManualControl\ManualControl.h" />
+    <ClInclude Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
     <ClInclude Include="experiments\SimulationEvaluator.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />

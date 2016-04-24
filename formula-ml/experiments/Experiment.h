@@ -18,6 +18,7 @@ protected:
 struct EvaluationResult {
     float fitness;
     SimulationResult simResult;
+    vector<EvaluationResult> partialResults;
 };
 
 #endif

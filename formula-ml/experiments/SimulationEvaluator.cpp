@@ -80,11 +80,11 @@ void SimulationEvaluator::init() {
     // Create simulated objects
     // NOTE: Starting grid is at first "checkpoint". In order
     //       to change this, offset the checkpoint order.
-    simulator->track = new TrackModel(glm::vec3());
-    simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), car_speed);
+    simulator->track = new TrackModel(glm::vec3(), *sim_settings.track_path);
+    simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), sim_settings.car_speed);
 
     simulator->progress_timeout = 1.0f;
-    simulator->termination_distance = termination_distance;
+    simulator->termination_distance = sim_settings.termination_distance;
 
     if (!network) {
         network = new Network();
@@ -148,8 +148,8 @@ EvaluationResult SimulationEvaluator::evaluate_network(neat::Network* network) {
     EvaluationResult result = EvaluationResult();
     result.simResult = simulator->run(0.01f);
     result.fitness = neural::fitness_distance_time(result.simResult,
-                                                   termination_distance,
-                                                   max_time);
+                                                   sim_settings.termination_distance,
+                                                   sim_settings.max_time);
     return result;
 }
 

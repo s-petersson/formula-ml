@@ -7,7 +7,7 @@
 using namespace neural;
 
 FixedNetworkTrainer::FixedNetworkTrainer() {
-    track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+    track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004), "./res/models/circuit_narrow.model");
     network = new FixedNetwork(2, 1, 1, 2);
     bestGenome = FixedNetworkGenome();
     bestResult = SimulationResult();
@@ -21,7 +21,7 @@ FixedNetworkTrainer::~FixedNetworkTrainer() {
 AI training, compare to mid line, fixed topology, fixed speed
 */
 void FixedNetworkTrainer::run() {
-    TrackModel* track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004));
+    TrackModel* track = new TrackModel(glm::vec3(35.169220, -702.223755, 5.000004), "./res/models/circuit_narrow.model");
 
     FixedNetworkGenome genome = FixedNetworkGenome();
 

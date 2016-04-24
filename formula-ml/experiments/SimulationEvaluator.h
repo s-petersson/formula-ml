@@ -19,6 +19,13 @@ struct AiSettings{
     bool curve_data_flip;
 };
 
+struct SimulatorSettings {
+    const string* track_path;
+    float termination_distance;
+    float max_time;
+    float car_speed;
+};
+
 int required_nbr_of_inputs(const AiSettings& settings);
 int required_nbr_of_outputs(const AiSettings& settings);
 void set_neat_config(const AiSettings& settings);
@@ -42,10 +49,7 @@ public:
     neat::Network** getNetworkLocation();
 
     // Manditory parameters
-    float termination_distance;
-    float max_time;
-    float car_speed;
-
+    SimulatorSettings sim_settings;
     AiSettings ai_settings;
 
 private:

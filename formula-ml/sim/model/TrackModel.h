@@ -21,7 +21,7 @@ struct Pair {
 
 class TrackModel {
 public:
-    TrackModel(glm::vec3 start_grid_pos);
+    TrackModel(glm::vec3 start_grid_pos, const string& path);
     ~TrackModel();
 
     Model* get_model();
