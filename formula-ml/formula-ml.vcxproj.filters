@@ -41,6 +41,7 @@
     <ClCompile Include="experiments\SimulationEvaluator.cpp" />
     <ClCompile Include="neural\neat\Trainer.cpp" />
     <ClCompile Include="core\gfx\Curve.cpp" />
+    <ClCompile Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="experiments\SimulationEvaluator.h" />
     <ClInclude Include="neural\neat\Trainer.h" />
     <ClInclude Include="core\gfx\Curve.h" />
+    <ClInclude Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />
