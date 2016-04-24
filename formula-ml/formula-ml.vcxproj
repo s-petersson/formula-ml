@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\gfx\Curve.cpp" />
     <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
     <ClCompile Include="core\gfx\Texture.cpp" />
@@ -189,6 +190,7 @@
     <None Include="res\shaders\text.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\gfx\Curve.h" />
     <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\gfx\Renderer.h" />

@@ -29,6 +29,20 @@ View::View() {
     text_vao = 0;
     line_vao = 0;
     quad_vao = 0;
+
+    glGenVertexArrays(1, &text_vao);
+    glBindVertexArray(text_vao);
+    glGenBuffers(3, &text_buffers[0]);
+
+    glGenVertexArrays(1, &quad_vao);
+    glBindVertexArray(quad_vao);
+    glGenBuffers(2, &quad_buffers[0]);
+
+    glGenVertexArrays(1, &line_vao);
+    glBindVertexArray(line_vao);
+    glGenBuffers(2, &line_buffers[0]);
+
+    glBindVertexArray(0);
 }
 
 View::View(const vec3& o) : View() {
@@ -83,13 +97,7 @@ void View::add_line(const vec3 & a, const vec3 & b, const vec4 & color) {
     line_positions.push_back(vec4(origin + b, 1.0f));
     line_colors.push_back(color);
 
-    glDeleteBuffers(2, &line_buffers[0]);
-    //Rebuild VAO
-    glDeleteVertexArrays(1, &line_vao);
-    glGenVertexArrays(1, &line_vao);
     glBindVertexArray(line_vao);
-
-    glGenBuffers(2, &line_buffers[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, line_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, line_positions.size() * sizeof(vec4), &line_positions[0], GL_STATIC_DRAW);
@@ -119,14 +127,7 @@ void View::add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4
         quad_colors.push_back(color);
     }
 
-
-    glDeleteBuffers(2, &quad_buffers[0]);
-    //Rebuild VAO
-    glDeleteVertexArrays(1, &quad_vao);
-    glGenVertexArrays(1, &quad_vao);
     glBindVertexArray(quad_vao);
-
-    glGenBuffers(2, &quad_buffers[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, quad_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, quad_positions.size() * sizeof(vec4), &quad_positions[0], GL_STATIC_DRAW);
@@ -179,14 +180,8 @@ void View::add_text(const std::string& text, float size,glm::vec3 p, glm::vec4 c
     for (int i = 0; i < 6 * text.length(); i++) {
         text_colors.push_back(color);
     }
-    glDeleteBuffers(3, &text_buffers[0]);
 
-    //Rebuild VAO
-    glDeleteVertexArrays(1, &text_vao);
-    glGenVertexArrays(1, &text_vao);
     glBindVertexArray(text_vao);
-
-    glGenBuffers(3, &text_buffers[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, text_buffers[0]);
     glBufferData(GL_ARRAY_BUFFER, text_positions.size() * sizeof(vec4), &text_positions[0], GL_STATIC_DRAW);
