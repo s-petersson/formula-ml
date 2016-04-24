@@ -11,6 +11,7 @@ namespace gfx {
         ~Curve();
 
         void append_vertex(glm::vec4 pos, glm::vec4 col);
+		void clear();
         void render();
 
     private:

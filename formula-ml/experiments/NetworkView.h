@@ -13,6 +13,7 @@ public:
 
 	virtual void initialize();
 	virtual void render();
+	virtual void reset();
 private:
 	neat::Network* network;
 	gui::View* gui;

@@ -5,6 +5,7 @@ class Renderer {
 public:
     virtual void initialize() = 0;
     virtual void render() = 0;
+	virtual void reset() = 0;
 };
 
 #endif

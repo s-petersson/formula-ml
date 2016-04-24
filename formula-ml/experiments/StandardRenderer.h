@@ -3,12 +3,13 @@
 
 #include <core/util/Camera.h>
 #include <core/gfx/Renderer.h>
+#include <core/gfx/Curve.h>
 #include <core/gui/View.h>
 #include <sim/view/TrackView.h>
 #include <sim/view/CarView.h>
 #include <sim/view/GridView.h>
 #include <sim/Simulator.h>
-
+#include <memory>
 
 class StandardRenderer : public Renderer {
 public:
@@ -17,15 +18,17 @@ public:
 
     virtual void initialize();
     virtual void render();
+	virtual void reset();
 private:
 	Simulator * simulator;
-    Camera * global_cam;
-    Camera * follow_cam;
-
-    GridView * grid_view;
-    TrackView * track_view;
-    CarView * car_view;
-	gui::View * gui;
+	std::unique_ptr<Camera> global_cam;
+	std::unique_ptr<Camera> follow_cam;
+	
+	std::unique_ptr<GridView> grid_view;
+	std::unique_ptr<TrackView> track_view;
+	std::unique_ptr<CarView> car_view;
+	std::unique_ptr<gui::View> gui;
+	std::unique_ptr<gfx::Curve> car_trail;
     GLuint shader;
     bool follow;
     long camera_switch_time;

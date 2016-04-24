@@ -5,6 +5,8 @@
 #include <core/Keyboard.h>
 #include <core/util/Util.h>
 
+using namespace glm;
+
 StandardRenderer::StandardRenderer(Simulator* simulator) {
     this->simulator = simulator;
     camera_switch_time = 0;
@@ -12,53 +14,55 @@ StandardRenderer::StandardRenderer(Simulator* simulator) {
 }
 
 StandardRenderer::~StandardRenderer() {
-    if (grid_view)  delete grid_view;
-    if (follow_cam) delete follow_cam;
-    if (car_view)   delete car_view;
-    if (track_view) delete track_view;
 	if (simulator) delete simulator;
 }
 
 void StandardRenderer::initialize() {
-    follow_cam = new Camera(90.0f, 16.0f/9, 0.f, 1000.0f);
-    global_cam = new Camera(90.0f, 16.0f / 9, 0.f, 1000.0f);
+    follow_cam = make_unique<Camera>(90.0f, 16.0f/9, 0.f, 1000.0f);
+    global_cam = make_unique<Camera>(90.0f, 16.0f / 9, 0.f, 1000.0f);
 
     // Create views for simulated objects.
-    car_view = new CarView(this->simulator->car);
+    car_view = make_unique<CarView>(this->simulator->car);
     
-	track_view = new TrackView(this->simulator->track);
+	track_view = make_unique<TrackView>(this->simulator->track);
 
     // And one grid to keep one from loosing ones mind.
-    grid_view = new GridView();
-
+    grid_view = make_unique<GridView>();
+	car_trail = make_unique<gfx::Curve>();
     // Create shaders to render stuff with. We only have one shader for now.
     shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
 
     // We set the appropriate uniform locations in all things that we
     // use to draw with.
     follow_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
-    follow_cam->up = glm::vec3(0, 1, 0);
+    follow_cam->up = vec3(0, 1, 0);
     
     global_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
-    global_cam->up = glm::vec3(0, 1, 0);
+    global_cam->up = vec3(0, 1, 0);
 
 
     car_view->setUniformLocations(shader, "modelMatrix");
     track_view->setUniformLocations(shader, "modelMatrix");
     grid_view->setUniformLocations(shader, "modelMatrix");
-	gui = new gui::View();
+	gui = make_unique<gui::View>();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
 }
 
 void StandardRenderer::render() {
-    glDisable(GL_CULL_FACE);
-
+	
+	{ // Update the car trail
+		vec4 pos = vec4(simulator->car->position,1);
+		vec4 col = vec4(0, 0, 1, 1) + (vec4(1, 0, -1, 1) * (simulator->car->getSpeed() / 75.0f));
+		car_trail->append_vertex(pos, col);
+	}
+	
+	glDisable(GL_CULL_FACE);
     // Draw with appropriate shader, we only have one
     // shader so we use it to draw all things.
     glUseProgram(shader);
-
+	
     // Upload camera view and projection matrices to the shader.
     //follow_cam->follow(simulator->car->position, simulator->car->direction, 35.f);
     {
@@ -69,15 +73,14 @@ void StandardRenderer::render() {
         }
     }
     
-
     if (follow) {
         follow_cam->lookAt(simulator->car->position);
-        follow_cam->setPosition(simulator->car->position + glm::vec3(0, 0, 64));
+        follow_cam->setPosition(simulator->car->position + vec3(0, 0, 64));
         follow_cam->update();
     }
     else {
-        global_cam->lookAt(glm::vec3(0,0,0));
-        global_cam->setPosition(glm::vec3(0, 0, 300));
+        global_cam->lookAt(vec3(0,0,0));
+        global_cam->setPosition(vec3(0, 0, 300));
         global_cam->update();
     }
     
@@ -87,8 +90,13 @@ void StandardRenderer::render() {
 
     // Render the model, this uploads a model matrix and renders using that.
     track_view->render();
-    car_view->render();
+	car_trail->render();
+	car_view->render();
 	gui->clear();
-	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 32, glm::vec3(20, 720, 0), glm::vec4(1.0f, 0.33f, 0.67f, 1.0f));
+	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 32, vec3(20, 720, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
 	gui->render();
+}
+
+void StandardRenderer::reset() {
+	car_trail->clear();
 }

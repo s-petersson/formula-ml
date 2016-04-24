@@ -53,6 +53,9 @@ ExperimentWindow::ExperimentState::~ExperimentState() {
 
 void ExperimentWindow::ExperimentState::reset() {
     simulator->reset();
+	for (auto&& r : renderers) {
+		r->reset();
+	}
     network_mutex.lock();
     if (network_location) {
         if (*network_location) delete *network_location;

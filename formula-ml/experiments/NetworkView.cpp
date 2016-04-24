@@ -71,3 +71,7 @@ void NetworkView::render() {
 void NetworkView::initialize() {
 
 }
+
+void NetworkView::reset() {
+
+}
