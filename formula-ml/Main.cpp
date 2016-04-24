@@ -6,6 +6,7 @@
 #include <experiments/FixedNetworkMidline/FixedNetworkMidline.h>
 #include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
 #include <experiments/MultipleTrackExperiment/MultipleTrackExperiment.h>
+#include <experiments/AlternatingTrackExperiment/AlternatingTrackExperiment.h>
 #include <experiments/xor/XORExperiment.h>
 
 int main(void) {
@@ -18,6 +19,7 @@ int main(void) {
 				<< "(4) Loaded NEAT generation with curve data" << std::endl
                 << "(5) XOR " << std::endl
                 << "(6) Multiple tracks " << std::endl
+                << "(7) Alternating tracks " << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -94,6 +96,9 @@ int main(void) {
             break;
         case 6:
             experiment = new MultipleTrackExperiment();
+            break;
+        case 7:
+            experiment = new AlternatingTrackExperiment();
             break;
 		default:
 			experiment = new ManualControl();

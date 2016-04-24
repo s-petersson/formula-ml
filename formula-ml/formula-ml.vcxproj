@@ -147,6 +147,7 @@
     <ClCompile Include="core\util\Random.cpp" />
     <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.cpp" />
     <ClCompile Include="experiments\ExperimentWindow.cpp" />
     <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
     <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowState.h" />
+    <ClInclude Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.h" />
     <ClInclude Include="experiments\Experiment.h" />
     <ClInclude Include="experiments\ExperimentWindow.h" />
     <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
