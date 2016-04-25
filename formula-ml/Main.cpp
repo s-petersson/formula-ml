@@ -47,7 +47,8 @@ int main(void) {
 
                 AiSettings ai_settings = AiSettings();
                 ai_settings.angle_to_line            = true;
-                ai_settings.distance_to_middle       = true;
+                ai_settings.distance_to_middle       = false;
+                ai_settings.distance_to_edges        = true;
                 ai_settings.speed                    = true;
                 ai_settings.curve_data               = true;
                 ai_settings.curve_data_sum_absolutes = true;
@@ -80,7 +81,8 @@ int main(void) {
 
                 AiSettings ai_settings;
                 ai_settings.angle_to_line = true;
-                ai_settings.distance_to_middle = true;
+                ai_settings.distance_to_middle       = false;
+                ai_settings.distance_to_edges        = true;
                 ai_settings.speed = true;
                 ai_settings.curve_data = true;
                 ai_settings.curve_data_sum_absolutes = true;
