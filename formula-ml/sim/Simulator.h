@@ -6,14 +6,17 @@
 
 #include <neural/Neural.h>
 #include <functional>
+#include <array>
 
 struct SimulationResult {
 	float distance_driven;
 	float time_alive;
+	
 };
 
 class Simulator {
 public:
+	Simulator(float min_avg_speed, float avg_speed_excemption_distance);
 	Simulator();
 	~Simulator();
 
@@ -46,6 +49,10 @@ private:
 	bool terminated;
 	SimulationResult best = SimulationResult();
 	float calculate_distance_driven();
+	std::array<float, 500> speeds;
+	int speed_index = 0;
+	float min_avg_speed;
+	float avg_speed_excemption_distance;
 };
 
 #endif
