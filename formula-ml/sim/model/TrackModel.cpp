@@ -218,7 +218,7 @@ void TrackModel::create_checkpoints(bool completeTrack) {
     vector<Pair> ordered_path_pairs;
     create_path_pairs(&ordered_path_pairs, &path_map, 0);
 
-    int checkpointOffset = partTrack ? 1 : 0;
+    int checkpointOffset = completeTrack ? 0 : 1;
     for (int i = 0; i < ordered_path_pairs.size() / 2; i++) {
         Checkpoint checkpoint;
         Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[2 * i + checkpointOffset].a];
