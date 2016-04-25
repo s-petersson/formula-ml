@@ -6,11 +6,11 @@
 
 using namespace glm;
 
-TrackModel::TrackModel(vec3 start_grid_pos, const string& path, bool partTrack) {
+TrackModel::TrackModel(vec3 start_grid_pos, const string& path, bool completeTrack) {
     model = new Model(path);
     this->start_grid_pos = start_grid_pos;
    
-	create_checkpoints(partTrack);
+	create_checkpoints(completeTrack);
 }
 
 TrackModel::~TrackModel() {
@@ -205,7 +205,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
  * Distance on the track for all returned checkpoints will be relative to
  * the starting grid position currently set when executing this method.
  */
-void TrackModel::create_checkpoints(bool partTrack) {
+void TrackModel::create_checkpoints(bool completeTrack) {
     vector<Triangle> triangles = model->get_mesh()->triangles;
     map<int, vector<int>> all_pairs;
     map<int, vector<int>> path_map;
