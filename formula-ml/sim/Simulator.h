@@ -32,6 +32,8 @@ public:
 	SimulationResult result;
 
     float distance_to_middle();
+    float distance_to_left_edge();
+    float distance_to_right_edge();
     float angle_to_line();
 
     void write_track_curve(float* target, int& offset, int nbr_of_points, float initial_spacing, float spacing_incrementation_percentage);

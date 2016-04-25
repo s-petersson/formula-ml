@@ -68,6 +68,20 @@ float Simulator::distance_to_middle() {
     return glm::dot(car_pos, right);
 }
 
+float Simulator::distance_to_left_edge() {
+    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].left - track->get_checkpoints()[car->checkpoint - 1].left);
+    glm::vec3 carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].left;
+    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
+    return glm::abs(glm::dot(carPos, right));
+}
+
+float Simulator::distance_to_right_edge() {
+    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].right - track->get_checkpoints()[car->checkpoint - 1].right);
+    glm::vec3 carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].right;
+    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
+    return glm::abs(glm::dot(carPos, right));
+}
+
 float Simulator::angle_to_line() {
     glm::vec3 last_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint - 1, 0)].middle;
     glm::vec3 next_checkpoint = track->get_checkpoints()[glm::max(car->checkpoint, 0)].middle;
