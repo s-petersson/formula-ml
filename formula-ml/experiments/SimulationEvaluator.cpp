@@ -26,7 +26,7 @@ int required_nbr_of_inputs(const AiSettings& settings) {
 }
 
 int required_nbr_of_outputs(const AiSettings& settings) {
-    return 2; // TODO, make general
+    return 1 + (settings.output_speed ? 1 : 0);
 }
 
 void set_neat_config(const AiSettings& settings) {
@@ -55,6 +55,13 @@ void print_settings(const AiSettings& settings) {
         i += settings.nbr_of_curve_points > 0 ? settings.nbr_of_curve_points - 1 : 0;
         print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
     }
+
+    cout << endl;
+
+    cout << "Configuration of ai output values: " << endl;
+    int j = 0;
+    print_settings_helper(i, true, "Steering");
+    print_settings_helper(i, settings.output_speed, "Acceleration/Braking");
 
     cout << endl;
 }
@@ -131,12 +138,15 @@ void SimulationEvaluator::init() {
 
         network->fire(network_indata, network_output);
 
-        CarControl control;
-        control.acceleration = outputs[1];
-        control.steer = outputs[0];
+        CarControl control = CarControl();
 
+        control.steer = outputs[0];
         if (ai_settings.curve_data && ai_settings.curve_data_flip) {
             control.steer = inputs[curve_data_start] > 0 ? control.steer : -control.steer;
+        }
+
+        if (ai_settings.output_speed) {
+            control.acceleration = outputs[1];
         }
 
         return control;

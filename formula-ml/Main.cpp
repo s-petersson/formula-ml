@@ -59,6 +59,8 @@ int main(void) {
                 ai_settings.curve_point_spacing = 15.f;
                 ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
 
+                ai_settings.output_speed = true;
+
                 e->ai_settings = ai_settings;
             }
             break;
@@ -94,6 +96,8 @@ int main(void) {
                 ai_settings.nbr_of_curve_points = 5;
                 ai_settings.curve_point_spacing = 15.f;
                 ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
+
+                ai_settings.output_speed = true;
 
                 e->ai_settings = ai_settings;
 			}

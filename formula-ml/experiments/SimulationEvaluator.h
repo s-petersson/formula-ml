@@ -6,6 +6,7 @@
 #include <sim/Simulator.h>
 
 struct AiSettings{
+    // Inputs
     bool angle_to_line;
     bool distance_to_middle;
     bool distance_to_edges;
@@ -18,6 +19,10 @@ struct AiSettings{
 
     bool curve_data_sum_absolutes;
     bool curve_data_flip;
+
+    // Outputs
+    /// Steer is default
+    bool output_speed;
 };
 
 struct SimulatorSettings {

@@ -39,6 +39,8 @@ void MultipleTrackExperiment::run() {
     ai_settings.curve_point_spacing = 15.f;
     ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
 
+    ai_settings.output_speed = true;
+
     print_settings(ai_settings);
     set_neat_config(ai_settings);
 
