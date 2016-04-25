@@ -55,7 +55,8 @@ void AlternatingTrackExperiment::run() {
     windowEnvironment->ai_settings = ai_settings;
 
     SimulatorSettings sim_settings = SimulatorSettings();
-    sim_settings.track_path = new string("./res/models/circuit_wide.model");
+    sim_settings.track_path = new string("./res/models/corners/corner_30_r.model");
+    sim_settings.partTrack = true;
     sim_settings.termination_distance = 5200.f;
     sim_settings.max_time = 400.f;
     sim_settings.car_speed = 15.f;

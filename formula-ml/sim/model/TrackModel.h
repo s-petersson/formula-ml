@@ -21,7 +21,7 @@ struct Pair {
 
 class TrackModel {
 public:
-    TrackModel(glm::vec3 start_grid_pos, const string& path);
+    TrackModel(glm::vec3 start_grid_pos, const string& path, bool partTrack);
     ~TrackModel();
 
     Model* get_model();
@@ -30,7 +30,7 @@ public:
 	void fillTrackGrid(struct TrackGrid& grid, glm::vec3& position, glm::vec3& direction);
     std::vector<Checkpoint> get_checkpoints();
 private:
-    void create_checkpoints();
+    void create_checkpoints(bool partTrack);
 
     Model* model;
 	glm::vec3 start_grid_pos;

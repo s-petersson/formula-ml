@@ -6,12 +6,11 @@
 
 using namespace glm;
 
-TrackModel::TrackModel(vec3 start_grid_pos, const string& path) {
+TrackModel::TrackModel(vec3 start_grid_pos, const string& path, bool partTrack) {
     model = new Model(path);
     this->start_grid_pos = start_grid_pos;
    
-	create_checkpoints();
-
+	create_checkpoints(partTrack);
 }
 
 TrackModel::~TrackModel() {
@@ -163,7 +162,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
         vector<int> curr_list = path_map->at(curr_key);
         int size = curr_list.size();
 
-        if (size == 2) {
+        if (size == 1 || size == 2) {
             int index = (curr_list[0] == last_key) ? 1 : 0;
 
             Pair pair;
@@ -206,7 +205,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
  * Distance on the track for all returned checkpoints will be relative to
  * the starting grid position currently set when executing this method.
  */
-void TrackModel::create_checkpoints() {
+void TrackModel::create_checkpoints(bool partTrack) {
     vector<Triangle> triangles = model->get_mesh()->triangles;
     map<int, vector<int>> all_pairs;
     map<int, vector<int>> path_map;
@@ -219,11 +218,11 @@ void TrackModel::create_checkpoints() {
     vector<Pair> ordered_path_pairs;
     create_path_pairs(&ordered_path_pairs, &path_map, 0);
 
-    int size = ordered_path_pairs.size();
+    int checkpointOffset = partTrack ? 1 : 0;
     for (int i = 0; i < ordered_path_pairs.size() / 2; i++) {
         Checkpoint checkpoint;
-        Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[2 * i].a];
-        Vertex v2 = model->get_mesh()->vertices[ordered_path_pairs[2 * i].b];
+        Vertex v1 = model->get_mesh()->vertices[ordered_path_pairs[2 * i + checkpointOffset].a];
+        Vertex v2 = model->get_mesh()->vertices[ordered_path_pairs[2 * i + checkpointOffset].b];
         checkpoint.left = v1.pos;
         checkpoint.right = v2.pos;
 

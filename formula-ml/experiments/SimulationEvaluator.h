@@ -21,6 +21,7 @@ struct AiSettings{
 
 struct SimulatorSettings {
     const string* track_path;
+    bool partTrack;
     float termination_distance;
     float max_time;
     float car_speed;

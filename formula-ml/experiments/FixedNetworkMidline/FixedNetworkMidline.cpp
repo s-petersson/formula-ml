@@ -11,7 +11,8 @@ FixedNetworkMidline::FixedNetworkMidline() {
     simulator->track            = new TrackModel(glm::vec3(35.169220,
                                                            -702.223755,
                                                            5.000004),
-                                                           "./res/models/circuit_narrow.model");
+                                                 "./res/models/circuit_narrow.model",
+                                                 false);
     simulator->car              = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(), 15.f);
     simulator->car->setSpeed(15.f);
 
