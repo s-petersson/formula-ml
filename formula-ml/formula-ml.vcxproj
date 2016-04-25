@@ -132,11 +132,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\gfx\Curve.cpp" />
+    <ClCompile Include="core\gfx\Framebuffer.cpp" />
     <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
     <ClCompile Include="core\gfx\Texture.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="core\gui\View.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
+    <ClCompile Include="core\util\ImageIO.cpp" />
     <ClCompile Include="core\util\Random.cpp" />
     <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
@@ -193,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Curve.h" />
+    <ClInclude Include="core\gfx\Framebuffer.h" />
     <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\gfx\Renderer.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="core\gui\View.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />
+    <ClInclude Include="core\util\ImageIO.h" />
     <ClInclude Include="core\util\Random.h" />
     <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />

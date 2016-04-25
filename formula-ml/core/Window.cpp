@@ -1,10 +1,12 @@
 #include "Window.h"
 
 #include <glm/glm.hpp>
+
 #include <iostream>
-#include "core/Keyboard.h"
 
-
+#include <core/Keyboard.h>
+#include <core/util/Util.h>
+#include <core/util/ImageIO.h>
 
 Window::Window() {
 	
@@ -35,7 +37,7 @@ Window::Window() {
 	glfwSetKeyCallback(window, key_callback);
 
 	glfwGetFramebufferSize(window, &screen_width, &screen_height);
-    fbo = createFBO(screen_width, screen_height, true);
+    fbo = gfx::create_framebuffer(screen_width, screen_height, false);
 	
 }
 
@@ -47,7 +49,6 @@ void Window::setState(WindowState * s) {
 }
 
 void Window::run() {
-	
     glClearColor(0.f, 0.f, 0.f, 1.0f);
 	
     glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
@@ -56,7 +57,7 @@ void Window::run() {
     long last_frame = current_time();
     int fps = 0;
     long fps_timer = 0;
-
+	
 	while (!glfwWindowShouldClose(window)) {
         glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -86,7 +87,16 @@ void Window::run() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
         glfwSwapInterval(1);
+
+		{
+			auto error = glGetError();
+			if (error != GL_NO_ERROR) {
+				printf("GL_ERROR: %p \n", error);
+			}
+		}
 	}
+	
+	util::save_framebuffer(fbo, "test.png");
     glfwTerminate();
 
 }
