@@ -47,6 +47,8 @@ void print_settings(const AiSettings& settings) {
     int i = 0;
     print_settings_helper(i, true, "Bias");
     print_settings_helper(i, settings.distance_to_middle, "Distance to middle");
+    print_settings_helper(i, settings.distance_to_edges, "Distance to left edge");
+    print_settings_helper(i, settings.distance_to_edges, "Distance to right edge");
     print_settings_helper(i, settings.angle_to_line, "Angle to mid line");
     print_settings_helper(i, settings.speed, "Car speed");
 
