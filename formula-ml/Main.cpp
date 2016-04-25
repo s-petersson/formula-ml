@@ -40,7 +40,8 @@ int main(void) {
                 sim_settings.completeTrack = true;
                 sim_settings.termination_distance = 5200.f;
                 sim_settings.max_time = 400.f;
-                sim_settings.car_speed = 50.f;
+
+                sim_settings.car_speed_max = 50.f;
 				sim_settings.min_avg_speed = 3.f;
 				sim_settings.avg_speed_excemption_distance = 140.f;
 
@@ -78,7 +79,8 @@ int main(void) {
                 sim_settings.completeTrack = true;
                 sim_settings.termination_distance = 5200.f;
                 sim_settings.max_time = 400.f;
-                sim_settings.car_speed = 15.f;
+
+                sim_settings.car_speed_max = 15.f;
 				sim_settings.min_avg_speed = 3.f;
 				sim_settings.avg_speed_excemption_distance = 140.f;
 

@@ -30,8 +30,8 @@ struct SimulatorSettings {
     bool completeTrack;
     float termination_distance;
     float max_time;
-    float car_speed;
 
+    float car_speed_max;
 	float min_avg_speed;
 	float avg_speed_excemption_distance;
 };
