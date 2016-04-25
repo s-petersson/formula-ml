@@ -231,6 +231,25 @@ void Simulator::update(float dt) {
 		return;
 	}
 
+
+	//Average speeds
+	speeds[speed_index] = car->getSpeed();
+	if (speed_index == 499) {
+		speed_index = 0;
+	}
+	else {
+		speed_index++;
+	}
+	float sum_speed = 0;
+	for (int i = 0; i < 500; i++) {
+		sum_speed += speeds[i];
+	}
+	if (sum_speed / 500 < 3 && result.distance_driven > 140) {
+		car->setSpeed(0.0f);
+		terminated = true;
+		return;
+	}
+
 	if (result.distance_driven >= termination_distance) {
 		// Call it quits
 		result.distance_driven = termination_distance;

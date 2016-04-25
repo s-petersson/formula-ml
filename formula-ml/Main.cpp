@@ -39,7 +39,7 @@ int main(void) {
                 sim_settings.track_path = new string("./res/models/circuit_narrow.model");
                 sim_settings.termination_distance = 5200.f;
                 sim_settings.max_time = 400.f;
-                sim_settings.car_speed = 15.f;
+                sim_settings.car_speed = 100.f;
 
                 e->sim_settings = sim_settings;
 
