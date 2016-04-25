@@ -32,6 +32,8 @@ struct SimulatorSettings {
     float max_time;
 
     float car_speed_max;
+    float car_speed_initial;
+
 	float min_avg_speed;
 	float avg_speed_excemption_distance;
 };

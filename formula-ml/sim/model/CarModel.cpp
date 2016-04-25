@@ -15,7 +15,7 @@ const float maxCentipetalForce = 2500;	// Guessed [N]
 
 using namespace glm;
 
-CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float max_speed) {
+CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed, float max_speed) {
     model                   = new Model("./res/models/car.model");
     this->position          = position;
     this->initial_position  = position;
@@ -24,12 +24,14 @@ CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float max_speed) {
     this->direction         = direction;
     this->initial_direciton = direction;
 
+    velocity                = direction * initial_speed;
+    this->initial_speed     = initial_speed;
+
     this->max_speed         = max_speed;
     this->initial_max_speed = max_speed;
 
     checkpoint              = 1;
     distance_on_track       = 0;
-    velocity                = vec3();
 	current_control         = CarControl();
 }
 
@@ -43,7 +45,7 @@ void CarModel::reset() {
     max_speed                       = initial_max_speed;
     checkpoint                      = 1;
     distance_on_track               = 0;
-    velocity                        = vec3();
+    velocity                        = direction * initial_speed;
     current_control.acceleration    = 0;
     current_control.steer           = 0;
 }
