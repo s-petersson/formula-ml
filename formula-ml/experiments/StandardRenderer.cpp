@@ -35,10 +35,10 @@ void StandardRenderer::initialize() {
     // We set the appropriate uniform locations in all things that we
     // use to draw with.
     follow_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
-    follow_cam->up = vec3(0, 1, 0);
+    follow_cam->up = vec3(1, 0, 0);
     
     global_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
-    global_cam->up = vec3(0, 1, 0);
+    global_cam->up = vec3(1, 0, 0);
 
 
     car_view->setUniformLocations(shader, "modelMatrix");
@@ -74,13 +74,13 @@ void StandardRenderer::render() {
     }
     
     if (follow) {
+		follow_cam->setPosition(simulator->car->position + vec3(0, 0, 64));
         follow_cam->lookAt(simulator->car->position);
-        follow_cam->setPosition(simulator->car->position + vec3(0, 0, 64));
         follow_cam->update();
     }
     else {
-        global_cam->lookAt(vec3(0,0,0));
-        global_cam->setPosition(vec3(0, 0, 300));
+		global_cam->setPosition(vec3(300, 100, 256));
+        global_cam->lookAt(vec3(global_cam->position.x,global_cam->position.y,0));
         global_cam->update();
     }
     
