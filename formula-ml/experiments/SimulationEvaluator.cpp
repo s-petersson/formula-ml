@@ -114,8 +114,11 @@ void SimulationEvaluator::init() {
         float* outputs = network_output.values;
 
         appendIf(ai_settings.distance_to_middle, simulator->distance_to_middle());
+
+        int distance_to_edges_start = input_iterator;
         appendIf(ai_settings.distance_to_edges,  simulator->distance_to_left_edge());
         appendIf(ai_settings.distance_to_edges,  simulator->distance_to_right_edge());
+
         appendIf(ai_settings.angle_to_line,      simulator->angle_to_line());
         appendIf(ai_settings.speed,              simulator->car->getSpeed());
 
@@ -135,6 +138,12 @@ void SimulationEvaluator::init() {
                 neural::flip_parity_if(&inputs[curve_data_start], 
                                         ai_settings.nbr_of_curve_points, 
                                         inputs[curve_data_start] > 0);
+                if (ai_settings.distance_to_edges && inputs[curve_data_start] > 0) {
+                    int i = distance_to_edges_start;
+                    float temp = inputs[i];
+                    inputs[i] = inputs[i + 1];
+                    inputs[i + 1] = temp;
+                }
             }
         }
         
