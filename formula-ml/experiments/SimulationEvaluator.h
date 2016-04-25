@@ -24,6 +24,9 @@ struct SimulatorSettings {
     float termination_distance;
     float max_time;
     float car_speed;
+
+	float min_avg_speed;
+	float avg_speed_excemption_distance;
 };
 
 int required_nbr_of_inputs(const AiSettings& settings);
@@ -48,7 +51,7 @@ public:
     Simulator* getSimulator();
     neat::Network** getNetworkLocation();
 
-    // Manditory parameters
+    // Mandatory parameters
     SimulatorSettings sim_settings;
     AiSettings ai_settings;
 

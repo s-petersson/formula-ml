@@ -40,6 +40,8 @@ int main(void) {
                 sim_settings.termination_distance = 5200.f;
                 sim_settings.max_time = 400.f;
                 sim_settings.car_speed = 100.f;
+				sim_settings.min_avg_speed = 3.f;
+				sim_settings.avg_speed_excemption_distance = 140.f;
 
                 e->sim_settings = sim_settings;
 

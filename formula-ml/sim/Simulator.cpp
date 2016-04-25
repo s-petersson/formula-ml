@@ -5,7 +5,16 @@
 
 using namespace neural;
 
+Simulator::Simulator(float avg, float excemption_distance) {
+	min_avg_speed = avg;
+	avg_speed_excemption_distance = excemption_distance;
+	result = SimulationResult();
+	terminated = false;
+}
+
 Simulator::Simulator() {
+	min_avg_speed = 0;
+	avg_speed_excemption_distance = 0;
 	result = SimulationResult();
 	terminated = false;
 }
@@ -244,7 +253,7 @@ void Simulator::update(float dt) {
 	for (int i = 0; i < 500; i++) {
 		sum_speed += speeds[i];
 	}
-	if (sum_speed / 500 < 3 && result.distance_driven > 140) {
+	if (sum_speed / 500 < min_avg_speed && result.distance_driven > avg_speed_excemption_distance) {
 		car->setSpeed(0.0f);
 		terminated = true;
 		return;

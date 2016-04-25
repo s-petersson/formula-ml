@@ -75,7 +75,7 @@ void SimulationEvaluator::appendIf(bool predicate, float value) {
 }
 
 void SimulationEvaluator::init() {
-    simulator = new Simulator();
+    simulator = new Simulator(sim_settings.min_avg_speed, sim_settings.avg_speed_excemption_distance);
 
     // Create simulated objects
     // NOTE: Starting grid is at first "checkpoint". In order
