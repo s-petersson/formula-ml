@@ -8,6 +8,7 @@
 struct AiSettings{
     bool angle_to_line;
     bool distance_to_middle;
+    bool distance_to_edges;
     bool speed;
 
     bool curve_data;

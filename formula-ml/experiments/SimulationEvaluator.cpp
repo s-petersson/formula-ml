@@ -12,6 +12,7 @@ int required_nbr_of_inputs(const AiSettings& settings) {
     int sum = 0;
 
     if (settings.distance_to_middle) sum++;
+    if (settings.distance_to_edges)  sum=sum+2;
     if (settings.angle_to_line)      sum++;
     if (settings.speed)              sum++;
 
@@ -102,8 +103,9 @@ void SimulationEvaluator::init() {
         float* inputs = network_indata.values;
         float* outputs = network_output.values;
 
-
         appendIf(ai_settings.distance_to_middle, simulator->distance_to_middle());
+        appendIf(ai_settings.distance_to_edges,  simulator->distance_to_left_edge());
+        appendIf(ai_settings.distance_to_edges,  simulator->distance_to_right_edge());
         appendIf(ai_settings.angle_to_line,      simulator->angle_to_line());
         appendIf(ai_settings.speed,              simulator->car->getSpeed());
 
