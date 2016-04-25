@@ -43,6 +43,7 @@
     <ClCompile Include="core\gfx\Curve.cpp" />
     <ClCompile Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.cpp" />
     <ClCompile Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.cpp" />
+    <ClCompile Include="neural\ResultWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="core\gfx\Curve.h" />
     <ClInclude Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.h" />
     <ClInclude Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.h" />
+    <ClInclude Include="neural\ResultWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />
