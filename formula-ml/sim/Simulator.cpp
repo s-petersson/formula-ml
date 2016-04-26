@@ -30,8 +30,7 @@ Simulator::~Simulator() {
  */
 void Simulator::reset() {
     // Reset the simulators values
-    result.distance_on_track = 0;
-    result.time_alive = 0;
+    result = SimulationResult();
 
     // Now reset the cars values.
     car->reset();
@@ -295,6 +294,7 @@ void Simulator::update(float dt) {
 
     // Update result
     result.time_alive += dt;
+    result.distance_driven += dt * car->getSpeed();
     result.distance_on_track = car->distance_on_track;
 }
 

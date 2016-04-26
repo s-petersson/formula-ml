@@ -67,6 +67,7 @@ void NeatCurveDataExperiment::run() {
     {
         cout << "New maximum fitness: " << evaluationResult.fitness                     << endl
              << "Distance on track:   " << evaluationResult.simResult.distance_on_track << endl
+             << "Distance driven:     " << evaluationResult.simResult.distance_driven   << endl
              << "Time: "                << evaluationResult.simResult.time_alive        << endl << endl;
 
     };

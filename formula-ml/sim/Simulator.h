@@ -10,6 +10,7 @@
 
 struct SimulationResult {
 	float distance_on_track;
+    float distance_driven;   // Path by the car
 	float time_alive;
 };
 
