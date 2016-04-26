@@ -7,6 +7,7 @@
 #include <string>
 #include <mutex>
 #include <neural/FileWriter.h>
+#include <neural/ResultWriter.h>
 
 namespace neat {
 
@@ -50,6 +51,7 @@ namespace neat {
 
 		neat::Pool * pool;
 		neural::FileWriter * fw;
+		neural::ResultWriter * rw;
 	};
 
 }

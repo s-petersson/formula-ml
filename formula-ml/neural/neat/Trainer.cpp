@@ -18,8 +18,10 @@ std::string getTimestamp() {
 
 Trainer::Trainer()
 {	
-    cout << "Current Timestamp: " << getTimestamp() << std::endl;
-	fw = new neural::FileWriter("saves/" + getTimestamp() + "/");
+	string timestamp = getTimestamp();
+    cout << "Current Timestamp: " << timestamp << std::endl;
+	fw = new neural::FileWriter("saves/" + timestamp + "/");
+	rw = new neural::ResultWriter("saves/" + timestamp + "/results.csv");
 	pool = new Pool();
 	pool->fill();
     best_genome = Genome();
@@ -102,12 +104,13 @@ void Trainer::run() {
             on_generation_done(generation);
         }
 
-		pool->new_generation();
-
+		(*rw).addNewGeneration( generation, *pool);
+		
 		if (improved) {
 			(*fw).poolToFile(*pool, generation);
 			improved = false;
 		}
+		pool->new_generation();
 	}
 	delete[] thread_pool;
     for (int i = 0; i < thread_count; ++i) {
