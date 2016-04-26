@@ -21,6 +21,7 @@ int main(void) {
                 << "(6) Multiple tracks "       << std::endl
                 << "(7) Alternating tracks "    << std::endl
                 << "(8) Simple track, 90_10_r"  << std::endl
+                << "(9) Shortest distance"      << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -153,6 +154,40 @@ int main(void) {
                 ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
 
                 ai_settings.output_speed = true;
+
+                e->ai_settings = ai_settings;
+            }
+            break;
+        case 9:   // Shortest distance
+            {
+                NeatCurveDataExperiment* e = new NeatCurveDataExperiment();
+                experiment = e;
+
+                SimulatorSettings sim_settings = SimulatorSettings();
+                sim_settings.track_path = new string("./res/models/circuit_wide.model");
+                sim_settings.completeTrack = true;
+                sim_settings.termination_distance = 5200; // guessed 
+                sim_settings.max_time = 700.f;
+
+                sim_settings.car_speed_max = 15.f;
+                sim_settings.car_speed_initial = 10.f;
+
+                e->sim_settings = sim_settings;
+
+
+                AiSettings ai_settings = AiSettings();
+                ai_settings.angle_to_line       = true;
+                ai_settings.distance_to_middle  = true;
+                ai_settings.distance_to_edges   = true;
+                ai_settings.speed               = false;
+                ai_settings.curve_data          = true;
+                ai_settings.curve_data_sum_absolutes = true;
+
+                ai_settings.nbr_of_curve_points = 5;
+                ai_settings.curve_point_spacing = 15.f;
+                ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
+
+                ai_settings.output_speed = false;
 
                 e->ai_settings = ai_settings;
             }
