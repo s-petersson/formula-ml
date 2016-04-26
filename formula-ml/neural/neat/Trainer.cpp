@@ -21,7 +21,7 @@ Trainer::Trainer()
 	string timestamp = getTimestamp();
     cout << "Current Timestamp: " << timestamp << std::endl;
 	fw = new neural::FileWriter("saves/" + timestamp + "/");
-	rw = new neural::ResultWriter("saves/" + timestamp + "/results.csv");
+	rw = new neural::ResultWriter("saves/" + timestamp + "/");
 	pool = new Pool();
 	pool->fill();
     best_genome = Genome();

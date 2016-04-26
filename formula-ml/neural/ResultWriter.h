@@ -24,8 +24,11 @@ namespace neural {
 
 
 	private:
-		std::string file_path;
-		std::ofstream file;
+		std::ofstream generation_info;
+		std::ofstream sorted_genomes;
+		std::ofstream single_line_genome;
+
+
 	};
 
 }
