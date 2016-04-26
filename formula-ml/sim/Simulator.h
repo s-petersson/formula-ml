@@ -47,7 +47,7 @@ public:
 private:
 	bool terminated;
 	SimulationResult best = SimulationResult();
-	float calculate_distance_driven();
+	float calculate_distance_on_track();
 	std::array<float, 500> speeds;
 	int speed_index = 0;
 	float min_avg_speed;

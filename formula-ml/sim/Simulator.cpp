@@ -199,7 +199,7 @@ SimulationResult Simulator::run(const float dt) {
 	return result;
 }
 
-float Simulator::calculate_distance_driven() {
+float Simulator::calculate_distance_on_track() {
     // Save the checkpoints that are currently close to the car.
     Checkpoint last_checkpoint	= track->get_checkpoints()[car->checkpoint - 1];
     Checkpoint checkpoint		= track->get_checkpoints()[car->checkpoint];
@@ -291,7 +291,7 @@ void Simulator::update(float dt) {
 		return;
 	}
 
-    car->distance_on_track = calculate_distance_driven();
+    car->distance_on_track = calculate_distance_on_track();
 
     // Update result
     result.time_alive += dt;
