@@ -62,8 +62,8 @@ void print_settings(const AiSettings& settings) {
 
     cout << "Configuration of ai output values: " << endl;
     int j = 0;
-    print_settings_helper(i, true, "Steering");
-    print_settings_helper(i, settings.output_speed, "Acceleration/Braking");
+    print_settings_helper(j, true, "Steering");
+    print_settings_helper(j, settings.output_speed, "Acceleration/Braking");
 
     cout << endl;
 }
