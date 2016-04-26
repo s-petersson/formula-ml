@@ -12,7 +12,7 @@ using namespace std;
 
 std::string getTimestamp() {
 	std::stringstream stamp;
-	stamp << current_time();
+	stamp << util::current_time();
 	return stamp.str();
 }
 

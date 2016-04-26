@@ -54,7 +54,7 @@ void Window::run() {
     glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
     glViewport(0, 0, screen_width, screen_height);
 
-    long last_frame = current_time();
+    long last_frame = util::current_time();
     int fps = 0;
     long fps_timer = 0;
 	
@@ -62,8 +62,8 @@ void Window::run() {
         glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        long dt = current_time() - last_frame;
-        last_frame = current_time();
+        long dt = util::current_time() - last_frame;
+        last_frame = util::current_time();
 
         fps++;
         fps_timer += dt;
@@ -88,12 +88,7 @@ void Window::run() {
 		glfwPollEvents();
         glfwSwapInterval(1);
 
-		{
-			auto error = glGetError();
-			if (error != GL_NO_ERROR) {
-				printf("GL_ERROR: %p \n", error);
-			}
-		}
+        util::gl_error_check("MAIN LOOP");
 	}
 	
 	util::save_framebuffer(fbo, "test.png");
