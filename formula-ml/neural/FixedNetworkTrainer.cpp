@@ -42,7 +42,7 @@ void FixedNetworkTrainer::run() {
     // TODO: Present the best result
     cout << "\n\n"
         << "----  Best result  ---- \n"
-        << "Distance: " << bestResult.distance_driven << "\n"
+        << "Distance: " << bestResult.distance_on_track << "\n"
         << "Time alive: " << bestResult.time_alive << "\n"
         << "Genome: "
         << bestGenome.genes[0] << " "
@@ -80,10 +80,10 @@ SimulationResult FixedNetworkTrainer::testGenome(FixedNetworkGenome& genome) {
 
     SimulationResult result = runSimulation(network, track);
 
-    if (result.distance_driven > bestResult.distance_driven) {
+    if (result.distance_on_track > bestResult.distance_on_track) {
         bestResult = result;
         bestGenome = genome;
-        cout << "New best result: " << result.distance_driven << "\n" 
+        cout << "New best result: " << result.distance_on_track << "\n" 
             << "Iteration:" << iterationCount << "\n"
             << "Genome: "
             << genome.genes[0] << " "

@@ -93,7 +93,7 @@ void StandardRenderer::render() {
 	car_trail->render();
 	car_view->render();
 	gui->clear();
-	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 16, vec3(20, 720, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
+	gui->add_text("Distance: " + std::to_string(simulator->result.distance_on_track), 16, vec3(20, 720, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
     gui->add_text("To left edge: " + std::to_string(simulator->distance_to_left_edge()), 16, vec3(20, 700, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
     gui->add_text("To right edge: "+ std::to_string(simulator->distance_to_right_edge()), 16, vec3(20, 680, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
 	gui->render();

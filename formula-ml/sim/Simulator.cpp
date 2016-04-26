@@ -30,7 +30,7 @@ Simulator::~Simulator() {
  */
 void Simulator::reset() {
     // Reset the simulators values
-    result.distance_driven = 0;
+    result.distance_on_track = 0;
     result.time_alive = 0;
 
     // Now reset the cars values.
@@ -267,21 +267,21 @@ void Simulator::update(float dt) {
 	for (int i = 0; i < 500; i++) {
 		sum_speed += speeds[i];
 	}
-	if (sum_speed / 500 < min_avg_speed && result.distance_driven > avg_speed_excemption_distance) {
+	if (sum_speed / 500 < min_avg_speed && result.distance_on_track > avg_speed_excemption_distance) {
 		car->setSpeed(0.0f);
 		terminated = true;
 		return;
 	}
 
-	if (result.distance_driven >= termination_distance) {
+	if (result.distance_on_track >= termination_distance) {
 		// Call it quits
-		result.distance_driven = termination_distance;
+		result.distance_on_track = termination_distance;
 		terminated = true;
 		return;
 	}
 
 	// Check for progress
-	if (result.distance_driven > best.distance_driven) {
+	if (result.distance_on_track > best.distance_on_track) {
 		// The car has progressed
 		best = result;
 	} else if (result.time_alive > best.time_alive + progress_timeout) {
@@ -295,7 +295,7 @@ void Simulator::update(float dt) {
 
     // Update result
     result.time_alive += dt;
-    result.distance_driven = car->distance_on_track;
+    result.distance_on_track = car->distance_on_track;
 }
 
 bool Simulator::has_terminated() {

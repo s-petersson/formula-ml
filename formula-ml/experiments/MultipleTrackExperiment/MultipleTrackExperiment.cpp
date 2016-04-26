@@ -141,7 +141,7 @@ EvaluationResult MultipleTrackExperiment::_Evaluator::evaluate_network(neat::Net
     result.partialResults.push_back(ev1);
 
     result.fitness = ev0.fitness + ev1.fitness;
-    result.simResult.distance_driven = ev0.simResult.distance_driven + ev1.simResult.distance_driven;
+    result.simResult.distance_on_track = ev0.simResult.distance_on_track + ev1.simResult.distance_on_track;
     result.simResult.time_alive = ev0.simResult.time_alive + ev1.simResult.time_alive;
 
     return result;
@@ -151,17 +151,17 @@ void MultipleTrackExperiment::_Evaluator::print(const EvaluationResult& result) 
     cout << endl 
          << "New Best:"                                                 << endl
          << "Total fitness:  "  << result.fitness                       << endl
-         << "Total distance: "  << result.simResult.distance_driven     << endl
+         << "Total distance: "  << result.simResult.distance_on_track     << endl
          << "Total time:     "  << result.simResult.time_alive          << endl;
 
     cout << "Evaluator 0, narrow track:"                                          << endl
          << " Fitness:  "   << result.partialResults[0].fitness                   << endl
-         << " Distance: "   << result.partialResults[0].simResult.distance_driven << endl
+         << " Distance: "   << result.partialResults[0].simResult.distance_on_track << endl
          << " Time:     "   << result.partialResults[0].simResult.time_alive      << endl;
     
     cout << "Evaluator 1, wide track:"                                            << endl
          << " Fitness:  "   << result.partialResults[1].fitness                   << endl
-         << " Distance: "   << result.partialResults[1].simResult.distance_driven << endl
+         << " Distance: "   << result.partialResults[1].simResult.distance_on_track << endl
          << " Time:     "   << result.partialResults[1].simResult.time_alive      << endl;
 
     cout << endl;

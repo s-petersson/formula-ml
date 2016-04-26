@@ -30,10 +30,10 @@ namespace neural{
 
     float fitness_distance_time(SimulationResult result, float termination_distance, float max_time) {
         // Yield fitness liniarly for distance travelled
-        float fitness = result.distance_driven;
+        float fitness = result.distance_on_track;
 
         // If the car reached the end, consider time
-        if (glm::abs(result.distance_driven - termination_distance) < 1) {
+        if (glm::abs(result.distance_on_track - termination_distance) < 1) {
             // (sqrt(t_max) - sqrt(t))^2 gives increases the fitness for lower times with
             // higher resolution at lower values. *5 stretches the result to equal the
             // size of distance somewhat.
@@ -50,10 +50,10 @@ namespace neural{
     float fitness_distance_time_exp(SimulationResult result, float termination_distance, float max_time, float min_time) {
         // Yield fitness liniarly for distance travelled
         // 100 for full completion
-        float fitness = 100.f * result.distance_driven / termination_distance;
+        float fitness = 100.f * result.distance_on_track / termination_distance;
 
         // If the car reached the end, consider time
-        if (glm::abs(result.distance_driven - termination_distance) < 1) {
+        if (glm::abs(result.distance_on_track - termination_distance) < 1) {
             // 0    for infinite time
             // 10   for time "max_time"
             // 100  for time "min_time"

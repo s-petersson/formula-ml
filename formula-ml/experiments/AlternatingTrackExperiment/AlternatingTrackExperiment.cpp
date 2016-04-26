@@ -165,17 +165,17 @@ void AlternatingTrackExperiment::_Evaluator::print(const EvaluationResult& resul
     cout << endl
         << "New Best:" << endl
         << "Total fitness:  " << result.fitness << endl
-        << "Total distance: " << result.simResult.distance_driven << endl
+        << "Total distance: " << result.simResult.distance_on_track << endl
         << "Total time:     " << result.simResult.time_alive << endl;
 
     cout << "Evaluator 0, narrow track:" << (current_evaluator == 0 ? " ACTIVE" : "") << endl
         << " Fitness:  " << result.partialResults[0].fitness << endl
-        << " Distance: " << result.partialResults[0].simResult.distance_driven << endl
+        << " Distance: " << result.partialResults[0].simResult.distance_on_track << endl
         << " Time:     " << result.partialResults[0].simResult.time_alive << endl;
 
     cout << "Evaluator 1, wide track:" << (current_evaluator == 1 ? " ACTIVE" : "") << endl
         << " Fitness:  " << result.partialResults[1].fitness << endl
-        << " Distance: " << result.partialResults[1].simResult.distance_driven << endl
+        << " Distance: " << result.partialResults[1].simResult.distance_on_track << endl
         << " Time:     " << result.partialResults[1].simResult.time_alive << endl;
 
     cout << endl;

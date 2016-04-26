@@ -9,9 +9,8 @@
 #include <array>
 
 struct SimulationResult {
-	float distance_driven;
+	float distance_on_track;
 	float time_alive;
-	
 };
 
 class Simulator {
