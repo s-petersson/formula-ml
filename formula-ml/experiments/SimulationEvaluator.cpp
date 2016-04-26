@@ -42,11 +42,11 @@ void set_neat_config(const AiSettings& settings) {
 
 void print_settings_helper(int& counter, bool predicate, const std::string& description) {
     if (predicate) {
-        cout << counter++ << ". " << description << endl;
+        cout << endl << counter++ << ". " << description;
     }
 }
 void print_settings(const AiSettings& settings) {
-    cout << endl << "Configuration of ai input values:" << endl;
+    cout << endl << "Configuration of ai input values:";
 
     int i = 0;
     print_settings_helper(i, true, "Bias");
@@ -57,8 +57,14 @@ void print_settings(const AiSettings& settings) {
     print_settings_helper(i, settings.speed, "Car speed");
 
     if (settings.curve_data) {
-        print_settings_helper(i, true, "Curve data");
-        i += Simulator::write_track_curve_size(settings.nbr_of_curve_points) - 1;
+        float distance = settings.curve_point_spacing;
+        float accumulated_distance = 0.f;
+        for (int p = 0; p < settings.nbr_of_curve_points; p++) {
+            print_settings_helper(i, true, "Curve data ");
+            accumulated_distance += distance;
+            cout << accumulated_distance << " meters";
+            distance *= 1.f + settings.curve_point_spacing_incremental_percentage;
+        }
         print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
     }
     if (settings.checkpoint_data) {
@@ -66,14 +72,14 @@ void print_settings(const AiSettings& settings) {
         i += Simulator::write_track_curve_size(settings.checkpoint_data_nbr) - 1;
     }
 
-    cout << endl;
+    cout << endl << endl;
 
     cout << "Configuration of ai output values: " << endl;
     int j = 0;
     print_settings_helper(j, true, "Steering");
     print_settings_helper(j, settings.output_speed, "Acceleration/Braking");
 
-    cout << endl;
+    cout << endl << endl;
 }
 
 SimulationEvaluator::SimulationEvaluator() {
