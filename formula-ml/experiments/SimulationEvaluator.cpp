@@ -22,6 +22,10 @@ int required_nbr_of_inputs(const AiSettings& settings) {
         if (settings.curve_data_sum_absolutes) sum++;
     }
 
+    if (settings.curve_data) {
+        sum += Simulator::write_checkpoints_size(settings.checkpoint_data_nbr);
+    }
+
     return sum;
 }
 
@@ -54,8 +58,12 @@ void print_settings(const AiSettings& settings) {
 
     if (settings.curve_data) {
         print_settings_helper(i, true, "Curve data");
-        i += settings.nbr_of_curve_points > 0 ? settings.nbr_of_curve_points - 1 : 0;
+        i += Simulator::write_track_curve_size(settings.nbr_of_curve_points) - 1;
         print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
+    }
+    if (settings.checkpoint_data) {
+        print_settings_helper(i, true, "Checkpoint data");
+        i += Simulator::write_track_curve_size(settings.checkpoint_data_nbr) - 1;
     }
 
     cout << endl;
@@ -147,6 +155,9 @@ void SimulationEvaluator::init() {
             }
         }
         
+        if (ai_settings.checkpoint_data) {
+            simulator->write_checkpoints(inputs, input_iterator, ai_settings.nbr_of_curve_points);
+        }        
 
         network->fire(network_indata, network_output);
 

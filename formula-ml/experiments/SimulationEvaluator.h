@@ -20,6 +20,9 @@ struct AiSettings{
     bool curve_data_sum_absolutes;
     bool curve_data_flip;
 
+    bool checkpoint_data;
+    int checkpoint_data_nbr;
+
     // Outputs
     /// Steer is default
     bool output_speed;
