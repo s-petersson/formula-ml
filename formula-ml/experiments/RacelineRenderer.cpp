@@ -36,7 +36,7 @@ void RacelineRenderer::initialize() {
 void RacelineRenderer::render() {
     glUseProgram(shader);
     
-    global_cam->setPosition(vec3(300, 100, 256));
+    global_cam->setPosition(vec3(330, 100, 240));
     global_cam->lookAt(vec3(global_cam->position.x, global_cam->position.y, 0));
     global_cam->update();
     

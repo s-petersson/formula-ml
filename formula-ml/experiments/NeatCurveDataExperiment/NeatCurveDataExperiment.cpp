@@ -11,6 +11,7 @@
 #include <experiments/SimulationEvaluator.h>
 #include <core/Keyboard.h>
 #include <thread>
+#include <experiments/RacelineLogger.h>
 using namespace neat;
 
 
@@ -71,6 +72,8 @@ void NeatCurveDataExperiment::run() {
 
     };
 	
+	auto eval = factory();
+	save_raceline(eval->getSimulator(), "text.png");
     // Start the trainer
 	std::thread tt = std::thread(&Trainer::run, trainer);
     window->run();
