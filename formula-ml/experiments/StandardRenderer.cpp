@@ -99,6 +99,11 @@ void StandardRenderer::render() {
 	gui->render();
 }
 
+void StandardRenderer::update(float dt) {
+
+}
+
+
 void StandardRenderer::reset() {
 	car_trail->clear();
 }

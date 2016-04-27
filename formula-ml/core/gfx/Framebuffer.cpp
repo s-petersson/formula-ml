@@ -39,4 +39,10 @@ namespace gfx {
 	}
 
 
+    void destroy_framebuffer(Framebuffer fbo) {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glDeleteRenderbuffers(1, &fbo.color_buffer);
+        glDeleteRenderbuffers(1, &fbo.depth_buffer);
+        glDeleteFramebuffers(1, &fbo.id);
+    }
 }

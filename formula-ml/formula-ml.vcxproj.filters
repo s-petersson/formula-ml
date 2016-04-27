@@ -45,6 +45,8 @@
     <ClCompile Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.cpp" />
     <ClCompile Include="core\gfx\Framebuffer.cpp" />
     <ClCompile Include="core\util\ImageIO.cpp" />
+    <ClCompile Include="experiments\RacelineRenderer.cpp" />
+    <ClCompile Include="experiments\RacelineLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -98,6 +100,8 @@
     <ClInclude Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.h" />
     <ClInclude Include="core\gfx\Framebuffer.h" />
     <ClInclude Include="core\util\ImageIO.h" />
+    <ClInclude Include="experiments\RacelineRenderer.h" />
+    <ClInclude Include="experiments\RacelineLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />
@@ -117,5 +121,6 @@
     <None Include="res\shaders\text.vert" />
     <None Include="res\fonts\georgia.fnt" />
     <None Include="res\fonts\helvetica.fnt" />
+    <None Include="FreeImage.dll" />
   </ItemGroup>
 </Project>

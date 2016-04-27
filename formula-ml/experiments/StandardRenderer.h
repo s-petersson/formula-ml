@@ -18,6 +18,7 @@ public:
 
     virtual void initialize();
     virtual void render();
+    virtual void update(float dt);
 	virtual void reset();
 private:
 	Simulator * simulator;

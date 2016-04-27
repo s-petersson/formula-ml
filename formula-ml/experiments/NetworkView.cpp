@@ -68,6 +68,10 @@ void NetworkView::render() {
 	gui->render();
 }
 
+void NetworkView::update(float dt) {
+
+}
+
 void NetworkView::initialize() {
 
 }

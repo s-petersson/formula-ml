@@ -90,8 +90,8 @@ void Window::run() {
 
         util::gl_error_check("MAIN LOOP");
 	}
-	
-	util::save_framebuffer(fbo, "test.png");
-    glfwTerminate();
+
+    util::save_framebuffer(fbo, "test.png");
+	glfwTerminate();
 
 }

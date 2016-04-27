@@ -4,6 +4,8 @@
 #include <vector>
 #include<iostream>
 
+#include <core/util/Util.h>
+
 std::string textFileRead(const std::string& filePath)
 {
 	//open file
@@ -137,4 +139,6 @@ GLuint CreateShader(std::string vertex_source, std::string fragment_source) {
 		}
 	}
 	return pid;
+
+    util::gl_error_check("Shader loading");
 }

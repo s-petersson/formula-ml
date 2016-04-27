@@ -13,6 +13,8 @@ namespace gfx {
 	};
 
 	Framebuffer create_framebuffer(int width, int height, bool multisample);
+
+    void destroy_framebuffer(Framebuffer fbo);
 }
 
 #endif
