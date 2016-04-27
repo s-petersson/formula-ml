@@ -133,23 +133,34 @@ float middleOf(float left, float right) {
     return min + diff / 2;
 }
 
-void try_insert(map<int, vector<int>> *all_pairs, map<int, vector<int>> *path_map, int i1, int i2) {
+void try_insert(map<string, vector<int>> *all_pairs, map<int, vector<int>> *path_map, int i1, int i2) {
     int pre_insert_size = all_pairs->size();
-    int hash = 17 * i1 + 37 * i2;
-    if ((*all_pairs).find(hash) == (*all_pairs).end()) {
-        // First hash was not found in the map; Swap hash value
-        hash = 17 * i2 + 37 * i1;
-    }
+
+    int lowerIndex = i1 < i2 ? i1 : i2;
+    int higherIndex = i1 < i2 ? i2 : i1;
+    string key = to_string(lowerIndex) + '-' + to_string(higherIndex);
+
     // Now we add the indexes to the correct key in the hash map
-    (*all_pairs)[hash].push_back(i1);
-    (*all_pairs)[hash].push_back(i2);
+    (*all_pairs)[key].push_back(i1);
+    (*all_pairs)[key].push_back(i2);
 
     // If the size of the map changed, meaning that we found
     // an edge that we have previously found (two triangles share)
     // this edge; Add that edge to the path map.
     if (all_pairs->size() == pre_insert_size) {
-        (*path_map)[i1].push_back(i2);
-        (*path_map)[i2].push_back(i1);
+        vector<int> t1 = (*path_map)[i1];
+        vector<int> t2 = (*path_map)[i2];
+
+        // This complexity is kind of unneccessary. We could replace the vector
+        // with a set instead. But that will make the code a lot more complicated.
+        // TODO: Replace the vector in path_map with a set.
+        if (std::find(t1.begin(), t1.end(), i2) == t1.end()) {
+            (*path_map)[i1].push_back(i2);
+        }
+
+        if (std::find(t2.begin(), t2.end(), i1) == t2.end()) {
+            (*path_map)[i2].push_back(i1);
+        }
     }
 }
 
@@ -207,7 +218,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
  */
 void TrackModel::create_checkpoints(bool completeTrack) {
     vector<Triangle> triangles = model->get_mesh()->triangles;
-    map<int, vector<int>> all_pairs;
+    map<string, vector<int>> all_pairs;
     map<int, vector<int>> path_map;
     for (int i = 0; i < triangles.size(); i++) {
         Triangle tri = triangles[i];
