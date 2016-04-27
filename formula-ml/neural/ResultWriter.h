@@ -26,7 +26,7 @@ namespace neural {
 	private:
 		std::ofstream generation_info;
 		std::ofstream sorted_genomes;
-		std::ofstream single_line_genome;
+		//std::ofstream single_line_genome;
 
 
 	};

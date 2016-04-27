@@ -10,7 +10,7 @@ using namespace neat;
 string headers = "Generation,Best fitness,Avg fitness,Worst fitness,Species,Pool size";
 string complete = "complete.csv";
 string sorted = "sorted.csv";
-string single = "single_line.csv";
+//string single = "single_line.csv";
 
 
 ResultWriter::ResultWriter(std::string root) {
@@ -18,8 +18,8 @@ ResultWriter::ResultWriter(std::string root) {
 	generation_info << headers;
 	sorted_genomes.open(root + sorted);
 	sorted_genomes << "Generation";
-	single_line_genome.open(root + single);
-	single_line_genome << "Generation,Species,Fitness" << endl;
+	//single_line_genome.open(root + single);
+	//single_line_genome << "Generation,Species,Fitness" << endl;
 
 	for (int i = 0; i < Population; i++) {
 		generation_info << ",Genome " << i;
@@ -49,7 +49,7 @@ void ResultWriter::addNewGeneration(int generation, neat::Pool pool) {
 			Genome genome = species.genomes.at(g);
 			
 			genome_values << "," << genome.fitness;
-			single_line_genome << generation << "," << s << "," << genome.fitness << endl;
+			//single_line_genome << generation << "," << s << "," << genome.fitness << endl;
 			sum_fitness += genome.fitness;
 			fitness_list.push_back(genome.fitness);
 		}
