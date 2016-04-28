@@ -13,14 +13,16 @@
 #include <neural/neat/Network.h>
 #include <experiments/NetworkView.h>
 #include <neural/neat/Trainer.h>
+#include <experiments/RacelineLogger.h>
 #include <mutex>
 #include <memory>
+
 
 struct Grid;
 
 class ExperimentWindow {
 public:
-    ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer);
+    ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer, std::shared_ptr<RacelineLogger> rl);
     ~ExperimentWindow();
 
     void run();
@@ -33,7 +35,7 @@ public:
 private:
     class ExperimentState : public WindowState {
     public:
-        ExperimentState();
+        ExperimentState(std::shared_ptr<RacelineLogger> rl);
         ~ExperimentState();
 
         void run(float dt);
@@ -48,9 +50,11 @@ private:
         std::shared_ptr<neat::Trainer> trainer;
         vector<Renderer*> renderers;
         NetworkView* network_view;
+		std::shared_ptr<RacelineLogger> raceline_logger;
     };
     Window* window;
     ExperimentState* state;
+	
 };
 
 #endif

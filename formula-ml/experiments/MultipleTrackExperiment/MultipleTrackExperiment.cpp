@@ -64,8 +64,8 @@ void MultipleTrackExperiment::run() {
 
     windowEnvironment->sim_settings = sim_settings;
     windowEnvironment->init();
-
-    window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer);
+	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>();
+    window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 
     // Define call backs

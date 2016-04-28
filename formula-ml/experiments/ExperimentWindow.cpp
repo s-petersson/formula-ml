@@ -4,9 +4,9 @@
 
 /* ExperimentWindow */
 
-ExperimentWindow::ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer) {
+ExperimentWindow::ExperimentWindow(Simulator* simulator, std::shared_ptr<neat::Trainer> _trainer, std::shared_ptr<RacelineLogger> rl) {
     window = new Window();
-    state = new ExperimentState();
+    state = new ExperimentState(rl);
 
 	state->simulator = simulator;
     window->setState(state);
@@ -41,9 +41,10 @@ void ExperimentWindow::clear_renderers() {
 
 /* ExperimentState helper class */
 
-ExperimentWindow::ExperimentState::ExperimentState() {
+ExperimentWindow::ExperimentState::ExperimentState(std::shared_ptr<RacelineLogger> rl) {
     network_view = nullptr;
     network_location = nullptr;
+	raceline_logger = rl;
 }
 
 ExperimentWindow::ExperimentState::~ExperimentState() {
@@ -71,7 +72,7 @@ void ExperimentWindow::ExperimentState::reset() {
         (*network_location)->reset();
     }
     network_mutex.unlock();
-    
+	raceline_logger->process_jobs();
 }
 
 void ExperimentWindow::ExperimentState::run(float dt) {

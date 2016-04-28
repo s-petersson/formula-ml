@@ -37,7 +37,7 @@ Window::Window() {
 	glfwSetKeyCallback(window, key_callback);
 
 	glfwGetFramebufferSize(window, &screen_width, &screen_height);
-    fbo = gfx::create_framebuffer(screen_width, screen_height, false);
+    fbo = gfx::create_framebuffer(screen_width, screen_height, true);
 	
 }
 
