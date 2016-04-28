@@ -3,15 +3,14 @@ Three marks results in giving fika.
 
 ## Daniel
 * 201601??
+* 20160422
 
 ## Gabriel
-* 20160208
+5 st
 
 ## Martin
 * 201602??
+* 20160422
 
 ## Simon
-* 201601??
-* 201601??
-* 201602??
-* Gave fika 20160212
+* 20160422

@@ -1,4 +1,4 @@
-# Week 13, April 11 - 18
+# Week 13, April 11 - 17
 
 ## Report supervision
 
@@ -40,7 +40,7 @@ Concerning the placement of the motivation for neat, is the choice a method in i
 
 We may argue in the "Theory" part for why we use NEAT. 
 
-It is not a problem that that  the theory chapter may be very broad, introduce the different parts at the start. Check this with Prasad!
+It is not a problem that that the theory chapter may be very broad, introduce the different parts at the start. Check this with Prasad!
 
 Why have we made a custom made simulator? Sounds like a part of the method. Customisation och control sounds like a valid reasons. Maybe mentions simulation in general in the theory chapter, how we used it and why in the method.
 
@@ -53,8 +53,6 @@ Ang informella källor, de är ok att använda om de är lämpliga. Racingteorin
 Write to your "december me". Introduce theory that is relevant but not commonly known in our education.
 
 Förslag: Kan det vara intressant att visa pseudokod i resultat?
-
-
 
 
 ## Gabriel

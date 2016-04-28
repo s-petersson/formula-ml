@@ -1,0 +1,86 @@
+
+\chapter{Method}
+
+\section{Desired Behaviour}
+% What kind of behaviour do we want to find?
+% Behavior -> put requirements on the simulation
+
+\section{Simulation}
+% Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
+% Requirement on simulation -> satifies the behavior
+
+\section{Training Process/Structure????}
+% Hur går vi till väga för att träna en AI, hur är AI och träning kopplat till resten av systemet
+% Hur ser träningen ut:
+% AIn styr bilen i varje simulation step
+% Indata
+% Slutgiltliga resultatet av simulationen ger feedback till 
+
+\section{NEAT Implementation}
+% Setup of neat "Samma som neat pappret"
+% Ta upp skilnaden mellan NEAT och fs-NEAT?
+
+\section{Experiments}
+% Introduce the different experiment
+% Overview
+In order to achieve a great level of flexibility in the project, the process have been divided up into a sequence of experiments. These experiments allows for independently changing any part of the implementation such as the simulation, neural network, input/output data, learning algorithms and more. Thus these experiments have allowed for an easy way of gradually increasing the complexity of the problem, as well as providing a convenient way of analysing the behaviour of the neural network and its learning process in different environments.
+
+% Gå igenom metod för varje experiment enskilt. Vad vill vi testa, hur går vi till väga. 
+\subsection{XOR Experiment}
+\subsection{Fixed speed Experiment}
+\subsection{(Existing steering controller)}
+% narrow track, controler stay on mid line
+% follow a defined racing line (more close to reality than the first variant)
+\subsection{Acc/brake Experiment}
+\subsection{Shortest Path}
+\subsection{Multiple track}
+\subsection{Alternating tracks}
+
+
+\iffalse
+
+=== DISPOSITION ===
+
+Desired behaviour (move racing theory to theory?)
+
+Simulation
+- Evaluation of results
+
+Limitation of techniques to Neat (move to introduction?)
+
+(Fixed network, exhaustive search)
+
+Fundamentals of Neat
+
+Usage/variations of Neat
+- Starting structure or not
+- Recurrent connections
+- Population size
+- Probabilities
+
+Aspects in our tests
+- Features in physics
+- Different indata
+  - (Grid)
+  - Curve data
+    - Angles?
+    - Checkpoints
+    - Sum
+    - Mirror
+- Different steering
+- Different tracks and their properties
+- Training process and task
+  - Fitness calculation
+  - Long single track
+  - Several short parts
+  - (Short alternating parts. Hopes for modular network. variants... what types of alternating tasks is needed?
+
+Experiments
+- Single long track
+  - Fixed low speed, only steering
+  - Steering and braking
+  - Steer, accelerate and braking
+- ...
+
+\fi
+ 
