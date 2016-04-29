@@ -29,7 +29,10 @@ Trainer::Trainer()
 }
 
 Trainer::Trainer(string path) {
-	fw = new neural::FileWriter("saves/" + getTimestamp()+ "/");
+	string timestamp = getTimestamp();
+	cout << "Current Timestamp: " << timestamp << std::endl;
+	fw = new neural::FileWriter("saves/" + timestamp + "/");
+	rw = new neural::ResultWriter("saves/" + timestamp + "/");
 	pool = (*fw).poolFromFile(path);
     best_genome = Genome();
 }
