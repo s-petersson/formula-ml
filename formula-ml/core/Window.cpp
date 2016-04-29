@@ -60,7 +60,8 @@ void Window::run() {
 	
 	while (!glfwWindowShouldClose(window)) {
         glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
-		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glViewport(0, 0, screen_width, screen_height);
+        glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         long dt = util::current_time() - last_frame;
         last_frame = util::current_time();
@@ -91,7 +92,6 @@ void Window::run() {
         util::gl_error_check("MAIN LOOP");
 	}
 
-    util::save_framebuffer(fbo, "test.png");
 	glfwTerminate();
 
 }

@@ -42,7 +42,6 @@ void NeatCurveDataExperiment::run() {
     experiment.init();
 
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();
-
     // Create the Trainer
     if (this->load_network_path != "") {
         trainer = make_shared<Trainer>(this->load_network_path);
@@ -51,12 +50,17 @@ void NeatCurveDataExperiment::run() {
         trainer = make_shared<Trainer>();
     }
 
+    SimulationEvaluator *eval = new SimulationEvaluator();
+    eval->sim_settings = sim_settings;
+    eval->ai_settings = ai_settings;
+    eval->init();
+
     // Prepare the window
-	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>();
+	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>(eval);
     SimulationEvaluator* windowEnvironment = factory();
     window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
-	
+    raceline_logger->init();
 
     trainer->evaluator_factory = factory;
 
@@ -67,18 +71,14 @@ void NeatCurveDataExperiment::run() {
         cout << "New Generation: " << generation << endl;
 		
 		stringstream ss;
-		ss << "saves/generation_" << generation << ".png";
+		ss << trainer->savePath <<"generation_"<< generation << ".png";
 		
-		RacelineLoggerJob job;
-		auto eval = factory();
-		job.evaluator = make_shared<SimulationEvaluator>(*eval);
-		job.location = ss.str();
-
-		neat::Network* nw = new neat::Network(trainer->get_best().genes);
-		*job.evaluator->getNetworkLocation() = nw;
+        RacelineLoggerJob job;
+        job.genome = trainer->get_best();
+        job.location = ss.str();
 		
 		raceline_logger->add_job(job);
-		delete eval;
+		
     };
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)

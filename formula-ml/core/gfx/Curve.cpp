@@ -63,7 +63,7 @@ void Curve::clear() {
 }
 
 void Curve::render() {
-	glBindVertexArray(vao);
+    glBindVertexArray(vao);
 	glDrawArrays(GL_LINE_STRIP, 0, size);
 	glBindVertexArray(0);
 }

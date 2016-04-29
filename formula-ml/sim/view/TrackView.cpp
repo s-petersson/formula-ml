@@ -66,8 +66,7 @@ TrackView::TrackView(TrackModel *dataModel) {
 }
 
 TrackView::~TrackView() {
-    // TODO: Clear OpenGL memory (colorBuffer)
-    delete viewModel;
+
 }
 
 void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform) {

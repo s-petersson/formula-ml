@@ -66,7 +66,9 @@ void AlternatingTrackExperiment::run() {
     windowEnvironment->sim_settings = sim_settings;
     windowEnvironment->init();
 
-	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>();
+    auto _eval = new SimulationEvaluator();
+    _eval->ai_settings = ai_settings;
+	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>(_eval);
     window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
 

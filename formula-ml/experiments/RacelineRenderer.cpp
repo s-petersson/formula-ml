@@ -19,13 +19,13 @@ RacelineRenderer::~RacelineRenderer() {
 void RacelineRenderer::initialize() {
     shader = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
     raceline = make_unique<gfx::Curve>();
-
+    
     grid_view = make_unique<GridView>();
     grid_view->setUniformLocations(shader, "modelMatrix");
 
     track_view = make_unique<TrackView>(sim->track);
     track_view->setUniformLocations(shader, "modelMatrix");
-
+    
     global_cam = make_unique<Camera>(90.0f, 16.0f / 9, 0.f, 1000.0f);
     global_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
     global_cam->up = vec3(1, 0, 0);
@@ -43,15 +43,17 @@ void RacelineRenderer::render() {
     grid_view->render();
     track_view->render();
     raceline->render();
-    
     glUseProgram(0);
 
     util::gl_error_check("RACELINE RENDERER RENDER");
 }
 
 void RacelineRenderer::update(float dt) {
-    auto pos = vec4(sim->car->position, 1);
-    raceline->append_vertex(pos, vec4(1,1,1,1));
+    { // Update the car trail
+        vec4 pos = vec4(sim->car->position, 1);
+        vec4 col = vec4(0, 0, 1, 1) + (vec4(1, 0, -1, 1) * (sim->car->getSpeed() / 75.0f));
+        raceline->append_vertex(pos, col);
+    }
 }
 
 void RacelineRenderer::reset() {
