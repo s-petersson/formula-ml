@@ -22,7 +22,7 @@ int required_nbr_of_inputs(const AiSettings& settings) {
         if (settings.curve_data_sum_absolutes) sum++;
     }
 
-    if (settings.curve_data) {
+    if (settings.checkpoint_data) {
         sum += Simulator::write_checkpoints_size(settings.checkpoint_data_nbr);
     }
 
