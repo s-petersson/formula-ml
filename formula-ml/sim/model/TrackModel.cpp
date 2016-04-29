@@ -245,7 +245,9 @@ void TrackModel::create_checkpoints(bool completeTrack) {
         checkpoints.insert(checkpoints.begin()+i, checkpoint);
     }
 
-    std::reverse(checkpoints.begin(), checkpoints.end());
+    if (completeTrack) {
+        std::reverse(checkpoints.begin(), checkpoints.end());
+    }
 
     for (int i = 0; i < checkpoints.size(); ++i) {
         float distance_to_prev_checkpoint = 0;
