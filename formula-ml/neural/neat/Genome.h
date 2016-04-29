@@ -24,6 +24,7 @@ namespace neat {
         float adjustedFitness = 0;
 
         std::map<std::string, float> mutationRates;
+        std::map<std::string, float> originalMutationRates;
 
         //neat::Network network;
         int maxneuron = 0;

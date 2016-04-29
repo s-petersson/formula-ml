@@ -22,6 +22,15 @@ Genome::Genome() {
     mutationRates["enable"] = EnableMutationChance;
     mutationRates["disable"] = DisableMutationChance;
     mutationRates["step"] = StepSize;
+
+    originalMutationRates["connections"] = MutateConnectionsChance;
+    originalMutationRates["link"] = LinkMutationChance;
+    originalMutationRates["bias"] = BiasMutationChance;
+    originalMutationRates["node"] = NodeMutationChance;
+    originalMutationRates["enable"] = EnableMutationChance;
+    originalMutationRates["disable"] = DisableMutationChance;
+    originalMutationRates["step"] = StepSize;
+
 }
 
 Genome::~Genome() {}
@@ -160,11 +169,12 @@ void Genome::enableDisableMutate( bool enable) {
 /** Does all the mutation stuff */
 void Genome::mutate() {
     for (auto && i : mutationRates) {
-        if (rngi(2) == 1) {
-            i.second *= 0.95f;
-        }
-        else {
-            i.second *= 1.05263f; // Magic numbers?
+        if (i.second >= originalMutationRates[i.first] * 0.5f) {
+            if (rngi(2) == 1) {
+                i.second *= 0.95f;
+            } else {
+                i.second *= 1.05263f; // Magic numbers?
+            }
         }
     }
 
