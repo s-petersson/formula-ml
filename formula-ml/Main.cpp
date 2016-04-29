@@ -22,7 +22,7 @@ int main(void) {
                 << "(7)  Alternating tracks "   << std::endl
                 << "(8)  Simple track, 90_10_r" << std::endl
                 << "(9)  Shortest distance"     << std::endl
-                << "(10) Shortest distance"     << std::endl
+                << "(10) Narrow track"          << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
