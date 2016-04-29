@@ -31,12 +31,13 @@ void MultipleTrackExperiment::run() {
     AiSettings ai_settings;
     ai_settings.angle_to_line = true;
     ai_settings.distance_to_middle = true;
+    ai_settings.distance_to_edges = true;
     ai_settings.speed = true;
     ai_settings.curve_data = true;
     ai_settings.curve_data_sum_absolutes = true;
 
-    ai_settings.nbr_of_curve_points = 5;
-    ai_settings.curve_point_spacing = 15.f;
+    ai_settings.nbr_of_curve_points = 7;
+    ai_settings.curve_point_spacing = 20.f;
     ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
 
     ai_settings.output_speed = true;
@@ -58,6 +59,7 @@ void MultipleTrackExperiment::run() {
 
     SimulatorSettings sim_settings = SimulatorSettings();
     sim_settings.track_path = new string("./res/models/circuit_wide.model");
+    sim_settings.completeTrack = true;
     sim_settings.termination_distance = 5200.f;
     sim_settings.max_time = 400.f;
     sim_settings.car_speed_max = 15.f;
@@ -98,6 +100,7 @@ MultipleTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings){
 
         SimulatorSettings sim_settings = SimulatorSettings();
         sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+        sim_settings.completeTrack = true;
         sim_settings.termination_distance = 5200.f;
         sim_settings.max_time = 400.f;
         sim_settings.car_speed_max = 15.f;
@@ -113,6 +116,7 @@ MultipleTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings){
 
         SimulatorSettings sim_settings = SimulatorSettings();
         sim_settings.track_path = new string("./res/models/circuit_wide.model");
+        sim_settings.completeTrack = true;
         sim_settings.termination_distance = 5200.f;
         sim_settings.max_time = 400.f;
         sim_settings.car_speed_max = 15.f;
