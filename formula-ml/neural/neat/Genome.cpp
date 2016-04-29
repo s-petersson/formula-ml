@@ -34,25 +34,28 @@ int new_innovation() {
 
 /** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/
 int Genome::randomNeuron(bool input) {
-    vector<int> neurons;
+    set<int> neurons;
 
     if (input) {
         for (int i = 1; i <= Config::Inputs; i++) {
-            neurons.push_back(i);
+            neurons.insert(i);
         }
-    }
-    else {
+    } else {
         for (int i = 1; i <= Config::Outputs; i++) {
-            neurons.push_back(MaxNodes + i);
+            neurons.insert(MaxNodes + i);
         }
     }
-   
+
     for (auto && gene : genes) {
         if (gene.out < MaxNodes) {
-            neurons.push_back(gene.out);
+            neurons.insert(gene.out);
         }
     }
-    return neurons[rngi(neurons.size())];
+
+    int temp = rngi(neurons.size());
+    int result = *std::next(neurons.begin(), temp);
+
+    return result;
 }
 
 bool Genome::containsLink(Gene link) {
