@@ -128,7 +128,7 @@ int main(void) {
                 SimulatorSettings sim_settings = SimulatorSettings();
                 sim_settings.track_path = new string("./res/models/corners/corner_90_10_r.model");
                 sim_settings.completeTrack = false;
-                sim_settings.termination_distance = 1500.f; // guessed 
+                sim_settings.termination_distance = 850.f; // guessed 
                 sim_settings.max_time = 400.f;
 
                 sim_settings.car_speed_max = 50.f;
