@@ -50,9 +50,9 @@ public:
     float distance_on_track;
 	float max_speed;
 
+	float min_turning_radius();
 private:
-    float minRadius(float speed);
-	float maxRotation(float speed, float dt, float minimum_radius);
+    float maxRotation(float speed, float dt, float minimum_radius);
 	void steer(float current_speed, float dt);
 
 	glm::vec3 velocity;

@@ -1,6 +1,9 @@
-#include <external/include/glm/gtc/type_ptr.hpp>
-#include <external/include/glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 #include "CarView.h"
+#include <core/util/Util.h>
+
+using namespace glm;
 
 CarView::CarView(CarModel *dataModel) {
     this->dataModel = dataModel;
@@ -26,6 +29,7 @@ CarView::CarView(CarModel *dataModel) {
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
+
 }
 
 CarView::~CarView() {
@@ -37,8 +41,8 @@ void CarView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform
 }
 
 void CarView::render() {
+	
     glm::mat4 car_transform = glm::translate(glm::mat4(1.0f), dataModel->position);
-
     float a = glm::acos(glm::dot(glm::vec3(1, 0, 0), glm::normalize(dataModel->direction)));
     a = (dataModel->direction.y >= 0 ? a : -a);
     car_transform = glm::rotate(car_transform, a, glm::vec3(0, 0, 1));
@@ -47,4 +51,5 @@ void CarView::render() {
     glBindVertexArray(viewModel->getVAO());
         glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
 }

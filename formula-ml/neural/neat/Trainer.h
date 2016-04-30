@@ -35,6 +35,7 @@ namespace neat {
 		std::function<void(EvaluationResult evaluationResult)> on_new_best;
 		std::function<void(int generation)> on_generation_done;
 
+        std::string savePath;
 	private:
 		void evaluate(neat::Genome& genome, Evaluator* eval);
 		void evaluate_thread(Evaluator* eval);
@@ -47,8 +48,7 @@ namespace neat {
 
 		std::mutex mtx;
 		std::vector<neat::Genome*> active_genomes;
-		std::string savePath;
-
+		
 		neat::Pool * pool;
 		neural::FileWriter * fw;
 		neural::ResultWriter * rw;

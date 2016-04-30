@@ -18,6 +18,7 @@ public:
 
     virtual void initialize();
     virtual void render();
+    virtual void update(float dt);
 	virtual void reset();
 private:
 	Simulator * simulator;
@@ -29,6 +30,7 @@ private:
 	std::unique_ptr<CarView> car_view;
 	std::unique_ptr<gui::View> gui;
 	std::unique_ptr<gfx::Curve> car_trail;
+	std::unique_ptr<gfx::Curve> turn_radius;
     GLuint shader;
     bool follow;
     long camera_switch_time;

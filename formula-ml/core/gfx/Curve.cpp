@@ -11,7 +11,7 @@ Curve::Curve() {
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	glGenBuffers(2, buffers);
+	glGenBuffers(2, &buffers[0]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 	glBufferData(GL_ARRAY_BUFFER, capacity* sizeof(vec4), NULL, GL_DYNAMIC_DRAW);
@@ -52,7 +52,7 @@ void Curve::append_vertex(vec4 pos, vec4 col) {
 		glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
 		glBufferSubData(GL_ARRAY_BUFFER, (size - 1) * sizeof(vec4), sizeof(vec4), &colours[size - 1]);
 	}
-
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
@@ -63,7 +63,7 @@ void Curve::clear() {
 }
 
 void Curve::render() {
-	glBindVertexArray(vao);
+    glBindVertexArray(vao);
 	glDrawArrays(GL_LINE_STRIP, 0, size);
 	glBindVertexArray(0);
 }

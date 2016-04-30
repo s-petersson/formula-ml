@@ -3,11 +3,14 @@
 #include <sim/model/TrackModel.h>
 #include "TrackView.h"
 
+#include <core/util/Util.h>
+
 using namespace glm;
 using namespace std;
 
 TrackView::TrackView(TrackModel *dataModel) {
-    
+	checkpoints_vao = 0;
+	checkpoint_triangles = 0;
 	this->dataModel = dataModel;
 
     viewModel = dataModel->get_model();
@@ -61,20 +64,19 @@ TrackView::TrackView(TrackModel *dataModel) {
     glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(vec4), &colors[0], GL_STATIC_DRAW);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
 }
 
 TrackView::~TrackView() {
-    // TODO: Clear OpenGL memory (colorBuffer)
-    delete viewModel;
+
 }
 
 void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform) {
     viewModel->set_model_matrix_loc(glGetUniformLocation(shaderProgram, modelMatrixUniform));
 }
 
-// TODO: Get modelMatrixUniformLoc from Model class.
 void TrackView::render() {
 	glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(viewModel->getVAO());

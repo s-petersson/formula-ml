@@ -11,9 +11,10 @@ public:
 	NetworkView(neat::Network* net);
 	~NetworkView();
 
-	virtual void initialize();
-	virtual void render();
-	virtual void reset();
+    virtual void initialize();
+    virtual void render();
+    virtual void update(float dt);
+    virtual void reset();
 private:
 	neat::Network* network;
 	gui::View* gui;

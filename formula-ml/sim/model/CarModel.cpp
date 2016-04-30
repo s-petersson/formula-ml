@@ -64,8 +64,9 @@ Model* CarModel::get_model() {
 // Calculate the minimum the radius the car can handle at
 // current "speed" and engine/brake "forwardForce"
 
-float CarModel::minRadius(float speed) {
-	float result = mass*speed*speed / maxCentipetalForce;
+float CarModel::min_turning_radius() {
+	auto speed = getSpeed();
+	auto result = mass*speed*speed / maxCentipetalForce;
 	return glm::max(result, minTurningRadius);
 }
 
@@ -83,7 +84,7 @@ void CarModel::steer(float current_speed, float dt) {
 	//Make the rotation to not be bigger than the maximum allowed rotation
 
 	float rotation;
-	float max_rotation = maxRotation(current_speed, dt, minRadius(current_speed));
+	float max_rotation = maxRotation(current_speed, dt, min_turning_radius());
 	float desired_rotation = minTurningRadius * current_control.steer;
 
 	if (max_rotation < desired_rotation || max_rotation < desired_rotation*-1) {

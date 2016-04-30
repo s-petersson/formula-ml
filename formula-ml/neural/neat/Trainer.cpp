@@ -12,16 +12,15 @@ using namespace std;
 
 std::string getTimestamp() {
 	std::stringstream stamp;
-	stamp << current_time();
+	stamp << util::current_time();
 	return stamp.str();
 }
 
-Trainer::Trainer()
-{	
-	string timestamp = getTimestamp();
-    cout << "Current Timestamp: " << timestamp << std::endl;
-	fw = new neural::FileWriter("saves/" + timestamp + "/");
-	rw = new neural::ResultWriter("saves/" + timestamp + "/");
+Trainer::Trainer(){
+	savePath = "saves/" + getTimestamp() + "/";
+	fw = new neural::FileWriter(savePath);
+	rw = new neural::ResultWriter(savePath);
+
 	pool = new Pool();
 	pool->fill();
     best_genome = Genome();
@@ -29,10 +28,10 @@ Trainer::Trainer()
 }
 
 Trainer::Trainer(string path) {
-	string timestamp = getTimestamp();
-	cout << "Current Timestamp: " << timestamp << std::endl;
-	fw = new neural::FileWriter("saves/" + timestamp + "/");
-	rw = new neural::ResultWriter("saves/" + timestamp + "/");
+	savePath = "saves/" + getTimestamp() + "/";
+	fw = new neural::FileWriter(savePath);
+	rw = new neural::ResultWriter(savePath);
+
 	pool = (*fw).poolFromFile(path);
     best_genome = Genome();
 }

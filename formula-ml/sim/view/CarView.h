@@ -4,6 +4,7 @@
 #include <sim/model/CarModel.h>
 #include <GL/glew.h>
 #include <core/gfx/Model.h>
+#include <core/gfx/Curve.h>
 
 class CarView {
 public:
@@ -15,6 +16,7 @@ public:
 private:
     Model *viewModel;
     CarModel *dataModel;
+	gfx::Curve radius_curve; 
 };
 
 

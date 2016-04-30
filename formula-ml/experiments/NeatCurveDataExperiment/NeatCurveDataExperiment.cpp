@@ -11,6 +11,8 @@
 #include <experiments/SimulationEvaluator.h>
 #include <core/Keyboard.h>
 #include <thread>
+#include <sstream>
+#include <experiments/RacelineLogger.h>
 using namespace neat;
 
 
@@ -40,7 +42,6 @@ void NeatCurveDataExperiment::run() {
     experiment.init();
 
     std::function<SimulationEvaluator*()> factory = experiment.makeFactory();
-
     // Create the Trainer
     if (this->load_network_path != "") {
         trainer = make_shared<Trainer>(this->load_network_path);
@@ -49,18 +50,35 @@ void NeatCurveDataExperiment::run() {
         trainer = make_shared<Trainer>();
     }
 
+    SimulationEvaluator *eval = new SimulationEvaluator();
+    eval->sim_settings = sim_settings;
+    eval->ai_settings = ai_settings;
+    eval->init();
+
     // Prepare the window
+	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>(eval);
     SimulationEvaluator* windowEnvironment = factory();
-    window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer);
+    window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
-	
+    raceline_logger->init();
 
     trainer->evaluator_factory = factory;
 
-    // Define call backs
-    trainer->on_generation_done = [](int generation)
+
+    // Define callbacks
+    trainer->on_generation_done = [&](int generation)
     {
         cout << "New Generation: " << generation << endl;
+		
+		stringstream ss;
+		ss << trainer->savePath <<"generation_"<< generation << ".png";
+		
+        RacelineLoggerJob job;
+        job.genome = trainer->get_best();
+        job.location = ss.str();
+		
+		raceline_logger->add_job(job);
+		
     };
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
@@ -72,6 +90,7 @@ void NeatCurveDataExperiment::run() {
 
     };
 	
+
     // Start the trainer
 	std::thread tt = std::thread(&Trainer::run, trainer);
     window->run();

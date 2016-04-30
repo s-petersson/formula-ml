@@ -1,18 +1,13 @@
 #ifndef CORE_UTIL_UTIL
 #define CORE_UTIL_UTIL
-#include <GL/glew.h>
+#include <string>
 
-struct FBO
-{
-    GLuint id;
-    GLuint color_buffer;
-    GLuint depth_buffer;
-    int width;
-    int height;
-};
+namespace util {
 
-FBO createFBO(int width, int height, bool multisample);
+    long current_time();
 
-long current_time();
+    void gl_error_check(const std::string& tag);
+
+}
 
 #endif

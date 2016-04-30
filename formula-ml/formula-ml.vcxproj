@@ -98,7 +98,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,11 +132,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\gfx\Curve.cpp" />
+    <ClCompile Include="core\gfx\Framebuffer.cpp" />
     <ClCompile Include="core\gfx\Model.cpp" />
     <ClCompile Include="core\gfx\Program.cpp" />
     <ClCompile Include="core\gfx\Texture.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="core\gui\View.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
+    <ClCompile Include="core\util\ImageIO.cpp" />
     <ClCompile Include="core\util\Random.cpp" />
     <ClCompile Include="core\util\Util.cpp" />
     <ClCompile Include="core\Window.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.cpp" />
     <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
     <ClCompile Include="experiments\SimulationEvaluator.cpp" />
+    <ClCompile Include="experiments\RacelineRenderer.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
     <ClCompile Include="experiments\xor\XORExperiment.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -171,6 +174,7 @@
     <ClCompile Include="neural\neat\Pool.cpp" />
     <ClCompile Include="neural\neat\Constants.cpp" />
     <ClCompile Include="neural\neat\Species.cpp" />
+    <ClCompile Include="experiments\RacelineLogger.cpp" />
     <ClCompile Include="sim\model\CarModel.cpp" />
     <ClCompile Include="sim\model\TrackModel.cpp" />
     <ClCompile Include="neural\ResultWriter.cpp" />
@@ -182,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="FreeImage.dll" />
     <None Include="Readme.md" />
     <None Include="res\fonts\comic.fnt" />
     <None Include="res\fonts\georgia.fnt" />
@@ -194,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Curve.h" />
+    <ClInclude Include="core\gfx\Framebuffer.h" />
     <ClInclude Include="core\gfx\Model.h" />
     <ClInclude Include="core\gfx\Program.h" />
     <ClInclude Include="core\gfx\Renderer.h" />
@@ -202,6 +208,7 @@
     <ClInclude Include="core\gui\View.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />
+    <ClInclude Include="core\util\ImageIO.h" />
     <ClInclude Include="core\util\Random.h" />
     <ClInclude Include="core\util\Util.h" />
     <ClInclude Include="core\Window.h" />
@@ -214,6 +221,7 @@
     <ClInclude Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.h" />
     <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
     <ClInclude Include="experiments\SimulationEvaluator.h" />
+    <ClInclude Include="experiments\RacelineRenderer.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />
     <ClInclude Include="experiments\xor\XORExperiment.h" />
     <ClInclude Include="external\include\GL\glew.h" />
@@ -234,6 +242,7 @@
     <ClInclude Include="neural\neat\Pool.h" />
     <ClInclude Include="neural\neat\Species.h" />
     <ClInclude Include="neural\Neural.h" />
+    <ClInclude Include="experiments\RacelineLogger.h" />
     <ClInclude Include="sim\model\CarModel.h" />
     <ClInclude Include="sim\model\TrackModel.h" />
     <ClInclude Include="neural\ResultWriter.h" />

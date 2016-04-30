@@ -1,12 +1,14 @@
 #include "NetworkView.h"
 #include <iostream>
+
+#include <core/util/Util.h>
 using namespace neat;
 using namespace gui;
 using namespace std;
 using namespace glm;
 
 NetworkView::NetworkView(Network* net) {
-	network = net;
+    network = net;
     gui = new View;
 	vector<pair<int, Neuron>> inputs, hidden, outputs;
 	for (auto && i : network->neurons) {
@@ -56,7 +58,6 @@ NetworkView::NetworkView(Network* net) {
 			gui->add_line(positions[g.into] + vec3(nr,0,0), positions[g.out] - vec3(nr, 0, 0), vec4(0,1,0,1));
 		}
 	}
-
 }
 
 NetworkView::~NetworkView() {
@@ -66,6 +67,10 @@ NetworkView::~NetworkView() {
 
 void NetworkView::render() {
 	gui->render();
+}
+
+void NetworkView::update(float dt) {
+
 }
 
 void NetworkView::initialize() {
