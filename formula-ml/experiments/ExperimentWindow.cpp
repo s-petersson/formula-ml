@@ -1,6 +1,6 @@
 #include "ExperimentWindow.h"
 #include <core/Keyboard.h>
-
+#include <core/util/Util.h>
 
 /* ExperimentWindow */
 
@@ -73,6 +73,7 @@ void ExperimentWindow::ExperimentState::reset() {
     }
     network_mutex.unlock();
 	raceline_logger->process_jobs();
+
 }
 
 void ExperimentWindow::ExperimentState::run(float dt) {
@@ -91,11 +92,11 @@ void ExperimentWindow::ExperimentState::run(float dt) {
         }
         simulator->update(dt);
     }
-
     // Render
     for (auto && renderer : renderers) {
         renderer->render();
     }
+    
     if (network_view) {
         network_view->render();
     }

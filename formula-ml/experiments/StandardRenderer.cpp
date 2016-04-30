@@ -51,7 +51,6 @@ void StandardRenderer::initialize() {
 }
 
 void StandardRenderer::render() {
-	
 	{ // Update the car trail
 		vec4 pos = vec4(simulator->car->position,1);
 		vec4 col = vec4(0, 0, 1, 1) + (vec4(1, 0, -1, 1) * (simulator->car->getSpeed() / 75.0f));
@@ -83,7 +82,6 @@ void StandardRenderer::render() {
         global_cam->lookAt(vec3(global_cam->position.x,global_cam->position.y,0));
         global_cam->update();
     }
-    
     // Upload model matrix for the grid to the shader and render the grid
     // using that.
     grid_view->render();
@@ -92,11 +90,12 @@ void StandardRenderer::render() {
     track_view->render();
 	car_trail->render();
 	car_view->render();
-	gui->clear();
+    
+    gui->clear();
 	gui->add_text("Distance: " + std::to_string(simulator->result.distance_driven), 16, vec3(20, 720, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
     gui->add_text("To left edge: " + std::to_string(simulator->distance_to_left_edge()), 16, vec3(20, 700, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
     gui->add_text("To right edge: "+ std::to_string(simulator->distance_to_right_edge()), 16, vec3(20, 680, 0), vec4(1.0f, 0.33f, 0.67f, 1.0f));
-	gui->render();
+	gui->render();    
 }
 
 void StandardRenderer::update(float dt) {

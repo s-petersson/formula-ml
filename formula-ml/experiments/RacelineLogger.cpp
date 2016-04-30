@@ -54,7 +54,6 @@ void RacelineLogger::process_jobs() {
     
 	work_mutex.lock();
 	for (auto && job : job_queue) {
-        printf("Saving raceline \n");
         neat::Network* nw = new neat::Network(job.genome.genes);
         *evaluator->getNetworkLocation() = nw;
         save_raceline(job.location);

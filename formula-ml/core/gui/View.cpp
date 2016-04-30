@@ -4,6 +4,8 @@
 #include <iostream>
 #include <mutex>
 
+#include <core/util/Util.h>
+
 using namespace gui;
 using namespace std;
 using namespace glm;
@@ -12,6 +14,7 @@ View::View() {
     font = new Font();
     primitive_program = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
     text_program = CreateShader("./res/shaders/text.vert", "./res/shaders/text.frag");
+
     origin = vec3(0, 0, 0);
     set_transform(mat4(1));
     set_projection(ortho(0.0f, 1280.0f, 0.0f, 720.0f, -1.0f, 1.0f));
@@ -207,11 +210,11 @@ void View::add_text(const std::string& text, float size,glm::vec3 p, glm::vec4 c
 
 void View::set_transform(const glm::mat4& mat) {
     transform = mat;
+    
     glUseProgram(primitive_program);
     glUniformMatrix4fv(glGetUniformLocation(primitive_program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(transform));
     glUseProgram(text_program);
     glUniformMatrix4fv(glGetUniformLocation(text_program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(transform));
-
 }
 
 void View::set_projection(const glm::mat4& mat) {
@@ -221,7 +224,6 @@ void View::set_projection(const glm::mat4& mat) {
     glUniformMatrix4fv(glGetUniformLocation(primitive_program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(proj));
     glUseProgram(text_program);
     glUniformMatrix4fv(glGetUniformLocation(text_program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(proj));
-
 }
 
 void View::set_view(const glm::mat4& mat) {

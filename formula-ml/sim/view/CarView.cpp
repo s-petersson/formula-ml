@@ -1,6 +1,7 @@
 #include <external/include/glm/gtc/type_ptr.hpp>
 #include <external/include/glm/gtx/transform.hpp>
 #include "CarView.h"
+#include <core/util/Util.h>
 
 CarView::CarView(CarModel *dataModel) {
     this->dataModel = dataModel;

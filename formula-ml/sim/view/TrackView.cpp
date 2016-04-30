@@ -3,6 +3,8 @@
 #include <sim/model/TrackModel.h>
 #include "TrackView.h"
 
+#include <core/util/Util.h>
+
 using namespace glm;
 using namespace std;
 
@@ -73,7 +75,6 @@ void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUnifo
     viewModel->set_model_matrix_loc(glGetUniformLocation(shaderProgram, modelMatrixUniform));
 }
 
-// TODO: Get modelMatrixUniformLoc from Model class.
 void TrackView::render() {
 	glUniformMatrix4fv(viewModel->get_model_matrix_loc(), 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(viewModel->getVAO());

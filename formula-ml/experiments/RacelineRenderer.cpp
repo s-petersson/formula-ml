@@ -29,8 +29,6 @@ void RacelineRenderer::initialize() {
     global_cam = make_unique<Camera>(90.0f, 16.0f / 9, 0.f, 1000.0f);
     global_cam->setUniformLocations(shader, "viewMatrix", "projectionMatrix");
     global_cam->up = vec3(1, 0, 0);
-
-    util::gl_error_check("RACELINE RENDERER INIT");
 }
 
 void RacelineRenderer::render() {
@@ -44,8 +42,6 @@ void RacelineRenderer::render() {
     track_view->render();
     raceline->render();
     glUseProgram(0);
-
-    util::gl_error_check("RACELINE RENDERER RENDER");
 }
 
 void RacelineRenderer::update(float dt) {

@@ -73,23 +73,22 @@ void Window::run() {
             fps = 0;
             fps_timer -= 1000;
         }
-
         if (state) {
 			//state->update((float)dt / 1000);
             state->run(0.01f);
 		}
-
+        
         //Blit the framebuffer to screen.
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);   
         glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo.id);
         glBlitFramebuffer(0, 0, fbo.width, fbo.height, 0, 0, fbo.width, fbo.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
+        
 		glfwSwapBuffers(window);
 		glfwPollEvents();
         glfwSwapInterval(1);
 
-        util::gl_error_check("MAIN LOOP");
+        util::gl_error_check("WINDOW FRAME END");
 	}
 
 	glfwTerminate();
