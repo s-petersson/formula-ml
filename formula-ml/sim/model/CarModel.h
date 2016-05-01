@@ -30,7 +30,7 @@ struct CarControl {
 
 class CarModel {
 public:
-    CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed, float max_speed);
+    CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed, float min_speed, float max_speed);
     ~CarModel();
 
 	void reset();
@@ -49,6 +49,7 @@ public:
 
     float distance_on_track;
 	float max_speed;
+    float min_speed;
 
 	float min_turning_radius();
 private:
@@ -63,5 +64,6 @@ private:
 	glm::vec3 initial_direciton;
     float initial_speed;
     float initial_max_speed;
+    float initial_min_speed;
 };
 #endif

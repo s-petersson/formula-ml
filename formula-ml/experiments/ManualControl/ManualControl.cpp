@@ -15,7 +15,7 @@ ManualControl::ManualControl() {
 
     simulator->progress_timeout     = 5;
     simulator->track                = new TrackModel(glm::vec3(0,0,0), "./res/models/circuit_narrow.model", true);
-    simulator->car                  = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), 0.f, 15.f);
+    simulator->car                  = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), 0.f, 0.f, 15.f);
 
     std::vector<Renderer*> renderers;
 

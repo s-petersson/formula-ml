@@ -15,7 +15,7 @@ const float maxCentipetalForce = 2500;	// Guessed [N]
 
 using namespace glm;
 
-CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed, float max_speed) {
+CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed, float min_speed, float max_speed) {
     model                   = new Model("./res/models/car.model");
     this->position          = position;
     this->initial_position  = position;
@@ -30,6 +30,9 @@ CarModel::CarModel(glm::vec3 position, glm::vec3 direction, float initial_speed,
     this->max_speed         = max_speed;
     this->initial_max_speed = max_speed;
 
+    this->min_speed         = min_speed;
+    this->initial_min_speed = min_speed;
+
     checkpoint              = 1;
     distance_on_track       = 0;
 	current_control         = CarControl();
@@ -42,6 +45,7 @@ CarModel::~CarModel() {
 void CarModel::reset() {
     position                        = initial_position;
     direction                       = initial_direciton;
+    min_speed                       = initial_min_speed;
     max_speed                       = initial_max_speed;
     checkpoint                      = 1;
     distance_on_track               = 0;
@@ -120,7 +124,7 @@ void CarModel::update(float dt, struct CarControl control) {
 			velocity += direction * (forwardForce * dt / mass);
 		}
 	}
-	else if (current_control.acceleration < 0) {
+	else if (current_control.acceleration < 0 && currentSpeed > min_speed) {
 		forwardForce = brakeForce * current_control.acceleration;
 		velocity += direction * (forwardForce * dt / mass);
 		if (length(normalize(velocity) + direction) < 1) {

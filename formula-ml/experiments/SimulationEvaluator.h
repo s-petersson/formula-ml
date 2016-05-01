@@ -34,6 +34,7 @@ struct SimulatorSettings {
     float termination_distance;
     float max_time;
 
+    float car_speed_min;
     float car_speed_max;
     float car_speed_initial;
 
