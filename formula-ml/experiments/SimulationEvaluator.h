@@ -7,25 +7,25 @@
 
 struct AiSettings{
     // Inputs
-    bool angle_to_line;
-    bool distance_to_middle;
-    bool distance_to_edges;
-    bool speed;
+    bool angle_to_line = false;
+    bool distance_to_middle = false;
+    bool distance_to_edges = false;
+    bool speed = false;
 
-    bool curve_data;
+    bool curve_data = false;
     int nbr_of_curve_points;
     float curve_point_spacing;
     float curve_point_spacing_incremental_percentage;
 
-    bool curve_data_sum_absolutes;
-    bool curve_data_flip;
+    bool curve_data_sum_absolutes = false;
+    bool curve_data_flip = false;
 
-    bool checkpoint_data;
+    bool checkpoint_data = false;
     int checkpoint_data_nbr;
 
     // Outputs
     /// Steer is default
-    bool output_speed;
+    bool output_speed = true;
 };
 
 struct SimulatorSettings {
@@ -34,12 +34,12 @@ struct SimulatorSettings {
     float termination_distance;
     float max_time;
 
-    float car_speed_min;
+    float car_speed_min = 0;
     float car_speed_max;
-    float car_speed_initial;
+    float car_speed_initial = 0;
 
-	float min_avg_speed;
-	float avg_speed_excemption_distance;
+	float min_avg_speed = 0;
+	float avg_speed_excemption_distance = 0;
 };
 
 int required_nbr_of_inputs(const AiSettings& settings);
