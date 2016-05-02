@@ -1,37 +1,85 @@
 
 \chapter{Method}
 
-\section{Desired Behaviour}
+\section{Requirements of the simulator}
 % What kind of behaviour do we want to find?
-% Behavior -> put requirements on the simulation
+% Desired behaviour -> put requirements on the simulation
+% Simulation -> desired behaviour is optimal
 
-\section{Simulation}
+The purpose of this study is to how well the ai trained by NEAT manages to learn key aspects of the racing behaviour.  Some of the aspects that will be investigated are positioning before curves, racing line though curve, timing and amount of braking and acceleration.
+
+If the behaviour of the ai are to be assessed in comparison to normal racing theory, the optimal behaviour in reality must also be optimal in the simulation. The simulation may approximate or neglect details, as long as the general characteristics remain and the best practises in racing theory are still optimal.
+
+In order for a positioning on the opposite side of a curve to be optimal, the turning radius must increase with the speed and accelerating/braking must be relatively slow.
+
+In order for late apex before a straight to be optimal, accelerating must be slow enough so that a larger initial speed outperform slight sufferings of the curve itself.
+
+In order for not braking/accelerating and turning at the same time in tough regions of a curve to be optimal, the performance must be decreased.
+
+...
+
+
+\section{Simulator implementation}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
-% Requirement on simulation -> satifies the behavior
 
-\section{Training Process/Structure????}
+The simulator consists of two vital components, the car and the track.
+
+The tracks used are all 2D and are modelled using triangles. The track models were created in Maya and are loaded as a mesh (?).
+
+The car is modelled with these [insert] properties. The car is updated in constant size time steps and the following formulas are used [insert].
+
+It is assumed that the presented model fulfil the requirements presented in section 1, and that it does not introduce aspects that in any other way changes the characteristics of the optimal behaviour.
+
+\section{Training Process/Structure, context of the ai, usage of the ai, heading name????}
 % Hur går vi till väga för att träna en AI, hur är AI och träning kopplat till resten av systemet
 % Hur ser träningen ut:
 % AIn styr bilen i varje simulation step
 % Indata
-% Slutgiltliga resultatet av simulationen ger feedback till 
+% Slutgiltliga resultatet av simulationen ger feedback
+
+For each update of the simulator, the neural network is provided with data about the track. The network then provide two float values. One is used for the rate turning and one is used for braking/acceleration.
+
 
 \section{NEAT Implementation}
 % Setup of neat "Samma som neat pappret"
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
 
+Neat was implemented, in C++, as the original paper describes. The following setup of probabilistic parameters were used:
+
+[insert table]
+
+Networks are initialised without any edges, a variant some times called FS-NEAT. (?!?)
+
 \section{Experiments}
 % Introduce the different experiment
 % Overview
-In order to achieve a great level of flexibility in the project, the process have been divided up into a sequence of experiments. These experiments allows for independently changing any part of the implementation such as the simulation, neural network, input/output data, learning algorithms and more. Thus these experiments have allowed for an easy way of gradually increasing the complexity of the problem, as well as providing a convenient way of analysing the behaviour of the neural network and its learning process in different environments.
+% Purpose of the experiments.
+In order to achieve a great level of flexibility in the project, the process have been divided up into a sequence of experiments. These experiments allows for independently changing any part of the implementation such as the simulation, neural network, input/output data, learning algorithms and more.
 
-% Gå igenom metod för varje experiment enskilt. Vad vill vi testa, hur går vi till väga. 
+% What we wanted to test
+% What do we want to achieve by doing this experiment?
+% Present the format:
+    % - Input data
+    % - Output data
+    % - Training method
+    % - Fitness function
 \subsection{XOR Experiment}
+% TODO: Rewrite this section to include everything in the structure list above.
+In order to verify the implementation of the NEAT algorithm, the first experiment performed was one where the training system was configured to teach a neural network how to approximate the exclusive or function (XOR). The reasoning behind this is that a neural network with no hidden neurons will only compute a linear combination of the inputs, thus hidden neurons are required to approximate non-linear functions correctly \cite{haykin:xor, stanley:neat}.
+
+A successful result will generate a network that has a set of hidden neurons, that successfully maximises the fitness function. This verifies that the general functionality of the NEAT implementation works as intended. Which in turn reduces the risk of future experiments encountering potential problems because of the way that NEAT was implemented. Which could cause time being spent on unnecessary debugging and problem solving, keeping the project from progressing at required pace.
+
 \subsection{Fixed speed Experiment}
-\subsection{(Existing steering controller)}
-% narrow track, controler stay on mid line
+Controlling every aspect of the car can be very complicated for the neural network. This experiment aims to reduce that complexity by simplifying the problem such that the neural network only has to control steering, while the car travels forward at a constant speed. This speed can of course be modified in order to force specific race lines in order for the car to take a lap without crashing.
+
+The goal of this experiment is to get a deeper understanding of how complex the problem at hand is aswell as evaluating the format of the input and output data to and from the network, that is related to the steering. How hard is it for the neural network to drive around the track on any raceline? How hard is it to find the optimal one, given that it only has to control the steering? This will give us relevant information on what to expect once we increase the complexity and how
+
+
+
+\subsection{Acc/brake Experiment (Existing steering controller)}
+% Not done!
+% narrow track, controller stay on mid line
 % follow a defined racing line (more close to reality than the first variant)
-\subsection{Acc/brake Experiment}
 \subsection{Shortest Path}
 \subsection{Multiple track}
 \subsection{Alternating tracks}
@@ -39,18 +87,7 @@ In order to achieve a great level of flexibility in the project, the process hav
 
 \iffalse
 
-=== DISPOSITION ===
-
-Desired behaviour (move racing theory to theory?)
-
-Simulation
-- Evaluation of results
-
-Limitation of techniques to Neat (move to introduction?)
-
-(Fixed network, exhaustive search)
-
-Fundamentals of Neat
+====== OLD COMMENTS ======
 
 Usage/variations of Neat
 - Starting structure or not
@@ -63,7 +100,7 @@ Aspects in our tests
 - Different indata
   - (Grid)
   - Curve data
-    - Angles?
+    - Angles
     - Checkpoints
     - Sum
     - Mirror
@@ -75,12 +112,6 @@ Aspects in our tests
   - Several short parts
   - (Short alternating parts. Hopes for modular network. variants... what types of alternating tasks is needed?
 
-Experiments
-- Single long track
-  - Fixed low speed, only steering
-  - Steering and braking
-  - Steer, accelerate and braking
-- ...
 
 \fi
  

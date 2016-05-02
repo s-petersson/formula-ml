@@ -1,24 +1,106 @@
+% WHEN IN DOUBT, USE THIS REFERENCE
+% https://verbosus.com/bibtex-style-examples.html
+%
+
+%%% =========  Articles  ========= %%%
+
+% Article defining and explaining a lot of machine learning terminology 
+% http://ai.stanford.edu/~ronnyk/glossary.html
+@article{glossary,
+    title = "Glossary of Terms - Special Issue on Applications of Machine Learning and the Knowledge Discovery Process",
+    author = "Ron Kohavi & Foster Provost",
+    year = "1998",
+    journal = "Machine Learning",
+    number = "30",
+    pages = "271-274" 
+}
+
+@article{article,
+  author  = {Peter Adams}, 
+  title   = {The title of the work},
+  journal = {The name of the journal},
+  year    = 1993,
+  number  = 2,
+  pages   = {201-213},
+  month   = 7,
+  note    = {An optional note}, 
+  volume  = 4
+}
+
+%NEAT
+@Article{stanley:neat,
+    title={Evolving Neural Networks Through Augmenting Topologies},
+    author={Kenneth O. Stanley \& Risto Miikkulainen},
+    volume={10},
+    journal={Evolutionary Computation},
+    number={2},
+    pages={99-127},
+    url="http://nn.cs.utexas.edu/?stanley:ec02",
+    year={2002}
+}
+
+
+%%% =========  Books  ========= %%%
 
 % Textbook on neural networks
+% XOR problem explaination on page 197
+% Explanations for neural networks and different learning types
 @book{haykin,
     author      = "Simon Haykin",
-    title       = "Neural Networks - A Comprehensive Foundation",
-    publisher   = "Pearson Education",
-    year        = "1999"
+    title       = "Neural Networks: A Comprehensive Foundation",
+    publisher   = "Pearson",
+    year        = 1999,
+    edition     = 2
 }
 
-% The article behind the mario bot
-@article{mario,
-    author  = "Kenneth O. Stanley \& Risto Miikkulainen",
-    title   = "Evolving Neural Networks through Augmenting Topologies",
-    journal = "Evolutionary Computation",
-    number  = "10", 
-    pages   = "99-127",
-    year    = "2002",
-    DOI     = "10.1162/106365602320169811"
+@inbook{haykin:xor,
+    author      = "Simon Haykin",
+    title       = "Neural Networks: A Comprehensive Foundation",
+    publisher   = "Pearson",
+    year        = 1999,
+    edition     = 2,
+    chapter     = 4,
+    pages       = {197-200}
 }
 
-% Textbook on machine learning in general, only have a draft pdf atm, find published version? 
+
+@inbook{haykin:supervised,
+    author      = "Simon Haykin",
+    title       = "Neural Networks: A Comprehensive Foundation",
+    publisher   = "Pearson",
+    year        = 1999,
+    edition     = 2,
+    chapter     = 2,
+    pages       = {85-86}
+}
+
+@inbook{mitchel:approximation,
+    author      = "Tom M. Mitchel",
+    title       = "Machine learning",
+    publisher   = "McGraw-Hill Science/Engineering/Math",
+    year        = 1997,
+    edition     = "International edition",
+    pages       = 105
+}
+
+
+% States that neuroevolution is effective at solving non-linear control tasks.
+@InProceedings{gomez:efficient_nonlinear_control,
+    title={Efficient Non-Linear Control through Neuroevolution},
+    author={Faustino Gomez, Juergen Schmidhuber \& Risto Miikkulainen},
+    booktitle={Proceedings of the European Conference on Machine Learning},
+    address={Berlin},
+    publisher={Springer},
+    pages={654-662},
+    url="http://nn.cs.utexas.edu/?gomez:ecml06",
+    year={2006}
+}
+
+
+
+%%% =========  Misc. BAD, SHAME ON YOU AND YOUR FAMILY ========= %%%
+
+% Textbook on machine learning in general, only have a draft pdf atm, find published version?
 @misc{barber,
     title   = "Bayesian Reasoning and Machine Learning",
     author  = "David Barber", 
@@ -27,26 +109,26 @@
 }
 
 % Article series on racing physics, written 1991-, reformmated 2008
-@misc{beckman_weight_transfer,
+@misc{beckman:weight_transfer,
     title   = "The Physics of Racing",
     author  = "Brian Beckman",
     chapter = "Part 1: Weight Transfer",
     year    = "1991"
 }
-@misc{beckman_circular_motion,
+@misc{beckman:circular_motion,
     title   = "The Physics of Racing",
     author  = "Brian Beckman",
     chapter = "Part 4: There Is No Such Thing as Centrifugal Force",
     pages   = "12",
     year    = "1991"
 }
-@misc{beckman_racing_line_intro,
+@misc{beckman:racing_line_intro,
     title   = "The Physics of Racing",
     author  = "Brian Beckman",
     chapter = "Part 5: Introduction to the Racing Line",
     year    = "1991"
 }
-@misc{beckman_traction_budget,
+@misc{beckman:traction_budget,
     title   = "The Physics of Racing",
     author  = "Brian Beckman",
     chapter = "Part 7: Traction budget",
@@ -72,15 +154,4 @@
     title = "Adaptive Representations for Reinforcement Learning",
     author = "Dr. Shimon Whiteson",
     year = "2010"
-}
-
-% Article defining and explaining a lot of machine learning terminology 
-% http://ai.stanford.edu/~ronnyk/glossary.html
-@article{glossary,
-    title = "Glossary of Terms - Special Issue on Applications of Machine Learning and the Knowledge Discovery Process",
-    author = "Ron Kohavi & Foster Provost",
-    year = "1998",
-    journal = "Machine Learning",
-    number = "30",
-    pages = "271-274" 
 }

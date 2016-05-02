@@ -2,7 +2,26 @@
 
 ## Papers
 
+###Efficient Non-Linear Control through Neuroevolution
+(Martin) 
+http://nn.cs.utexas.edu/downloads/papers/gomez.ecml06.pdf
+This paper show that neuroevolutionary methods, especially CoSyne, but also NEAT and SANE can be effective at finding non-linear control patterns. Also gives an overview of different relevant neuroevolutionary algorithms.
 
+###Speciation in NEAT
+(Martin) 
+http://apps.cs.utexas.edu/tech_reports/reports/tr/TR-1972.pdf
+Technical report covering how the speciation mechanisms in NEAT affect the algorithms performance. 
+````
+@techreport{nodine:ugthesis10,
+title={Speciation in NEAT},
+author={Timothy Nodine},
+number={HR-10-06},
+institution={Department of Computer Science, The University of Texas at Austin},
+type={Undergraduate Honors Thesis},
+url="http://nn.cs.utexas.edu/?nodine:ugthesis10",
+year={2010}
+}
+````
 
 ### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
 Developes a robot that autonomously drives around in an environment with obstacles in it, without crashing into these obstacles. This is done using Q-Learning and representing/approximating the Q-function (or the Q-table) as a neural network.
@@ -10,6 +29,7 @@ Developes a robot that autonomously drives around in an environment with obstacl
 
 
 ### Neural Fitted Q Iteration - First Experiences with a Data Efficient Neural Reinforcement Learning Method
+(Simon)
 **NOTE:** One should have knowledge about `Markov Decision Processes` and `Q-Learning` before reading this summary.
 
 This paper focusses on Q-learning modified to fit neural networks. The problem that it tries to solve is the following:

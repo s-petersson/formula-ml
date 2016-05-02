@@ -1,12 +1,34 @@
-\chapter{Results \& Discussion}
 % Introduce the different experiments
 % If experiment refer to each other, possibly also mention that here.
 
+\chapter{Results \& Discussion}
+This chapter presents and discusses the results that have been achieved during the project. The chapter has been divided into parts by the experiments performed, in order to present the way in which the project has developed over time and the way in which the AIs behaviour has progressed alongside these experiments.
+
+Dividing the project into experiments has allowed for an easy way to gradually increase the complexity or change parameters in the environment of the problem in a way that is convenient to analyse and draw conclusions on the behaviour of the AI for every different experiment.
+
+The projects that have been performed have all had great impacts on the final results. Even though not all of them present great results in themselves, they have had significant impacts in our understanding of the problem and the validation of our problem solving and modelling.
+
+% Refer to the description in method
+% What was the intended result? What did we want to analyse?
+% Present the results of the experiment
+    % - What did it do?
+    % - Fitness
+    % - Generations required before results
+    % - (Population)
+% Analyse the results and the meanings behind them.
+    % - Was it a good result? Why/Why not?
+    % - What conclusions can be drawn from the results?
+    % - How could we modify this experiment in order to get additional meaningful results?
+
 \section{XOR Experiment}
-% refer to the description in Method
-% example: did it help to help in any way
-% example: present data
-% example: did the hypothesis work
+Before any conclusions could be drawn about the other experiments, the validity of the NEAT implementation had to be confirmed. This was done by performing an XOR experiment. The intended result is for the training algorithm to evolve a network with enough hidden neurons to simulate the XOR function, a non-linear function that cannot be performed by a neural network without hidden neurons.
+
+The experiment performed well and successfully approximated the XOR function after XX generations. One can see the fitness in relation to the generation number in Figure X.X.
+% TODO: Talk more about the Figure X.X and what tendencies we can see from the results.
+
+% TODO: Write even more here we can have actual results and numbers to talk about
+The result from this experiment is definitely a success, and this means that future experiments can be based upon our NEAT implementation, hopefully without encountering to many problems caused by the NEAT implementation. 
+
 
 \section{Fixed speed Experiment}
 % refer to the description in Method
@@ -21,6 +43,8 @@
 % example: did the hypothesis work
 
 \section{Acc/brake Experiment}
+% Same as Existing steering controller?
+
 \section{Shortest Path}
 \section{Multiple track}
 \section{Alternating tracks}
@@ -30,8 +54,19 @@
 % General question formulations:
 % How to help a machine learning algorithm? Opposition between general algorithms and specialised?
 %
+Ideas (Gabriel, all may not be relevant to discuss, use for "future work"?):
 
+- Are there any properties for when it get stuck or finds good innovations?
 
+- In this project the neural network controlled the car at a low level. Can improvements be achieved if a larger portion of the problem is modeled by the programmer? What is the conflict then between a general and specialised algorithms? How large of a problem can neat solve on its own? Is it easy to provide it with structural knowledge?
+
+- How should a network be evaluated? Trained for some tracks, possibly used for others? How general can a solution be?
+
+- Do the results of this report influence ML in general
+
+- General algorithms vs. specialised. How well can a general algorithm like NEAT perform? How much knowledge are needed to make NEAT to work better vs. using the knowledge in a specialised algorithm?
+
+\iffalse
 
 % Discussion of the behaviour
 % Present current results
@@ -63,6 +98,9 @@ The training algorithm seems to converge towards a simple neural network between
 % What are the benefits and downsides to this compared to other approaches?
 
 \iffalse
+
+====== OLD COMMENTS =====
+ 
 General structure for the results of an experiment:
 - Shortly describe the experiment and reference to the description in Method
 - Result data (See below)
@@ -84,4 +122,5 @@ Result data:
 - Topology of network
  - measurements of different kinds?
 
+\fi
 \fi

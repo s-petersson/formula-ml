@@ -1,31 +1,87 @@
 \chapter{Theoretical Framework}
 % Explain concepts that we rely upon throughout the report. 
+This chapter will introduce the theoretical framework of the project. The following sections will include an explanation of the underlying theory and physics of racing, an introduction to the challenges of digital simulation and an overview of machine learning concepts used in the project. 
+
 
 \section{Racing theory}
+This section will describe some fundamental aspects of racing theory. As mentioned previously, the scope is limited to racing with a single car that should drive around a track with as little time possible.
 
-% A racing line denotes the path a car drive around the track. The classical optimal racing line for a single right hand corner that separate two straights is to drive as far to the left, brake and turn as lata as possible to take a late apex\cite{beckman_racing_line_intro}. That allows for early acceleration onto the straight that increases the average speed.
+Racing tracks are normally broad enough to allow slightly different paths for the driven. The path a driver take also affect the possible speed, and the speed affect how quickly the car can turn. Time is the result from both distance and speed according to the following formula:
 
-% The optimal line depends both of the corner before and after, but a skilled driver might take the whole track in consideration since even small changes in the racing line can have effects for a large portions of the track \cite{beckman_racing_line_intro}. He states that it is generally the best to optimise the racing line for maximum speed on the straights. That result in that the goal of the strategy for close subsequent corners is to minimise the time for the section as a whole. There is a fine balance between optimising the time spent one corner and the position and speed to optimise the others.
+\[
+t = \frac{d}{v}
+\]
 
-% Detta tycker jag att vi kan ta bort. // Simon
-% The web site \textit{drivingfast.net} describe and show figures the characteristics of racing lines for a number of classical corners and how to control the car in each phase of the corner\cite{driving_fast_racing_line}\cite{driving_fast_corners}.
+where $d$ is the distance driven and $v$ is the average speed. The process of minimising the time is a process both minimising the distance driven and maximising the speed. It takes skill as the two need to be balanced properly.
 
-%The optimal behaviour varies somewhat between different types of competitions. During the qualifying lap a single driver at the time tries to get the fastest lap time. During the Grand Prix the goal is to be the first to finish or to get a good emplacement. 
+The section will briefly describe the physics of racing. It is a core part of understanding how professional drivers drive, as will be described in the second next section.
 
-%In order to drive fast, a number of factors must be taking in consideration. Firstly, the way that a car accelerates, brakes and turns is by applying a force with the tyres on the road and the ability to do so is limited\cite{beckman_traction_budget}. During a Grand Prix, when many cars compete at the same time, a driver in addition to drive fast also have to add aspects such as blocking. A driver that is chased may not drive the fastest racing line, but position itself so that the chasing car have difficulties to overtake.
+\subsection{Underlying aspects of physics}
+A moving car has momentum. In order to to change the momentum, to accelerate, brake or change direction of movement, a force need to be applied. These forces are applied through the tyres. 
+
+The abilities of the car is limited to how great force it can apply through the tyres. If the car would try to exceed the available traction, the tyres would slide or spin. 
+
+The brakes are generally very efficient and are mostly limited by the traction of the tyres, whereas accelerating is limited by the torque of the engine. In addition to this, drag pull to slow the down. When the car brakes, the tyres and the drag will work together, but an accelerating car has to work against the drag. These aspects make cars accelerate slower than they can brake.
+
+As the speed increases, the kinetic energy increases quadratically. A consequence is that a greater force is required to change the momentum. Accelerating and braking takes longer time and the turning radius is larger.
+
+The traction for different directions of a tyre are not independent from each other. If the car apply a force forwards or backwards, it affect the limit for forces sideways, and vice versa. Therefore, the car can not brake and turn as much at the same time, as is possible when only one them is done.
+
+Due to the shape of a racing car, drag contribute to the traction as the car is pushed down, a so called down force. As the speed get larger, this effect is also increased.
+
+
+\subsection{Introduction to racing lines}
+A racing line denotes the path a car drive around the track.
+
+As previously mentioned, driving fast and driving short are the key aspects to optimise, but they sometimes opposite each other. If the car drives fast, the turning radius is increased and the car might need to drive a longer path, which may take longer time in total. 
+
+However, if the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections, as the difference in speed will accumulate more time.
+
+A typical behaviour is therefore to position the car on the opposite side of where a curve is turning [insert illustation]. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
+
+But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive shortly. [insert illustration]
+
 
 
 \section{Digital Simulation}
 % - Discrete steps
 % - Numerical errors
 
-\section{Machine Learning}
-\subsection{Neural networks as knowledge model}
-\subsection{Supervised Learning}
-\subsection{Unsupervised Learning}
-\subsection{Reinforcement Learning}
-%A central aspect of the learning process is evaluating the performance of the actor. Algorithms withing supervised learning rely on comparing results with example data. However if there is no example data to rely on feedback has to be acquired in some other way. One type of machine learning algorithms called Reinforcement learning. In reinforcement learning each actor is given a score based on a set of rules or heuristic that rewards the actor for actions with positive outcomes and vice versa.
+This section will present some key aspects of digital simulation. 
 
-%The performance or fitness of an actor is then used as the basis of some transforming process that improves the actor itself or the whole population. The modification process differs based on what kind of knowledge model the actors are based upon. In a Markov process the modification could be an alteration of a probability, in a neural network a change to the connection weights or a new connection.  
+A computer cannot handle continues calculations and must rely on models of reality. This will introduce numerical errors in the calculations. It is therefore important to motivate that the errors introduced are small enough for it to not decrease the quality of the simulation.
+
+The simulator holds a state of what it simulates. As the simulation progress by calculating what the new state should be after an amount of time. 
+
+One of the limitations of this way of simulating is that it difficult to take in to account events that should have occurred during the time slice, or multiple degrees of derivatives. 
+
+The mentioned limitations may lead to problems, typically for closed systems that should stay stable over time, for example planets in orbit. 
+
+
+
+\section{Machine Learning}
+Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. 
+
+\subsection{Neural networks as knowledge model}
+Mathematical model. Structure similar to the structure of the human brain. A set of inputs is connected to a set of outputs with a network of artificial neurons. 
+
+Represents a mathematical function.
+
+A neural network with at least two hidden layers that uses sigmoid functions in the nodes can be used to approximate any real function, and the number of nodes increase how well the approximation can be \cite{mitchel:approximation}
+
+
+\subsection{Supervised Learning}
+Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}.  
+
+\subsection{Unsupervised Learning}
+Unsupervised learning is a type of machine learning that in contrast to supervised learning does not learn to predict or approximate a correct output given an input, but rather learn to group sets of inputs into categories based on the input values. These algorithms are prevalent in data mining and other areas where clustering is useful. 
+
+\subsection{Reinforcement Learning}
+A central aspect of the learning process is evaluating the performance of the actor. Supervised learning algorithms compare the actors output with a set of correct values. However if there is no data set available to train on the feedback must be acquired in some other way. Reinforcement learning algorithms solve this by scoring actors on how well they perform. The set of example data used in supervised learning is replaced by some quantifiable measurement of performance, often calculated from a heuristic. 
+
+The performance is used as the basis of some transforming process that improves the actor itself or the whole population. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
+
+
+\subsection{Neuroevolution}
 
 \subsection{NEAT}
