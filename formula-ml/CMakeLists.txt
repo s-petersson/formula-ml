@@ -10,6 +10,7 @@ link_directories(${PROJECT_SOURCE_DIR}/external/lib)
 add_executable(formula_ml
         core/util/Random.cpp
         core/util/Util.cpp
+        core/gfx/Model.cpp
         experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.cpp
         experiments/Experiment.h
         experiments/SimulationEvaluator.cpp
