@@ -1,10 +1,6 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.2)
 project(formula_ml)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0")
-
-# Include all the packages that we need in order to compile
-# the project.
-find_package(OpenGL REQUIRED)
 
 include_directories("./")
 include_directories(${PROJECT_SOURCE_DIR}/external/include)
@@ -12,48 +8,33 @@ link_directories(${PROJECT_SOURCE_DIR}/external/lib)
 
 # Find and set source files.
 add_executable(formula_ml
-        Main.cpp
-        sim/Simulator.cpp
-        core/Keyboard.cpp
-        core/Window.cpp
-        core/WindowState.h
-        core/gfx/Program.cpp
-        core/gfx/Texture.cpp
-        core/util/Camera.cpp
-        core/util/Util.cpp
         core/util/Random.cpp
-        core/gfx/Model.cpp
-        core/gfx/Texture.cpp
-        core/gui/Font.cpp
-        core/gui/View.cpp
-        sim/SimulationState.cpp
-        sim/view/CarView.cpp
-        sim/model/CarModel.cpp
-        sim/model/TrackModel.cpp
-        sim/view/TrackView.cpp
-        sim/view/GridView.cpp
-        neural/FixedNetwork.cpp
-        neural/Neural.h
-        neural/EvolvingNetwork.cpp
-        neural/FixedNetworkTrainer.cpp
-        neural/FixedNetworkXOR.cpp
-        neural/Helpers.cpp
+        core/util/Util.cpp
+        experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.cpp
+        experiments/Experiment.h
+        experiments/SimulationEvaluator.cpp
+
         neural/neat/Constants.cpp
         neural/neat/Gene.cpp
         neural/neat/Genome.cpp
         neural/neat/Network.cpp
         neural/neat/Pool.cpp
         neural/neat/Species.cpp
-        NeatXOR.cpp
-        NeatTrainer.cpp
-        experiments/Experiment.h
-        experiments/ManualControl/ManualControl.cpp
-        experiments/FixedNetworkMidline/FixedNetworkMidline.cpp
-        experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.cpp
-        experiments/StandardRenderer.cpp
-        experiments/NetworkView.cpp
-        sim/SimulationRenderer.h
-        core/gfx/Renderer.h
-        neural/FileWriter.cpp)
+        neural/neat/Trainer.cpp
 
-target_link_libraries (formula_ml ${OPENGL_LIBRARIES} glfw3 GLEW)
+        neural/EvolvingNetwork.cpp
+        neural/FileWriter.cpp
+        neural/Helpers.cpp
+        neural/Neural.h
+        neural/ResultWriter.cpp
+
+#        neural/FixedNetwork.cpp
+#        neural/FixedNetworkTrainer.cpp
+#        neural/FixedNetworkXOR.cpp
+
+        sim/model/CarModel.cpp
+        sim/model/TrackModel.cpp
+        sim/Simulator.cpp
+
+        Main.cpp
+        )
