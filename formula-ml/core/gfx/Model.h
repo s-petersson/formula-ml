@@ -26,21 +26,14 @@ public:
     Model(std::string path);
     ~Model();
 
-    void create_vao();
     void load_model(std::string path);
 
-    GLuint getVAO();
     vector<float> get_raw_vertices(bool use_w = true);
     vector<int> get_indices();
     glm::mat4x4 get_model_matrix();
     Mesh* get_mesh();
 
-    GLuint get_model_matrix_loc();
-    void set_model_matrix_loc(GLuint location);
 private:
-    GLuint vao;
-    GLuint model_matrix_loc;
-
     Mesh *mesh;
     glm::mat4x4 model_matrix;
 };

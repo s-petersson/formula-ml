@@ -12,8 +12,14 @@ public:
     void setUniformLocations(GLuint shaderProgram, char* modelMatrixUniform);
     void render();
 private:
+    GLuint modelMatrixLoc;
+    GLuint track_vao;
+
     GLuint checkpoints_vao;
-    GLuint checkpoint_triangles;
+    GLuint checkpoint_triangle_count;
+
+    void initTrack();
+    void initCheckpoints();
 
     Model *viewModel;
     TrackModel *dataModel;

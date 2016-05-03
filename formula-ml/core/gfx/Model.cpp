@@ -42,20 +42,8 @@ Mesh* Model::get_mesh() {
     return mesh;
 }
 
-GLuint Model::getVAO() {
-    return vao;
-}
-
 glm::mat4x4 Model::get_model_matrix() {
     return model_matrix;
-}
-
-GLuint Model::get_model_matrix_loc() {
-    return model_matrix_loc;
-}
-
-void Model::set_model_matrix_loc(GLuint location) {
-    model_matrix_loc = location;
 }
 
 void parse_file(string path, vector<Vertex>* vertices, vector<Triangle>* triangles) {
@@ -86,35 +74,6 @@ void parse_file(string path, vector<Vertex>* vertices, vector<Triangle>* triangl
         }
     }
 }
-
-void Model::create_vao() {
-    vector<float> vertices = get_raw_vertices();
-    vector<int> indices = get_indices();
-    
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    // Load the vertices into a buffer
-    GLuint position_buffer;
-    glGenBuffers(1, &position_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
-
-    // Load the indices into a buffer
-    GLuint indices_buffer;
-    glGenBuffers(1, &indices_buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
-
-    // Specify where in the VAO the vertices are located.
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-    glEnableVertexAttribArray(0); // Enable the vertices attribute.
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);
-}
-
 
 void Model::load_model(string path) {
     // Read the file and parse it accordingly, filling the

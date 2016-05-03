@@ -14,6 +14,11 @@ public:
     void setUniformLocations(GLuint shaderProgram, char* modelMatrix);
     void render();
 private:
+    GLuint carVao;
+    GLuint modelMatrixLoc;
+
+    void initCar();
+
     Model *viewModel;
     CarModel *dataModel;
 	gfx::Curve radius_curve; 
