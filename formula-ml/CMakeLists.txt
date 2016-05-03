@@ -11,7 +11,11 @@ add_executable(formula_ml
         core/util/Random.cpp
         core/util/Util.cpp
         core/gfx/Model.cpp
+
         experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.cpp
+        experiments/xor/XORExperiment.cpp
+        experiments/MultipleTrackExperiment/MultipleTrackExperiment.cpp
+        experiments/AlternatingTrackExperiment/AlternatingTrackExperiment.cpp
         experiments/Experiment.h
         experiments/SimulationEvaluator.cpp
 

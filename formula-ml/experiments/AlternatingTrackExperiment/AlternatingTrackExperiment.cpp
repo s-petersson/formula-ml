@@ -11,6 +11,9 @@
 #include <experiments/NetworkView.h>
 #include <experiments/SimulationEvaluator.h>
 #include <experiments/ExperimentWindow.h>
+
+#define CLOUD_COMPUTING
+
 using namespace neat;
 
 AlternatingTrackExperiment::AlternatingTrackExperiment() { }
@@ -66,11 +69,13 @@ void AlternatingTrackExperiment::run() {
     windowEnvironment->sim_settings = sim_settings;
     windowEnvironment->init();
 
+#ifndef CLOUD_COMPUTING
     auto _eval = new SimulationEvaluator();
     _eval->ai_settings = ai_settings;
 	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>(_eval);
     window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
+#endif
 
     // Define call backs
     trainer->evaluator_factory = [=]() {
@@ -102,7 +107,9 @@ void AlternatingTrackExperiment::run() {
 
     // Start the trainer
     std::thread tt = std::thread(&Trainer::run, trainer);
+#ifndef CLOUD_COMPUTING
     window->run();
+#endif
     tt.join();
 }
 
