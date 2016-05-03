@@ -1,3 +1,5 @@
+#define CLOUD_COMPUTING
+
 #include <iostream>
 #include <core/Window.h>
 #include <sim/SimulationState.h>
@@ -12,7 +14,11 @@
 #include <core/Keyboard.h>
 #include <thread>
 #include <sstream>
+
+#ifndef CLOUD_COMPUTING
 #include <experiments/RacelineLogger.h>
+#endif
+
 using namespace neat;
 
 
@@ -55,22 +61,24 @@ void NeatCurveDataExperiment::run() {
     eval->ai_settings = ai_settings;
     eval->init();
 
+
+#ifndef CLOUD_COMPUTING
     // Prepare the window
 	shared_ptr<RacelineLogger> raceline_logger = make_shared<RacelineLogger>(eval);
     SimulationEvaluator* windowEnvironment = factory();
     window = make_shared<ExperimentWindow>(windowEnvironment->getSimulator(), trainer, raceline_logger);
     window->setNetworkLocation(windowEnvironment->getNetworkLocation(), true);
     raceline_logger->init();
+#endif
 
     trainer->evaluator_factory = factory;
-
-
     // Define callbacks
     trainer->on_generation_done = [&](int generation)
     {
         cout << "New Generation: " << generation << endl;
-		
-		stringstream ss;
+
+#ifndef CLOUD_COMPUTING
+        stringstream ss;
 		ss << trainer->savePath <<"generation_"<< generation << ".png";
 		
         RacelineLoggerJob job;
@@ -78,7 +86,7 @@ void NeatCurveDataExperiment::run() {
         job.location = ss.str();
 		
 		raceline_logger->add_job(job);
-		
+#endif
     };
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
@@ -93,6 +101,8 @@ void NeatCurveDataExperiment::run() {
 
     // Start the trainer
 	std::thread tt = std::thread(&Trainer::run, trainer);
+#ifndef CLOUD_COMPUTING
     window->run();
+#endif
 	tt.join();
 }

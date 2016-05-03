@@ -31,9 +31,10 @@ private:
     string load_network_path;
     
     std::shared_ptr<neat::Trainer> trainer;
+
+#ifndef CLOUD_COMPUTING
     std::shared_ptr<ExperimentWindow> window;
-    //neat::Trainer* trainer;
-    //ExperimentWindow* window;
+#endif
 };
 
 #endif
