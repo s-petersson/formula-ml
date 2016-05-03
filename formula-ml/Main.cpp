@@ -2,7 +2,6 @@
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>
 #include <experiments/Experiment.h>
-#include <experiments/FixedNetworkMidline/FixedNetworkMidline.h>
 #include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
 #include <experiments/MultipleTrackExperiment/MultipleTrackExperiment.h>
 #include <experiments/AlternatingTrackExperiment/AlternatingTrackExperiment.h>
