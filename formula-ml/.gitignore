@@ -144,3 +144,10 @@ AutoTest.Net/
 *.xcodeproj
 .DS_Store
 .idea/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+formula_ml
