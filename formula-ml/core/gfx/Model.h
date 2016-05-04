@@ -1,7 +1,6 @@
 #ifndef CORE_GFX_MODEL
 #define CORE_GFX_MODEL
 
-#include <GL/glew.h>
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
