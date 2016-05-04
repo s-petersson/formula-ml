@@ -2,11 +2,14 @@
 #define ALTERNATING_TRACK_EXPERIMENT
 
 #include <experiments/Experiment.h>
-#include <experiments/ExperimentWindow.h>
 #include <experiments/SimulationEvaluator.h>
 
 #include <neural/neat/Trainer.h>
 #include <neural/neat/Network.h>
+
+#ifndef CLOUD_COMPUTING
+#include <experiments/ExperimentWindow.h>
+#endif
 
 class AlternatingTrackExperiment : public Experiment {
 public:
@@ -19,7 +22,9 @@ private:
     string load_network_path;
 
     std::shared_ptr<neat::Trainer> trainer;
+#ifndef CLOUD_COMPUTING
     std::shared_ptr<ExperimentWindow> window;
+#endif
 
     class _Evaluator : public neat::Evaluator {
     public:

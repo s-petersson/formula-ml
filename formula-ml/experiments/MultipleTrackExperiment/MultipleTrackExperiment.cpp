@@ -1,15 +1,13 @@
 #define CLOUD_COMPUTING
 
+#include "MultipleTrackExperiment.h"
 #include <iostream>
 #include <thread>
-#include "MultipleTrackExperiment.h"
 #include <neural/Helpers.h>
+#include <neural/neat/Constants.h>
 
 #ifndef CLOUD_COMPUTING
 #include <core/Window.h>
-#include <neural/neat/Trainer.h>
-#include <neural/neat/Network.h>
-#include <neural/neat/Constants.h>
 #include <experiments/NetworkView.h>
 #include <experiments/SimulationEvaluator.h>
 #include <experiments/ExperimentWindow.h>
