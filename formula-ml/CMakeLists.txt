@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(formula_ml)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -g -pthread")
 
-option(CLOUD_COMPUTING "Compute on the cloud, this removes the OpenGL dependency" ON)
+option(CLOUD_COMPUTING "Compute on the cloud, this removes the OpenGL dependency" OFF)
 
 SET(SRCS core/util/Random.cpp
          core/util/Util.cpp
