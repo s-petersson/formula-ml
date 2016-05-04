@@ -9,6 +9,7 @@
 #include "neat/Species.h"
 #include "neat/Gene.h"
 
+using namespace std;
 
 
 namespace neural {
