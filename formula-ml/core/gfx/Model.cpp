@@ -1,7 +1,6 @@
 #include "Model.h"
 #include <fstream>
 #include <sstream>
-#include <cstring>
 #include <iostream>
 
 using namespace std;

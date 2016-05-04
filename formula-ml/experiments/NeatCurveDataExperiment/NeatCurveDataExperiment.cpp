@@ -1,10 +1,16 @@
 #define CLOUD_COMPUTING
 
 #include <iostream>
-#include <core/Window.h>
+
 #include <sim/SimulationState.h>
 #include <experiments/StandardRenderer.h>
 #include "NeatCurveDataExperiment.h"
+#include <thread>
+
+#ifndef CLOUD_COMPUTING
+#include <experiments/RacelineLogger.h>
+#include <core/Window.h>
+#include <sstream>
 #include <neural/neat/Trainer.h>
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
@@ -12,11 +18,6 @@
 #include <experiments/NetworkView.h>
 #include <experiments/SimulationEvaluator.h>
 #include <core/Keyboard.h>
-#include <thread>
-#include <sstream>
-
-#ifndef CLOUD_COMPUTING
-#include <experiments/RacelineLogger.h>
 #endif
 
 using namespace neat;

@@ -1,18 +1,19 @@
+#define CLOUD_COMPUTING
+
 #include <iostream>
 #include <thread>
-#include <core/Window.h>
 #include "AlternatingTrackExperiment.h"
+#include <neural/Helpers.h>
 
+#ifndef CLOUD_COMPUTING
+#include <core/Window.h>
 #include <neural/neat/Trainer.h>
 #include <neural/neat/Network.h>
 #include <neural/neat/Constants.h>
-#include <neural/Helpers.h>
-
 #include <experiments/NetworkView.h>
 #include <experiments/SimulationEvaluator.h>
 #include <experiments/ExperimentWindow.h>
-
-#define CLOUD_COMPUTING
+#endif
 
 using namespace neat;
 
