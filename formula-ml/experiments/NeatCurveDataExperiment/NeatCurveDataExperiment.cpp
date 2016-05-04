@@ -1,5 +1,3 @@
-#define CLOUD_COMPUTING
-
 #include "NeatCurveDataExperiment.h"
 #include <thread>
 #include <iostream>

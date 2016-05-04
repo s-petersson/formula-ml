@@ -1,5 +1,3 @@
-#define CLOUD_COMPUTING
-
 #include <iostream>
 #include <neural/FixedNetwork.h>
 #include <neural/FixedNetworkTrainer.h>

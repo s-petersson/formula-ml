@@ -1,5 +1,3 @@
-#define CLOUD_COMPUTING
-
 #include "MultipleTrackExperiment.h"
 #include <iostream>
 #include <thread>

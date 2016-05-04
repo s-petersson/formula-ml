@@ -1,5 +1,3 @@
-#define CLOUD_COMPUTING
-
 #include "AlternatingTrackExperiment.h"
 #include <iostream>
 #include <thread>
