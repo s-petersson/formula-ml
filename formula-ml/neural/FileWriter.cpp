@@ -25,7 +25,7 @@ FileWriter::~FileWriter() {
  */
 void FileWriter::stringToFile(string filePath, string content) {
     ofstream file;
-    file.open(filePath);
+    file.open(filePath, ios_base::app);
 
     file << content << endl;
     file.close();
