@@ -1,6 +1,9 @@
 #ifndef MULTIPLE_TRACK_EXPERIMENT
 #define MULTIPLE_TRACK_EXPERIMENT
 
+#include <functional>
+#include <memory>
+
 #include <experiments/Experiment.h>
 #include <experiments/SimulationEvaluator.h>
 

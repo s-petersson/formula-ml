@@ -1,6 +1,9 @@
 #ifndef ALTERNATING_TRACK_EXPERIMENT
 #define ALTERNATING_TRACK_EXPERIMENT
 
+#include <functional>
+#include <memory>
+
 #include <experiments/Experiment.h>
 #include <experiments/SimulationEvaluator.h>
 
