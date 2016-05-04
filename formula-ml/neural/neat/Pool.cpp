@@ -69,23 +69,23 @@ void Pool::cullSpecies(bool cutToOne) {
 void Pool::removeStaleSpecies() {
     vector<Species> survived;
 
-    for (auto && species : species) {
-        if (species.genomes.size() == 0) {
+    for (auto && s : species) {
+        if (s.genomes.size() == 0) {
             cout << "Empty species" << endl;
             continue;
         }
         // Actually quite inefficient to actutally sort to find the max, better to just search.
-        sort(species.genomes.begin(), species.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
-        if (species.genomes[0].fitness > species.topFitness) {
-            species.topFitness = species.genomes[0].fitness;
-            species.staleness = 0;
+        sort(s.genomes.begin(), s.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
+        if (s.genomes[0].fitness > s.topFitness) {
+            s.topFitness = s.genomes[0].fitness;
+            s.staleness = 0;
         }
         else {
-            species.staleness++;
+            s.staleness++;
         }
 
-        if (species.staleness < StaleSpecies || species.topFitness >= maxFitness) {
-            survived.push_back(species);
+        if (s.staleness < StaleSpecies || s.topFitness >= maxFitness) {
+            survived.push_back(s);
         }
     }
     species = survived;
