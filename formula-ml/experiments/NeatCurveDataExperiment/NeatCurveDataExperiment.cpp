@@ -73,9 +73,9 @@ void NeatCurveDataExperiment::run() {
     // Define callbacks
     trainer->on_generation_done = [&](int generation)
     {
-        cout << "New Generation: " << generation << endl;
-
+        string output = "New Generation: " + to_string(generation) + "\n";
 #ifndef CLOUD_COMPUTING
+        cout << output;
         stringstream ss;
 		ss << trainer->savePath <<"generation_"<< generation << ".png";
 		
@@ -84,6 +84,8 @@ void NeatCurveDataExperiment::run() {
         job.location = ss.str();
 		
 		raceline_logger->add_job(job);
+#else
+        neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
 #endif
     };
 
