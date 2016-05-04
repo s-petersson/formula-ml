@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(formula_ml)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -g -pthread")
 
 include_directories("./")
 include_directories(${PROJECT_SOURCE_DIR}/external/include)
