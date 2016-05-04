@@ -92,7 +92,7 @@ std::function<CarControl()> ManualControl::updater() {
                 << data[2] << "\n"
                 << data[3] << "\n"
                 << data[4] << "\n"
-                << data[5] << "\n"s
+                << data[5] << "\n"
                 << data[6] << "\n"
                 << data[7] << "\n"
                 << data[8] << "\n"
