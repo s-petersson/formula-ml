@@ -89,10 +89,19 @@ void NeatCurveDataExperiment::run() {
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
     {
-        cout << "New maximum fitness: " << evaluationResult.fitness                     << endl
-             << "Distance on track:   " << evaluationResult.simResult.distance_on_track << endl
-             << "Distance driven:     " << evaluationResult.simResult.distance_driven   << endl
-             << "Time: "                << evaluationResult.simResult.time_alive        << endl << endl;
+        string output;
+        output += "New maximum fitness: " + to_string(evaluationResult.fitness);
+        output += "\nNew maximum fitness: " + to_string(evaluationResult.fitness);
+        output += "\nDistance on track: "   + to_string(evaluationResult.simResult.distance_on_track);
+        output += "\nDistance driven: "     + to_string(evaluationResult.simResult.distance_driven);
+        output += "\nTime: "                + to_string(evaluationResult.simResult.time_alive);
+        output += "\n\n";
+
+#ifndef CLOUD_COMPUTING
+        cout << output;
+#else
+        neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
+#endif
 
     };
 	

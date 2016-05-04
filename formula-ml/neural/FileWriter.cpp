@@ -17,6 +17,20 @@ FileWriter::FileWriter(std::string input) {
 FileWriter::~FileWriter() {
 
 }
+
+/**
+ * Takes a path to a file and appends the content that was supplied to the file.
+ * This method requires that the file that was supplied already exists.
+ * It will not create the file if it doesn't exist.
+ */
+void FileWriter::stringToFile(string filePath, string content) {
+    ofstream file;
+    file.open(filePath);
+
+    file << content << endl;
+    file.close();
+}
+
 void FileWriter::genomeToFile(Genome genome, std::string path) {
 	ofstream file;
 	file.open(path);
