@@ -19,6 +19,7 @@ namespace neural {
 		FileWriter(std::string root);
 		~FileWriter();
 
+        static void clearFile(string filePath);
         static void stringToFile(string filePath, string content);
 		void poolToFile(neat::Pool pool, int generation);
 		neat::Pool * poolFromFile(std::string path);

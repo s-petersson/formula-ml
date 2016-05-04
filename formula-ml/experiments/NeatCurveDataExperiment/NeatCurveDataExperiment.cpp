@@ -32,6 +32,7 @@ NeatCurveDataExperiment::~NeatCurveDataExperiment() {
 }
 
 void NeatCurveDataExperiment::run() {
+    neural::FileWriter::clearFile("./log/NeatCurveDataExperiment.txt");
     Config::sigmoid = [](float x) {
         return -1.0f + 2.0f / (1.0f + glm::exp(-x));
     };

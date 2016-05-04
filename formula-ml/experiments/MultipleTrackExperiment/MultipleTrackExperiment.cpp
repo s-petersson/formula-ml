@@ -14,6 +14,7 @@
 #endif
 
 using namespace neat;
+using namespace std;
 
 MultipleTrackExperiment::MultipleTrackExperiment() { }
 
@@ -25,6 +26,7 @@ MultipleTrackExperiment::~MultipleTrackExperiment() {
 }
 
 void MultipleTrackExperiment::run() {
+    neural::FileWriter::clearFile("./log/MultipleTrackExperiment.txt");
     Config::sigmoid = [](float x) {
         return -1.0f + 2.0f / (1.0f + glm::exp(-x));
     };
@@ -85,7 +87,12 @@ void MultipleTrackExperiment::run() {
 
     trainer->on_generation_done = [](int generation)
     {
-        cout << "New Generation: " << generation << endl;
+        string output = "New Generation: " + to_string(generation) + "\n";
+#ifndef CLOUD_COMPUTING
+        cout << output;
+#else
+        neural::FileWriter::stringToFile("./log/MultipleTrackExperiment.txt", output);
+#endif
     };
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
@@ -162,23 +169,28 @@ EvaluationResult MultipleTrackExperiment::_Evaluator::evaluate_network(neat::Net
 }
 
 void MultipleTrackExperiment::_Evaluator::print(const EvaluationResult& result) {
-    cout << endl 
-         << "New Best:"                                                 << endl
-         << "Total fitness:  "  << result.fitness                       << endl
-         << "Total distance: "  << result.simResult.distance_on_track     << endl
-         << "Total time:     "  << result.simResult.time_alive          << endl;
+    string output;
 
-    cout << "Evaluator 0, narrow track:"                                          << endl
-         << " Fitness:  "   << result.partialResults[0].fitness                   << endl
-         << " Distance: "   << result.partialResults[0].simResult.distance_on_track << endl
-         << " Time:     "   << result.partialResults[0].simResult.time_alive      << endl;
+    output += "\nNew Best: \n";
+    output += "Total fitness: "   + to_string(result.fitness) + "\n";
+    output += "Total distance: "  + to_string(result.simResult.distance_on_track) + "\n";
+    output += "Total time: "      + to_string(result.simResult.time_alive) + "\n";
+
+    output += "Evaluator 0, narrow track: \n";
+    output += " Fitness: "        + to_string(result.partialResults[0].fitness) + "\n";
+    output += " Distance: "       + to_string(result.partialResults[0].simResult.distance_on_track) + "\n";
+    output += " Time: "           + to_string(result.partialResults[0].simResult.time_alive) + "\n";;
     
-    cout << "Evaluator 1, wide track:"                                            << endl
-         << " Fitness:  "   << result.partialResults[1].fitness                   << endl
-         << " Distance: "   << result.partialResults[1].simResult.distance_on_track << endl
-         << " Time:     "   << result.partialResults[1].simResult.time_alive      << endl;
+    output += "Evaluator 1, wide track: \n";
+    output += " Fitness: "        + to_string(result.partialResults[1].fitness) + "\n";
+    output += " Distance: "       + to_string(result.partialResults[1].simResult.distance_on_track) + "\n";
+    output += " Time: "           + to_string(result.partialResults[1].simResult.time_alive) + "\n";
 
-    cout << endl;
+#ifndef CLOUD_COMPUTING
+    cout << output;
+#else
+    neural::FileWriter::stringToFile("./log/MultipleTrackExperiment.txt", output);
+#endif
 }
 
 void MultipleTrackExperiment::_Evaluator::reset() {

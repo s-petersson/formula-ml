@@ -13,6 +13,7 @@
 #endif
 
 using namespace neat;
+using namespace std;
 
 AlternatingTrackExperiment::AlternatingTrackExperiment() { }
 
@@ -24,6 +25,7 @@ AlternatingTrackExperiment::~AlternatingTrackExperiment() {
 }
 
 void AlternatingTrackExperiment::run() {
+    neural::FileWriter::clearFile("./log/AlternatingTrackExperiment.txt");
     Config::sigmoid = [](float x) {
         return -1.0f + 2.0f / (1.0f + glm::exp(-x));
     };
@@ -82,9 +84,9 @@ void AlternatingTrackExperiment::run() {
 
     trainer->on_generation_done = [](int generation)
     {
-        cout << "New Generation: " << generation
-             << ", Active Evaluator: " << _Evaluator::current_evaluator
-             << endl;
+        string output = "New Generation: " + to_string(generation);
+        output += ", Active Evaluator: " + to_string(_Evaluator::current_evaluator);
+        output += "\n";
 
         int nbr_of_evaluators = 2;
         int generations_per_evaluator = 5;
@@ -94,8 +96,14 @@ void AlternatingTrackExperiment::run() {
             _Evaluator::current_evaluator_count = 0;
             _Evaluator::current_evaluator++;
             _Evaluator::current_evaluator %= nbr_of_evaluators;
-            cout << "Evaluator changed: " << _Evaluator::current_evaluator;
+            output += "Evaluator changed: " + to_string(_Evaluator::current_evaluator);
         }
+
+#ifndef CLOUD_COMPUTING
+        cout << output;
+#else
+        neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
+#endif
     };
 
     trainer->on_new_best = [&](EvaluationResult evaluationResult)
@@ -172,23 +180,30 @@ EvaluationResult AlternatingTrackExperiment::_Evaluator::evaluate_network(neat::
 }
 
 void AlternatingTrackExperiment::_Evaluator::print(const EvaluationResult& result) {
-    cout << endl
-        << "New Best:" << endl
-        << "Total fitness:  " << result.fitness << endl
-        << "Total distance: " << result.simResult.distance_on_track << endl
-        << "Total time:     " << result.simResult.time_alive << endl;
+    string output;
 
-    cout << "Evaluator 0, narrow track:" << (current_evaluator == 0 ? " ACTIVE" : "") << endl
-        << " Fitness:  " << result.partialResults[0].fitness << endl
-        << " Distance: " << result.partialResults[0].simResult.distance_on_track << endl
-        << " Time:     " << result.partialResults[0].simResult.time_alive << endl;
+    output += "\nNew Best: \n";
+    output += "Total fitness:  " + to_string(result.fitness) + "\n";
+    output += "Total distance: " + to_string(result.simResult.distance_on_track) + "\n";
+    output += "Total time:     " + to_string(result.simResult.time_alive) + "\n";
 
-    cout << "Evaluator 1, wide track:" << (current_evaluator == 1 ? " ACTIVE" : "") << endl
-        << " Fitness:  " << result.partialResults[1].fitness << endl
-        << " Distance: " << result.partialResults[1].simResult.distance_on_track << endl
-        << " Time:     " << result.partialResults[1].simResult.time_alive << endl;
+    string trackStatus = (current_evaluator == 0 ? " ACTIVE" : "");
+    output += "Evaluator 0, narrow track:" + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[0].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[0].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[0].simResult.time_alive) + "\n";
 
-    cout << endl;
+    trackStatus = (current_evaluator == 1 ? " ACTIVE" : "");
+    output += "Evaluator 1, wide track:" + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[1].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[1].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[1].simResult.time_alive) + "\n";
+
+#ifndef CLOUD_COMPUTING
+    cout << output;
+#else
+    neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
+#endif
 }
 
 void AlternatingTrackExperiment::_Evaluator::reset() {

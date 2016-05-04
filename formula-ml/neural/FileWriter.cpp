@@ -19,6 +19,15 @@ FileWriter::~FileWriter() {
 }
 
 /**
+ * Takes a path to a file and clears the content in that file.
+ */
+void FileWriter::clearFile(string filePath) {
+    ofstream file;
+    file.open(filePath, std::ofstream::out | std::ofstream::trunc);
+    file.close();
+}
+
+/**
  * Takes a path to a file and appends the content that was supplied to the file.
  * This method requires that the file that was supplied already exists.
  * It will not create the file if it doesn't exist.
