@@ -1,4 +1,4 @@
-#include "GLUtil.hpp"
+#include "GLUtil.h"
 #include <GL/glew.h>
 
 void glutil::gl_error_check(const std::string& tag) {

@@ -4,6 +4,7 @@
 #include <vector>
 #include<iostream>
 
+#include <core/util/GLUtil.h>
 #include <core/util/Util.h>
 
 std::string textFileRead(const std::string& filePath)
@@ -139,7 +140,7 @@ GLuint CreateShader(std::string vertex_source, std::string fragment_source) {
         
 	}
 
-    util::gl_error_check("Shader loading");
+    glutil::gl_error_check("Shader loading");
 	return pid;
 
 }

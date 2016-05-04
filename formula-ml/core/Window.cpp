@@ -6,6 +6,7 @@
 
 #include <core/Keyboard.h>
 #include <core/util/Util.h>
+#include <core/util/GLUtil.h>
 #include <core/util/ImageIO.h>
 
 Window::Window() {
@@ -88,7 +89,7 @@ void Window::run() {
 		glfwPollEvents();
         glfwSwapInterval(1);
 
-        util::gl_error_check("WINDOW FRAME END");
+        glutil::gl_error_check("WINDOW FRAME END");
 	}
 
 	glfwTerminate();
