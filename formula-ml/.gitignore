@@ -151,3 +151,6 @@ CMakeFiles/
 Makefile
 cmake_install.cmake
 formula_ml
+
+# Project specific log file
+log/
