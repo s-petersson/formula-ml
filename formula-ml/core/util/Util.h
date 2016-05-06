@@ -3,7 +3,7 @@
 
 namespace util {
 
-    long current_time();
+    unsigned long current_time();
 
 }
 

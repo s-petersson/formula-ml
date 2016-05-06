@@ -32,16 +32,18 @@ namespace neat {
 		std::function<Evaluator*()> evaluator_factory;
 
 		// Optional parameters
-		std::function<void(EvaluationResult evaluationResult)> on_new_best;
+		std::function<void(EvaluationResult evaluationResult, Genome genome)> on_new_best;
 		std::function<void(int generation)> on_generation_done;
 
         std::string savePath;
+
+        int generation;
 	private:
 		void evaluate(neat::Genome& genome, Evaluator* eval);
 		void evaluate_thread(Evaluator* eval);
 		
 		bool improved = false;
-		int generation;
+		
 
 		neat::Genome best_genome;
 		std::mutex best_genome_mutex;

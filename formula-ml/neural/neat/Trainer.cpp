@@ -133,7 +133,7 @@ void Trainer::set_best(neat::Genome& genome, EvaluationResult evaluationResult) 
 		best_genome = genome;
 		pool->maxFitness = genome.fitness;
 		improved = true;
-        on_new_best(evaluationResult);
+        on_new_best(evaluationResult, genome);
 	}
 	best_genome_mutex.unlock();
 }

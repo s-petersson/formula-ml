@@ -73,22 +73,15 @@ void NeatCurveDataExperiment::run() {
     trainer->on_generation_done = [&](int generation)
     {
         string output = "New Generation: " + to_string(generation) + "\n";
+
 #ifndef CLOUD_COMPUTING
         cout << output;
-        stringstream ss;
-		ss << trainer->savePath <<"generation_"<< generation << ".png";
-		
-        RacelineLoggerJob job;
-        job.genome = trainer->get_best();
-        job.location = ss.str();
-		
-		raceline_logger->add_job(job);
 #else
         neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
 #endif
     };
 
-    trainer->on_new_best = [&](EvaluationResult evaluationResult)
+    trainer->on_new_best = [&](EvaluationResult evaluationResult, Genome genome)
     {
         string output;
         output += "New maximum fitness: " + to_string(evaluationResult.fitness);
@@ -98,8 +91,19 @@ void NeatCurveDataExperiment::run() {
         output += "\nTime: "                + to_string(evaluationResult.simResult.time_alive);
         output += "\n\n";
 
+
 #ifndef CLOUD_COMPUTING
+        static int genome_number = 0;
+        genome_number++;
         cout << output;
+        stringstream ss;
+        ss << trainer->savePath << "genome_" << genome_number << "_" << trainer->generation <<  ".png";
+
+        RacelineLoggerJob job;
+        job.genome = genome;
+        job.location = ss.str();
+
+        raceline_logger->add_job(job);
 #else
         neural::FileWriter::stringToFile("./log/NeatCurveDataExperiment.txt", output);
 #endif

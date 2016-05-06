@@ -104,7 +104,7 @@ void AlternatingTrackExperiment::run() {
 #endif
     };
 
-    trainer->on_new_best = [&](EvaluationResult evaluationResult)
+    trainer->on_new_best = [&](EvaluationResult evaluationResult, Genome genome)
     {
         _Evaluator::print(evaluationResult);
     };

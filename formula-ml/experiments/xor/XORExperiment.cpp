@@ -20,7 +20,7 @@ XORExperiment::XORExperiment()
         cout << "New Generation: " << generation << endl;
     };
 
-    trainer->on_new_best = [](EvaluationResult evaluationResult){
+    trainer->on_new_best = [](EvaluationResult evaluationResult, Genome genome){
         cout << "New best fitness: " << evaluationResult.fitness << endl;
     };
 }
