@@ -67,12 +67,12 @@ void Species::calculate_average_fitness() {
 Genome Species::breedChild() {
     Genome child;
     if (rngf() < CrossoverChance) {
-        Genome g1 = genomes[rngi(genomes.size())];
-        Genome g2 = genomes[rngi(genomes.size())];
+        Genome g1 = genomes[rngi((int)genomes.size())];
+        Genome g2 = genomes[rngi((int)genomes.size())];
         child = crossover(g1, g2);
     }
     else {
-        child = genomes[rngi(genomes.size())];
+        child = genomes[rngi((int)genomes.size())];
     }
     child.mutate();
     return child;

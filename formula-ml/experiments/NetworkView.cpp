@@ -24,7 +24,7 @@ NetworkView::NetworkView(Network* net) {
 		
 	}
     float nr = 5.0f;
-	int input_width = glm::floor(glm::sqrt(network->inputSize())) + 1;
+	int input_width = (int)glm::floor(glm::sqrt(network->inputSize())) + 1;
 	for (int i = 0; i < inputs.size(); i++) {
 		//float y = 50 + 40 * (i / input_width) + (i % 2) * 20;
 		//float x = 50 + 40 * (i % input_width);

@@ -73,7 +73,7 @@ void TrackView::initCheckpoints() {
         positions.push_back(vec4(c.right, 1));
         colors.push_back(vec4(0, 1, 0, 1));
     }
-    checkpoint_triangle_count = positions.size();
+    checkpoint_triangle_count = (GLuint)positions.size();
 
     glGenVertexArrays(1, &checkpoints_vao);
     glBindVertexArray(checkpoints_vao);
@@ -103,7 +103,7 @@ void TrackView::setUniformLocations(GLuint shaderProgram, char* modelMatrixUnifo
 void TrackView::render() {
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(viewModel->get_model_matrix()));
     glBindVertexArray(track_vao);
-    glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, (GLsizei) viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     glBindVertexArray(checkpoints_vao);

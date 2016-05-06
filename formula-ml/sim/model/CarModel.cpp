@@ -3,15 +3,15 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-const float mass = 642;				// [kg]
+const float mass = 642.0f;				// [kg]
 const float my = 0.8f;				// µ - friction coefficient. Guessed
 const float g = 9.82f;
-const float downforceConstant = mass * g / 36.1111 / 36.1111; // c_down * v^2 = mg at 130 km/h
-const float dragConstant = g / 83.3333 / 83.3333; // c_drag * v^2 = 1g at 300 km/h
-const float gasForce = 14.2 * mass;		// [N]
-const float brakeForce = 39 * mass;	    // [N]
-const float minTurningRadius = 10;		// Guessed
-const float maxCentipetalForce = 2500;	// Guessed [N]
+const float downforceConstant = mass * g / 36.1111f / 36.1111f; // c_down * v^2 = mg at 130 km/h
+const float dragConstant = g / 83.3333f / 83.3333f; // c_drag * v^2 = 1g at 300 km/h
+const float gasForce = 14.2f * mass;		// [N]
+const float brakeForce = 39.0f * mass;	    // [N]
+const float minTurningRadius = 10.0f;		// Guessed
+const float maxCentipetalForce = 2500.0f;	// Guessed [N]
 
 using namespace glm;
 

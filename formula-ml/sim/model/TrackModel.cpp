@@ -56,7 +56,7 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
     }
 
     vec2 transPre = vec2(position.x, position.y) * -1.f;
-    float rotationAngle = -atan2(direction.y, direction.x) + 3.14159265359 / 2;
+    float rotationAngle = -atan2(direction.y, direction.x) + 3.14159265359f / 2.0f;
     mat2 rotationMatrix = orientate2(rotationAngle); // 'direction' should be the new y-axis
     vec2 transPost = vec2(grid.width * grid.cell_size / 2, 0);
 
@@ -78,10 +78,10 @@ void TrackModel::fillTrackGrid(TrackGrid& grid, glm::vec3& position, glm::vec3& 
         v3 = vec3((rotationMatrix * (vec2(v3.x, v3.y) + transPre)) + transPost, 0);
 
         // Find the triangle bounding box
-        int xMin = glm::min(glm::min(v1.x, v2.x), v3.x) / grid.cell_size;
-        int xMax = glm::ceil(glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size);
-        int yMin = glm::min(glm::min(v1.y, v2.y), v3.y) / grid.cell_size;
-        int yMax = glm::ceil(glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size);
+        int xMin = (int) (glm::min(glm::min(v1.x, v2.x), v3.x) / grid.cell_size);
+        int xMax = (int) glm::ceil(glm::max(glm::max(v1.x, v2.x), v3.x) / grid.cell_size);
+        int yMin = (int) (glm::min(glm::min(v1.y, v2.y), v3.y) / grid.cell_size);
+        int yMax = (int) glm::ceil(glm::max(glm::max(v1.y, v2.y), v3.y) / grid.cell_size);
 
         // Limit the bounding box to the track matrix
         xMin = glm::max(xMin, 0);
@@ -134,7 +134,7 @@ float middleOf(float left, float right) {
 }
 
 void try_insert(map<string, vector<int>> *all_pairs, map<int, vector<int>> *path_map, int i1, int i2) {
-    int pre_insert_size = all_pairs->size();
+    int pre_insert_size = (int) all_pairs->size();
 
     int lowerIndex = i1 < i2 ? i1 : i2;
     int higherIndex = i1 < i2 ? i2 : i1;
@@ -171,7 +171,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
 
     while(visited < path_map->size() - 1) {
         vector<int> curr_list = path_map->at(curr_key);
-        int size = curr_list.size();
+        int size = (int) curr_list.size();
 
         if (size == 1 || size == 2) {
             int index = (curr_list[0] == last_key) ? 1 : 0;
@@ -184,7 +184,7 @@ void create_path_pairs(vector<Pair> *result, map<int, vector<int>> *path_map, in
             last_key = curr_key;
             curr_key = curr_list[index];
         } else if(size == 3) {
-            int index_with_one_entry;
+            int index_with_one_entry = -1;
             for (int i = 0; i < size; i++) {
                 if (path_map->at(curr_list[i]).size() == 1) {
                     index_with_one_entry = i;

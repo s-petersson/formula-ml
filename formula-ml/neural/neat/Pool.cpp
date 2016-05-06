@@ -60,7 +60,7 @@ void Pool::new_generation() {
 void Pool::cullSpecies(bool cutToOne) {
     for (auto && s : species) {
         sort(s.genomes.begin(), s.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
-        int remove = (int) s.genomes.size() / 2; // Cut half the population. 
+        auto remove = s.genomes.size() / 2; // Cut half the population. 
         if (cutToOne) remove = s.genomes.size() - 1;
         s.genomes.erase(s.genomes.end() - remove, s.genomes.end());
     }
@@ -165,7 +165,7 @@ float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
     for (auto && gene : genes2) {
         if (!i1[gene.innovation]) disjointGenes++;
     }
-    int n = glm::max(genes1.size(), genes2.size());
+    int n = (int)glm::max(genes1.size(), genes2.size());
     return (float)disjointGenes / n;
 }
 

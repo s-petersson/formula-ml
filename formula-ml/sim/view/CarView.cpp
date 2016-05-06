@@ -69,7 +69,7 @@ void CarView::render() {
 
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(car_transform));
     glBindVertexArray(carVao);
-        glDrawElements(GL_TRIANGLES, viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, (GLsizei) viewModel->get_indices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
 }
