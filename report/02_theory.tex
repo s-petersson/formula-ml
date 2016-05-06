@@ -4,22 +4,22 @@ This chapter will introduce the theoretical framework of the project. The follow
 
 
 \section{Racing theory}
-This section will describe some fundamental aspects of racing theory. As mentioned previously, the scope is limited to racing with a single car that should drive around a track with as little time possible.
+This section will describe some fundamental aspects of racing theory. As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible.
 
-Racing tracks are normally broad enough to allow slightly different paths for the driven. The path a driver take also affect the possible speed, and the speed affect how quickly the car can turn. Time is the result from both distance and speed according to the following formula:
+Racing tracks are normally broad enough to allow slightly different paths for the driver. The path a driver take also affect the possible speed, and the speed affect how quickly the car can turn. Time is the result from both distance and speed according to the following formula:
 
 \[
 t = \frac{d}{v}
 \]
 
-where $d$ is the distance driven and $v$ is the average speed. The process of minimising the time is a process both minimising the distance driven and maximising the speed. It takes skill as the two need to be balanced properly.
+where $d$ is the distance driven and $v$ is the average speed. The process of minimising the time is a process of both minimising the distance driven and maximising the speed. It takes skill as the two need to be balanced properly.
 
-The section will briefly describe the physics of racing. It is a core part of understanding how professional drivers drive, as will be described in the second next section.
+The next subsection will briefly describe the physics of racing. It is a core part of understanding how professional drivers drive, as will be described in the second next subsection.
 
 \subsection{Underlying aspects of physics}
 A moving car has momentum. In order to to change the momentum, to accelerate, brake or change direction of movement, a force need to be applied. These forces are applied through the tyres. 
 
-The abilities of the car is limited to how great force it can apply through the tyres. If the car would try to exceed the available traction, the tyres would slide or spin. 
+The abilities of the car is limited to how great force it can apply through the tyres. If the car exceed the available traction, the tyres slide or spin. 
 
 The brakes are generally very efficient and are mostly limited by the traction of the tyres, whereas accelerating is limited by the torque of the engine. In addition to this, drag pull to slow the down. When the car brakes, the tyres and the drag will work together, but an accelerating car has to work against the drag. These aspects make cars accelerate slower than they can brake.
 
@@ -39,9 +39,7 @@ However, if the car exit a curve with a higher speed, it can benefit from a redu
 
 A typical behaviour is therefore to position the car on the opposite side of where a curve is turning [insert illustation]. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
 
-But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive shortly. [insert illustration]
-
-
+But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive short. [insert illustration]
 
 \section{Digital Simulation}
 % - Discrete steps
@@ -57,18 +55,15 @@ One of the limitations of this way of simulating is that it difficult to take in
 
 The mentioned limitations may lead to problems, typically for closed systems that should stay stable over time, for example planets in orbit. 
 
-
-
 \section{Machine Learning}
-Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. 
+Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. Furthermore the suitability of the different algorithms within the problem domain will be discussed.  
 
 \subsection{Neural networks as knowledge model}
-Mathematical model. Structure similar to the structure of the human brain. A set of inputs is connected to a set of outputs with a network of artificial neurons. 
+Machine learning algorithms require some representation of knowledge. One such knowledge model that is in wide use is the Artificial neural network. A neural network is a mathematical model that mimic the structure of the human brain. 
 
-Represents a mathematical function.
+A neural network can represent a mathematical function since it connects a set of input values with a set of output values, thus representing a mapping from the input space to the output space. Changes to the structure of the network changes the nature of the represented functions. 
 
-A neural network with at least two hidden layers that uses sigmoid functions in the nodes can be used to approximate any real function, and the number of nodes increase how well the approximation can be \cite{mitchel:approximation}
-
+A neural network with at least two hidden layers with sigmoid functions as its activation function can be used to approximate any real function and the possible accuracy increases with the number of nodes \cite{mitchel:approximation}.
 
 \subsection{Supervised Learning}
 Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}.  
@@ -81,7 +76,22 @@ A central aspect of the learning process is evaluating the performance of the ac
 
 The performance is used as the basis of some transforming process that improves the actor itself or the whole population. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
 
-
 \subsection{Neuroevolution}
+Neuroevolution is a type of machine learning that learns by emulating natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. 
+The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
 
-\subsection{NEAT}
+This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network.
+
+This type of machine learning has been shown to be effective in comparison to other machine learning algorithms at solving non-linear control tasks such as the pole balancing problem \cite{gomez:efficient_nonlinear_control}.
+
+\subsection{Neuroevolution through Augmenting Topologies}
+One neuroevolution algorithm is Neuroevolution through Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of actors that are divided into groups called species. Actors are only compared within their species in order to allow for greater diversity in the pool. Species that are comparatively weak or have stopped improving for a number of generations are removed.  
+
+
+
+
+
+
+
+
+

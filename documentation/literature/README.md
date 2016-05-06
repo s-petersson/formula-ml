@@ -207,11 +207,6 @@ Uses a modified version of A*. Used in a horse racing game.
 Probably not relevant. Not read yet. 
 
 
-
-## Books
-
-
-
 #### Game AI: Simulating Car Racing Game by Applying Pathfinding Algorithms
 (Gabriel)
 Jung-Ying Wang and Yong-Bin Lin
@@ -219,6 +214,15 @@ International Journal of Machine Learning and Computing, Vol. 2, No. 1, February
 ````
 Not relevant. They used a modified A* algorithm but did not appear to focus on lap times. They found gates to drive the shortest possible path.
 
+
+
+## Books
+
+#### Fast car physics
+Chuck Edmondson
+2011
+Baltimore
+Md. : Johns Hopkins University Press
 
 
 #### Neural Networks - A Comprehensive Foundation

@@ -39,4 +39,4 @@ Q-Learning is very different from the approach that we are currently using, and 
 
 ## Daniel
 Finished the loading and saving of Generations, and the network can be loaded from an arbitrary location. Though there is still one bug, that is that the Generation count resets when a saved network is loaded.
-One thing that I have come across in the reseach is Tilet
+One thing that I have come across in the research is Tile optimisation

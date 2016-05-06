@@ -84,3 +84,10 @@ Examples of single right turns
 Examples of right-left curves
 - Medium speed, outer for both turns: Two rather separated curves that essentially is to single curves
 - Medium speed, outer for the first, middle for the second: Two close curves
+
+
+## Daniel
+
+### Steering
+The steering of the car is currently very simplified in the current simulator. By choice we have made the car such that it cannot turn the steering wheel more than it can handle, so that it would never lose the grip with the tyres. This is a nice simplification, but the mappings with steering and network outputs might be weird and causing problems for the learning when it does not need to. 
+Currently the network outputs goes from -1 to 1 with maximum steering to each side, but the car interpret this interval to be at the current possible turning interval. This gives the inconsistent that the steering output 0,05 will never give the same car steering in the simulator. 

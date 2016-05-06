@@ -19,7 +19,7 @@ In order for not braking/accelerating and turning at the same time in tough regi
 ...
 
 
-\section{Simulator implementation}
+\section{Simulator Implementation}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
 
 The simulator consists of two vital components, the car and the track.
@@ -30,25 +30,60 @@ The car is modelled with these [insert] properties. The car is updated in consta
 
 It is assumed that the presented model fulfil the requirements presented in section 1, and that it does not introduce aspects that in any other way changes the characteristics of the optimal behaviour.
 
-\section{Training Process/Structure, context of the ai, usage of the ai, heading name????}
-% Hur går vi till väga för att träna en AI, hur är AI och träning kopplat till resten av systemet
-% Hur ser träningen ut:
-% AIn styr bilen i varje simulation step
-% Indata
-% Slutgiltliga resultatet av simulationen ger feedback
-
-For each update of the simulator, the neural network is provided with data about the track. The network then provide two float values. One is used for the rate turning and one is used for braking/acceleration.
-
-
 \section{NEAT Implementation}
 % Setup of neat "Samma som neat pappret"
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
 
-Neat was implemented, in C++, as the original paper describes. The following setup of probabilistic parameters were used:
+The NEAT algorithm was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a Lua implementation used in a Super Mario bot \cite{mario_source}. 
 
-[insert table]
 
-Networks are initialised without any edges, a variant some times called FS-NEAT. (?!?)
+
+\section{Training Process}
+% Hur går vi till väga för att träna en AI, hur är AI och träning kopplat till resten av systemet
+% Hur ser träningen ut:
+% AIn styr bilen i varje simulation step
+% Indata, förklara inte vilken typ av indata, säg bara vart den kommer ifrån.
+% Slutgiltliga resultatet av simulationen ger feedback
+
+This section will start to describe how a neural network is used in the simulator and will continue to describe how NEAT is used to train such networks. After a short overview over how the different parts relate to each other, two subsections will get into the details on what data the network works with and how a simulation is evaluated.
+
+For each update of the simulator, the neural network is provided with data about the car and the track. The resulting values are then used to steer the car. The data will be described into detail in the "Interpretation" section.
+
+When the neat algorithm run, new neural networks are produced and evaluated. When the network is evaluated, a car controlled by the network is simulated and run until it finishes the track or crashes. The result will be used to produce a fitness, used by the neat algorithm. How the fitness is calculated is presented in the "Evaluation" section.
+
+\subsection{Interpretation - Make list or table?}
+% Talk about how the environment is represented in relation to the neural network.
+% How does the AI see the world? What does the inputs look like?
+% What kind of output does the AI give to steer and control the vehicle?
+% NOTE: Explain the potential solutions, but do not give away which one is being used in the final version, this conclusion needs to come from performing experiments and should thus be presented in the discussion & results.
+% Problem modelling. 
+
+This subsection will define different indata and output data for the neural networks that was used in different experiments. Not all of them was used for every experiment, but this section serve to be referenced, in order to avoid redundant descriptions.
+
+Two different output values have been used in experiments, one for turning rate and one for acceleration and braking. 
+
+The turning rate value has the range [-1, 1], where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can.
+
+The acceleration and braking value has the range [-1, 1]. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
+
+When it comes to the different input values, the amount of different values are slightly larger.
+
+Some of the optional values describe the current state of the car. One of the them is the speed of the car, measured in meters per second. Then values are used for the distance to the middle of the track and the distances to the right and left edge of the track. Another value is the angle between the direction of the car and the mid line of the track.
+
+Another set of values describe the shape of the track ahead. One method used is consider the mid line of the track. It then picks points on that line with a fixed distance spacing, and takes the angles that separate the imaginary line segments between the point. In this way.
+
+
+\subsection{Evaluation}
+% Prata om fitness funktionen, men den behöver även "arbetas fram ur experimenten".. på något vis? Vi hade ju inte denna från början, den kom fram som en biprodukt av experimenten?
+% Tänk också på läsaren, vad är lättast för den som läser att förstå
+% Fitness functions
+
+Running a simulation will give three values, the time the car was driving, the distance the car drove and how far the car came along the track. Worth noting is that the driven distance and the distance on the track is not necessarily the same, as the car may take curves on the inner and the outer side or drive in a serpentine.
+
+How these three values are considered will effect what properties the neat will find. It is important to find a fitness function that not structurally encourage an unwanted behaviour.
+
+The fitness function currently being used take firstly take in consideration the distance the car has went on the track. Secondly, if the car manages to around drive the complete track, the fitness will also increase the faster the car go.
+
 
 \section{Experiments}
 % Introduce the different experiment
@@ -56,33 +91,63 @@ Networks are initialised without any edges, a variant some times called FS-NEAT.
 % Purpose of the experiments.
 In order to achieve a great level of flexibility in the project, the process have been divided up into a sequence of experiments. These experiments allows for independently changing any part of the implementation such as the simulation, neural network, input/output data, learning algorithms and more.
 
+% What is tested
+% Purpose goal
+
 % What we wanted to test
 % What do we want to achieve by doing this experiment?
+% How do we want to test this?
 % Present the format:
     % - Input data
     % - Output data
-    % - Training method
     % - Fitness function
-\subsection{XOR Experiment}
+% How does a successful/failed result look like? 
+
+\subsection{Exclusive OR - Remove}
 % TODO: Rewrite this section to include everything in the structure list above.
 In order to verify the implementation of the NEAT algorithm, the first experiment performed was one where the training system was configured to teach a neural network how to approximate the exclusive or function (XOR). The reasoning behind this is that a neural network with no hidden neurons will only compute a linear combination of the inputs, thus hidden neurons are required to approximate non-linear functions correctly \cite{haykin:xor, stanley:neat}.
 
 A successful result will generate a network that has a set of hidden neurons, that successfully maximises the fitness function. This verifies that the general functionality of the NEAT implementation works as intended. Which in turn reduces the risk of future experiments encountering potential problems because of the way that NEAT was implemented. Which could cause time being spent on unnecessary debugging and problem solving, keeping the project from progressing at required pace.
 
-\subsection{Fixed speed Experiment}
-Controlling every aspect of the car can be very complicated for the neural network. This experiment aims to reduce that complexity by simplifying the problem such that the neural network only has to control steering, while the car travels forward at a constant speed. This speed can of course be modified in order to force specific race lines in order for the car to take a lap without crashing.
 
-The goal of this experiment is to get a deeper understanding of how complex the problem at hand is aswell as evaluating the format of the input and output data to and from the network, that is related to the steering. How hard is it for the neural network to drive around the track on any raceline? How hard is it to find the optimal one, given that it only has to control the steering? This will give us relevant information on what to expect once we increase the complexity and how
+\subsection{Steering with a fixed speed}
+Let the car drive with a fixed speed. 
+
+For in data, the AI will get the angle to mid line and the lateral position on the track. It will be tested with and without data on the curvature of the track and also for different speeds. 
+
+This will give insight to how well the ai can interpret data and how a perception on the curvature changes the behaviour.
 
 
+OLD (Bring up some of the stuff in R\&D?):
 
-\subsection{Acc/brake Experiment (Existing steering controller)}
-% Not done!
-% narrow track, controller stay on mid line
-% follow a defined racing line (more close to reality than the first variant)
-\subsection{Shortest Path}
-\subsection{Multiple track}
-\subsection{Alternating tracks}
+Controlling every aspect of the car can be very complicated for the neural network. This experiment aims to reduce that complexity by simplifying the problem in a way such that the neural network only has to control steering, while the car travels forward at a constant speed. The speed can of course be modified forcing the car to take specific race lines in order to complete a lap without crashing.
+
+The goal of this experiment is to get a deeper understanding of how complex the problem at hand is, as well as evaluating the potential of the input and output data to and from the network that is related to steering the car. Examining this will present relevant information regarding what to expect once the complexity of the problem is increased. It should also help with deciding whether or not the way in which the track and steering actions are represented needs to be modified in any way, in order to increase network performance.
+
+% TODO: Rewrite this once Training Process -> Interpretation has been written, so that we can refer back to that section. Note though that curve data should not be a part of this experiment.
+The input data to the neural network in this experiment consists of the angle between the car and the mid line, curve data and the sum of the curve data absolute values as well as the current distance from the car to the mid line. The output that is produced by the network is an evenly distributed float value that ranges from $-1$ to $1$, representing full steering to the right and left respectively.
+
+\subsection{Fixed speed with track curvature data - Remove}
+
+OLD (Bring up some of the stuff in R\&D?):
+
+In order to further increase the complexity of the problem and to examine the possibility of the AI to calculate an optimal race line, the aspect of planning ahead was introduced. The constant speed of the car was increased to a level were going around certain corners in the middle of the track, would not be possible. Thus forcing the network to position the car on a race line that has a larger radius than driving in the middle of the track. Performing this experiment should give some insight into the capabilities of the AI with regards to modifying race lines in order to take a complete lap. Even though the AI might not be able to take the most optimal route, seeing the capabilities of the race line modification could present some interesting information about potential problems or modifications needed.
+
+In order to allow the network to plan ahead, a set of new inputs to the network was introduced. The concept of curve data, as explained in section 3.4.1 was provided to the network. Initially, the distance ahead covered by the new input data was 100 meters, but it was later expanded to 300 meters and 500 meters. Other than this change in input data, the inputs and outputs of the network were the same as in the fixed speed experiment.
+
+A successful experiment will present us with a network that modifies the race line in such a way that it is wide enough for the car to make a complete lap, at a speed that does not allow this in the middle of track. 
+
+
+\subsection{(Speed control with existing steer controller)}
+
+\subsection{Steer and speed control}
+For this experiment, the ai will also be able to control acceleration and braking. In addition to local positioning and the curvature of the track, the car will also get the speed of the car.
+The ai will be tested on a large track and single curve segments. This will show how well it manages both steering and speed control.
+
+\subsection{Multiple short track segments}
+Instead of driving a long track, evaluate with a couple of short track segments. For a long track, failing in one early curve affect the whole result. Testing several short segments may let the car progress in a later curve, before an early on is completed.
+
+It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 
 
 
 \iffalse

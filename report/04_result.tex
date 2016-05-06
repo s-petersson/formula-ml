@@ -20,7 +20,7 @@ The projects that have been performed have all had great impacts on the final re
     % - What conclusions can be drawn from the results?
     % - How could we modify this experiment in order to get additional meaningful results?
 
-\section{XOR Experiment}
+\section{Exclusive OR - Remove}
 Before any conclusions could be drawn about the other experiments, the validity of the NEAT implementation had to be confirmed. This was done by performing an XOR experiment. The intended result is for the training algorithm to evolve a network with enough hidden neurons to simulate the XOR function, a non-linear function that cannot be performed by a neural network without hidden neurons.
 
 The experiment performed well and successfully approximated the XOR function after XX generations. One can see the fitness in relation to the generation number in Figure X.X.
@@ -30,11 +30,66 @@ The experiment performed well and successfully approximated the XOR function aft
 The result from this experiment is definitely a success, and this means that future experiments can be based upon our NEAT implementation, hopefully without encountering to many problems caused by the NEAT implementation. 
 
 
-\section{Fixed speed Experiment}
+
+
+\section{Fixed speed}
 % refer to the description in Method
 % example: did it help to help in any way
 % example: present data
 % example: did the hypothesis work
+
+After it completes a track, rewarding it for improved time or improved distance driven is analogous, since it drive at a constant speed.
+
+
+\subsection{Only local perception}
+[Uncertain statement: Oscillation trick do often not work for subsequent tough curves.]
+
+The car stick to the middle of the track. If it drives in to a curve and appear away from the middle, it tries to recover. If it approached a tight curve, it would not perceive the curve until it suddenly appear to drive away from the middle. This lead to late reactions, making it impossible to get past curves if they were to tight or the speed was too high.
+
+It usually resulted in oscillations around the mid line, usually after some disturbance like the initial curved. Some times the oscillation made it get in better position for a difficult curve, allowing it to complete the curve better. 
+
+Oscillation will cause the car to drive longer than if it would drive straight. After completing the track, if the oscillation was not needed for taking a specific curve, it always stopped. The network managed to learn to make it stable. 
+
+The only way it can know there is a curve, is if it find itself away from the middle. It is therefore impossible for it to sophistically prepare for an approaching curve. The only way it improved after a certain degree was if it found an accidental oscillation, an unstable solution which did not work for several subsequent difficult curves.
+
+Training times... [insert data]
+
+Network structure...  [insert data]
+
+[Does is behave differently with edge distance data instead or in addition to distance to middle data? Will it stick to another lateral position than the middle?]
+
+
+\subsection{Local perception and track curvature}
+
+[All statements uncertain]
+
+The AI had a greater ability to take tough curves as it often learned to turn before the beginning of tough turns, so it managed a slightly higher speed.
+
+for tough turns it found solutions that positioned the car well before tough curves. It sometimes drove a straight line from the previous curve to a good position at the tough curve. There it could start to turn relatively well. However, we did not observe that it intentionally position itself as it arrived to a tough curve.
+
+Behaviour observed...
+
+Training times...
+
+Network structure... 
+
+
+\subsection{Shortest path}
+
+[Some statements uncertain]
+
+If the car drives slow enough for the turning rate to be as low as the tightest curvature of the track, the optimal path will also be the shortest possible path around the track.
+
+The result show that the car manages to shorten the path to a great extent. The difference to drive in the middle of the track is significant.
+
+The optimal behaviour is intuitively to always drive on the inner curves and to drive a straight line between the curves where it has to turn. Small variations on the curvature should not matter, if the edge does not intersect with the path the car drives.
+
+The car follow the key behaviour aspects, but not to the extent that the path is optimal. We can see that it drives tightly to the inner side for very tight curves, but not for low intensity curves.
+
+Training times...
+
+Network structure...
+
 
 \section{(Existing steering controller)}
 % refer to the description in Method
@@ -42,29 +97,56 @@ The result from this experiment is definitely a success, and this means that fut
 % example: present data
 % example: did the hypothesis work
 
-\section{Acc/brake Experiment}
-% Same as Existing steering controller?
+\section{Steer and speed control}
+% refer to the description in Method
+% example: did it help to help in any way
+% example: present data
+% example: did the hypothesis work
 
-\section{Shortest Path}
-\section{Multiple track}
-\section{Alternating tracks}
+\section{Multiple short track segments}
 
 \section{Concluding discussion}
 % Comparison of the results and discussion of the different experiments not mentioned before.
 % General question formulations:
 % How to help a machine learning algorithm? Opposition between general algorithms and specialised?
 %
-Ideas (Gabriel, all may not be relevant to discuss, use for "future work"?):
+Ideas and a possible categorisation (Gabriel):
 
-- Are there any properties for when it get stuck or finds good innovations?
+The neat mechanism
+- Neat train to fulfil a declared goal, not a a description on how to do it
+- What are the properties for getting stuck or to develop innovation? How well do the greedy approach work?
+- How will the stochastic parameters in neat influence this behaviour?
+- Do it exist certain statistical improbabilities or unavoidableness?
+- Analysis: How entangled is a neural network? Can one part evolve safely without disrupting other parts? Is it possible to evolve safely? Catastrophic forgetting?
+- Ability to manage multiple goals? Can it achieve one or several tasks at the same time?
 
-- In this project the neural network controlled the car at a low level. Can improvements be achieved if a larger portion of the problem is modeled by the programmer? What is the conflict then between a general and specialised algorithms? How large of a problem can neat solve on its own? Is it easy to provide it with structural knowledge?
 
-- How should a network be evaluated? Trained for some tracks, possibly used for others? How general can a solution be?
+Generality of results
+- If it is trained for certain tracks, can it manage others?
+- How stable and general is it? Can it manage the same curve in different situations? Stability for unpredicted factors?
+- Over training. What do it mean, is it a risk and can it be avoided?
 
-- Do the results of this report influence ML in general
 
-- General algorithms vs. specialised. How well can a general algorithm like NEAT perform? How much knowledge are needed to make NEAT to work better vs. using the knowledge in a specialised algorithm?
+Neat usability
+- How well do it perform with not knowing how things work?
+- For how large and complex problems can it perform?
+- In our experiments it controlled the car at a low level, can improvements be made if it is modelled differently by the programmer? Added abstractions? More supplemented by other parts of a solution? Several single purpose networks in modules?
+- How much domain knowledge is required to make it ok/very good?
+  - Degree of knowledge?
+  - Type of knowledge? Examples: Structural knowledge provided by the programmer, example data, experience
+  - Worth noting: excluding something unimportant also prove a kind of knowledge
+
+
+Comparison to other algorithms and concepts
+- How do it stand to other algorithms?
+- Compare degree and type of domain knowledge needed? Example of types: Structural knowledge provided by the programmer, example data, experience
+
+
+Conclusion
+- Summarised evaluation of neat and other concepts dealt with in the report
+- What do it mean for ML in general?
+
+
 
 \iffalse
 
@@ -97,30 +179,4 @@ The training algorithm seems to converge towards a simple neural network between
 % Present and discuss what results this method achieved.
 % What are the benefits and downsides to this compared to other approaches?
 
-\iffalse
-
-====== OLD COMMENTS =====
- 
-General structure for the results of an experiment:
-- Shortly describe the experiment and reference to the description in Method
-- Result data (See below)
-- Stages in the learning development
-  - Did it get stuck at some point?
-- What the behaviour became
-  - Description
-  - Image with interesting racing lines
-- Analyse
-- Compare to other experiments (if feasible)
-
-Result data:
-- Training time
- - Number of generations etc.
- - Number of evaluations
-- Fitness
-- Analysis of behaviour, may be of different aspects
-- Settings variables
-- Topology of network
- - measurements of different kinds?
-
-\fi
 \fi
