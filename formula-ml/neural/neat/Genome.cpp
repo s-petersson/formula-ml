@@ -61,7 +61,7 @@ int Genome::randomNeuron(bool input) {
         }
     }
 
-    int temp = rngi(neurons.size());
+    int temp = rngi((int)neurons.size());
     int result = *std::next(neurons.begin(), temp);
 
     return result;
@@ -131,7 +131,7 @@ void Genome::nodeMutate() {
     if (genes.size() == 0) return;
     maxneuron++;
 
-    Gene * gene = &genes[rngi(genes.size())];
+    Gene * gene = &genes[rngi((int)genes.size())];
     if (!gene->enabled) return;
     // disable the old link
     gene->enabled = false;
@@ -162,7 +162,7 @@ void Genome::enableDisableMutate( bool enable) {
     }
     if (candidates.size() == 0) return;
 
-    Gene* gene = candidates[rngi(candidates.size())];
+    Gene* gene = candidates[rngi((int) candidates.size())];
     gene->enabled = !gene->enabled;
 }
 

@@ -70,13 +70,13 @@ void View::render() {
     glUseProgram(primitive_program);
     
     glBindVertexArray(line_vao);
-    glDrawArrays(GL_LINES, 0, line_positions.size());
+    glDrawArrays(GL_LINES, 0, (GLsizei) line_positions.size());
     glBindVertexArray(quad_vao);
-    glDrawArrays(GL_TRIANGLES, 0, quad_positions.size());
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) quad_positions.size());
     glBindVertexArray(0);
     glUseProgram(text_program);
     glBindVertexArray(text_vao);
-    glDrawArrays(GL_TRIANGLES, 0, text_positions.size());
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) text_positions.size());
     glUseProgram(0);
 }
 

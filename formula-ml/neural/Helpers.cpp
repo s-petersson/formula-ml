@@ -58,7 +58,7 @@ namespace neural{
             // 10   for time "max_time"
             // 100  for time "min_time"
             // more for shorter time
-            fitness += 100.f * glm::pow(0.1, (result.time_alive - min_time) / (max_time - min_time));
+            fitness += 100.f * glm::pow(0.1f, (result.time_alive - min_time) / (max_time - min_time));
         }
 
         return fitness;

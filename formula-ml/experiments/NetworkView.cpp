@@ -28,8 +28,8 @@ NetworkView::NetworkView(Network* net) {
 	for (int i = 0; i < inputs.size(); i++) {
 		//float y = 50 + 40 * (i / input_width) + (i % 2) * 20;
 		//float x = 50 + 40 * (i % input_width);
-        float y = 50 + 4 * nr * i;
-        float x = 50;
+        float y = 50.0f + 4.0f * nr * i;
+        float x = 50.0f;
         auto p = inputs[i];
 		positions[p.first] = vec3(x, y, 0);
         vec4 col = (p.first == 0 ? vec4(1, 0, 0, 0.5f) : vec4(1.0f, 1.0f, 1.0f, 0.5f));
@@ -39,7 +39,7 @@ NetworkView::NetworkView(Network* net) {
 	}
 
 	for (int i = 0; i < hidden.size(); i++) {
-		float x = input_width * 40 + 100;
+		float x = input_width * 40.0f + 100.0f;
 		float y = 50 + 4 * nr * i;
 		gui->add_rect(vec3(x - nr, y - nr, 0), vec3(x + nr, y + nr, 0), vec4(1.0f, 1.0f, 1.0f, 0.5f));
 		auto p = hidden[i];
@@ -47,8 +47,8 @@ NetworkView::NetworkView(Network* net) {
 	}
 
 	for (int i = 0; i < outputs.size(); i++) {
-		float x = input_width * 40 + 200;
-		float y = 50 + 40 * i;
+		float x = input_width * 40.0f + 200.0f;
+		float y = 50.0f + 40.0f * i;
 		gui->add_rect(vec3(x - nr, y - nr, 0), vec3(x + nr, y + nr, 0), vec4(1.0f, 1.0f, 1.0f, 0.5f));
 		auto p = outputs[i];
 		positions[p.first] = vec3(x, y, 0);

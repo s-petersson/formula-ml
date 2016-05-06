@@ -3,6 +3,7 @@
 
 #include <core/gfx/Model.h>
 #include <sim/model/TrackModel.h>
+#include <GL/glew.h>
 
 class TrackView {
 public:

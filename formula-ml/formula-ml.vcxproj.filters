@@ -48,6 +48,7 @@
     <ClCompile Include="core\util\ImageIO.cpp" />
     <ClCompile Include="experiments\RacelineRenderer.cpp" />
     <ClCompile Include="experiments\RacelineLogger.cpp" />
+    <ClCompile Include="core\util\GLUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="core\util\ImageIO.h" />
     <ClInclude Include="experiments\RacelineRenderer.h" />
     <ClInclude Include="experiments\RacelineLogger.h" />
+    <ClInclude Include="core\util\GLUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />

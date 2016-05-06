@@ -46,7 +46,7 @@ void Pool::new_generation() {
     }
     cullSpecies(true);
     while (children.size() + species.size() < Population) {
-        Species s = species[rngi(species.size())];
+        Species s = species[rngi((int)species.size())];
         children.push_back(s.breedChild());
     }
     for (auto && i : children) {
@@ -60,7 +60,7 @@ void Pool::new_generation() {
 void Pool::cullSpecies(bool cutToOne) {
     for (auto && s : species) {
         sort(s.genomes.begin(), s.genomes.end(), [](Genome a, Genome b) {return a.fitness > b.fitness; });
-        int remove = s.genomes.size() / 2; // Cut half the population. 
+        int remove = (int) s.genomes.size() / 2; // Cut half the population. 
         if (cutToOne) remove = s.genomes.size() - 1;
         s.genomes.erase(s.genomes.end() - remove, s.genomes.end());
     }

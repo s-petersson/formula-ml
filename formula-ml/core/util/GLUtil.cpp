@@ -6,6 +6,6 @@ void glutil::gl_error_check(const std::string& tag) {
     while ((error = glGetError()) != GL_NO_ERROR) {
         printf("OpenGL ERROR @ ");
         printf(tag.c_str());
-        printf(" : %p \n", error);
+        printf(" : %i \n", error);
     }
 }

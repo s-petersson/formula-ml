@@ -33,7 +33,7 @@ private:
 	std::unique_ptr<gfx::Curve> turn_radius;
     GLuint shader;
     bool follow;
-    long camera_switch_time;
+    unsigned long camera_switch_time;
 };
 
 

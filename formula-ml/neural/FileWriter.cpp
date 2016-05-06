@@ -156,7 +156,7 @@ Genome * FileWriter::genomeFromFile(string path) {
 	getline(file, line);
 	float fitness = stof(line, &st);
 	getline(file, line);
-	float adjustedFitness = stoi(line, &st);
+	float adjustedFitness = stof(line, &st);
 	getline(file, line);
 	int maxNeuron = stoi(line, &st);
 	getline(file, line);

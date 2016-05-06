@@ -145,6 +145,7 @@
     <ClCompile Include="core\gui\View.cpp" />
     <ClCompile Include="core\Keyboard.cpp" />
     <ClCompile Include="core\util\Camera.cpp" />
+    <ClCompile Include="core\util\GLUtil.cpp" />
     <ClCompile Include="core\util\ImageIO.cpp" />
     <ClCompile Include="core\util\Random.cpp" />
     <ClCompile Include="core\util\Util.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="core\gui\View.h" />
     <ClInclude Include="core\Keyboard.h" />
     <ClInclude Include="core\util\Camera.h" />
+    <ClInclude Include="core\util\GLUtil.h" />
     <ClInclude Include="core\util\ImageIO.h" />
     <ClInclude Include="core\util\Random.h" />
     <ClInclude Include="core\util\Util.h" />

@@ -13,14 +13,14 @@ EvolvingNetwork::EvolvingNetwork() {
 	for (int i = 0; i < input_count; i++) {
 		Node temp;
 		nodes.push_back(temp);
-		input_nodes_index.push_back(nodes.size() - 1);
+		input_nodes_index.push_back((int) nodes.size() - 1);
 	}
 
 	//Adding output nodes
 	for (int i = 0; i < output_count; i++) {
 		Node temp;
 		nodes.push_back(temp);
-		output_nodes_index.push_back(nodes.size()-1);
+		output_nodes_index.push_back((int) nodes.size()-1);
 	}
 
 	/*
@@ -65,7 +65,7 @@ void EvolvingNetwork::addHiddenNode(int index_from, int index_to) {
 	removeEdge(index_from, index_to);
 	Node to = nodes[index_to];
 	Node temp;
-	int index = nodes.size();
+	int index = (int) nodes.size();
 
 	nodes.push_back(temp);
 	addEdge(index_from, index, 0.5);
@@ -143,10 +143,10 @@ int EvolvingNetwork::isChild(std::vector<int> visited, int current_node_index, i
 }
 
 int EvolvingNetwork::inputSize() {
-	return output_nodes_index.size();
+	return (int) output_nodes_index.size();
 }
 int EvolvingNetwork::outputSize() {
-	return input_nodes_index.size();
+	return (int) input_nodes_index.size();
 }
 
 

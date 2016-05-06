@@ -82,7 +82,7 @@ void StandardRenderer::render() {
     // Upload camera view and projection matrices to the shader.
     //follow_cam->follow(simulator->car->position, simulator->car->direction, 35.f);
     {
-        long time = util::current_time();
+        unsigned long time = util::current_time();
         if (isKeyDown(GLFW_KEY_SPACE) && time > (camera_switch_time + 100)) {
             follow = !follow;
             camera_switch_time = time;
