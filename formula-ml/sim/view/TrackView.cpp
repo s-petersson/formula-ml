@@ -65,8 +65,7 @@ void TrackView::initTrack() {
 
 void TrackView::initCheckpoints() {
     vector<vec4> positions, colors;
-    vector<Checkpoint> checkpoints = dataModel->get_checkpoints();
-    for (auto && c : checkpoints) {
+    for (auto && c : dataModel->get_checkpoints()) {
         positions.push_back(vec4(c.left, 1));
         colors.push_back(vec4(0, 1, 0, 1));
 

@@ -262,6 +262,6 @@ void TrackModel::create_checkpoints(bool completeTrack) {
     }
 }
 
-std::vector<Checkpoint> TrackModel::get_checkpoints() {
+std::vector<Checkpoint>& TrackModel::get_checkpoints() {
     return checkpoints;
 }

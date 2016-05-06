@@ -64,7 +64,6 @@ inline float angle(glm::vec3 v1, glm::vec3 v2) {
     }
     return angle;
 }
-
 /**
  * Returns the distance to the middle for the current position of the car.
  * TODO Move this to TrackModel and take a vec3 as input, calculate distance to middle from that point.
