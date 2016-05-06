@@ -151,7 +151,12 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
     glm::vec3 last_point = next_point;
     glm::vec3 last_direction = line_normalized;
 
-    for (int i = 0; i < nbr_of_points; i++) {
+    int track_checkpoints_size = (int) track->get_checkpoints().size();
+
+    int i;
+    for (i = 0; i < nbr_of_points; i++) {
+        bool should_break = false;
+
         // Skip line segments until target_distance is withing the next line segment
         while (line_length - distance_on_line < target_distance) {
             // Add the distance for the last line segment
@@ -159,8 +164,13 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
             next_point += line_normalized * (line_length - distance_on_line);
             distance_on_line = 0;
 
-            // Hop to the next pair of checkpoints
+            // If it exist, hop to the next pair of checkpoints
             checkpoint_index++;
+            if (checkpoint_index >= track_checkpoints_size) {
+                should_break = true;
+                break;
+            }
+
             last_checkpoint = next_checkpoint;
             next_checkpoint = track->get_checkpoints()[checkpoint_index].middle;
 
@@ -169,10 +179,13 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
             line_normalized = glm::normalize(line);
             line_length = glm::length(line);
         }
+        if (should_break) {
+            break;
+        }
 
         // Add the part that remains on the current line segment
         next_point += target_distance * line_normalized;
-        distance_on_line = target_distance;
+        distance_on_line += target_distance;
 
         // Calculate the next direction from the last point
         // Write the angle to the last direction to target
@@ -184,6 +197,10 @@ void Simulator::write_track_curve(float* target, int& offset, int nbr_of_points,
         // Reset distance counters
         point_spacing *= point_spacing_increment_factor;
         target_distance = point_spacing;
+    }
+    // If the track ended, write 0
+    for (; i < nbr_of_points; i++) {
+        target[offset++] = 0;
     }
 }
 
