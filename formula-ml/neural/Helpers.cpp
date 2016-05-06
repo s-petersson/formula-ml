@@ -41,7 +41,7 @@ namespace neural{
             float time_fitness = root_difference * root_difference * 5.f;
 
             // If the car would drive slower than the maximum_time constant, make the time a penalty instead
-            fitness += result.time_alive < max_time ? time_fitness : -time_fitness;
+            fitness += result.time_alive < max_time ? time_fitness : 0;
         }
 
         return fitness;
