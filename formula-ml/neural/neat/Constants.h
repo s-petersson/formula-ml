@@ -15,7 +15,7 @@ namespace neat {
 
         static std::function<float(float x)> sigmoid;
     };
-    const int Population = 300;
+    const int Population = 500;
     const float DeltaDisjoint = 2.0f;
     const float DeltaWeights = 0.4f;
     const float DeltaThreshold = 1.0f;

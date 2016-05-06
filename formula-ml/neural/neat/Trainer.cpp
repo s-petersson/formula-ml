@@ -106,10 +106,12 @@ void Trainer::run() {
             on_generation_done(generation);
         }
 
-		(*rw).addNewGeneration( generation, *pool);
+		rw->addNewGeneration( generation, *pool);
 		
 		if (improved) {
-			(*fw).poolToFile(*pool, generation);
+            std::thread result_t = std::thread(&neural::FileWriter::poolToFile, fw, *pool, generation);
+            result_t.detach();
+            //fw->poolToFile(*pool, generation);
 			improved = false;
 		}
 		pool->new_generation();
