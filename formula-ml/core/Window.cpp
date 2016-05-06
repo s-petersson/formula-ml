@@ -26,8 +26,6 @@ Window::Window() {
 		glfwTerminate();
 		throw std::runtime_error("Window creation failed.");
 	}
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glfwMakeContextCurrent(window);
 
 	glewExperimental = GL_TRUE;
@@ -58,7 +56,15 @@ void Window::run() {
     long last_frame = util::current_time();
     int fps = 0;
     long fps_timer = 0;
-	
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+    glutil::gl_error_check("BEFORE SET LINE WIDTH");
+    glLineWidth(1.0f);
+    glutil::gl_error_check("AFTER SET LINE WIDTH");
+
 	while (!glfwWindowShouldClose(window)) {
         glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
         glViewport(0, 0, screen_width, screen_height);
