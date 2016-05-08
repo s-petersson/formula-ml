@@ -14,6 +14,7 @@ The concept of machine learning is to create well-adapted AI systems that requir
 
 In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data. INTRODUCERA MÖJLIGHETEN ATT TRÄNA UTAN DATA.
 
+
 One domain in which this concept (LÄRA SIG RÄJSA MED NEUROEVOLUTION) show some potential is racing. In competitive racing drivers push the physical limits of their cars. The details matter, minute differences in behaviour can accumulate to large time differences. Machine learning could be used to find efficient driving behaviours. There is also the possibility of using machine learning to create the future generation of racing drivers. FIA, the governing body of Formula 1 and many other competitive racing series, has announced a racing series for autonomous cars \cite{roborace}. In the series the teams will use identical cars, except for the software which the teams can modify to gain an advantage. Thus the goal of the competition is to create the most effective autonomous racing system. 
 % Fler saker som är relevant med avseende på machine learning inom racing?
 
@@ -26,6 +27,10 @@ One domain in which this concept (LÄRA SIG RÄJSA MED NEUROEVOLUTION) show some
 
 %Machine learning in its simplest form, being used to solve a relatively simple problem is not very complicated. However it becomes vastly more complicated when applied to a more complex problem, where a simple rule based solution does not really suffice in order to solve the problem well enough. In order to effectively research machine learning this project will take advantage of this fact. The project will focus around the problem of taking a Formula1 (F1) car as fast as possible around any given F1 circuit, a problem that is very flexible in terms of complexity. This will allow the project to start of with the very basics behind machine learning then by slowly increasing the complexity of the problem we can closely examine the more complex concepts behind machine learning.
 
+
+\section{Purpose}
+This report will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. Is it possible to find an effective behaviour from first principles, i.e. without training it to conform to a specific predefined behaviour? Furthermore the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
+
 \section{Problem}
 % Each of the sections needs to be broadened, but it is a start
 Driving a car and racing is a complex behaviour that both contain strategic behaviours and driving the car to it's limit to get the best result as possible. The optimal speed and line of the car is different for each car and depends on grip and acceleration, which both depends on various of variables each. It also depends on how the track/environment looks further down. If there is a curve followed by a straight line, the fastest way is to carry as much speed as possible out from the curve. A curve followed by another curve, would instead have to be calculated to have the best position to the next curve. These are just examples of how complex behaviour a race driver do need to have to drive the car to the limit.
@@ -34,33 +39,26 @@ The controls of a car are not discrete values, as pedals and steering are contin
 
 There are no racing data available from previous races for the research to apply to any machine learning algorithm. If there would have been any data that were available, the virtual domain would have to be set up to match that setup of track, car and environment when the data was performed. This, just as the continuous control values, create boundaries of what methods that can be used (citation needed). There is no sample data to use in the algorithms. 
 
-\section{Purpose}
-This report will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. Is it possible to find an effective behaviour from first principles, i.e. without training it to conform to a specific predefined behaviour? Furthermore the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
+
 
 
 \section{Limitation}
-% Virtual environment, no real car etc. Customisable physic realism.
-    % Simplified physics. Start simple, add more aspects that effect behaviour, when the project is ready for it.
-        % Turning radius as a function of speed. More aspects only dealt with in second hand. 2D, tyres.
-        % 2D, 3D do not add much conceptual interesting aspects. The parameters change somewhat.. (Problem section?)
-% We will only discuss the handling of a single car, ie. the ai will not consider other vehicles or competitive racing strategy. 
-% All curves that were used in the 2015 season of Formula1.
-% Only evaluate one type of machine learning, instead of comparing many different implementations
 
-% TODO Add reasoning as to why we're not taking racing strategy etc into account.
-The scope of this project is limited to finding the optimal behaviour of a race car during a time attack lap. Concepts such as racing strategy, head to head battles between cars, overtaking and pit stops will not be considered when evaluating optimal behaviour.
 
-Aspect that affect the prolonged operation of the car, such as fuel efficiency, tyre wear and break temperatures will 
+% Limitation to time attack, no head to head strategy, no long term strategy, no internal dynamics of car. 
+The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts such as racing strategy, head to head battles between cars, overtaking and pit stops will not be considered when evaluating optimal behaviour. The lap that is to be performed assumes that the cars conditions are optimal and that they will not be modified in any way during the lap, thus aspects that affect the prolonged operation of the car such as fuel efficiency, tyre wear or brake temperatures will not be taken into consideration during the project.
 
-Thus concepts such as racing strategy, head to head battles, overtaking and pit stops will not be considered when evaluating optimal behaviour. Neither aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear or break temperatures will be considered.
+% Limit to neuroevolution/neat, we will not compare different algorithms
+The problem of finding optimal behaviour can be solved by using many different types of machine learning. Potentially multiple kinds of machine learning could even be used in parallel to streamline the learning process, by breaking down the problem into several parts. However, for time-related reasons, this project will only be using and evaluating one type of machine learning, in order to allow for a deeper analysis.
 
-Finding the optimal behaviour will be done using machine learning. There are many different implementations of machine learning that could potentially find the cars optimal behaviour. Potentially many implementations could even work in parallel to improve performance even further. However, for time-related reasons, this project is limited to using and evaluating one machine learning implementation and it's usefulness within this area. 
+% Virtual environment / simulation.
+The AI will operate within a virtual environment to increase the flexibility of the car and its environment, compared to operating a car in the real world. A virtual environment will allow for turning on and off certain aspects of the simulation, which may give opportunities and insights that operating in the real world would not. It however also requires the existence of a simulator that is complex enough to simulate the car and its environment in a believable manner. The car needs to behave similarly to how it would in the real world. Thus part of this project is to develop a simulator that satisfies these conditions. More specifically it will include concepts such as turning radius, acceleration and deceleration. However it will not include more advanced concepts such as tyre grip that varies with temperature or internal dynamics of the car.
 
-The AI will operate within a virtual environment in order to increase the flexibility of the car and its environment compared to operating a car in the real world. However operating within a simulated environment requires the existence of such an environment. This project aims to develop its own simulator, in order to have full control of the environment. The simulator will however be very limited, and will only include parameters that are of great importance to the cars behaviour. This includes parameters such as turning radius as a function of speed, however it does not include internal dynamics of the car or tyre grip that varies with temperature.
+% Specify even more physical aspects, such as no elevation, no temperatures, oxygen levels etc etc. ¨
 
-% The scope of this study is limited to finding behaviours for single cars only competing with the clock in a simulated environment. Head to head racing scenarios or strategies will not be taken into account. The sole purpose will be to optimise the lap times of a single vehicle. Aspects affecting the prolonged operation of the car such as fuel efficiency and tyre wear will also be excluded. 
+% The use of a simulation lets us discard the problem of interpreting the environment, ie we can present the ai with the raw data, we dont need no image analysis etc which would be required irl. 
 
-% Physical effects that are complicated to simulate and of negligible importance to the general behaviour of the car will not be taken into account. This includes concepts such as tyre grip that varies with temperature in the tyres and on the track, internal dynamics of the car.
+
 \section{Literary Review}
 % Instruction from 
 % https://www.reading.ac.uk/internal/studyadvice/StudyResources/Essays/sta-structuringreport.aspx#literature

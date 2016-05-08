@@ -1,4 +1,8 @@
 # Week 13, April 11 - 17
+On Tuesday, we had a supervision meeting with Fackspråk concerning the report. The main point of the discussion was the structure.
+
+Gabriel made continued with refactoring experiments and Daniel made some changes to the car controller.
+
 
 ## Report supervision
 

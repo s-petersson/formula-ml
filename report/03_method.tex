@@ -1,18 +1,19 @@
 
 \chapter{Method}
 
+In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of the NEAT-algorithm, a visualisation system and a control layer which connects the system components. Additionally the reasoning behind and implementation of the experiments that were conducted will be presented. 
+
 \section{Requirements of the simulator}
 % What kind of behaviour do we want to find?
 % Desired behaviour -> put requirements on the simulation
 % Simulation -> desired behaviour is optimal
 
-The purpose of this study is to how well the ai trained by NEAT manages to learn key aspects of the racing behaviour.  Some of the aspects that will be investigated are positioning before curves, racing line though curve, timing and amount of braking and acceleration.
 
-If the behaviour of the ai are to be assessed in comparison to normal racing theory, the optimal behaviour in reality must also be optimal in the simulation. The simulation may approximate or neglect details, as long as the general characteristics remain and the best practises in racing theory are still optimal.
+The purpose of this study is to evaluate how well a machine learning algorithm can manage to learn the key aspects of an effective racing behaviour. Some of the aspects that will be evaluated are positioning throughout corners, timing and speed management. 
 
-In order for a positioning on the opposite side of a curve to be optimal, the turning radius must increase with the speed and accelerating/braking must be relatively slow.
+If the behaviour of the AI is to be assessed in comparison to real world racing theory, the optimal behaviour in the simulated environment must be similar to the optimal behaviour in reality. The simulation may approximate certain aspects or neglect details, as long as the general characteristics remain and the best practises in racing theory are still optimal. % Lite knölig mening. 
 
-In order for late apex before a straight to be optimal, accelerating must be slow enough so that a larger initial speed outperform slight sufferings of the curve itself.
+This requirement on the simulation introduces some constraints to the physics simulation. For example if positioning the car on the far side before taking a corner is to be optimal, the turning radius must increase with the speed of the car and accelerating or decelerating must be relatively slow. Taking a late apex before a straight will only be optimal if a larger initial speed onto a straight outperforms taking a smoother turn due to a slow acceleration rate. 
 
 In order for not braking/accelerating and turning at the same time in tough regions of a curve to be optimal, the performance must be decreased.
 
@@ -24,18 +25,22 @@ In order for not braking/accelerating and turning at the same time in tough regi
 
 The simulator consists of two vital components, the car and the track.
 
-The tracks used are all 2D and are modelled using triangles. The track models were created in Maya and are loaded as a mesh (?).
+The tracks used in the simulator are flat 3D-meshes with triangle faces. The meshes were modelled in Autodesk Maya and were imported as OBJ-files. In order to simplify the representation of the track the cross sections of the track are extracted from the mesh. These cross sections are treated as a series of checkpoints that define the track.  
 
-The car is modelled with these [insert] properties. The car is updated in constant size time steps and the following formulas are used [insert].
+The car is modelled with these [insert] properties. The car is updated in constant size time steps and the following formulae are used [insert].
 
 It is assumed that the presented model fulfil the requirements presented in section 1, and that it does not introduce aspects that in any other way changes the characteristics of the optimal behaviour.
 
+\section{Visualisation ???}
+
 \section{NEAT Implementation}
-% Setup of neat "Samma som neat pappret"
+
+The NEAT algorithm was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a script written in Lua used in a Super Mario bot \cite{mario_source}. 
+
+In order to verify the implementation of the algorithm it was tested by training it to approximate the logical exclusive-OR function (XOR). The reason that the XOR-function is relevant to test is because it is not linearly separable, this means that a neural network requires  hidden nodes  in order to approximate it \cite{haykin:xor, stanley:neat}. The test was used as a sanity check to ensure that the algorithm made additions and changes to the network structure. 
+
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
-
-The NEAT algorithm was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a Lua implementation used in a Super Mario bot \cite{mario_source}. 
-
+Some minor utility features were added to our implementation in order to allow for a more flexible training process. For example the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. This enables us to specify what activation function should be used within a specific experiment. Furthermore the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight. 
 
 
 \section{Training Process}
@@ -103,13 +108,6 @@ In order to achieve a great level of flexibility in the project, the process hav
     % - Fitness function
 % How does a successful/failed result look like? 
 
-\subsection{Exclusive OR - Remove}
-% TODO: Rewrite this section to include everything in the structure list above.
-In order to verify the implementation of the NEAT algorithm, the first experiment performed was one where the training system was configured to teach a neural network how to approximate the exclusive or function (XOR). The reasoning behind this is that a neural network with no hidden neurons will only compute a linear combination of the inputs, thus hidden neurons are required to approximate non-linear functions correctly \cite{haykin:xor, stanley:neat}.
-
-A successful result will generate a network that has a set of hidden neurons, that successfully maximises the fitness function. This verifies that the general functionality of the NEAT implementation works as intended. Which in turn reduces the risk of future experiments encountering potential problems because of the way that NEAT was implemented. Which could cause time being spent on unnecessary debugging and problem solving, keeping the project from progressing at required pace.
-
-
 \subsection{Steering with a fixed speed}
 Let the car drive with a fixed speed. 
 
@@ -148,35 +146,3 @@ The ai will be tested on a large track and single curve segments. This will show
 Instead of driving a long track, evaluate with a couple of short track segments. For a long track, failing in one early curve affect the whole result. Testing several short segments may let the car progress in a later curve, before an early on is completed.
 
 It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 
-
-
-\iffalse
-
-====== OLD COMMENTS ======
-
-Usage/variations of Neat
-- Starting structure or not
-- Recurrent connections
-- Population size
-- Probabilities
-
-Aspects in our tests
-- Features in physics
-- Different indata
-  - (Grid)
-  - Curve data
-    - Angles
-    - Checkpoints
-    - Sum
-    - Mirror
-- Different steering
-- Different tracks and their properties
-- Training process and task
-  - Fitness calculation
-  - Long single track
-  - Several short parts
-  - (Short alternating parts. Hopes for modular network. variants... what types of alternating tasks is needed?
-
-
-\fi
- 

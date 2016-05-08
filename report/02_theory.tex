@@ -2,17 +2,14 @@
 % Explain concepts that we rely upon throughout the report. 
 This chapter will introduce the theoretical framework of the project. The following sections will include an explanation of the underlying theory and physics of racing, an introduction to the challenges of digital simulation and an overview of machine learning concepts used in the project. 
 
-
 \section{Racing theory}
 This section will describe some fundamental aspects of racing theory. As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible.
 
 Racing tracks are normally broad enough to allow slightly different paths for the driver. The path a driver take also affect the possible speed, and the speed affect how quickly the car can turn. Time is the result from both distance and speed according to the following formula:
-
-\[
+\begin{equation}
 t = \frac{d}{v}
-\]
-
-where $d$ is the distance driven and $v$ is the average speed. The process of minimising the time is a process of both minimising the distance driven and maximising the speed. It takes skill as the two need to be balanced properly.
+\end{equation}
+Where $d$ is the distance driven and $v$ is the average speed. The process of minimising the time is a process of both minimising the distance driven and maximising the speed. It takes skill as the two need to be balanced properly.
 
 The next subsection will briefly describe the physics of racing. It is a core part of understanding how professional drivers drive, as will be described in the second next subsection.
 
@@ -23,9 +20,17 @@ The abilities of the car is limited to how great force it can apply through the 
 
 The brakes are generally very efficient and are mostly limited by the traction of the tyres, whereas accelerating is limited by the torque of the engine. In addition to this, drag pull to slow the down. When the car brakes, the tyres and the drag will work together, but an accelerating car has to work against the drag. These aspects make cars accelerate slower than they can brake.
 
-As the speed increases, the kinetic energy increases quadratically. A consequence is that a greater force is required to change the momentum. Accelerating and braking takes longer time and the turning radius is larger.
+As the speed increases, the kinetic energy increases quadratically. A consequence is that a greater force is required to change the momentum. Accelerating and braking takes longer time and the turning radius is larger. The turning radius for a circular motion is:
+\begin{equation}
+a_c = \frac{v^2}{r} \cite{beckman:circular_motion} 
+\rightarrow
+\frac{F_c}{m} = \frac{v^2}{r} 
+\rightarrow
+r = \frac{mv^2}{F_c}
+\end{equation}
+Where $a_c$ is the central acceleration, $v$ is the speed, $r$ is the radius of the curcular motion, $F_c$ is the central force and $m$ is the mass of the car.
 
-The traction for different directions of a tyre are not independent from each other. If the car apply a force forwards or backwards, it affect the limit for forces sideways, and vice versa. Therefore, the car can not brake and turn as much at the same time, as is possible when only one them is done.
+The car can not turn as much when it accelerates or brakes. When a car accelerates or brake, the amount of pressure on the tyres will change, changing the traction capabilities. This make limit the amount a car car accelerate or brake and turn at the same time \cite{beckman:weight_transfer}. The effect is further increased as the tyres can not produce traction for multiple directions as well as for a single direction\cite{beckman:traction_budget}. 
 
 Due to the shape of a racing car, drag contribute to the traction as the car is pushed down, a so called down force. As the speed get larger, this effect is also increased.
 
@@ -35,9 +40,9 @@ A racing line denotes the path a car drive around the track.
 
 As previously mentioned, driving fast and driving short are the key aspects to optimise, but they sometimes opposite each other. If the car drives fast, the turning radius is increased and the car might need to drive a longer path, which may take longer time in total. 
 
-However, if the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections, as the difference in speed will accumulate more time.
+However, if the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections\cite{beckman:racing_line_intro}, as the difference in speed will accumulate more time.
 
-A typical behaviour is therefore to position the car on the opposite side of where a curve is turning [insert illustation]. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
+A typical behaviour is therefore to position the car on the opposite side of where a curve is turning [insert illustration]. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
 
 But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive short. [insert illustration]
 
