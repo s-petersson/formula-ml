@@ -3,6 +3,7 @@
 #include <core/util/Random.h>
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
 
 using namespace neat;
 using namespace std;
@@ -147,7 +148,7 @@ Genome Pool::basic_genome() {
 
 
 float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
-    map<int, bool> i1, i2;
+	unordered_map<int, bool> i1, i2;
 
     for (auto && gene : genes1) {
         i1[gene.innovation] = true;
@@ -170,7 +171,7 @@ float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
 }
 
 float weights(vector<Gene> genes1, vector<Gene> genes2) {
-    map<int, Gene> i2;
+	unordered_map<int, Gene> i2;
     for (auto && gene : genes2) {
         i2[gene.innovation] = gene;
     }

@@ -2,7 +2,7 @@
 #define NEURAL_NEAT_GENOME
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 
 #include "Gene.h"
@@ -23,8 +23,8 @@ namespace neat {
         float fitness = 0;
         float adjustedFitness = 0;
 
-        std::map<std::string, float> mutationRates;
-        std::map<std::string, float> originalMutationRates;
+        std::unordered_map<std::string, float> mutationRates;
+        std::unordered_map<std::string, float> originalMutationRates;
 
         //neat::Network network;
         int maxneuron = 0;

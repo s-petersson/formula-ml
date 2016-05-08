@@ -1,7 +1,7 @@
 #include "Species.h"
 
 #include <core/util/Random.h>
-#include <map>
+#include <unordered_map>
 
 
 #include "Constants.h"
@@ -16,7 +16,7 @@ Genome crossover(Genome g1, Genome g2) {
         g2 = temp;
     }
     Genome child;
-    map<int, Gene> innovations2;
+	unordered_map<int, Gene> innovations2;
     for (auto && i : g2.genes) {
         innovations2[i.innovation] = i;
     }

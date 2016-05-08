@@ -1,7 +1,7 @@
 #include "Genome.h"
 #include "Constants.h"
 #include <core/util/Random.h>
-#include <set>
+#include <unordered_set>
 #include <fstream>
 
 #include <iostream>
@@ -43,7 +43,7 @@ int new_innovation() {
 
 /** Returns the index of a random neuron within a network. Input neurons will only be returned if input = true.*/
 int Genome::randomNeuron(bool input) {
-    set<int> neurons;
+	unordered_set<int> neurons;
 
     if (input) {
         for (int i = 1; i <= Config::Inputs; i++) {
