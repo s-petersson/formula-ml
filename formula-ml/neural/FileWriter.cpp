@@ -228,5 +228,61 @@ void FileWriter::poolToSingleFile(neat::Pool pool, int generation) {
 }
 
 Pool * FileWriter::poolFromSingleFile(std::string path) {
+	Pool * pool = new Pool();
 
+	ifstream file(path);
+	if (!file.is_open()) {
+		throw runtime_error("Incorrect path");
+	}
+	
+	string line;
+	//TODO replace while-true
+	while (getline(file, line)) {
+		Genome * genome = new Genome();
+		
+		string::size_type st;
+
+		//Data
+		float fitness = stof(line, &st);
+		getline(file, line);
+		float adjustedFitness = stof(line, &st);
+		getline(file, line);
+		int maxNeuron = stoi(line, &st);
+		getline(file, line);
+		int globalRank = stoi(line, &st);
+
+		//One format line
+		getline(file, line);
+		int out, into;
+		float weight;
+		bool enabled;
+		int innovation;
+		bool created;
+		std::vector<Gene> genes;
+
+
+		while (getline(file, line) && line != "==========") {
+			istringstream in(line);
+			in >> out >> into >> weight >> enabled >> innovation >> created;
+			Gene gene;
+			gene.out = out;
+			gene.into = into;
+			gene.weight = weight;
+			gene.enabled = enabled;
+			gene.innovation = innovation;
+			gene.created = created;
+
+			genes.push_back(gene);
+		}
+
+		genome->adjustedFitness = adjustedFitness;
+		genome->fitness = fitness;
+		genome->maxneuron = maxNeuron;
+		genome->globalRank = globalRank;
+		genome->genes = genes;
+
+		pool->addToSpecies(*genome);
+	}
+	file.close();
+	return pool;
 }

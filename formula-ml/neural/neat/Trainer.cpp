@@ -32,7 +32,7 @@ Trainer::Trainer(string path) {
 	fw = new neural::FileWriter(savePath);
 	rw = new neural::ResultWriter(savePath);
 
-	pool = (*fw).poolFromFile(path);
+	pool = (*fw).poolFromSingleFile(path);
     best_genome = Genome();
 }
 
