@@ -23,6 +23,8 @@ namespace neural {
         static void stringToFile(string filePath, string content);
 		void poolToFile(neat::Pool pool, int generation);
 		neat::Pool * poolFromFile(std::string path);
+		void poolToSingleFile(neat::Pool pool, int generation);
+		neat::Pool * poolFromSingleFile(std::string path);
 
 
 	private:

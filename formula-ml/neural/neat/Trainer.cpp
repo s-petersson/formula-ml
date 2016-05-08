@@ -109,7 +109,7 @@ void Trainer::run() {
 		rw->addNewGeneration( generation, *pool);
 		
 		if (improved) {
-            std::thread result_t = std::thread(&neural::FileWriter::poolToFile, fw, *pool, generation);
+            std::thread result_t = std::thread(&neural::FileWriter::poolToSingleFile, fw, *pool, generation);
             result_t.detach();
             //fw->poolToFile(*pool, generation);
 			improved = false;
