@@ -116,18 +116,20 @@ void Genome::nodeMutate() {
     if (genes.size() == 0) return;
     maxneuron++;
 
-    Gene * gene = &genes[rngi((int)genes.size())];
-    if (!gene->enabled) return;
+    int geneNumber = rngi((int)genes.size());
+    Gene gene = genes[geneNumber];
+    if (!gene.enabled) return;
     // disable the old link
-    gene->enabled = false;
+    genes[geneNumber].enabled = false;
 
     // Copy the genes into two new genes.
-    Gene gene1 = Gene(gene->into, maxneuron, new_innovation());
+    Gene gene1 = Gene(gene.into, maxneuron, new_innovation());
+    Gene gene2 = Gene(maxneuron, gene.out, new_innovation());
+
     gene1.weight = 1.0f;
     genes.push_back(gene1);
 
-    Gene gene2 = Gene(maxneuron, gene->out, new_innovation());
-    gene2.weight = gene->weight;
+    gene2.weight = gene.weight;
     genes.push_back(gene2);
 }
 
