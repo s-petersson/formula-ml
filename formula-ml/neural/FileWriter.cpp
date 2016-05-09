@@ -175,14 +175,10 @@ Genome * FileWriter::genomeFromFile(string path) {
 	while (getline(file, line)) {
 		istringstream in(line);
 		in >> out >> into >> weight >> enabled >> innovation >> created;
-		Gene gene;
-		gene.out = out;
-		gene.into = into;
+		Gene gene(into, out, innovation);
 		gene.weight = weight;
 		gene.enabled = enabled;
-		gene.innovation = innovation;
-		gene.created = created;
-
+		
 		genes.push_back(gene);
 	}
 
@@ -264,14 +260,10 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		while (getline(file, line) && line != "==========") {
 			istringstream in(line);
 			in >> out >> into >> weight >> enabled >> innovation >> created;
-			Gene gene;
-			gene.out = out;
-			gene.into = into;
+			Gene gene(into, out, innovation);
 			gene.weight = weight;
 			gene.enabled = enabled;
-			gene.innovation = innovation;
-			gene.created = created;
-
+			
 			genes.push_back(gene);
 		}
 

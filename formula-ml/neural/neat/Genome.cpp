@@ -60,11 +60,9 @@ int Genome::randomNeuron(bool input) {
             neurons.insert(gene.out);
         }
     }
-
+    if (neurons.count(-1) > 0) cout << "-1 NODE IN GENOME" << endl;
     int temp = rngi((int)neurons.size());
-    int result = *std::next(neurons.begin(), temp);
-
-    return result;
+    return *std::next(neurons.begin(), temp);;
 }
 
 bool Genome::containsLink(Gene link) {
@@ -95,33 +93,20 @@ void Genome::linkMutate(bool forceBias) {
     int neuron1 = randomNeuron(true);
     int neuron2 = randomNeuron(false);
 
-    
-
-    Gene new_link;
-
     // No links between input nodes.
     if (neuron1 <= Config::Inputs && neuron2 <= Config::Inputs) {
         return;
     }
-    /*
-    if (neuron2 <= Config::Inputs) { // No edges into the inputs.
-        int temp = neuron2;
-        neuron2 = neuron1;
-        neuron1 = temp;
-    }*/
-    new_link.into = neuron1;
-    new_link.out = neuron2;
 
     if (forceBias) {
         //new_link.into = Config::Inputs; // Changed the Bias node index to index 0.
-        new_link.into = 0;
+        neuron1 = 0;
     }
+    Gene new_link(neuron1, neuron2, new_innovation());
+    new_link.weight = rngf() * 4.0f - 2.0f;
 
     // Dont add duplicates
     if (containsLink(new_link)) return;
-
-    new_link.innovation = new_innovation();
-    new_link.weight = rngf() * 4.0f - 2.0f;
 
     genes.push_back(new_link);
 }
@@ -137,20 +122,12 @@ void Genome::nodeMutate() {
     gene->enabled = false;
 
     // Copy the genes into two new genes.
-    Gene gene1 = Gene(*gene);
-    Gene gene2 = Gene(*gene);
-
-    // Modify the first gene.
-    gene1.out = maxneuron;
+    Gene gene1 = Gene(gene->into, maxneuron, new_innovation());
     gene1.weight = 1.0f;
-    gene1.innovation = new_innovation();
-    gene1.enabled = true;
     genes.push_back(gene1);
 
-    // Modify the second gene
-    gene2.into = maxneuron;
-    gene2.innovation = new_innovation();
-    gene2.enabled = true;
+    Gene gene2 = Gene(maxneuron, gene->out, new_innovation());
+    gene2.weight = gene->weight;
     genes.push_back(gene2);
 }
 
