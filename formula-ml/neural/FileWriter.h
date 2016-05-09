@@ -25,6 +25,7 @@ namespace neural {
 		neat::Pool * poolFromFile(std::string path);
 		void poolToSingleFile(neat::Pool pool, int generation);
 		neat::Pool * poolFromSingleFile(std::string path);
+		int extract_generation(string path);
 
 
 	private:
