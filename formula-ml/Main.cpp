@@ -85,7 +85,7 @@ int main(void) {
 
 
 				SimulatorSettings sim_settings = SimulatorSettings();
-				sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+				sim_settings.track_path = new string("./res/models/circuit_wide.model");
 				sim_settings.completeTrack = true;
 				sim_settings.termination_distance = 5200.f;
 				sim_settings.max_time = 400.f;
@@ -104,11 +104,12 @@ int main(void) {
 				ai_settings.distance_to_edges = true;
 				ai_settings.speed = true;
 				ai_settings.curve_data = true;
-				ai_settings.curve_data_sum_absolutes = true;
+				ai_settings.curve_data_segment_sums = true;
+				ai_settings.curve_data_sum_absolutes = false;
 
-				ai_settings.nbr_of_curve_points = 6;
-				ai_settings.curve_point_spacing = 25.f;
-				ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
+				ai_settings.nbr_of_curve_points = 10;
+				ai_settings.curve_point_spacing = 10.f;
+				ai_settings.curve_point_spacing_incremental_percentage = 0.35f;
 
 				ai_settings.output_speed = true;
 
