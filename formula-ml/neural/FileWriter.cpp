@@ -239,7 +239,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 	//TODO replace while-true
 	while (getline(file, line)) {
 		Genome * genome = new Genome();
-		
+
 		string::size_type st;
 
 		//Data
@@ -285,4 +285,20 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 	}
 	file.close();
 	return pool;
+}
+
+int FileWriter::extract_generation(string path) {
+	int startIndex, endIndex;
+	for (int i = 0; i < path.size(); i++) {
+		if (path.c_str()[i] == '_') {
+			startIndex = i+1;
+		}
+	}
+	endIndex = path.size() - 5;
+
+	std::string::size_type temp;   // TODO: Needed?
+	int generation = std::stoi(path.substr(startIndex, endIndex-startIndex+1), &temp);
+
+	return generation;
+
 }
