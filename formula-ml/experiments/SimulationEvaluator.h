@@ -17,7 +17,8 @@ struct AiSettings{
     float curve_point_spacing;
     float curve_point_spacing_incremental_percentage;
 
-    bool curve_data_sum_absolutes = false;
+	bool curve_data_sum_absolutes = false;
+	bool curve_data_segment_sums = false;
     bool curve_data_flip = false;
 
     bool checkpoint_data = false;

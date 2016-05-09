@@ -1,5 +1,6 @@
 #include <neural/Helpers.h>
 #include <glm/glm.hpp>
+#include <iostream>
 
 namespace neural{
     float sum(float* data, int size) {
@@ -9,13 +10,33 @@ namespace neural{
         }
         return result;
     }
-    float sum_absolutes(float* data, int size) {
-        float result = 0;
-        for (int i = 0; i < size; i++) {
-            result += glm::abs(data[i]);
-        }
-        return result;
-    }
+	float sum_absolutes(float* data, int size) {
+		float result = 0;
+		for (int i = 0; i < size; i++) {
+			result += glm::abs(data[i]);
+		}
+		return result;
+	}
+
+	void write_segment_sums(float* data, int size, float* target, int size_target) {
+		if (size != 10 || size_target != 3) {
+			cout << "Helpers::write_sum(): Though shall not use this for other than 10 and 3\n";
+			return;
+		}
+
+		for (int i = 0; i < size_target; i++) {
+			target[i] = 0;
+		}
+		for (int i = 0; i <= 4; i++) {
+			target[0] += data[i];
+		}
+		for (int i = 4; i <= 7; i++) {
+			target[1] += data[i];
+		}
+		for (int i = 7; i <= 10; i++) {
+			target[2] += data[i];
+		}
+	}
 
     void flip_parity(float* target, int size) {
         for (int i = 0; i < size; i++) {

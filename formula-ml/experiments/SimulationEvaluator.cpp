@@ -19,6 +19,7 @@ int required_nbr_of_inputs(const AiSettings& settings) {
     if (settings.curve_data) {
         // TODO: Wat? write track curve returns nbr of curve points
         sum += Simulator::write_track_curve_size(settings.nbr_of_curve_points);
+		if (settings.curve_data_segment_sums) sum += 3; // Hard coded, fix if Helpers::write_segment_sums support other
         if (settings.curve_data_sum_absolutes) sum++;
     }
 
@@ -65,8 +66,11 @@ void print_settings(const AiSettings& settings) {
             cout << accumulated_distance << " meters";
             distance *= 1.f + settings.curve_point_spacing_incremental_percentage;
         }
-        print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
-    }
+		print_settings_helper(i, settings.curve_data_segment_sums, "Curve segment, point 1-4");
+		print_settings_helper(i, settings.curve_data_segment_sums, "Curve segment, point 4-7");
+		print_settings_helper(i, settings.curve_data_segment_sums, "Curve segment, point 7-10");
+		print_settings_helper(i, settings.curve_data_sum_absolutes, "Sum of absolute angles (Curve data)");
+	}
     if (settings.checkpoint_data) {
         print_settings_helper(i, true, "Checkpoint data");
         i += Simulator::write_track_curve_size(settings.checkpoint_data_nbr) - 1;
@@ -143,6 +147,11 @@ void SimulationEvaluator::init() {
                                          ai_settings.nbr_of_curve_points,
                                          ai_settings.curve_point_spacing,
                                          ai_settings.curve_point_spacing_incremental_percentage);
+
+			if (ai_settings.curve_data_segment_sums) {
+				neural::write_segment_sums(&inputs[curve_data_start], ai_settings.nbr_of_curve_points, &inputs[input_iterator], 3);
+				input_iterator += 3;
+			}
 
             appendIf(ai_settings.curve_data_sum_absolutes,
                      neural::sum_absolutes(&inputs[curve_data_start],
