@@ -44,7 +44,7 @@ int main(void) {
 
 
                 SimulatorSettings sim_settings = SimulatorSettings();
-                sim_settings.track_path = new string("./res/models/circuit_wide.model");
+                sim_settings.track_path = new string("./res/models/circuit_normal.model");
                 sim_settings.completeTrack = true;
                 sim_settings.termination_distance = 5200.f;
                 sim_settings.max_time = 400.f;
@@ -85,7 +85,7 @@ int main(void) {
 
 
 				SimulatorSettings sim_settings = SimulatorSettings();
-				sim_settings.track_path = new string("./res/models/circuit_wide.model");
+				sim_settings.track_path = new string("./res/models/circuit_normal.model");
 				sim_settings.completeTrack = true;
 				sim_settings.termination_distance = 5200.f;
 				sim_settings.max_time = 400.f;
