@@ -170,7 +170,7 @@ float disjoint(vector<Gene> genes1, vector<Gene> genes2) {
 float weights(vector<Gene> genes1, vector<Gene> genes2) {
 	unordered_map<int, Gene> i2;
     for (auto && gene : genes2) {
-        i2.insert(pair<int, Gene>(gene.innovation, gene));
+        i2[gene.innovation] = gene;
     }
     float sum = 0.0f;
     float coincident = 0.0f;
