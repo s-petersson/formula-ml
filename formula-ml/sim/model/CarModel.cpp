@@ -109,6 +109,17 @@ void CarModel::steer(float current_speed, float dt) {
 
 void CarModel::update(float dt, struct CarControl control) {
 
+    // Modify acceleration to cruise more often
+    if (current_control.acceleration < 0.1 && current_control.acceleration > -0.1) {
+        current_control.acceleration = 0.0;
+    } else {
+        if (current_control.acceleration < 0) {
+            current_control.acceleration = (current_control.acceleration + 0.1) / 0.9f;
+        } else {
+            current_control.acceleration = (current_control.acceleration - 0.1) / 0.9f;
+        }
+    }
+
 	// Update current control state with smoothing
     smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
     smoothChange(&current_control.steer, control.steer, dt, 2.f);
