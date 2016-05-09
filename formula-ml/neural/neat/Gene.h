@@ -11,14 +11,12 @@ namespace neat {
         Gene(const Gene & gene);
         ~Gene();
 
-        const int into;
-        const int out;
-        const int innovation;
+        int into;
+        int out;
+        int innovation;
         float weight;
         bool enabled = true;
-        const bool created = false;
-
-        Gene operator=(const Gene& other);
+        bool created = false;
     };
 }
 
