@@ -175,14 +175,10 @@ Genome * FileWriter::genomeFromFile(string path) {
 	while (getline(file, line)) {
 		istringstream in(line);
 		in >> out >> into >> weight >> enabled >> innovation >> created;
-		Gene gene;
-		gene.out = out;
-		gene.into = into;
+		Gene gene(into, out, innovation);
 		gene.weight = weight;
 		gene.enabled = enabled;
-		gene.innovation = innovation;
-		gene.created = created;
-
+		
 		genes.push_back(gene);
 	}
 
@@ -239,7 +235,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 	//TODO replace while-true
 	while (getline(file, line)) {
 		Genome * genome = new Genome();
-		
+
 		string::size_type st;
 
 		//Data
@@ -264,14 +260,10 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		while (getline(file, line) && line != "==========") {
 			istringstream in(line);
 			in >> out >> into >> weight >> enabled >> innovation >> created;
-			Gene gene;
-			gene.out = out;
-			gene.into = into;
+			Gene gene(into, out, innovation);
 			gene.weight = weight;
 			gene.enabled = enabled;
-			gene.innovation = innovation;
-			gene.created = created;
-
+			
 			genes.push_back(gene);
 		}
 
@@ -285,4 +277,20 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 	}
 	file.close();
 	return pool;
+}
+
+int FileWriter::extract_generation(string path) {
+	int startIndex, endIndex;
+	for (int i = 0; i < path.size(); i++) {
+		if (path.c_str()[i] == '_') {
+			startIndex = i+1;
+		}
+	}
+	endIndex = path.size() - 5;
+
+	std::string::size_type temp;   // TODO: Needed?
+	int generation = std::stoi(path.substr(startIndex, endIndex-startIndex+1), &temp);
+
+	return generation;
+
 }

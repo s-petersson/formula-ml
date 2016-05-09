@@ -18,7 +18,7 @@ Genome crossover(Genome g1, Genome g2) {
     Genome child;
 	unordered_map<int, Gene> innovations2;
     for (auto && i : g2.genes) {
-        innovations2[i.innovation] = i;
+        innovations2.insert(pair<int, Gene>(i.innovation, i));
     }
 
     for (int i = 1; i < g1.genes.size(); i++) {
