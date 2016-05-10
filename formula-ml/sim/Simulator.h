@@ -29,6 +29,7 @@ public:
 	TrackModel * track;
 	float progress_timeout = 0;
     float termination_distance = std::numeric_limits<float>::max();
+    float termination_time = std::numeric_limits<float>::max();
     std::function<CarControl()> carUpdater;
 
 	// Readable by user:

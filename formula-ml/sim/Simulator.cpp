@@ -260,7 +260,7 @@ void Simulator::update(float dt) {
     CarControl control = this->carUpdater();
     car->update(dt, control);
 
-    if (result.time_alive > 1500.f) {
+    if (result.time_alive > termination_time) {
         terminated = true;
         return;
     }

@@ -113,6 +113,7 @@ void SimulationEvaluator::init() {
     simulator->car = new CarModel(simulator->track->get_start_grid_pos(), glm::vec3(0, 1, 0), sim_settings.car_speed_initial, sim_settings.car_speed_min, sim_settings.car_speed_max);
 
     simulator->progress_timeout = 1.0f;
+    simulator->termination_time = sim_settings.max_time;
     simulator->termination_distance = sim_settings.termination_distance;
 
     if (!network) {
