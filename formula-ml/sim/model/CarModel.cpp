@@ -121,8 +121,10 @@ void CarModel::update(float dt, struct CarControl control) {
     }
 
 	// Update current control state with smoothing
-    smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
-    smoothChange(&current_control.steer, control.steer, dt, 2.f);
+    //smoothChange(&current_control.acceleration, control.acceleration, dt, 1.f);
+    //smoothChange(&current_control.steer, control.steer, dt, 2.f);
+
+    current_control = control;
 
     float currentSpeed = getSpeed();
 
