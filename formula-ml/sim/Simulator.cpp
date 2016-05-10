@@ -260,6 +260,11 @@ void Simulator::update(float dt) {
     CarControl control = this->carUpdater();
     car->update(dt, control);
 
+    if (result.time_alive > 1500.f) {
+        terminated = true;
+        return;
+    }
+
     // Check if the car is no longer on the track
 	if (!track->on_track(car->position)) {
         // Stop the car in that case
