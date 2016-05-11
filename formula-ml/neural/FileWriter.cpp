@@ -12,6 +12,8 @@ using namespace neat;
 FileWriter::FileWriter(std::string input) {
 	system(("mkdir \"" + input + "\"").c_str());
 	root = input;
+	system(("mkdir \"" + input + "/best\"").c_str());
+	root = input;
 }
 
 FileWriter::~FileWriter() {

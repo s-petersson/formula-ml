@@ -113,6 +113,11 @@ void Trainer::run() {
 		if (improved) {
             std::thread result_t = std::thread(&neural::FileWriter::poolToSingleFile, fw, *pool, generation);
             result_t.detach();
+			
+			//Quickfix to save the best genome in the generation to a seperate file
+			ostringstream path;
+			path << savePath << "best/Generation_" << generation << ".txt";
+			fw->genomeToFile(best_genome, path.str());
             //fw->poolToFile(*pool, generation);
 			improved = false;
 		}
