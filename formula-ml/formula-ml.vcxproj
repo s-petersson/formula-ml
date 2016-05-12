@@ -159,6 +159,8 @@
     <ClCompile Include="experiments\SimulationEvaluator.cpp" />
     <ClCompile Include="experiments\RacelineRenderer.cpp" />
     <ClCompile Include="experiments\StandardRenderer.cpp" />
+    <ClCompile Include="experiments\VisualisationWindow.cpp" />
+    <ClCompile Include="experiments\VisualisePool\VisualisePool.cpp" />
     <ClCompile Include="experiments\xor\XORExperiment.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="neural\neat\Trainer.cpp" />
@@ -225,6 +227,8 @@
     <ClInclude Include="experiments\SimulationEvaluator.h" />
     <ClInclude Include="experiments\RacelineRenderer.h" />
     <ClInclude Include="experiments\StandardRenderer.h" />
+    <ClInclude Include="experiments\VisualisationWindow.h" />
+    <ClInclude Include="experiments\VisualisePool\VisualisePool.h" />
     <ClInclude Include="experiments\xor\XORExperiment.h" />
     <ClInclude Include="external\include\GL\glew.h" />
     <ClInclude Include="external\include\GL\glxew.h" />
