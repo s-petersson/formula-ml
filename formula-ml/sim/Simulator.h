@@ -54,6 +54,9 @@ private:
 	int speed_index = 0;
 	float min_avg_speed;
 	float avg_speed_excemption_distance;
+
+	float left_dist();
+	float right_dist();
 };
 
 #endif
