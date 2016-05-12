@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(formula_ml)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O0 -g -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O3 -g -pthread")
 
 option(CLOUD_COMPUTING "Compute on the cloud, this removes the OpenGL dependency" OFF)
 
@@ -62,11 +62,14 @@ else()
             core/WindowState.h
 
             experiments/ManualControl/ManualControl.cpp
+            experiments/VisualisePool/VisualisePool.cpp
             experiments/ExperimentWindow.cpp
             experiments/NetworkView.cpp
             experiments/RacelineLogger.cpp
             experiments/RacelineRenderer.cpp
             experiments/StandardRenderer.cpp
+            experiments/VisualisationWindow.cpp
+
 
             sim/view/CarView.cpp
             sim/view/GridView.cpp
