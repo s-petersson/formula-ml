@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 namespace neural {
 
 	class FileWriter {

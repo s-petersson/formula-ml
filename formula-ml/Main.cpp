@@ -5,6 +5,7 @@
 #include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
 #include <experiments/MultipleTrackExperiment/MultipleTrackExperiment.h>
 #include <experiments/AlternatingTrackExperiment/AlternatingTrackExperiment.h>
+#include <experiments/VisualisePool/VisualisePool.h>
 #include <experiments/xor/XORExperiment.h>
 
 #ifndef CLOUD_COMPUTING
@@ -29,6 +30,7 @@ int main(void) {
                 << "(6)  Alternating tracks "   << std::endl
                 << "(7)  Simple track, 90_10_r" << std::endl
                 << "(8)  Shortest distance"     << std::endl
+                << "(9)  Visualise gene"        << std::endl
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -191,6 +193,47 @@ int main(void) {
                 ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
 
                 ai_settings.output_speed = false;
+
+                e->ai_settings = ai_settings;
+            }
+            break;
+        case 9:
+            {
+                std::string path;
+                std::cout << "Abosultue path of designated pool/generation: ";
+                std::cin >> path;
+                VisualisePool * e = new VisualisePool(path);
+                experiment = e;
+
+
+                SimulatorSettings sim_settings = SimulatorSettings();
+                sim_settings.track_path = new string("./res/models/circuit_normal.model");
+                sim_settings.completeTrack = true;
+                sim_settings.termination_distance = 5200.f;
+                sim_settings.max_time = 1500.f;
+
+                sim_settings.car_speed_max = 97.f;
+                sim_settings.car_speed_initial = 0.f;
+                sim_settings.min_avg_speed = 3.f;
+                sim_settings.avg_speed_excemption_distance = 140.f;
+
+                e->sim_settings = sim_settings;
+
+
+                AiSettings ai_settings = AiSettings();
+                ai_settings.angle_to_line            = true;
+                ai_settings.distance_to_middle       = true;
+                ai_settings.distance_to_edges        = true;
+                ai_settings.speed                    = true;
+                ai_settings.curve_data               = true;
+                ai_settings.curve_data_segment_sums  = true;
+                ai_settings.curve_data_sum_absolutes = false;
+
+                ai_settings.nbr_of_curve_points = 10;
+                ai_settings.curve_point_spacing = 10.f;
+                ai_settings.curve_point_spacing_incremental_percentage = 0.35f;
+
+                ai_settings.output_speed = true;
 
                 e->ai_settings = ai_settings;
             }

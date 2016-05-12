@@ -222,6 +222,10 @@ Simulator* SimulationEvaluator::getSimulator() {
     return simulator;
 }
 
+void SimulationEvaluator::setNetwork(neat::Network * network) {
+    this->network = network;
+}
+
 neat::Network** SimulationEvaluator::getNetworkLocation() {
     return &network;
 }

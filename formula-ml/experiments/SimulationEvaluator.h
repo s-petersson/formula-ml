@@ -64,6 +64,7 @@ public:
 
     Simulator* getSimulator();
     neat::Network** getNetworkLocation();
+    void setNetwork(neat::Network * network);
 
     // Mandatory parameters
     SimulatorSettings sim_settings;
