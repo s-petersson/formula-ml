@@ -49,6 +49,8 @@
     <ClCompile Include="experiments\RacelineRenderer.cpp" />
     <ClCompile Include="experiments\RacelineLogger.cpp" />
     <ClCompile Include="core\util\GLUtil.cpp" />
+    <ClCompile Include="experiments\VisualisationWindow.cpp" />
+    <ClCompile Include="experiments\VisualisePool\VisualisePool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\gfx\Model.h" />
@@ -106,6 +108,8 @@
     <ClInclude Include="experiments\RacelineRenderer.h" />
     <ClInclude Include="experiments\RacelineLogger.h" />
     <ClInclude Include="core\util\GLUtil.h" />
+    <ClInclude Include="experiments\VisualisationWindow.h" />
+    <ClInclude Include="experiments\VisualisePool\VisualisePool.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\fonts\comic.tga" />

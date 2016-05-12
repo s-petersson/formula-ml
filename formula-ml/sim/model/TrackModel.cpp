@@ -11,6 +11,14 @@ TrackModel::TrackModel(vec3 start_grid_pos, const string& path, bool completeTra
     this->start_grid_pos = start_grid_pos;
    
 	create_checkpoints(completeTrack);
+
+
+	vec3 vmin = vec3(10000 ,10000,10000), vmax = vec3(-10000, -10000, -10000);
+	for (auto && c : checkpoints) {
+		vmin = min(vmin, c.middle);
+		vmax = max(vmax, c.middle);
+	}
+	center = (vmin + vmax) / 2.0f;
 }
 
 TrackModel::~TrackModel() {

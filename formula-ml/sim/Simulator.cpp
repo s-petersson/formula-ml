@@ -4,6 +4,7 @@
 #include "glm/ext.hpp"
 
 using namespace neural;
+using namespace glm;
 
 Simulator::Simulator(float avg, float excemption_distance) {
 	min_avg_speed = avg;
@@ -75,18 +76,46 @@ float Simulator::distance_to_middle() {
     return glm::dot(car_pos, right);
 }
 
-float Simulator::distance_to_left_edge() {
-    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].left - track->get_checkpoints()[car->checkpoint - 1].left);
-    glm::vec3 carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].left;
-    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
-    return glm::abs(glm::dot(carPos, right));
+float Simulator::left_dist() {
+	auto line = glm::normalize(track->get_checkpoints()[car->checkpoint].left - track->get_checkpoints()[car->checkpoint - 1].left);
+	auto carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].left;
+	auto right = glm::cross(line, glm::vec3(0, 0, 1));
+	return glm::abs(glm::dot(carPos, right));
 }
 
+float Simulator::right_dist() {
+	auto line = glm::normalize(track->get_checkpoints()[car->checkpoint].right - track->get_checkpoints()[car->checkpoint - 1].right);
+	auto carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].right;
+	auto right = glm::cross(line, glm::vec3(0, 0, 1));
+	return glm::abs(glm::dot(carPos, right));
+}
+
+float Simulator::distance_to_left_edge() {
+	auto line = glm::normalize(track->get_checkpoints()[car->checkpoint].left - track->get_checkpoints()[car->checkpoint - 1].left);
+	auto carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].left;
+	auto right = glm::cross(line, glm::vec3(0, 0, 1));
+	auto proj = dot(carPos, right);
+	if (proj <= 0) {
+		return right_dist();
+	}
+	else {
+		return left_dist();
+	}
+}
+
+
 float Simulator::distance_to_right_edge() {
-    glm::vec3 line = glm::normalize(track->get_checkpoints()[car->checkpoint].right - track->get_checkpoints()[car->checkpoint - 1].right);
-    glm::vec3 carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].right;
-    glm::vec3 right = glm::cross(line, glm::vec3(0, 0, 1));
-    return glm::abs(glm::dot(carPos, right));
+	auto line = glm::normalize(track->get_checkpoints()[car->checkpoint].right - track->get_checkpoints()[car->checkpoint - 1].right);
+	auto carPos = car->position - track->get_checkpoints()[car->checkpoint - 1].right;
+	auto right = glm::cross(line, glm::vec3(0, 0, 1));
+	auto proj = dot(carPos, right);
+	if (proj <= 0) {
+		return right_dist();
+	}
+	else {
+		return left_dist();
+	}
+    
 }
 
 float Simulator::angle_to_line() {
