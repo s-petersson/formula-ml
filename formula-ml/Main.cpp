@@ -5,10 +5,10 @@
 #include <experiments/NeatCurveDataExperiment/NeatCurveDataExperiment.h>
 #include <experiments/MultipleTrackExperiment/MultipleTrackExperiment.h>
 #include <experiments/AlternatingTrackExperiment/AlternatingTrackExperiment.h>
-#include <experiments/VisualisePool/VisualisePool.h>
 #include <experiments/xor/XORExperiment.h>
 
 #ifndef CLOUD_COMPUTING
+#include <experiments/VisualisePool/VisualisePool.h>
 #include <experiments/ManualControl/ManualControl.h>
 #endif
 
@@ -30,7 +30,9 @@ int main(void) {
                 << "(6)  Alternating tracks "   << std::endl
                 << "(7)  Simple track, 90_10_r" << std::endl
                 << "(8)  Shortest distance"     << std::endl
+#ifndef CLOUD_COMPUTING
                 << "(9)  Visualise gene"        << std::endl
+#endif
                 << "Input the number you want to run: ";
     std::cin >> chosen_experiment;
     switch (chosen_experiment) {
@@ -197,6 +199,7 @@ int main(void) {
                 e->ai_settings = ai_settings;
             }
             break;
+#ifndef CLOUD_COMPUTING
         case 9:
             {
                 std::string path;
@@ -238,6 +241,7 @@ int main(void) {
                 e->ai_settings = ai_settings;
             }
             break;
+#endif
 		default:
 #ifndef CLOUD_COMPUTING
 			experiment = new ManualControl();
