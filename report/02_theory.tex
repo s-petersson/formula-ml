@@ -3,9 +3,13 @@
 This chapter will introduce the theoretical framework of the project. The following sections will include an explanation of the underlying theory and physics of racing, an introduction to the challenges of digital simulation and an overview of machine learning concepts used in the project. 
 
 \section{Racing theory}
+% Started to re-write, maybe usable
+% Understanding racing theory is crucial to understand what the goal of the ai driver behaviour is, and to discuss what the requirements for it are. Racing theory involves both good practises and the reasons behind them. 
+% As mentioned, the type of competition is a single car performing a time attack. The goal is to drive around a track with as little time as possible. It is a little harder to 
+
 This section will describe some fundamental aspects of racing theory. As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible.
 
-Racing tracks are normally broad enough to allow slightly different paths for the driver. The path a driver take also affect the possible speed, and the speed affect how quickly the car can turn. Time is the result from both distance and speed according to the following formula:
+Racing tracks are normally broad enough to allow slightly different paths for the driver. The path a driver take also affect the possible speed, and the minimum turning radius increase with the speed. Time is the result from both distance and speed according to the following formula:
 \begin{equation}
 t = \frac{d}{v}
 \end{equation}
@@ -16,7 +20,7 @@ The next subsection will briefly describe the physics of racing. It is a core pa
 \subsection{Underlying aspects of physics}
 A moving car has momentum. In order to to change the momentum, to accelerate, brake or change direction of movement, a force need to be applied. These forces are applied through the tyres. 
 
-The abilities of the car is limited to how great force it can apply through the tyres. If the car exceed the available traction, the tyres slide or spin. 
+The abilities of the car is limited to how great force it can apply through the tyres. If the car exceed the available traction, the tyres will slide or spin. 
 
 The brakes are generally very efficient and are mostly limited by the traction of the tyres, whereas accelerating is limited by the torque of the engine. In addition to this, drag pull to slow the down. When the car brakes, the tyres and the drag will work together, but an accelerating car has to work against the drag. These aspects make cars accelerate slower than they can brake.
 
@@ -28,7 +32,7 @@ a_c = \frac{v^2}{r} \cite{beckman:circular_motion}
 \rightarrow
 r = \frac{mv^2}{F_c}
 \end{equation}
-Where $a_c$ is the central acceleration, $v$ is the speed, $r$ is the radius of the curcular motion, $F_c$ is the central force and $m$ is the mass of the car.
+Where $a_c$ is the central acceleration, $v$ is the speed, $r$ is the radius of the circular motion, $F_c$ is the central force and $m$ is the mass of the car.
 
 The car can not turn as much when it accelerates or brakes. When a car accelerates or brake, the amount of pressure on the tyres will change, changing the traction capabilities. This make limit the amount a car car accelerate or brake and turn at the same time \cite{beckman:weight_transfer}. The effect is further increased as the tyres can not produce traction for multiple directions as well as for a single direction\cite{beckman:traction_budget}. 
 
@@ -50,7 +54,11 @@ But, if another corner come close after, it might be more beneficial to exit the
 % - Discrete steps
 % - Numerical errors
 
-This section will present some key aspects of digital simulation. 
+% Should we keep this section or integrate it into the implementation of the simulator section?? 
+
+Computers have been utilised throughout the project to simulate the physics of a racing car. However, digital simulation introduces errors that potentially could affect the result. This section will present some of the key aspects of digital simulation. 
+
+A digital computer cannot due to its discrete nature store or calculate real numbers exactly. Instead something called floating point numbers are used. Floating point numbers is a way to represent real numbers as discrete values. It works by storing the significant digits of a number together with a value representing an exponent. The floating point number can be calculated by multiplying the significant digits with a fixed base raised to the stored exponent.
 
 A computer cannot handle continues calculations and must rely on models of reality. This will introduce numerical errors in the calculations. It is therefore important to motivate that the errors introduced are small enough for it to not decrease the quality of the simulation.
 
@@ -59,6 +67,7 @@ The simulator holds a state of what it simulates. As the simulation progress by 
 One of the limitations of this way of simulating is that it difficult to take in to account events that should have occurred during the time slice, or multiple degrees of derivatives. 
 
 The mentioned limitations may lead to problems, typically for closed systems that should stay stable over time, for example planets in orbit. 
+
 
 \section{Machine Learning}
 Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. Furthermore the suitability of the different algorithms within the problem domain will be discussed.  
@@ -71,7 +80,10 @@ A neural network can represent a mathematical function since it connects a set o
 A neural network with at least two hidden layers with sigmoid functions as its activation function can be used to approximate any real function and the possible accuracy increases with the number of nodes \cite{mitchel:approximation}.
 
 \subsection{Supervised Learning}
-Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}.  
+Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}. 
+
+
+% There are no racing data available from previous races for the research to apply to any machine learning algorithm. If there would have been any data that were available, the virtual domain would have to be set up to match that setup of track, car and environment when the data was performed. This, just as the continuous control values, create boundaries of what methods that can be used (citation needed). There is no sample data to use in the algorithms. 
 
 \subsection{Unsupervised Learning}
 Unsupervised learning is a type of machine learning that in contrast to supervised learning does not learn to predict or approximate a correct output given an input, but rather learn to group sets of inputs into categories based on the input values. These algorithms are prevalent in data mining and other areas where clustering is useful. 

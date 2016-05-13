@@ -9,13 +9,15 @@
 
 We live in a dawning age of autonomous vehicles. During the last several years the development of autonomous cars has progressed immensely. Many car manufacturers are currently testing their autonomous car prototypes in real traffic and we can expect to see such vehicles on the market within the near future. At the heart of these autonomous vehicles is the field of Artificial intelligence (AI), especially in the form of machine learning, algorithms that learn.
 
-The concept of machine learning is to create well-adapted AI systems that require the minimal amount of human design. The algorithms learn to predict the correct answers within a certain problem domain by inferring knowledge from examples or from experience (within the domain). 
+The concept of machine learning is to create well-adapted AI systems that require the minimal amount of human design. The algorithms learn to predict the correct answers within a certain problem domain by inferring knowledge from examples or from experience. 
 % Mer om machine learning in general
 
-In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data. INTRODUCERA MÖJLIGHETEN ATT TRÄNA UTAN DATA.
+In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data.
 
+%Outline of: INTRODUCERA MÖJLIGHETEN ATT TRÄNA UTAN DATA.
+There are processes to train an AI without a vast amount of data, and therefore be able to achieve a specified behaviour without having to mimic an already driven car. These algorithms are called reinforcement learning, and are not limited by the absence of sample data. Instead of sample data, reinforcement learning algorithms evaluate their behaviour through sets of heuristics(CITE?). The AI AlphaGo that Google created and beat the world champion in Go, Lee Sedol, utilised a type of reinforcement learning algorithm\cite{AlphaGo}. As this type of algorithm does not need any sample data that have been gathered from another instance, their behaviour can excel beyond the behaviour of previous sampled data(CITE?). 
 
-One domain in which this concept (LÄRA SIG RÄJSA MED NEUROEVOLUTION) show some potential is racing. In competitive racing drivers push the physical limits of their cars. The details matter, minute differences in behaviour can accumulate to large time differences. Machine learning could be used to find efficient driving behaviours. There is also the possibility of using machine learning to create the future generation of racing drivers. FIA, the governing body of Formula 1 and many other competitive racing series, has announced a racing series for autonomous cars \cite{roborace}. In the series the teams will use identical cars, except for the software which the teams can modify to gain an advantage. Thus the goal of the competition is to create the most effective autonomous racing system. 
+One domain in which this concept show some potential is racing. In competitive racing drivers push the physical limits of their cars. The details matter, minute differences in behaviour can accumulate to large time differences. Machine learning could be used to find efficient driving behaviours. There is also the possibility of using machine learning to create the future generation of racing drivers. FIA, the governing body of Formula 1 and many other competitive racing series, has announced a racing series for autonomous cars \cite{roborace}. In the series the teams will use identical cars, except for the software which the teams can modify to gain an advantage. Thus the goal of the competition is to create the most effective autonomous racing system. 
 % Fler saker som är relevant med avseende på machine learning inom racing?
 
 % Racing
@@ -27,17 +29,26 @@ One domain in which this concept (LÄRA SIG RÄJSA MED NEUROEVOLUTION) show some
 
 %Machine learning in its simplest form, being used to solve a relatively simple problem is not very complicated. However it becomes vastly more complicated when applied to a more complex problem, where a simple rule based solution does not really suffice in order to solve the problem well enough. In order to effectively research machine learning this project will take advantage of this fact. The project will focus around the problem of taking a Formula1 (F1) car as fast as possible around any given F1 circuit, a problem that is very flexible in terms of complexity. This will allow the project to start of with the very basics behind machine learning then by slowly increasing the complexity of the problem we can closely examine the more complex concepts behind machine learning.
 
-
 \section{Purpose}
-This report will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. Is it possible to find an effective behaviour from first principles, i.e. without training it to conform to a specific predefined behaviour? Furthermore the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
+%TODO Second scentence is hard to read/understand
+This report will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. The goal is to find a general and effective behaviour from first principles, i.e. without training it to conform to a predefined behaviour. Furthermore the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
 
 \section{Problem}
 % Each of the sections needs to be broadened, but it is a start
-Driving a car and racing is a complex behaviour that both contain strategic behaviours and driving the car to it's limit to get the best result as possible. The optimal speed and line of the car is different for each car and depends on grip and acceleration, which both depends on various of variables each. It also depends on how the track/environment looks further down. If there is a curve followed by a straight line, the fastest way is to carry as much speed as possible out from the curve. A curve followed by another curve, would instead have to be calculated to have the best position to the next curve. These are just examples of how complex behaviour a race driver do need to have to drive the car to the limit.
 
-The controls of a car are not discrete values, as pedals and steering are continuous values within an interval. This creates a boundary (citation needed) where algorithms and methods that utilises decision trees and discrete states non applicable to the racing domain. 
+% Introducera varför det är intressant att lösa problemet över huvud taget.
+% Introducera varför man vill göra det med AI.
 
-There are no racing data available from previous races for the research to apply to any machine learning algorithm. If there would have been any data that were available, the virtual domain would have to be set up to match that setup of track, car and environment when the data was performed. This, just as the continuous control values, create boundaries of what methods that can be used (citation needed). There is no sample data to use in the algorithms. 
+In theory the optimal racing behaviour is calculable. Given a specific car and track segment there exist an arbitrarily accurate function describing the time required to drive through the section. Given such a function, one could use optimisation methods to find the minimums in time spent. However, due to the complex nature of the problem, the number of variables in the function is huge. Even if aspects such as the physical environment, e.g. temperature, oxygen levels, and wind, is neglected. Just the number of possible paths through a section is infinite. In order to find an optimal behaviour in a reasonable amount of time the problem must be extensively simplified. 
+    
+Finding a general behaviour also imposes addition restrictions on the problem. Regardless of which method is used to find a behaviour, the information presented to the AI and the actions taken by the AI must be applicable in many different situations. The behaviour should not be optimal on a specific track, but rather effective in general. To achieve this, the behaviour should be independent of circuit length. One way to solve it is to let the AI make local decisions based on local information. This is similar to how humans drive a car. A person can see the shape of the road in front of the car and steer according to that. This is also true in racing, the driver sees the track and may also have a notion of how the track will proceed throughout the following corners.  
+
+% BAKA in i andra stycket, introducera konceptet att man kan vara greedy och bara optimera ~3 kurvor frammåt för att få ett globalt optimum. 
+%It also depends on how the track/environment looks further down. If there is a curve followed by a straight line, the fastest way is to carry as much speed as possible out from the curve. A curve followed by another curve, would instead have to be calculated to have the best position to the next curve. These are just examples of how complex behaviour a race driver do need to have to drive the car to the limit.
+
+% Lägg till i diskussion om att mängden lösningar är enorm?
+% The controls of a car are not discrete values, as pedals and steering are continuous values within an interval. This creates a boundary (citation needed) where algorithms and methods that utilises decision trees and discrete states non applicable to the racing domain. 
+
 
 
 
@@ -59,7 +70,7 @@ The AI will operate within a virtual environment to increase the flexibility of 
 % The use of a simulation lets us discard the problem of interpreting the environment, ie we can present the ai with the raw data, we dont need no image analysis etc which would be required irl. 
 
 
-\section{Literary Review}
+\section{Literature Review}
 % Instruction from 
 % https://www.reading.ac.uk/internal/studyadvice/StudyResources/Essays/sta-structuringreport.aspx#literature
 % The Literature Review… surveys publications (books, journals and sometimes conference papers) on work that has already been done on the topic of your report. It should only include studies that have direct relevance to your research.

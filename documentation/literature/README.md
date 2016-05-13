@@ -224,6 +224,30 @@ Chuck Edmondson
 Baltimore
 Md. : Johns Hopkins University Press
 
+##### Notes
+Chapter 1:
+Has some insight on acceleration and braking, good source of references!
+
+Chapter 3: 
+Physics:
+traction circle. Mention the four different main forces: gravity, normal force, drag & tyre-road.
+An isotropic distribution of forces in the plain is an assumption. Presented data from a real car sensor, it was oval looking. That car had more g capabilities laterally than forwardly. Braking more effective than accelerating p50
+Accelerating is slower than braking. Formula 1 cars can brake with 4-5 g at high speed, but only about 2 g at lower speeds. p52
+Different tyre designs will provide different distibutions of force capabilities in different directions, p53.
+
+eq. 3.1 and 3.3 gives the formula f_c = mv^2/r, p55.
+
+Race lines:
+When the benefit of a race line in a (symmetric) curve is calculated, the author take the following aspects into account: Part before braking, braking section, turning section, acceleration section, following segment. Time/distance and speed calculated for each section. p56
+Referencing Alan Johnson, 1971, Driving in Competition. Type 1 curve: Entrance to straights, most important. Type 2 curve: Exit after straight. Type 3 curve: Transition between type 1 and 2 curves. Type 1 has always priority! p 62
+Better perforformance in type 1 curve will win a battle during the straight, even if one temporarily fall behind a little. Will accumulate more distance. p63
+Taking type 1 curves: little entry speed (brake relatively much), late apex exit. Transition point early, early acceleration, more exit speed if done correctly. p63
+Type 1 curves advanced: Optimal: balance at the traction limit with acceleration and steering, at the same time as other aspects as weight transfer play a role.
+Taking type 2 curves: Late braking, early apex, late transition point, low exit speed. p70
+Taking type 3: Not a single strategy, greater variation. Depend on many circumstances, car performance, slopes, other curves, etc. 
+When optimising, plan backwards, as the entry to a curve put demands on the exit of the previous. E.g. Type 1 curves are dominant.
+
+
 
 #### Neural Networks - A Comprehensive Foundation
 (Martin)
