@@ -43,6 +43,8 @@ The experiment was performed in two ways, one where the AI can look further down
 
 % NOTE: I am not certain that some results are actually correct in this section. Does it actually stick to the middle? I do not believe that I had that behaviour when I ran the experiment on the cloud computer. Can't visualise it atm though.
 \subsection{Only local perception}
+Providing the system only with local perception, as explained in section 3.6.1, present successful and interesting results. The system tries to position the car in the middle of the track at all times. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable and to be expected. On the straights, this behaviour works well. However the car eventually encounters a corner, which causes the middle of the track to shift.
+
 When the AI is not provided with any information about how the track looks in front of the car, the car sticks to the middle of the track. Since the AI only has knowledge about the track in a small space around the car, it never adjusts for corners before they are actually next to the car. This means that when the car eventually encounters a corner, it will appear as though the car is no longer in the middle of the track. At this point the AI tries to recover the car and position it in the middle of the track again. This lead to late reactions, making it impossible to get past tight curves if the speed was too high simply by reacting to the distance from the middle as the curve appears.
 
 The AI tries to compensate for these late reactions by increasing the amount of steering applied. This causes the car to oscillate around the tracks mid line. The oscillation occasionally helps the car to position itself correctly before a tough curve. Which further helps the car to complete the corner. The oscillation only occurs after the first curvature on the track, since that is the point in which it has to start compensating. Eventually the AI learned to minimise the oscillation and the car seems to simply stick to the middle of the track.
@@ -144,7 +146,7 @@ Network structure...
 % example: did the hypothesis work
 
 \section{Steer and speed control}
-KEY FINDINGS: SIGNIFICANT INCREASE IN COMPUTATIONAL COMPLEXITY, FEWER OPTIMAL ASPECTS(?), ...
+%KEY FINDINGS: SIGNIFICANT INCREASE IN COMPUTATIONAL COMPLEXITY, FEWER OPTIMAL ASPECTS(?), ...
 
 % refer to the description in Method
 % example: did it help to help in any way
@@ -162,13 +164,13 @@ KEY FINDINGS: SIGNIFICANT INCREASE IN COMPUTATIONAL COMPLEXITY, FEWER OPTIMAL AS
 % - Can it manage to learn many components of the behaviour at the same time? One component only may make the performance worse
 %
 
-When the AI is given steering and breaking as a second output, the complexity of the computations increase significantly according to the results. It takes this experiment 506 generations until a genome can complete a single lap around the track. Even though this genome would have the ability to both use the break and throttle, it would still hold a lower average speed than the best genomes would in the constant speed with track curvature in the previous experiment (Shorten sentence).
+When the genomes are given steering and breaking as a second output, the complexity of the computations increase significantly according to the results. It takes this experiment 506 generations until a genome can complete a single lap around the track. This genome have the ability to both use the break and throttle, but would hold a lower average speed than the best genomes in the corresponding constant speed experiment.
 
-When a genome manages to complete a lap around the track, the AI actually tries to minimise the time it takes to complete a lap. 
+After a genome manages to complete a lap around the track, the data shows that the training process actually manages to find genomes that can complete the track in less time. 
 
 
 \begin{figure}[h]
-\includegraphics[width=16cm]{report/images/graphs/fitness}
+\includegraphics[width=\textwidth]{report/images/graphs/fitness}
 \centering
 \caption{Showing best fitness and average fitness of each generation}
 \end{figure}
@@ -191,25 +193,29 @@ As can be seen in the graph above (insert proper tagging), the car AI creates a 
 
 
 \section{The neat mechanism}
+%  The topics noted with X are things I think can be included in the next version of the text
+
 %   - Neat train to fulfil a declared goal, it is not a description on how to do it
 %     - The fitness value say how good a genome is
 %     - It do not base its decisions upon previous path of progress
-% X - Analysis: How entangled is a neural network? Can one part evolve safely without disrupting other parts? Is it possible to evolve safely? Catastrophic forgetting?
+% x - Analysis: How entangled is a neural network? Can one part evolve safely without disrupting other parts? Is it possible to evolve safely? Catastrophic forgetting?
 % X - Ability to manage multiple goals? Can it achieve one or several tasks at the same time?
 %   - How well do the greedy approach work?
+%   - Would it be better to denote fitness based on behavioural heuristics rather than result based heuristics?
 
 %   - What are the properties for getting stuck or to develop innovation? 
 %   - Do it exist certain statistical improbabilities or unavoidableness?
 %   - How will the stochastic parameters in neat influence the performance? 
 %   - We see that many early solutions have very few nodes, solutions that have gone through long training have many. How much do the performance really differ? 
 %   - Often only few of the input values are covered.
+%
 
 %   Wild ideas/suggestion:
-%   - An image Daniel presented, showed during a long training, it was rare that networks made it around the track. After it succeeded to improve the results, or get around the track, the performance was always lost shortly after (?). Does this show that the neat algorithm in the setup we used it, is not efficient? Is avoiding local minima, too aggressive?
-%   - In the neat paper, the authors stated that the training often got stuck for a while. Then, when some kind of archetype structure was found, the performance could then quickly increase as good networks was derived from the archetypes. It is not far fetched that the two steps in the process have different requirements. Maybe archetype topologies are smaller and faster to sieve. The elaboration of an archetype maybe requires more processing, as it might involve larger structures and thus larger need for tuning and compensation when evolving. Suggestion: Change the stagnation limit (and possibly other parameters) as the number of generations increases, or when certain properties relating to the role a species/genome hold. It might not be possible to find a sweet spot that works for all situations. 
+% X - An image Daniel presented, showed during a long training, it was rare that networks made it around the track. After it succeeded to improve the results, or get around the track, the performance was always lost shortly after (?). Does this show that the neat algorithm in the setup we used it, is not efficient? Is avoiding local minima, too aggressive?
+% X - In the neat paper, the authors stated that the training often got stuck for a while. Then, when some kind of archetype structure was found, the performance could then quickly increase as good networks was derived from the archetypes. It is not far fetched that the two steps in the process have different requirements. Maybe archetype topologies are smaller and faster to sieve. The elaboration of an archetype maybe requires more processing, as it might involve larger structures and thus larger need for tuning and compensation when evolving. Suggestion: Change the stagnation limit (and possibly other parameters) as the number of generations increases, or when certain properties relating to the role a species/genome hold. It might not be possible to find a sweet spot that works for all situations. 
 %   - What has progressed after a leading genome has stagnated and died?
-%   - What size of a network is beneficial for a network to probably to be an archetype? small? connect to all input values, or cover all categories of inputs? After a successful 
-%   - How general will this approach be? If it is successful, will it only be it for problems that resemble characteristics from the racing problems? If, so what aspects? If not, what characteristics do it solve/target?
+% X - What size of a network is beneficial for a network to probably to be an archetype? small? connect to all input values, or cover all categories of inputs? After a successful 
+% X - How general will this approach be? If it is successful, will it only be it for problems that resemble characteristics from the racing problems? If, so what aspects? If not, what characteristics do it solve/target?
 
 As previously described, NEAT is detached from the the actual problem it solves. It do not do any particular analysis of the problem and very little analysis of the results it collects along the way. The feedback it get from the problem is the fitness value. One might question how much information that single value can provide in the process of solving complex problems.
 
@@ -220,28 +226,21 @@ This requirement for a species to succeed is that the mutations for the individu
 Information are hidden from the neat algorithm, it do not know or understand what it do good or what it fails with, so no directed modifications can be applied. It depend on that a better solution is withing reach of one of the currently genomes active in the pool.
 
 % TODO DISCUSS ANALYSE
-%HOW much can it try before extinction?
-%stagnation. specie comparison. knoppa av sig, liknande återkommande.
-If a network perform bad in comparison to the others in the same specie, or if a specie perform too bad in comparison to the other species they will be discarded.
+If a network perform bad in comparison to the others in the same specie, or if a specie perform too bad in comparison to the other species they will be discarded\cite{stanley:neat}. Also if a specie do not improve for a specified amount of generations, so called stagnation, it will also be discarded. A third aspect is that worse performing species will have a smaller amount of individual in its species. It therefore exist a rather designated range for where individuals and new innovation are permitted to survive. It is necessary to not fall in fitness, as well as improving before stagnation or breed a new specie exploring a similar approach.
 
+When the networks evolves, changing wights and introducing new topology, it is important that it remain functioning for the task it managed before. If it does not, it might fall out of the favourable range and becomes discarded. This kind of problematic has been called catastrophic forgetting\cite{gomez:CoSyNE} IS IT REALLY WHAT THEY MEANT?
 
-% HOW much can a solution change, how well tuned do it have to be in order to work? To some extent, it have to make sure that the previous definition space / manageble scenario space is not tempered with, as it expands definition space. How entangled is a network? 
+Based on the the previous discussion, it seems like it is important that performance and complexity are allowed to increase gradually, without the requirement for large jumps. If the solutions are required to take large enough jumps, they might not find a path to reach it. If NEAT is successful, it apparently existed a path with small progressions.
 
-% Det finns en mekanism för att klara av stillastënde, men temporära nedgångar är riskfyllda. Därför vill man att det ska finnas en jämn utveckling serie för att ta sig vidare. Det kan hjälpa att fitness efterspeglar utvecklingen. Låser man in beteende genom att fokusera på vissa resultat, borde man fokusera på att hitta. Utforma träningen så att den inte får för stora steg i fitness. snabbt krascha i sista svängen eller ta sig runt. Konsekvenserna borde inte vara så stora av att misslyckas så man inte vill lära sig något nytt.
-% Borde man fokusera på att mäta beteendefaktorer istället för resultat? Ett logiskt steg närmare.
-% Köra långsamt hela banan eller bra halva
+CHECK RESULT FOR THIS DISCUSSION One example of this may be the steer and speed control. It first train to complete the lap, but then, when a more complex analysis are required in order to make it possible to control speed efficiently, it may be somewhat locked in to the first strategy. It might not exist a gradual path that manages all the curves and it will temporary have a significantly decreased fitness. This lead to a problematic on wheither it is better to complete the whole track, with a limited quality of behaviours, or only a part of it with better general characteristics.
 
-
+The difficulty of gradual progression may be particularly problematic when archiving behaviour with several in-excludable components. If several aspects are required to progress simultaneously, and any of them are missing, it might cause a failure. One example might be steer and speed control. If a network changed to drive at a higher speed, but at the same time do not position the car and time turning to ajust for the change, it will likely cause the car to crash. It might be the reason, or one of the component of why we do not observe the experiments to produce more optimal results.
 
 %WHAT happens when the leading species die? HOW much progress are handed over to other species?
-
-
 
 % CAN it improve on multiple goals, or only once at a time? How do it manage to learn behaviour with in-exclusable components?
 % It is possible to add multiple edges in a few number of generations, but it is unlikely that they are the relevant ones and that they are well tuned. e.g. gas and brake. Kanske ofta utveckla en sak i taget.
 % Motsträviga mål, tex ändra sväng för att hantera annan hastighet. Svårt att göra om en sak måste göras i taget. 
-
-
 
 
 % TODO, CONNECT TO THE RESULTS WE HAVE OBSERVED

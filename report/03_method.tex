@@ -116,7 +116,7 @@ Comparing the result of the different experiment variants should show whether or
 
 % Stuff that could be included in the text above:
 % 1. It should also help with deciding whether or not the way in which the track and steering actions are represented needs to be modified in any way, in order to increase network performance.
-% 2. 
+% 2. When gradually incrementing the speed, what kind of race line do we want the car to perform?
 
 % BAKA IN
 %In order to allow the network to plan ahead, a set of new inputs to the network was introduced. The concept of curve data, as explained in section 3.4.1 was provided to the network. Initially, the distance ahead covered by the new input data was 100 meters, but it was later expanded to 300 meters and 500 meters. Other than this change in input data, the inputs and outputs of the network were the same as in the fixed speed experiment.
@@ -133,16 +133,19 @@ Comparing the result of the different experiment variants should show whether or
 In this experiment, the AI will train on driving with full control of the car. In addition to steering it will also control the speed by accelerating and braking. In addition to the position, orientation, and curvature data the AI will be provided with the current speed of the car. 
 The result of the experiment will further establish the limits of the training system. 
 
-There are several variants of this experiment as well. In the first variant, the AI will drive on the same complete circuit as in the experiment with constant speed. This will show whether or not the system is able to stay on the track to the same extent as when it only steers. Furthermore it will show whether or not the system can learn to manage the speed in an effective way. 
+There are several variants of this experiment as well. In the first variant, the AI will drive on the same complete circuit as in the experiment with constant speed. This will show whether or not the system is able to stay on the track to the same extent as when it only steers. Furthermore it will show whether or not the system can learn to manage the speed in an effective way. If the system is able to find an effective behaviour, the natural response would be to even further increase the complexity of the problem. However if no effective behaviour is found, it is and implication that the training process and system configuration are suboptimal. 
 
-% Single Curve
-The other variant of the experiment will test the system on shorter track segments, only containing one curve each. This experiment can yield interesting results if the the system does not learn to drive effectively on the complete circuit. It is possible that the system is unable to find an effective behaviour on the longer circuit but able to find one for a shorter track since there are f
+% Single Curve TODO: Fixa långa meningen, INSERT IMAGES OF CORNERS 
+The other variant of the experiment will test the system on shorter track segments, only containing one curve each. This experiment can yield interesting results if the the system does not learn to drive effectively on the complete circuit. It is possible that the system is unable to find an effective behaviour on the longer circuit but able to find one for a shorter track because there is only one type of corner to handle. The tracks consists of two straights with a corner in between. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a $30$ degree corner that the car should be able to drive quite fast through. The second one is a $90$ degree corner with a small inner radius. The third corner used is a hairpin corner which turns $180$ degrees with a small inner radius. Successful results in these experiments would show that the training process can be used to find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. 
 
-The tracks consists of two straights with a corner in between. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a 30 degree corner that the car should be able to drive quite fast through. The second one is a $90$ degree corner with a small inner radius. The third corner used is a hairpin corner which turns $180$ degrees with a small inner radius. 
-
+% Skall vi baka in Multiple short tracks i föregående subsection eller skall vi göra Single short track till en egen subsection?
 \subsection{Multiple short track segments}
 Instead of driving a long track, evaluate with a couple of short track segments. For a long track, failing in one early curve affect the whole result. Testing several short segments may let the car progress in a later curve, before an early on is completed.
 
 It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 
 
 \subsection{Mirrored Track}
+One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on, instead of learning how to complete a specific circuit. In order to test this a population of genomes is trained on driving on the full circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. That population is then loaded into the same experiment except with another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. 
+
+There is a wide range of possible results in this experiment, in the worst case, the performance of the trained group is equal or worse than the control group and in the best case it performs as well as before the change of circuit. The best case scenario is unlikely, since the genomes will encounter corners they haven't encountered before. However if the test population outperforms
+
