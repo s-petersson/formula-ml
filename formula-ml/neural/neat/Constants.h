@@ -20,7 +20,7 @@ namespace neat {
     const float DeltaWeights = 0.4f;
     const float DeltaThreshold = 1.0f;
 
-    const int Population = 1000;
+    const int Population = 500;
     const float MutateConnectionsChance = 0.70f;
     const float PerturbChance = 0.90f;
     const float CrossoverChance = 0.75f;

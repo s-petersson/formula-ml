@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <exception>  
+#include <iomanip>
 
 
 using namespace std;
@@ -11,6 +12,8 @@ using namespace neat;
 
 FileWriter::FileWriter(std::string input) {
 	system(("mkdir \"" + input + "\"").c_str());
+	root = input;
+	system(("mkdir \"" + input + "/best\"").c_str());
 	root = input;
 }
 
@@ -25,6 +28,31 @@ void FileWriter::clearFile(string filePath) {
     ofstream file;
     file.open(filePath, std::ofstream::out | std::ofstream::trunc);
     file.close();
+}
+
+double hex_string_to_float(const std::string& hexstr)
+{
+	union
+	{
+		long long i;
+		float    d;
+	} value;
+	value.i = std::stoll(hexstr, nullptr, 16);
+	return value.d;
+}
+
+std::string float_to_hex_string(float x) {
+	union
+	{
+		long long i;
+		float    d;
+	} value;
+
+	value.d = x;
+	std::ostringstream buf;
+	buf << std::hex << std::setfill('0') << std::setw(16) << value.i;
+
+	return buf.str();
 }
 
 /**
@@ -44,8 +72,8 @@ void FileWriter::genomeToFile(Genome genome, std::string path) {
 	ofstream file;
 	file.open(path);
 
-	file << genome.fitness << endl;
-	file << genome.adjustedFitness << endl;
+	file << float_to_hex_string(genome.fitness) << endl;
+	file << float_to_hex_string(genome.adjustedFitness) << endl;
 	file << genome.maxneuron << endl;
 	file << genome.globalRank << endl;
 	file << "out\tin\tweight\tenabled\tinnovation\tcreated" << endl;
@@ -54,7 +82,7 @@ void FileWriter::genomeToFile(Genome genome, std::string path) {
 		
 		file << genome.genes.at(i).out << "\t";
 		file << genome.genes.at(i).into << "\t";
-		file << genome.genes.at(i).weight << "\t";
+		file << float_to_hex_string(genome.genes.at(i).weight) << "\t";
 		file << genome.genes.at(i).enabled << "\t";
 		file << genome.genes.at(i).innovation << "\t";
 		file << genome.genes.at(i).created << endl;
@@ -154,9 +182,9 @@ Genome * FileWriter::genomeFromFile(string path) {
 
 	//Data
 	getline(file, line);
-	float fitness = stof(line, &st);
+	float fitness = hex_string_to_float(line);
 	getline(file, line);
-	float adjustedFitness = stof(line, &st);
+	float adjustedFitness = hex_string_to_float(line);
 	getline(file, line);
 	int maxNeuron = stoi(line, &st);
 	getline(file, line);
@@ -165,7 +193,7 @@ Genome * FileWriter::genomeFromFile(string path) {
 	//One format line
 	getline(file, line);
 	int out, into;
-	float weight;
+	string weight;
 	bool enabled;
 	int innovation;
 	bool created;
@@ -176,7 +204,7 @@ Genome * FileWriter::genomeFromFile(string path) {
 		istringstream in(line);
 		in >> out >> into >> weight >> enabled >> innovation >> created;
 		Gene gene(into, out, innovation);
-		gene.weight = weight;
+		gene.weight = hex_string_to_float(weight);
 		gene.enabled = enabled;
 		
 		genes.push_back(gene);
@@ -203,8 +231,8 @@ void FileWriter::poolToSingleFile(neat::Pool pool, int generation) {
 		for (int g = 0; g < species.genomes.size(); g++) {
 			genome = species.genomes.at(g);
 
-			file << genome.fitness << endl;
-			file << genome.adjustedFitness << endl;
+			file << float_to_hex_string(genome.fitness) << endl;
+			file << float_to_hex_string(genome.adjustedFitness) << endl;
 			file << genome.maxneuron << endl;
 			file << genome.globalRank << endl;
 			file << "out\tin\tweight\tenabled\tinnovation\tcreated" << endl;
@@ -213,7 +241,7 @@ void FileWriter::poolToSingleFile(neat::Pool pool, int generation) {
 
 				file << genome.genes.at(i).out << "\t";
 				file << genome.genes.at(i).into << "\t";
-				file << genome.genes.at(i).weight << "\t";
+				file << float_to_hex_string(genome.genes.at(i).weight) << "\t";
 				file << genome.genes.at(i).enabled << "\t";
 				file << genome.genes.at(i).innovation << "\t";
 				file << genome.genes.at(i).created << endl;
@@ -239,9 +267,9 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		string::size_type st;
 
 		//Data
-		float fitness = stof(line, &st);
+		float fitness = hex_string_to_float(line);
 		getline(file, line);
-		float adjustedFitness = stof(line, &st);
+		float adjustedFitness = hex_string_to_float(line);
 		getline(file, line);
 		int maxNeuron = stoi(line, &st);
 		getline(file, line);
@@ -250,7 +278,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		//One format line
 		getline(file, line);
 		int out, into;
-		float weight;
+		string weight;
 		bool enabled;
 		int innovation;
 		bool created;
@@ -261,7 +289,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 			istringstream in(line);
 			in >> out >> into >> weight >> enabled >> innovation >> created;
 			Gene gene(into, out, innovation);
-			gene.weight = weight;
+			gene.weight = hex_string_to_float(weight);
 			gene.enabled = enabled;
 			
 			genes.push_back(gene);

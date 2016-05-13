@@ -29,6 +29,7 @@ public:
 	TrackModel * track;
 	float progress_timeout = 0;
     float termination_distance = std::numeric_limits<float>::max();
+    float termination_time = std::numeric_limits<float>::max();
     std::function<CarControl()> carUpdater;
 
 	// Readable by user:
@@ -53,6 +54,9 @@ private:
 	int speed_index = 0;
 	float min_avg_speed;
 	float avg_speed_excemption_distance;
+
+	float left_dist();
+	float right_dist();
 };
 
 #endif

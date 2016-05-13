@@ -57,21 +57,23 @@ void ExperimentWindow::ExperimentState::reset() {
 	for (auto&& r : renderers) {
 		r->reset();
 	}
-    network_mutex.lock();
-    if (network_location) {
-        if (*network_location) delete *network_location;
-        *network_location = new neat::Network(trainer->get_best().genes);
-       
-        if (network_view) delete network_view;
-        network_view = new NetworkView(*network_location);
+    if (trainer) {
+        network_mutex.lock();
+        if (network_location) {
+            if (*network_location) delete *network_location;
+            *network_location = new neat::Network(trainer->get_best().genes);
+           
+            if (network_view) delete network_view;
+            network_view = new NetworkView(*network_location);
 
-        //network_buffer = nullptr;
-    }
+            //network_buffer = nullptr;
+        }
 
-    if (network_location && *network_location) {
-        (*network_location)->reset();
+        if (network_location && *network_location) {
+            (*network_location)->reset();
+        }
+        network_mutex.unlock();
     }
-    network_mutex.unlock();
 	raceline_logger->process_jobs();
 
 }
