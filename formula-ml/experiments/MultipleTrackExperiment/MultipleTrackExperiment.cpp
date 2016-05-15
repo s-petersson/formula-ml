@@ -215,6 +215,26 @@ MultipleTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings){
 
         evaluators.push_back(track_evaluator);
     }
+	{
+		SimulationEvaluator* track_evaluator = new SimulationEvaluator();
+
+		SimulatorSettings sim_settings = SimulatorSettings();
+		sim_settings.track_path = new string("./res/models/corners/corner_180_l_new.model");
+		sim_settings.completeTrack = false;
+		sim_settings.termination_distance = 975.f;
+		sim_settings.max_time = 400.f;
+
+		sim_settings.car_speed_max = 97.f;
+		sim_settings.car_speed_initial = 0.f;
+		sim_settings.min_avg_speed = 3.f;
+		sim_settings.avg_speed_excemption_distance = 140.f;
+
+		track_evaluator->sim_settings = sim_settings;
+		track_evaluator->ai_settings = ai_settings;
+		track_evaluator->init();
+
+		evaluators.push_back(track_evaluator);
+	}
 }
 
 MultipleTrackExperiment::_Evaluator::~_Evaluator(){ 
