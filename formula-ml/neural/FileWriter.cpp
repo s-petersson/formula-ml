@@ -263,7 +263,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 	//TODO replace while-true
 	while (getline(file, line)) {
 		Genome * genome = new Genome();
-
+        
 		string::size_type st;
 
 		//Data
@@ -275,6 +275,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		getline(file, line);
 		int globalRank = stoi(line, &st);
 
+
 		//One format line
 		getline(file, line);
 		int out, into;
@@ -285,11 +286,13 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		std::vector<Gene> genes;
 
 
-		while (getline(file, line) && line != "==========") {
+        string separator = "==========";
+		while (getline(file, line) && line.compare(0, separator.length(), separator) != 0) {
 			istringstream in(line);
 			in >> out >> into >> weight >> enabled >> innovation >> created;
-			Gene gene(into, out, innovation);
+			Gene gene = Gene(into, out, innovation);
 			gene.weight = hex_string_to_float(weight);
+
 			gene.enabled = enabled;
 			
 			genes.push_back(gene);
@@ -298,7 +301,7 @@ Pool * FileWriter::poolFromSingleFile(std::string path) {
 		genome->adjustedFitness = adjustedFitness;
 		genome->fitness = fitness;
 		genome->maxneuron = maxNeuron;
-		genome->globalRank = globalRank;
+//		genome->globalRank = globalRank;
 		genome->genes = genes;
 
 		pool->addToSpecies(*genome);
