@@ -16,8 +16,8 @@ protected:
 };
 
 struct EvaluationResult {
-    float fitness;
-    SimulationResult simResult;
+    float fitness = 0;
+    SimulationResult simResult = SimulationResult();
     vector<EvaluationResult> partialResults;
 };
 
