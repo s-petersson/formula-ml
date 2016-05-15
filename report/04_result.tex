@@ -24,7 +24,7 @@ This chapter presents and discusses the results that have been achieved during t
 % example: did it help to help in any way
 % example: present data
 % example: did the hypothesis work
-\section{Fixed speed}
+\section{Constant speed}
 % constant speed -> focus on steering, one variable
 % gradually increasing speed, method?
 % increasing speed -> push the limits 
@@ -37,48 +37,16 @@ Noteworthy is that after the car completes a track, rewarding it for improved ti
 
 The experiment was performed in two ways, one where the AI can look further down the track and one where it only has local knowledge about the track. Results for each of these sub-experiments are presented in the subsections below.
 
-% By locking the speed of the car to a constant value, this experiment aimed to evaluate the networks ability to steer the car. The speed was initially set to a value that was known to be low enough for the car to be able to take a lap by driving in the middle of the track at all times. The speed was increased gradually, trying to force the AI to take wider race line in order to get around the track with the higher speed.
-
-% After it completes a track, rewarding it for improved time or improved distance driven is analogous, since it drive at a constant speed.
-
-% NOTE: I am not certain that some results are actually correct in this section. Does it actually stick to the middle? I do not believe that I had that behaviour when I ran the experiment on the cloud computer. Can't visualise it atm though.
 \subsection{Only local perception}
-Providing the system only with local perception, as explained in section 3.6.1, present successful and interesting results. The system tries to position the car in the middle of the track at all times. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable and to be expected. On the straights, this behaviour works well. However the car eventually encounters a corner, which causes the middle of the track to shift.
+Providing the system only with local perception and giving it control of the steering, as explained in section 3.6.1, present successful and interesting results. The system immediately learns to positioning the car in the middle of the track at all times is preferable. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable.
 
-When the AI is not provided with any information about how the track looks in front of the car, the car sticks to the middle of the track. Since the AI only has knowledge about the track in a small space around the car, it never adjusts for corners before they are actually next to the car. This means that when the car eventually encounters a corner, it will appear as though the car is no longer in the middle of the track. At this point the AI tries to recover the car and position it in the middle of the track again. This lead to late reactions, making it impossible to get past tight curves if the speed was too high simply by reacting to the distance from the middle as the curve appears.
+On straights this behaviour works well, it could even be considered optimal behaviour in some scenarios, however in corners it is not. When the car approaches a corner the middle of the track is shifted, causing the car to become out of position. At this point, the system tries to adjust the cars position. Before the system has had sufficient training, the amount of steering performed is either to large or to small. To large of an adjustment causes the car to oscillate between the middle line of the track, which eventually causes the car to crash. To small of an adjustment instead results in the car not getting back to the middle, eventually causing the car to crash as well. It has been observed that the oscillation occasionally helps the car to complete a complicated corner, by positioning the car in a good way. Even though this behaviour improves fitness and in theory could make the car complete the lap with a higher constant speed, the behaviour is not target behaviour. Oscillating between the middle of the track is not an optimal behaviour in racing.
 
-The AI tries to compensate for these late reactions by increasing the amount of steering applied. This causes the car to oscillate around the tracks mid line. The oscillation occasionally helps the car to position itself correctly before a tough curve. Which further helps the car to complete the corner. The oscillation only occurs after the first curvature on the track, since that is the point in which it has to start compensating. Eventually the AI learned to minimise the oscillation and the car seems to simply stick to the middle of the track.
+The amount of training required to take a complete lap, if possible, is dependent on the constant speed of the car. At a constant speed of 10 m/s it takes approximately two generations for the car to take a complete lap. At this point the oscillation has stopped, and the car follows the middle of the track at all times. Increasing the constant speed to 11.6 m/s, causes the generations required to perform a complete lap to increases to five generations. At 11.7 m/s the generations required were 22. At these speeds, the car switches between oscillating and doing to small of a steering adjustment, causing the car to crash. When the car eventually completes a lap, there is no oscillating behaviour. Further increasing the speed, caused the car never to complete the lap. This also caused the oscillating never to stop, due to the turning radius being to small to complete a corner when sticking to the middle of the track.
 
-When the cars speed was pushed to values that requires the car to take wider curves then sticking to the middle, the car failed to make a complete lap. The amount of steering required in order to complete certain curves from the middle of the track is simply larger than the available turning radius, and the oscillation required to compensate for this forces the car to drive outside of the track or failing other corners.
+[NOTE: Add network structure, what input were used in order to achieve this behaviour? Does it behave differently if we take away distance to edge/distance to middle? Size of network?]
 
-The speed was initially set to 10 m/s, which resulted in the car managing to take a lap on generation 2. The speed was then gradually increased to 11.6, 11.7, 11.75 and 15 m/s. At 11.6m/s the car managed to make a complete lap after 5 generations. At 11.7 m/s, the car managed to make a complete lap at generation 22. Further increasing the speed resulted in the car not taking a complete lap.
-
-% Storlek och vilka indata som används.
-%[Network structure...]
-
-% TODO: Add some more reflections
-The only way it can know there is a curve, is if it find itself away from the middle. It is therefore impossible for it to sophistically prepare for an approaching curve. The only way it improved after a certain degree was if it found an accidental oscillation, where it started to steer before the start of a curve. It is an unstable solution which did not work for several subsequent difficult curves.
-
-[Does it behave differently with edge distance data instead or in addition to distance to middle data? Will it stick to another lateral position than the middle?]
-
-% OLD TEXT:
-
-% When the constant speed was increased, the car started to oscillate around the mid line of the track. The oscillation however only occurred after the first curve in the track, which was interesting. The oscillation sometimes helped the car to position itself in a better way for a tough curve, which in turn helped it to complete that curve. Oscillation will however cause the car to drive a longer distance, compared to driving in a straight line. After completing the track, if the oscillation was not needed for taking a specific curve, it always stopped. The network managed to learn to make it stable. 
-
-% The car stick to the middle of the track. If it drives in to a curve and appear away from the middle, it tries to recover. If it approached a tight curve, it would not perceive the curve until it suddenly appear to drive away from the middle. This lead to late reactions, making it impossible to get past curves if they were to tight or the speed was too high.
-
-% It usually resulted in oscillations around the mid line, usually after some disturbance like the initial curved. Some times the oscillation made it get in better position for a difficult curve, allowing it to complete the curve better. 
-
-% Oscillation will cause the car to drive longer than if it would drive straight. After completing the track, if the oscillation was not needed for taking a specific curve, it always stopped. The network managed to learn to make it stable. 
-
-% The only way it can know there is a curve, is if it find itself away from the middle. It is therefore impossible for it to sophistically prepare for an approaching curve. The only way it improved after a certain degree was if it found an accidental oscillation, an unstable solution which did not work for several subsequent difficult curves.
-
-% Training times...
-
-% Network structure... 
-
-% [Does it behave differently with edge distance data instead or in addition to distance to middle data? Will it stick to another lateral position than the middle?]
-
+This experiment can in general be considered a success. It was confirmed that NEAT can find behaviours that are applicable to steering a race car, and in some scenarios it can even find optimal behaviours. It is however impossible for this solution to sophistically prepare for an approaching curve. The only way for the system to determine whether or not the car should turn, is based on the current distance from the middle of the track. Which does not tell it anything about the corner in front of the car. It would be interesting to see how the system reacts to information about the upcoming part of the track. Is it possible for the system to plan ahead, in order to position the car such that it can travel through tough corners with higher speed?
 
 \subsection{Local perception and track curvature}
 
@@ -128,7 +96,7 @@ The best network found for the speed 50.0 had fitness 5821.93. It had a total of
 
 The fastest route for a car that moves forward with a constant speed is the shortest one. This means that the only way for a genome to increase its fitness once it completes the circuit is to decrease the distance driven around the track.  
 
-The result show that after the algorithm finds specimens that are able to complete the circuit, the gene pool continues to improve. The path around the circuit is shortened to a great extent. The difference in length of the raceline and the midline of the circuit is significant. 
+The result show that after the algorithm finds specimens that are able to complete the circuit, the gene pool continues to improve. The path around the circuit is shortened to a great extent. The difference in length of the race line and the middle line of the circuit is significant. 
 
 The optimal behaviour is intuitively to always drive on the inner curves and to drive a straight line between the curves where it has to turn. Small variations on the curvature should not matter, if the edge does not intersect with the path the car drives.
 
@@ -162,11 +130,10 @@ Network structure...
 % - How do the behaviour/ performance differ to the fixed speed. 
 % - Longer training time => more complex
 % - Can it manage to learn many components of the behaviour at the same time? One component only may make the performance worse
-%
 
 When the genomes are given steering and breaking as a second output, the complexity of the computations increase significantly according to the results. It takes this experiment 506 generations until a genome can complete a single lap around the track. This genome have the ability to both use the break and throttle, but would hold a lower average speed than the best genomes in the corresponding constant speed experiment.
 
-After a genome manages to complete a lap around the track, the data shows that the training process actually manages to find genomes that can complete the track in less time. 
+After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster around the track. The process of finding a genome that reaches all the way around goes much faster than the time optimisation process. As seen in graph 4.?, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200. 
 
 
 \begin{figure}[h]
@@ -175,17 +142,28 @@ After a genome manages to complete a lap around the track, the data shows that t
 \caption{Showing best fitness and average fitness of each generation}
 \end{figure}
 
-As can be seen in the graph above (insert proper tagging), the car AI creates a genome that reaches a fitness higher than the termination distance at 5200 in relatively few generations. Once this fitness level of 5200 is reached, the algorithm tries to optimise the time spent driving. The p
-
 \section{Single short track segment}
 
 % \section{Multiple short track segments}
 
 \section{Mirror track}
-%Train at one track, then drive it on the mirrored track
+% TODO: Sätt in grafer och skit.
+
+The experiment where the training environment was exchanged to a mirrored version of the same track showed several interesting results. The test population was trained on the normal circuit until the best specimens managed to complete the circuit in approximately $500$ seconds, which took $3527$ generations with a population of $500$ genomes. That population was then transferred to training on the mirrored track. On the first try, some specimens managed to complete $1800$ metres of the circuit which is about a third of the way. This shows that at least some of the genomes had some general knowledge about how to drive. However in the next few generations the population managed to complete the whole circuit. This is much faster than the control population which took approximately $150$ generations to complete the circuit. 
 
 
-%- If it is trained for certain tracks, can it manage others?
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{report/images/graphs/mirror_migration}
+\centering
+\caption{Showing the fitness progression of the migrated population shown in blue and the control population shown in red. Note that the migrated population in a few generations surpasses a fitness-value of 5000 as a result of completing the circuit. . }
+\end{figure}
 
+This shows that some of the knowledge acquired on the first track is applicable on the second. Whether the genomes complete some corners because there are similar ones on the first track or because ... If this is the case, one could argue that in order to find a generalised behaviour the AI should train in an environment where it encounters every possible type of situation, i.e. every type of corner and combination of consecutive corners. 
+
+% Skriv om bajsiga meningar.
+The extension to the experiment where the migrated population was migrated back to the original circuit once it had adapted also showed interesting results. The population forgets knowledge when adapting to the new environment. This is somewhat expected since the population mutated for 500 generations on the mirrored track, ergo no genomes trained on the original circuit remain in the population. However not all of the knowledge is lost in the process, some generalised knowledge remain. When migrated back to the original track, one specimen manages to stay on the track for circa $2800$ metres, which is slightly past halfway around. After only $5$ generations of adapting back to the original track one specimen manages to complete the circuit, albeit slowly. The adaption to the original circuit is similar in nature to the adaption from the original to the mirrored one. 
+
+
+%- If it is trained for certain tracks, can it manage others
 
 \section{Summary of results}

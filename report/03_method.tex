@@ -71,6 +71,29 @@ In order to evaluate a genome the simulator is utilised. A neural network instan
 % NOTE: Explain the potential solutions, but do not give away which one is being used in the final version, this conclusion needs to come from performing experiments and should thus be presented in the discussion & results.
 % Problem modelling. 
 
+used indata: 
+bias
+distance to middle
+distance to left edge
+distance to right edge
+angle to track/mid line
+speed of car 
+corner data, points at [m]:
+	10
+	24
+	42
+	66
+	100
+	144
+	205
+	287
+	397
+	546
+sums of corner points:
+	Segment 1, point 1-4, 10-66m
+	Segment 2, point 4-7, 66-205m
+	Segment 3, point 7-10, 205-546m
+
 This subsection will define and motivate the different input and output configurations used in the experiments. Not all of them was used for every experiment, but this section serve to be referenced, in order to avoid redundant descriptions.
 
 Two different output values have been used in experiments, one for turning rate and one for acceleration and braking. 
@@ -94,7 +117,16 @@ Running a simulation will give three values, the time the car was driving, the d
 
 How these three values are considered will effect what properties the neat will find. It is important to find a fitness function that not structurally encourage an unwanted behaviour.
 
-The fitness function currently being used take firstly take in consideration the distance the car has went on the track. Secondly, if the car manages to around drive the complete track, the fitness will also increase the faster the car go.
+The fitness function currently being used take firstly take in consideration the distance the car has went on the track. Secondly, if the car manages to around drive the complete track, the fitness will also increase the faster the car go. The following function is therefore used to determine the fitness of each evaluation:
+
+
+\[ f(d, t) =
+  \begin{cases}
+    d    & \quad \text{if } |d-d_{max}|\geq 1\\
+    d    & \quad \text{if } t_{max} \geq t\\
+    d + 5*(\sqrt{t_{max}} - \sqrt{t})^2    &\quad \text{else} \\
+  \end{cases}
+\]
 
 % Include the following:
 % What was the intended result? What did we want to analyse?
@@ -102,7 +134,7 @@ The fitness function currently being used take firstly take in consideration the
 
 The project was an iterative process. Progress was made by experimentation, where different ways to model the problem and train the AI were tried out. In order to establish which aspects of the target behaviour that can be found with NEAT, a number of experiments of varying complexity were conducted. The following subsections will motivate the need for the different experiments and explain how they were conducted. 
 
-\subsection{Steering a car travelling at a constant speed}
+\subsection{Steering a car moving at a constant speed}
 
 Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to take every corner on the circuit. 
 
@@ -140,6 +172,7 @@ The other variant of the experiment will test the system on shorter track segmen
 
 % Skall vi baka in Multiple short tracks i föregående subsection eller skall vi göra Single short track till en egen subsection?
 \subsection{Multiple short track segments}
+If the the system finds better behaviours when training on the short track segments than on the complete circuit, one interesting experiment is to train the same population on multiple short track segments. The motivation for this is that it could be easier to find behavioural improvements if the AI is challenged with one corner at a time. For example if a more aggressive behaviour would improve the performance on one section of the circuit, it could still lead to catastrophic performance overall since it could lead to a crash in another corner. 
 Instead of driving a long track, evaluate with a couple of short track segments. For a long track, failing in one early curve affect the whole result. Testing several short segments may let the car progress in a later curve, before an early on is completed.
 
 It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 
@@ -147,5 +180,6 @@ It will also be tested to alternate which of the track segments are used for the
 \subsection{Mirrored Track}
 One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on, instead of learning how to complete a specific circuit. In order to test this a population of genomes is trained on driving on the full circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. That population is then loaded into the same experiment except with another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. 
 
-There is a wide range of possible results in this experiment, in the worst case, the performance of the trained group is equal or worse than the control group and in the best case it performs as well as before the change of circuit. The best case scenario is unlikely, since the genomes will encounter corners they haven't encountered before. However if the test population outperforms the control group in any significant way it shows that the population has aquired some 
+There is a wide range of possible results in this experiment, in the worst case, the performance of the trained group is equal or worse than the control group and in the best case it performs as well as before the change of circuit. The best case scenario is unlikely, since the genomes will encounter corners they haven't encountered before. However if the test population outperforms the control group in any significant way it shows that the population has acquired some general knowledge of how to turn or manage the speed. 
 
+If the results show some form of generalisation there is a possible extension to the experiment that could yield interesting results. The extension regards the extent to which the population forgets knowledge about the original circuit when migrated. If the population is migrated back to the original track after learning how to drive on the mirrored one, will it still remember how to drive on it? Can the population learn to drive well on one track without forgetting how to drive well on the other?

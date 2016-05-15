@@ -74,7 +74,7 @@ Total control configuration:
 
 ### Experiment: fixed no curveature
 SimulatorSettings sim_settings = SimulatorSettings();
-sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+sim_settings.track_path = new string("./res/models/circuit_normal.model");
 sim_settings.completeTrack = true;
 sim_settings.termination_distance = 5200.f;
 sim_settings.max_time = 1000.f;
@@ -101,7 +101,7 @@ ai_settings.output_speed = false;
 SimulatorSettings sim_settings = SimulatorSettings();
 AiSettings ai_settings = AiSettings();
 
-sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+sim_settings.track_path = new string("./res/models/circuit_normal.model");
 sim_settings.completeTrack = true;
 sim_settings.termination_distance = 5200.f;
 sim_settings.max_time = 1000.f;
@@ -129,18 +129,19 @@ ai_settings.output_speed = false;
 
 ### Experiment Steer and speed control
 SimulatorSettings sim_settings = SimulatorSettings();
-sim_settings.track_path = new string("./res/models/circuit_narrow.model");
+AiSettings ai_settings = AiSettings();
+
+sim_settings.track_path = new string("./res/models/circuit_normal.model");
 sim_settings.completeTrack = true;
 sim_settings.termination_distance = 5200.f;
 sim_settings.max_time = 1500.f;
 
 sim_settings.car_speed_max = 97.f; 
-sim_settings.car_speed_initial = 0.f; // hitta max
+sim_settings.car_speed_initial = 0.f;
 sim_settings.min_avg_speed = 3.f;
 sim_settings.avg_speed_excemption_distance = 140.f;
 
 
-AiSettings ai_settings = AiSettings();
 ai_settings.angle_to_line            = true;
 ai_settings.distance_to_middle       = true;
 ai_settings.distance_to_edges        = true;
