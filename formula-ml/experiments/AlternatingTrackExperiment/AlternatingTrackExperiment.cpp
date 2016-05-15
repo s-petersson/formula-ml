@@ -32,14 +32,16 @@ void AlternatingTrackExperiment::run() {
     AiSettings ai_settings;
     ai_settings.angle_to_line = true;
     ai_settings.distance_to_middle = true;
+    ai_settings.distance_to_edges = true;
     ai_settings.speed = true;
     ai_settings.curve_data = true;
-    ai_settings.curve_data_sum_absolutes = true;
+    ai_settings.curve_data_segment_sums = true;
+    ai_settings.curve_data_sum_absolutes = false;
 
-    ai_settings.nbr_of_curve_points = 5;
-    ai_settings.curve_point_spacing = 15.f;
-    ai_settings.curve_point_spacing_incremental_percentage = 0.3f;
-    
+    ai_settings.nbr_of_curve_points = 10;
+    ai_settings.curve_point_spacing = 10.f;
+    ai_settings.curve_point_spacing_incremental_percentage = 0.35f;
+
     ai_settings.output_speed = true;
 
     print_settings(ai_settings);
@@ -58,11 +60,15 @@ void AlternatingTrackExperiment::run() {
     windowEnvironment->ai_settings = ai_settings;
 
     SimulatorSettings sim_settings = SimulatorSettings();
-    sim_settings.track_path = new string("./res/models/circuit_wide.model");
+    sim_settings.track_path = new string("./res/models/circuit_normal.model");
     sim_settings.completeTrack = true;
     sim_settings.termination_distance = 5200.f;
-    sim_settings.max_time = 400.f;
-    sim_settings.car_speed_max = 15.f;
+    sim_settings.max_time = 1500.f;
+
+    sim_settings.car_speed_max = 97.f;
+    sim_settings.car_speed_initial = 0.f;
+    sim_settings.min_avg_speed = 3.f;
+    sim_settings.avg_speed_excemption_distance = 140.f;
 
     windowEnvironment->sim_settings = sim_settings;
     windowEnvironment->init();
@@ -86,15 +92,15 @@ void AlternatingTrackExperiment::run() {
         output += ", Active Evaluator: " + to_string(_Evaluator::current_evaluator);
         output += "\n";
 
-        int nbr_of_evaluators = 2;
-        int generations_per_evaluator = 5;
+        int nbr_of_evaluators = 6;
+        int generations_per_evaluator = 10;
 
         _Evaluator::current_evaluator_count++;
         if (_Evaluator::current_evaluator_count >= generations_per_evaluator) {
             _Evaluator::current_evaluator_count = 0;
             _Evaluator::current_evaluator++;
             _Evaluator::current_evaluator %= nbr_of_evaluators;
-            output += "Evaluator changed: " + to_string(_Evaluator::current_evaluator);
+            output += "Evaluator changed: " + to_string(_Evaluator::current_evaluator) + "\n";
         }
 
 #ifndef CLOUD_COMPUTING
@@ -127,11 +133,15 @@ AlternatingTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings) {
         SimulationEvaluator* track_evaluator = new SimulationEvaluator();
 
         SimulatorSettings sim_settings = SimulatorSettings();
-        sim_settings.track_path = new string("./res/models/circuit_narrow.model");
-        sim_settings.completeTrack = true;
-        sim_settings.termination_distance = 5200.f;
-        sim_settings.max_time = 400.f;
-        sim_settings.car_speed_max = 15.f;
+        sim_settings.track_path = new string("./res/models/corners/corner_30_r.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 820.f;
+        sim_settings.max_time = 150.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
 
         track_evaluator->sim_settings = sim_settings;
         track_evaluator->ai_settings = ai_settings;
@@ -143,11 +153,95 @@ AlternatingTrackExperiment::_Evaluator::_Evaluator(AiSettings ai_settings) {
         SimulationEvaluator* track_evaluator = new SimulationEvaluator();
 
         SimulatorSettings sim_settings = SimulatorSettings();
-        sim_settings.track_path = new string("./res/models/circuit_wide.model");
-        sim_settings.completeTrack = true;
-        sim_settings.termination_distance = 5200.f;
+        sim_settings.track_path = new string("./res/models/corners/corner_30_l.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 820.f;
+        sim_settings.max_time = 150.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
+
+        track_evaluator->sim_settings = sim_settings;
+        track_evaluator->ai_settings = ai_settings;
+        track_evaluator->init();
+
+        evaluators.push_back(track_evaluator);
+    }
+    {
+        SimulationEvaluator* track_evaluator = new SimulationEvaluator();
+
+        SimulatorSettings sim_settings = SimulatorSettings();
+        sim_settings.track_path = new string("./res/models/corners/corner_90_10_r.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 925.f;
         sim_settings.max_time = 400.f;
-        sim_settings.car_speed_max = 15.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
+
+        track_evaluator->sim_settings = sim_settings;
+        track_evaluator->ai_settings = ai_settings;
+        track_evaluator->init();
+
+        evaluators.push_back(track_evaluator);
+    }
+    {
+        SimulationEvaluator* track_evaluator = new SimulationEvaluator();
+
+        SimulatorSettings sim_settings = SimulatorSettings();
+        sim_settings.track_path = new string("./res/models/corners/corner_90_10_l.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 925.f;
+        sim_settings.max_time = 400.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
+
+        track_evaluator->sim_settings = sim_settings;
+        track_evaluator->ai_settings = ai_settings;
+        track_evaluator->init();
+
+        evaluators.push_back(track_evaluator);
+    }
+    {
+        SimulationEvaluator* track_evaluator = new SimulationEvaluator();
+
+        SimulatorSettings sim_settings = SimulatorSettings();
+        sim_settings.track_path = new string("./res/models/corners/corner_180_r_new.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 975.f;
+        sim_settings.max_time = 400.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
+
+        track_evaluator->sim_settings = sim_settings;
+        track_evaluator->ai_settings = ai_settings;
+        track_evaluator->init();
+
+        evaluators.push_back(track_evaluator);
+    }
+    {
+        SimulationEvaluator* track_evaluator = new SimulationEvaluator();
+
+        SimulatorSettings sim_settings = SimulatorSettings();
+        sim_settings.track_path = new string("./res/models/corners/corner_180_l_new.model");
+        sim_settings.completeTrack = false;
+        sim_settings.termination_distance = 975.f;
+        sim_settings.max_time = 400.f;
+
+        sim_settings.car_speed_max = 97.f;
+        sim_settings.car_speed_initial = 0.f;
+        sim_settings.min_avg_speed = 3.f;
+        sim_settings.avg_speed_excemption_distance = 140.f;
 
         track_evaluator->sim_settings = sim_settings;
         track_evaluator->ai_settings = ai_settings;
@@ -164,15 +258,19 @@ AlternatingTrackExperiment::_Evaluator::~_Evaluator() {
 EvaluationResult AlternatingTrackExperiment::_Evaluator::evaluate_network(neat::Network* network) {
     EvaluationResult result = EvaluationResult();
 
-    EvaluationResult ev0 = evaluators[0]->evaluate_network(network);
-    ev0.fitness = neural::fitness_distance_time_exp(ev0.simResult, evaluators[0]->sim_settings.termination_distance, 500, 100);
-    result.partialResults.push_back(ev0);
+    result = evaluators[current_evaluator]->evaluate_network(network);
+    result.fitness = neural::fitness_distance_time_exp(result.simResult, evaluators[current_evaluator]->sim_settings.termination_distance, 300, 20);
 
-    EvaluationResult ev1 = evaluators[1]->evaluate_network(network);
-    ev1.fitness = neural::fitness_distance_time_exp(ev1.simResult, evaluators[1]->sim_settings.termination_distance, 500, 100);
-    result.partialResults.push_back(ev1);
-
+    /*
+    for (int i = 0; i < evaluators.size(); i++) {
+        EvaluationResult er = evaluators[i]->evaluate_network(network);
+        er.fitness = neural::fitness_distance_time_exp(er.simResult, evaluators[i]->sim_settings.termination_distance, 300, 20);
+        result.partialResults.push_back(er);
+    }
     result.fitness = result.partialResults[current_evaluator].fitness;
+    result.simResult.distance_on_track = result.partialResults[current_evaluator].simResult.distance_on_track;
+    result.simResult.distance_driven = result.partialResults[current_evaluator].simResult.distance_driven;
+    */
 
     return result;
 }
@@ -180,22 +278,48 @@ EvaluationResult AlternatingTrackExperiment::_Evaluator::evaluate_network(neat::
 void AlternatingTrackExperiment::_Evaluator::print(const EvaluationResult& result) {
     string output;
 
-    output += "\nNew Best: \n";
-    output += "Total fitness:  " + to_string(result.fitness) + "\n";
-    output += "Total distance: " + to_string(result.simResult.distance_on_track) + "\n";
-    output += "Total time:     " + to_string(result.simResult.time_alive) + "\n";
+    output += "\nNew Best, evaluator " + to_string(current_evaluator) + "\n";
+    output += "Fitness:  " + to_string(result.fitness) + "\n";
+    output += "Fistance: " + to_string(result.simResult.distance_on_track) + "\n";
+    output += "Time:     " + to_string(result.simResult.time_alive) + "\n";
 
-    string trackStatus = (current_evaluator == 0 ? " ACTIVE" : "");
-    output += "Evaluator 0, narrow track:" + trackStatus + "\n";
-    output += " Fitness:  " + to_string(result.partialResults[0].fitness) + "\n";
-    output += " Distance: " + to_string(result.partialResults[0].simResult.distance_on_track) + "\n";
-    output += " Time:     " + to_string(result.partialResults[0].simResult.time_alive) + "\n";
+    /*
+    trackStatus = (current_evaluator == 0 ? " ACTIVE" : "");
+    output += "Evaluator 0, 30 right: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[2].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[2].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[2].simResult.time_alive) + "\n";
 
     trackStatus = (current_evaluator == 1 ? " ACTIVE" : "");
-    output += "Evaluator 1, wide track:" + trackStatus + "\n";
-    output += " Fitness:  " + to_string(result.partialResults[1].fitness) + "\n";
-    output += " Distance: " + to_string(result.partialResults[1].simResult.distance_on_track) + "\n";
-    output += " Time:     " + to_string(result.partialResults[1].simResult.time_alive) + "\n";
+    output += "Evaluator 1, 30 left: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[3].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[3].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[3].simResult.time_alive) + "\n";
+
+    trackStatus = (current_evaluator == 2 ? " ACTIVE" : "");
+    output += "Evaluator 2, 90 right: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[4].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[4].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[4].simResult.time_alive) + "\n";
+
+    trackStatus = (current_evaluator == 3 ? " ACTIVE" : "");
+    output += "Evaluator 3, 90 left: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[5].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[5].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[5].simResult.time_alive) + "\n";
+
+    trackStatus = (current_evaluator == 4 ? " ACTIVE" : "");
+    output += "Evaluator 4, 180 right: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[6].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[6].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[6].simResult.time_alive) + "\n";
+
+    trackStatus = (current_evaluator == 5 ? " ACTIVE" : "");
+    output += "Evaluator 4, 180 left: " + trackStatus + "\n";
+    output += " Fitness:  " + to_string(result.partialResults[6].fitness) + "\n";
+    output += " Distance: " + to_string(result.partialResults[6].simResult.distance_on_track) + "\n";
+    output += " Time:     " + to_string(result.partialResults[6].simResult.time_alive) + "\n";
+    */
 
 #ifndef CLOUD_COMPUTING
     cout << output;
