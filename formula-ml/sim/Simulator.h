@@ -9,9 +9,9 @@
 #include <array>
 
 struct SimulationResult {
-	float distance_on_track;
-    float distance_driven;   // Path by the car
-	float time_alive;
+	float distance_on_track = 0;
+    float distance_driven = 0;   // Path by the car
+	float time_alive = 0;
 };
 
 class Simulator {
