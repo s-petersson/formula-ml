@@ -23,6 +23,7 @@ The abilities of the car is limited to how great force it can apply through the 
 The brakes are generally very efficient and are mostly limited by the traction of the tyres, whereas accelerating is limited by the torque of the engine. In addition to this, drag pull to slow the down. When the car brakes, the tyres and the drag will work together, but an accelerating car has to work against the drag. These aspects make cars accelerate slower than they can brake.
 
 As the speed increases, the kinetic energy increases quadratically. A consequence is that a greater force is required to change the momentum. Accelerating and braking takes longer time and the turning radius is larger. The turning radius for a circular motion is:
+
 \begin{equation}
 a_c = \frac{v^2}{r} \cite{beckman:circular_motion} 
 \rightarrow
@@ -30,6 +31,7 @@ a_c = \frac{v^2}{r} \cite{beckman:circular_motion}
 \rightarrow
 r = \frac{mv^2}{F_c}
 \end{equation}
+
 Where $a_c$ is the central acceleration, $v$ is the speed, $r$ is the radius of the circular motion, $F_c$ is the central force and $m$ is the mass of the car.
 
 The car can not turn as much when it accelerates or brakes. When a car accelerates or brake, the amount of pressure on the tyres will change, changing the traction capabilities. This make limit the amount a car car accelerate or brake and turn at the same time \cite{beckman:weight_transfer}. The effect is further increased as the tyres can not produce traction for multiple directions as well as for a single direction\cite{beckman:traction_budget}. 
@@ -76,15 +78,21 @@ Machine learning algorithms require some representation of knowledge. One such k
 
 The human brain is a large network of nerve cells called neurons. The neuron is a cell capable of firing an electrical pulse that can be transmitted electrically or chemically to other neurons via connections called synapses. A neuron fires its pulse when the accumulated incoming signals from other neurons reach a certain threshold. Akin to a biological neural network, an ANN is a network of artificial neurons or nodes. Each node has a value and the nodes are connected by a set of weighted edges. The edges are directed, which means that they represent a signal flow from one neuron to another.
 
-An ANN can represent a mathematical function by connecting a set of input nodes to a set of output nodes, thus representing a mapping from the input space to the output space. The function can be calculated by setting the values of the input nodes and then propagating the values through the network. The propagation of values work by feeding the value of one node to the others via a nodes outbound edges. The value of a node is calculated by passing the weighted sum of the values on the incoming connections to an activation function $\phi(x)$.
-\[
-\phi (\sum_i{w_i v_i})
-\]
+An ANN can represent a mathematical function by connecting a set of input nodes to a set of output nodes, thus representing a mapping from the input space to the output space. Between the input and output nodes, it may exist more nodes, which are called hidden nodes. Output nodes and hidden nodes may not only be connected to the input nodes, but also other hidden nodes. This way of connecting nodes is what build up the network.
+
+The function is calculated by setting the values of the input nodes and then propagating the values through the network. The propagation of values work by feeding the value of one node to the others via a nodes outbound edges. The value of a node is calculated by passing the weighted sum of the values on the incoming connections to an activation function $\phi(x)$.
+
+\begin{equation}
+    \phi (\sum_i{w_i v_i})
+\end{equation}
+
 Where $w_i$ is the weight and $v_i$ is the value of an incoming connection. The choice of activation function is arbitrary but will greatly affect the nature of the represented function. Usually a sigmoid-function is used, which is a smooth step function on the form:
-\[
+
+\begin{equation}
     S(t) = L + \frac{a}{1 + e^{-bt}}
-\]
-Here $L$ denotes the lower bound of the function, $a$ defines the range of values and $b$ defines the steepness of the function. 
+\end{equation}
+
+Here $L$ denotes the lower bound of the function, $a$ defines the range of values and $b$ defines the steepness of the function. The value-range of the function is $[L, L+a]$. 
 
 An ANN with at least two layers of hidden neurons and a sigmoid function as its activation function can be used to approximate any real function, furthermore the accuracy increases with the number of neurons \cite{mitchel:approximation}. The function approximated by an ANN can be changed by changing the topology or weights of the network. Artificial neural networks are thus useful for curve fitting on data. 
 
@@ -108,17 +116,16 @@ The performance is used as the basis of some transforming process that improves 
 In this project reinforcement learning is a reasonable paradigm since the performance can be evaluated by simulating how the actor drives the car. In the problem domain the effectiveness of individual actions is hard to evaluate since behaviours may be locally suboptimal but globally optimal. However the global behaviour of an actor is easier to evaluate, for example by rewarding shorter lap times. A reinforcement learning algorithm where the actors can be evaluated on this level of abstraction would be favourable in this project.   
 
 \subsection{Neuroevolution}
-One type of reinforcement learning algorithms that are compatible with the desired mode of evaluation is 
-Neuroevolution is a set of reinforcement learning algorithms that learn by emulating evolutionary processes, for example natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
+One type of reinforcement learning that is  compatible with the desired mode of evaluation is Neuroevolution. Neuroevolution is a set of reinforcement learning algorithms that learn by emulating evolutionary processes, for example natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
 
 This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network. In that case the traits that have a positive contribution to the performance of the AI are kept while negative traits are removed. 
 
 This type of machine learning has been shown to be effective in comparison to other machine learning algorithms at solving non-linear control tasks such as the pole balancing problem \cite{gomez:efficient_nonlinear_control}.
 
-\subsection{Neuroevolution through Augmenting Topologies}
-One neuroevolution algorithm is Neuroevolution through Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of genomes. A genome is the genetic encoding or DNA of an ANN consisting of a number of genes. Each gene represents a connection in a neural network. The genomes are grouped into species based on genetic similarity. A genome only competes with the other members of its species. The introduction of species protects the diversity of the population, which has been showed to improve the learning rate of the algorithm \cite{stanley:neat}.  
+\subsection{Neuroevolution of Augmenting Topologies}
+One neuroevolution algorithm is Neuroevolution of Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of genomes. A genome is the genetic encoding or DNA of an ANN consisting of a number of genes. Each gene represents a connection in a neural network. The genomes are grouped into species based on genetic similarity. A genome only competes with the other members of its species. The introduction of species protects the diversity of the population, which has been showed to improve the learning rate of the algorithm \cite{stanley:neat}.  
 
-The evolution process works by culling each species based on the evaluated fitness of each genome. The worse half is removed, the better half is allowed to pass on their genes and the best genome is kept as it is. Some species are removed due to stagnation or due to performing significantly worse than the average. The other species are allowed to breed a number of children. The number of children a species is allowed to breed is calculated from the relative average fitness of the species. 
+The evolution process works by culling each species based on the evaluated fitness of each genome, which is performed by a detached and separately implemented algorithm. The worse half is removed, the better half is allowed to pass on their genes and the best genome is kept as it is. Some species are removed due to stagnation or due to performing significantly worse than the average. The other species are allowed to breed a number of children. The number of children a species is allowed to breed is calculated from the relative average fitness of the species. 
 
 The breeding process used in NEAT creates children by combining genes from two parent genomes and then mutating the child. The mutation is a stochastic process which may change a a genome in several ways. The possible mutations are the addition of a new gene, adding a new node by splitting a gene into two, modifying the weight of a connection, disabling an enabled gene, or enabling a disabled one.
 

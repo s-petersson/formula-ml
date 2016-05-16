@@ -22,15 +22,19 @@ This requirement on the simulation introduces some constraints to the physics si
 The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represent a time interval of $10$ milliseconds within the universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However with the speed of today's computers, a lot of simulation updates can be carried every second. This enables a modest desktop computer to simulate years of racing in a few hours. 
 
 The car is represented by a simplified model of a car. Only the required properties discussed in the previous section are simulated. Each update of the car state results in an update of the cars position according to:
-\[
+
+\begin{equation}
     \vec{p} = \vec{p} + \vec{v}\Delta t 
-\]
+\end{equation}
+
 Where $\vec{p}$ is the position vector of the car, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $0.01$ seconds.
 
 The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics the acceleration $a$ of an object is equal to the applied force $f$ divided by the mass $m$ of the object, a relationship which is described by the equation $f = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with:
-\[
-\vec{a} = \frac{\vec{f}}{m}
-\]
+
+\begin{equation}
+    \vec{a} = \frac{\vec{f}}{m}  
+\end{equation}
+
 All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation. 
 
 FORMULA FOR TURNING RADIUS
@@ -59,55 +63,89 @@ Some minor utility features were added to our implementation in order to allow f
     % AIn styr bilen i varje simulation step
     % Indata, förklara inte vilken typ av indata, säg bara vart den kommer ifrån.
     % Slutgiltliga resultatet av simulationen ger feedback
-The training process works by letting the neural networks adjust or train to drive the car. The combination of the NEAT algorithm and simulator is utilised to perform training of the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However the evolutionary process requires from measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
+The training process works by letting the neural networks adjust or train to drive the car. The combination of the NEAT algorithm and the simulator is utilised to perform training of the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However the evolutionary process requires a measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
 
 In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific has performed. The training process generates a network based on the genome that is to be evaluated, and feeds it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to steer the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
 
 The following subsections cover in detail the input and output to the networks supplied by and given to the simulator, as well as describing how genomes were evaluated and how fitness has been calculated to approximate network performance in an optimal way.
 
-\subsection{Interpretation - Make list or table?}
+\subsection{Interpretation}
 % Talk about how the environment is represented in relation to the neural network.
 % How does the AI see the world? What does the inputs look like?
 % What kind of output does the AI give to steer and control the vehicle?
 % NOTE: Explain the potential solutions, but do not give away which one is being used in the final version, this conclusion needs to come from performing experiments and should thus be presented in the discussion & results.
 % Problem modelling. 
+% used indata:
+% bias
+% distance to middle
+% distance to left edge
+% distance to right edge
+% angle to track/mid line
+% speed of car 
+% corner data, points at [m]:
+% 	10
+% 	24
+% 	42
+% 	66
+% 	100
+% 	144
+% 	205
+% 	287
+% 	397
+% 	546
+% sums of corner points:
+% 	Segment 1, point 1-4, 10-66m
+% 	Segment 2, point 4-7, 66-205m
+% 	Segment 3, point 7-10, 205-546m
 
-used indata:
-bias
-distance to middle
-distance to left edge
-distance to right edge
-angle to track/mid line
-speed of car 
-corner data, points at [m]:
-	10
-	24
-	42
-	66
-	100
-	144
-	205
-	287
-	397
-	546
-sums of corner points:
-	Segment 1, point 1-4, 10-66m
-	Segment 2, point 4-7, 66-205m
-	Segment 3, point 7-10, 205-546m
+For the system to decide on some action for the car to take, it needs information about the car and its environment. Deciding on appropriate information to give to the system is an important aspect for NEAT to be able to progress in an efficient way. How effective any given input is, highly depends on the problem that is to be solved and what the target behaviour is.
 
-This subsection will define and motivate the different input and output configurations used in the experiments. Not all of them was used for every experiment, but this section serve to be referenced, in order to avoid redundant descriptions.
+The inputs used during the project aim to give an easy way for the system to couple situations with an appropriate action. There exists two groups of inputs; One that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment.
 
-Two different output values have been used in experiments, one for turning rate and one for acceleration and braking. 
+There are two different kind of inputs describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust race lines before arriving at corners. [TODO: Describe corner data and sum of corner data. Also add description in table below].
 
-The turning rate value has the range $[-1,1]$, where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can.
+The set of inputs that describe the current status of the car are more simple in nature. They aim towards giving the system the capability of keeping the car on the track at all times. These inputs consist of current car speed measured in meters per second, angle between the cars current direction and the mid line of the track, distance from the car to the tracks mid line, as well as the distance between the car and the left and right edge of the track.
 
-The acceleration and braking value has the range $[-1, 1]$. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
+Additionally a bias value is introduced as an input to the network. This is due to the fact that when all inputs to a specific neuron are zero, the neuron would not be able to produce a signal. Since the output of a neuron is the weighted sum of all its inputs, a bias is introduced in order to provide a base value that can be applied to this sum.
 
-When it comes to the different input values, the amount of different values are slightly larger.
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Name & Description\\
+    \midrule
+    Car speed  & The current speed of the car\\
+    Angle to mid line & Angle between car diretion and mid line of track\\
+    Distance to middle & Distance between the car and the track mid line\\
+    Distance to left edge & Distance between the car and the track left edge\\
+    Distance to right edge & Distance between the car and the track right edge\\
+    Corner data  & Description\\
+    Sums of corner data & Description\\
+    Bias & Bias value used to invert values, always equal to 1\\
+    \bottomrule
+  \end{tabular}
+  \caption{List of all available neural network inputs.}
+  \label{tab:input_table}
+\end{table}
 
-Some of the optional values describe the current state of the car. One of the them is the speed of the car, measured in meters per second. Then values are used for the distance to the middle of the track and the distances to the right and left edge of the track. Another value is the angle between the direction of the car and the mid line of the track.
+\noindent
+The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and breaking, the output values ranges from $[-1, 1]$, where positive values represents accelerating and negative values breaking. The value is interpreted by the simulator as a percentage of the cars current capability of accelerating and breaking.
 
-Another set of values describe the shape of the track ahead. One method used is consider the mid line of the track. It then picks points on that line with a fixed distance spacing, and takes the angles that separate the imaginary line segments between the point. In this way.
+% The turning rate value has the range $[-1,1]$, where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can. The acceleration and braking value has the range $[-1, 1]$. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
+
+% This subsection will define and motivate the different input and output configurations used in the experiments. Not all of them was used for every experiment, but this section serve to be referenced, in order to avoid redundant descriptions.
+
+% Two different output values have been used in experiments, one for turning rate and one for acceleration and braking.
+
+% The turning rate value has the range $[-1,1]$, where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can.
+
+% The acceleration and braking value has the range $[-1, 1]$. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
+
+% When it comes to the different input values, the amount of different values are slightly larger.
+
+% Some of the optional values describe the current state of the car. One of the them is the speed of the car, measured in meters per second. Then values are used for the distance to the middle of the track and the distances to the right and left edge of the track. Another value is the angle between the direction of the car and the mid line of the track.
+
+% Another set of values describe the shape of the track ahead. One method used is consider the mid line of the track. It then picks points on that line with a fixed distance spacing, and takes the angles that separate the imaginary line segments between the point. In this way.
 
 \subsection{Evaluation}
 % Prata om fitness funktionen, men den behöver även "arbetas fram ur experimenten".. på något vis? Vi hade ju inte denna från början, den kom fram som en biprodukt av experimenten?

@@ -24,7 +24,7 @@ This chapter presents and discusses the results that have been achieved during t
 % example: did it help to help in any way
 % example: present data
 % example: did the hypothesis work
-\section{Constant speed}
+\section{Steering a car moving at a constant speed}
 % constant speed -> focus on steering, one variable
 % gradually increasing speed, method?
 % increasing speed -> push the limits 
@@ -88,7 +88,7 @@ The recurrent characteristics in the behaviour for a particular solution often h
 %Check for longer training sessions
 It seemed like it did not learn to distinguish properly between the different difficulties, and simple did the same behaviour in miniature. Worth noting was that these training sessions lasted for only about 2-600 generations. We have not proven that it is not possible if one trains for longer.
 
-OLD: The best network found for the speed 12.0 (SPEED 50????!!!?!??!!) had fitness 5821.93. It had a total of 9 hidden nodes, a total of 20 edges, 8 edges within the hidden layer, 4 to output nodes, 9 of the input nodes and bias was connected (0, 1, 3, 4, 5, 7, 8, 10, 13, 15) (bias, distance to middle, distance to right edge, angle to mid line, curve data points 10m 42m 66m 144m 397m and the segment sum of the first four points in the region 10-66m) (Remember to check which edges are enabled!)
+%OLD: The best network found for the speed 12.0 (SPEED 50????!!!?!??!!) had fitness 5821.93. It had a total of 9 hidden nodes, a total of 20 edges, 8 edges within the hidden layer, 4 to output nodes, 9 of the input nodes and bias was connected (0, 1, 3, 4, 5, 7, 8, 10, 13, 15) (bias, distance to middle, distance to right edge, angle to mid line, curve data points 10m 42m 66m 144m 397m and the segment sum of the first four points in the region 10-66m) (Remember to check which edges are enabled!)
 
 
 \subsection{Shortest path}
@@ -112,38 +112,35 @@ Network structure...
 % example: present data
 % example: did the hypothesis work
 
-\section{Steer and speed control}
+\section{Full control of the car}
 % Beteendeanalys
-% - It actually does optimise for time, which is nice!
 % - How does the behaviour progress? What tendencies can be seen during the training? What kind of problems does it get stuck at?
 % training, data
 % - It does not brake/accelerate before/after curves. Why is this? Could the input potentially be modified, such that it is easier for the system to realise what needs to be done? Distance to next curve? 
 % - It stays in the middle of the track, instead of performing optimal race lines.
-% - 
+ 
 
 % Analysis
 % - Can it manage to learn many components of the behaviour at the same time? One component only may make the performance worse
 % - How do the behaviour / performance differ to the fixed speed. 
-    % - The amount of training required is a lot higher. Compared to ~1000 generations of fixed speed, which resulted in an almost perfect race line.
-    % - Its similar to fixed speed, but a little bit worse.
+% - The amount of training required is a lot higher. Compared to ~1000 generations of fixed speed, which resulted in an almost perfect race line.
+% - Its similar to fixed speed, but a little bit worse.
     
-
-    % - Its similar to fixed speed in time during the laps, fixed speed with 12.f is a little bit faster. (Include details)
-    % - When it comes to race lines, fixed speed is A LOT better. Introducing the steering/breaking output makes the performance worse in general. Why?
+% - When it comes to race lines, fixed speed is A LOT better. Introducing the steering/breaking output makes the performance worse in general. Why?
 
 When the genomes are given steering and breaking as a second output, the complexity of the computations increase significantly according to the results. It takes this experiment 506 generations until a genome can complete a single lap around the track. This genome have the ability to both use the break and throttle, but still holds a lower average speed than the best genomes in the corresponding constant speed experiment.
 
-After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster around the track. The process of finding a genome that reaches all the way around goes much faster than the time optimisation process. As seen in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata}, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200. 
-
+After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster and faster around the track. The process of finding a genome that reaches all the way around is less time consuming than the time optimisation process. As seen in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata}, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200. 
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/graphs/steeringandspeedcontrolrun1}
 \centering
-\caption{Showing best fitness and average fitness of each generation. Note that after 506 generations the fitness value surpasses 5200 as the circuit have been completed.}
+\caption{Showing best fitness of each generation. Note that after 506 generations the fitness value surpasses 5200 as the circuit have been completed.}
 \label{fig:steerspeeddata}
 \end{figure}
 
-When comparing the data in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata} to the results in subsection \ref{subsec:fixedspeedcurvature}; the fitness of the genomes that are able to accelerate and decelerate does not surpass the best genome with constant speed until generation 488. A higher fitness is reached in this experiment, but at the cost of more complexity.
+A fitness of 6587.56 was the highest value that was reached during this experiment, and that corresponds to completing the track in 490.68 seconds. Compared to the results in subsection \ref{subsec:fixedspeedcurvature}, the fastest genome in this experiment time is much slower than the best genome in the corresponding constant speed experiment. 
+
 
 
 \begin{figure}[h]
@@ -153,7 +150,7 @@ When comparing the data in figure \ref{fig:steerspeeddata} on page \pageref{fig:
 \label{fig:steerspeedline}
 \end{figure}
 
-\section{Single short track segment}
+\section{Short track segment}
 
 As hypothesised in section $3.6.3$, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. The behaviours found of the three track segments are not perfect, however they show signs of effective speed management, which is one of the criteria looked for the in the behaviour. The genomes do no show any significant signs of effective positioning, which is the other major criteria. 
 
@@ -168,7 +165,7 @@ Even though the system did not find any near perfect behaviours, the results sho
 %%% KÖTTA UT
 
 
-\section{Mirror track}
+\section{Mirrored track}
 % TODO: Sätt in grafer och skit.
 
 The experiment where the training environment was exchanged to a mirrored version of the same track showed several interesting results. The test population was trained on the normal circuit until the best specimens managed to complete the circuit in approximately $500$ seconds, which took $3527$ generations with a population of $500$ genomes. That population was then transferred to training on the mirrored track. On the first try, some specimens managed to complete $1800$ metres of the circuit which is about a third of the way. This shows that at least some of the genomes had some general knowledge about how to drive. However in the next few generations the population managed to complete the whole circuit. This is much faster than the control population which took approximately $150$ generations to complete the circuit. 
