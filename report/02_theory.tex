@@ -105,11 +105,10 @@ A central aspect of the learning process is evaluating the performance of the ac
 
 The performance is used as the basis of some transforming process that improves the actor itself. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
 
-
-
-
+In this project reinforcement learning is a reasonable paradigm since the performance can be evaluated by simulating how the actor drives the car. In the problem domain the effectiveness of individual actions is hard to evaluate since behaviours may be locally suboptimal but globally optimal. However the global behaviour of an actor is easier to evaluate, for example by rewarding shorter lap times. A reinforcement learning algorithm where the actors can be evaluated on this level of abstraction would be favourable in this project.   
 
 \subsection{Neuroevolution}
+One type of reinforcement learning algorithms that are compatible with the desired mode of evaluation is 
 Neuroevolution is a set of reinforcement learning algorithms that learn by emulating evolutionary processes, for example natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
 
 This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network. In that case the traits that have a positive contribution to the performance of the AI are kept while negative traits are removed. 

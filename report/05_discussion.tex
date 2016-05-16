@@ -26,18 +26,20 @@
 % X - What size of a network is beneficial for a network to probably to be an archetype? small? connect to all input values, or cover all categories of inputs? After a successful 
 % X - How general will this approach be? If it is successful, will it only be it for problems that resemble characteristics from the racing problems? If, so what aspects? If not, what characteristics do it solve/target?
 
-As previously described, NEAT is detached from the the actual problem it solves. It does not do any particular analysis of the problem and very little analysis of the results it collects along the way. The only feedback that it receives is the fitness value. One might question how useful this is when solving complex problems.
-
-NEAT progressively builds up networks. Even if many different networks are evolving concurrently, each of them evolves in small steps. The number of changes for a particular network are rather limited for a single generation. In order for NEAT to produce a successful species, it is required that the mutation that will give the highest contribution towards the to path the end goal, is also the mutation that is gives the highest fitness reward. If this is not the case some species that may perform well will be discarded, to the benefit of other species and individuals that may or may not reach the end goal.
+As previously described WHERE WHERE REFERENCE WHERE WHERE, NEAT is detached from the the actual problem it solves. It does not do any particular analysis of the problem and very little analysis of the results it collects along the way. The only feedback that it receives is the fitness value. One might question how useful this is when solving complex problems.
 
 The NEAT algorithm is not smart. It does not know or understand what it is currently performing well at nor what it is lacking, therefore it has no possibility of applying directed modifications. The progression of the NEAT algorithm depends on the fact that a better solution is within reach of one that is currently in the active genome pool.
 
+NEAT progressively builds up networks. Even if many different networks are evolving concurrently, each of them evolves in small steps. The number of changes for a particular network are rather limited for a single generation. In order for NEAT to produce a successful species, it is required that the mutation that will give the highest contribution towards the end goal also give enough fitness to survive. If this is not the case, the species and individual genomes will be discarded even if they could have produced better results in the future. 
+
 If a network performs bad in comparison to the others in the same species, or if a species perform too bad in comparison to the other species they will be discarded\cite{stanley:neat}. Also if a species do not improve for a specified amount of generations, so called stagnation, it will also be discarded. A third aspect is that worse performing species will have a smaller amount of individuals in its species. Therefore it exists a rather well defined range for where individuals and new innovations survive. It is necessary not to fall in fitness, as well as improving before stagnation or breed a new species exploring a similar approach.
 
-When networks evolve by changing weights and introducing new topology, it is important that it remains functioning, with respect to the task that it previously succeeded with. If it does not, it might fall out of the favourable range and may be discarded. [TODO: Write about catastrophic forgetting]
+When networks evolve by changing weights and introducing new topology, it is important that it remains functioning, with respect to the task that it previously succeeded with. If it does not, it might fall out of the favourable range and get discarded. 
+
+% [TODO: Write about catastrophic forgetting?]
 %This kind of problematic has been called catastrophic forgetting\cite{gomez:CoSyNE} NOT REALLY WHAT THEY MEANT, THEY WERE TALKING ABOUT LEAVING A TASK AND TRAINING FOR ANOTHER, THEN RETURNING TO THE PREVIOUSLY LEARNED TASK
 
-It seems important that performance and complexity are allowed to increase gradually, without having to perform large jumps. If the mutation that is required is large enough, NEAT may not be able to find the correct path to reach it. Thus if NEAT is successful, a path was found that only required small progressions from start to finish.
+It therefore seems important that performance and complexity are allowed to increase gradually, without having to perform large jumps. If the mutation that is required is large enough, NEAT may not be able to find the correct path to reach it. Thus if NEAT is successful, a path was found that only required small progressions from start to finish.
 
 [TODO: CHECK RESULT FOR THIS DISCUSSION] One example of this may be the steer and speed control. It first train to complete the lap, but then, when a more complex analysis are required in order to make it possible to control speed efficiently, it may be somewhat locked in to the first strategy. It might not exist a gradual path that manages all the curves and it will temporary have a significantly decreased fitness. This lead to a problematic on whether it is better to complete the whole track, with a limited quality of behaviours, or only a part of it with better general characteristics.
 
@@ -64,13 +66,15 @@ NEAT has proven itself to be useful. We can see in some experiments, e.g. shorte
 
 In order to reach the best results, it is important to use NEAT to its strengths and avoid its weaknesses. One aspect is how the problem is modelled for the neural network, what data is it provided with and how is the result interpreted.
 
-The process of taking decisions based on data may be divided into three steps: (1) Process and interpret data and (2) making a decisions. It is conceived that it is beneficial to focus the responsibility of the networks as much as possible, and let it focus manly at the latter two. SHOW WITH GRID DATA EXPERIMENT??
+The process of taking decisions based on data may be divided into three steps: (1) Process and interpret data and (2) making a decisions. It is conceived that it is beneficial to focus the responsibility of the networks as much as possible, and let it focus manly at the latter two. 
+
+%SHOW WITH GRID DATA EXPERIMENT??
 
 A way to analyse different sets of data is by the information they contain and how relevant it is to the problem. If the data contain noise the training have a more difficult task to learn.
 
 Concerning the track, it could get data straight from the representation model used by the simulator, vector points in triangles. However, it would have to learn how they relate to each other and what the relevance of them are is. The curvature data describe approximately the same thing, with a much lower amount of data. The exact coordinates of the triangles are not relevant, but how they relate to the car and how it affects the race line. 
 
-To some level, the developer need to do the analysis of what is relevant and good information. If the data get to compact or hard to calculate with, it might get difficult to learn to use it, based on the discussion about multiple goals in "The neat mechanism".
+To some level, the developer need to do the analysis of what is relevant and good information. If the data get to compact or hard to calculate with, it might get difficult to learn to use it, based on the discussion about multiple goals section \ref{discussion:neat_mechanism}.
 
 To some extent it might also be important that the values are easily calculable, to make it simpler to find a usage. Several of the input data that was repeatedly used did not provide new information, but was other representations of data already provided. Distance to middle, right and left edge are in a sense analogous as the track in our experiments was uniform in width. The curvature segment data are simply the summation of some of the other data points.
 

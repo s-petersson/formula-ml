@@ -61,10 +61,9 @@ Some minor utility features were added to our implementation in order to allow f
     % Slutgiltliga resultatet av simulationen ger feedback
 The training process works by letting the neural networks adjust or train to drive the car. The combination of the NEAT algorithm and simulator is utilised to perform training of the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However the evolutionary process requires from measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
 
-In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calcuating A neural network is generated from the genome, which is then fed to the simulator to use, in order to control the car. In each update of the simulation, the network is used to calculate the steering values for the car. The network is given input values describing the current state of the car and the track from the simulator.
+In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific has performed. The training process generates a network based on the genome that is to be evaluated, and feeds it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to steer the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
 
-In order to evaluate a genome the simulator is utilised. A neural network instance is generated from the genome, and is then used by the simulator to control the car. In each update of the simulation, data describing the current state of the simulation is fed into the neural network. The resulting outputs are then used as control values for the car, for example steering and acceleration. The simulation will eventually terminate, either by the car completing the circuit or by the car crashing or standing still for too long. The fitness is then calculated based on the simulation result, for example time spent and distance travelled. The details of how the inputs and outputs are modelled and how genomes are evaluated are covered in the following subsections. 
-
+The following subsections cover in detail the input and output to the networks supplied by and given to the simulator, as well as describing how genomes were evaluated and how fitness has been calculated to approximate network performance in an optimal way.
 
 \subsection{Interpretation - Make list or table?}
 % Talk about how the environment is represented in relation to the neural network.
@@ -73,7 +72,7 @@ In order to evaluate a genome the simulator is utilised. A neural network instan
 % NOTE: Explain the potential solutions, but do not give away which one is being used in the final version, this conclusion needs to come from performing experiments and should thus be presented in the discussion & results.
 % Problem modelling. 
 
-used indata: 
+used indata:
 bias
 distance to middle
 distance to left edge
