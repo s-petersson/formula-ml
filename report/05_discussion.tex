@@ -1,7 +1,7 @@
 \chapter{General Discussion}
 
 
-\section{The neat mechanism}
+\section{The NEAT mechanism} \label{discussion:neat_mechanism}
 %  The topics noted with X are things I think can be included in the next version of the text
 
 %   - Neat train to fulfil a declared goal, it is not a description on how to do it
@@ -26,32 +26,31 @@
 % X - What size of a network is beneficial for a network to probably to be an archetype? small? connect to all input values, or cover all categories of inputs? After a successful 
 % X - How general will this approach be? If it is successful, will it only be it for problems that resemble characteristics from the racing problems? If, so what aspects? If not, what characteristics do it solve/target?
 
-As previously described, NEAT is detached from the the actual problem it solves. It do not do any particular analysis of the problem and very little analysis of the results it collects along the way. The feedback it get from the problem is the fitness value. One might question how much information that single value can provide in the process of solving complex problems.
+As previously described, NEAT is detached from the the actual problem it solves. It does not do any particular analysis of the problem and very little analysis of the results it collects along the way. The only feedback that it receives is the fitness value. One might question how useful this is when solving complex problems.
 
-NEAT progressively builds up networks. Even if many different networks are evolving concurrently, each of them evolves in small steps. The number of changes for a particular network are rather limited for a single generation.
+NEAT progressively builds up networks. Even if many different networks are evolving concurrently, each of them evolves in small steps. The number of changes for a particular network are rather limited for a single generation. In order for NEAT to produce a successful species, it is required that the mutation that will give the highest contribution towards the to path the end goal, is also the mutation that is gives the highest fitness reward. If this is not the case some species that may perform well will be discarded, to the benefit of other species and individuals that may or may not reach the end goal.
 
-This requirement for a species to succeed is that the mutations for the individuals that are rewarded most, also are mutations that lead to the end goal. If they are not locally rewarded enough, they will be discarded and if the whole species perform too poorly it will go extinct for the benefit of other species and individuals that may or may not reach the end goal.
+The NEAT algorithm is not smart. It does not know or understand what it is currently performing well at nor what it is lacking, therefore it has no possibility of applying directed modifications. The progression of the NEAT algorithm depends on the fact that a better solution is within reach of one that is currently in the active genome pool.
 
-Information are hidden from the neat algorithm, it do not know or understand what it do good or what it fails with, so no directed modifications can be applied. It depend on that a better solution is withing reach of one of the currently genomes active in the pool.
+If a network performs bad in comparison to the others in the same species, or if a species perform too bad in comparison to the other species they will be discarded\cite{stanley:neat}. Also if a species do not improve for a specified amount of generations, so called stagnation, it will also be discarded. A third aspect is that worse performing species will have a smaller amount of individuals in its species. Therefore it exists a rather well defined range for where individuals and new innovations survive. It is necessary not to fall in fitness, as well as improving before stagnation or breed a new species exploring a similar approach.
 
-If a network perform bad in comparison to the others in the same species, or if a species perform too bad in comparison to the other species they will be discarded\cite{stanley:neat}. Also if a species do not improve for a specified amount of generations, so called stagnation, it will also be discarded. A third aspect is that worse performing species will have a smaller amount of individual in its species. It therefore exist a rather designated range for where individuals and new innovation are permitted to survive. It is necessary to not fall in fitness, as well as improving before stagnation or breed a new species exploring a similar approach.
+When networks evolve by changing weights and introducing new topology, it is important that it remains functioning, with respect to the task that it previously succeeded with. If it does not, it might fall out of the favourable range and may be discarded. [TODO: Write about catastrophic forgetting]
+%This kind of problematic has been called catastrophic forgetting\cite{gomez:CoSyNE} NOT REALLY WHAT THEY MEANT, THEY WERE TALKING ABOUT LEAVING A TASK AND TRAINING FOR ANOTHER, THEN RETURNING TO THE PREVIOUSLY LEARNED TASK
 
-When the networks evolves, changing wights and introducing new topology, it is important that it remain functioning for the task it managed before. If it does not, it might fall out of the favourable range and becomes discarded. This kind of problematic has been called catastrophic forgetting\cite{gomez:CoSyNE} NOT REALLY WHAT THEY MEANT, THEY WERE TALKING ABOUT LEAVING A TASK AND TRAINING FOR ANOTHER, THEN RETURNING TO THE PREVIOUSLY LEARNED TASK
+It seems important that performance and complexity are allowed to increase gradually, without having to perform large jumps. If the mutation that is required is large enough, NEAT may not be able to find the correct path to reach it. Thus if NEAT is successful, a path was found that only required small progressions from start to finish.
 
-Based on the the previous discussion, it seems like it is important that performance and complexity are allowed to increase gradually, without the requirement for large jumps. If the solutions are required to take large enough jumps, they might not find a path to reach it. If NEAT is successful, it apparently existed a path with small progressions.
+[TODO: CHECK RESULT FOR THIS DISCUSSION] One example of this may be the steer and speed control. It first train to complete the lap, but then, when a more complex analysis are required in order to make it possible to control speed efficiently, it may be somewhat locked in to the first strategy. It might not exist a gradual path that manages all the curves and it will temporary have a significantly decreased fitness. This lead to a problematic on whether it is better to complete the whole track, with a limited quality of behaviours, or only a part of it with better general characteristics.
 
-CHECK RESULT FOR THIS DISCUSSION One example of this may be the steer and speed control. It first train to complete the lap, but then, when a more complex analysis are required in order to make it possible to control speed efficiently, it may be somewhat locked in to the first strategy. It might not exist a gradual path that manages all the curves and it will temporary have a significantly decreased fitness. This lead to a problematic on wheither it is better to complete the whole track, with a limited quality of behaviours, or only a part of it with better general characteristics.
-
-The difficulty of gradual progression may be particularly problematic when archiving behaviour with several in-excludable components. If several aspects are required to progress simultaneously, and any of them are missing, it might cause a failure. One example might be steer and speed control. If a network changed to drive at a higher speed, but at the same time do not position the car and time turning to ajust for the change, it will likely cause the car to crash. It might be the reason, or one of the component of why we do not observe the experiments to produce more optimal results.
+The difficulty of gradual progression may be particularly problematic when archiving behaviour with several in-excludable components. If several aspects are required to progress simultaneously, and any of them are missing, it might cause a failure. [TODO: Make sure this example is actually correct.] One example might be steer and speed control. If a network changed to drive at a higher speed, but does not change the position of the car accordingly, it will likely cause the car to crash. This fact might be one of the reasons as to why some experiments do not perform in optimal ways.
 
 %WHAT happens when the leading species die? HOW much progress are handed over to other species?
 
 % CAN it improve on multiple goals, or only once at a time? How do it manage to learn behaviour with in-exclusable components?
 % It is possible to add multiple edges in a few number of generations, but it is unlikely that they are the relevant ones and that they are well tuned. e.g. gas and brake. Kanske ofta utveckla en sak i taget.
 
-RESULTS. We can see in e.g. shortest path that it finds beneficial behaviours, that often resemble the same characteristics. But it seldom learn all of the smaller details. We have not observed that it solves everything, and are together with the discussion above suspicious on wither it is able to succeed with it to.
+NEAT has proven itself to be useful. We can see in some experiments, e.g. shortest path, that NEAT is able to find beneficial behaviours that often resemble target characteristics. But it seldom learn all of the smaller details. We have never observed that it solves everything. Together with the discussion above, we are doubtful that NEAT will ever be able to find the perfect solution. However, while the discussion deducted from the key mechanics of NEAT and the results from our study, does not prove that NEAT cannot find a complete and all-round optimal solution for the kind of problem we investigated, it highlights a structural weakness that cannot be denied.
 
-Although the discussion deducted from the key mechanics of NEAT and the results from our study do not prove that NEAT cannot find a complete and all-round optimal solution for the kind of problem we investigated, it highlight a structural weakness.
+
 
 
 
@@ -95,21 +94,23 @@ There is also the possibility of over-fitting the neural networks to the specifi
 
 
 \section{Neat usability}
-% - How well do it perform with not knowing how things work?
-% - For how large and complex problems can it perform?
-% - In our experiments it controlled the car at a low level, can improvements be made if it is modelled differently by the programmer? Added abstractions? More supplemented by other parts of a solution? Several single purpose networks in modules?
-% - How much domain knowledge is required to make it ok/very good?
-%   - Degree of knowledge?
-%   - Type of knowledge? Examples: Structural knowledge provided by the programmer, example data, experience
-%   - Worth noting: excluding something unimportant also prove a kind of knowledge
-%   - Might be good in a situation where one know what behaviour is wanted, but not how to accomplish it.
-% - Find a fitness function that gives smooth progress to the maximum, with as few local maximums as possible. 
+%   - How well do it perform with not knowing how things work?
+%   - For how large and complex problems can it perform?
+% X - In our experiments it controlled the car at a low level, can improvements be made if it is modelled differently by the programmer? Added abstractions? More supplemented by other parts of a solution? Several single purpose networks in modules?
+%   - How much domain knowledge is required to make it ok/very good?
+%     - Degree of knowledge?
+%     - Type of knowledge? Examples: Structural knowledge provided by the programmer, example data, experience
+%     - Worth noting: excluding something unimportant also prove a kind of knowledge
+%     - Might be good in a situation where one know what behaviour is wanted, but not how to accomplish it.
+%   - Find a fitness function that gives smooth progress to the maximum, with as few local maximums as possible. 
 
-As previously described, NEAT is not an algorithm designed to solve a particular problem. Instead it produces artificial neural networks through neuroevolution with reinforcement learning. The process is solely controlled by the fitness value.
+The results presented contain both aspects of success and aspects failure. It managed the control task to some degree, but it appear that the usage of neat presented uncertainly can solve problems with too much the complexity. As discussed in section \ref{discussion:neat_mechanism}, the performance is limited when steps in which it is required to progress is too large.
 
-This abstraction of the actual problem has two sides. Firstly, the simplicity make the usage easily implementable as few domain specific processes are needed. In case it manages to solve the problem sufficiently it require little domain knowledge from the developer, as the algorithm managed to solve the problem on its own. On the other hand, if the result is not sufficient, the solution is not easily modified. Improvement probably require action on a system level, either the actual training or the application of the neural network(?).
+As described in SECTION SECTION SECTION, NEAT is not an algorithm designed to solve a particular problem. Instead it produces artificial neural networks through neuroevolution. The process is solely controlled by the fitness value. As such, NEAT do not do any particular analysis of the actual problem. 
 
-...
+If NEAT is sufficient to solve a problem, the simplicity make the algorithm easily implementable as few domain specific processes are needed. It also means that the developer are not required to have as deep domain knowledge, as the algorithm managed to solve the problem on its own. It usually require more effort and advanced knowledge in order to solve a problem, than it is to know about the problem.
+
+
 
 \section{Comparison to other algorithms and concepts}
 - How do it stand to other algorithms?
@@ -118,27 +119,3 @@ This abstraction of the actual problem has two sides. Firstly, the simplicity ma
 
 
 
-% Discussion of the behaviour
-% Present current results
-% This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken by the car is neither optimal in respect to the race lines nor the time that it takes for the car to travel around the track.
-
-% The experiments performed during the course of the project have given varying results. Every experiment have had a large impact on how the project has progressed and on the final results. The results for each experiment and the conclusions that could be drawn are presented and discussed in this chapter.
-
-% \section{Experiments}
-% Introduce this section somehow.
-
-% \subsection{Curve Data as input}
-% Present and discuss what results this method achieved for us.
-% What kind of machine learning techniques did we use? What did they do differently?
-% What behaviour did we see? Why is that?
-% Is this behaviour similar or identical to a real race-car driver?
-% Is it the most optimal route around the track, with regards to lap time?
-% Can we expand this solution further? If so, how?
-
-% This experiment was the first one that was carried out with any real progress towards the goal. We managed to produce a machine learning algorithm efficient enough to drive the car around the track without crashing, however given some simplifications; The car automatically accelerates in a straight line, up to a certain point where it stops accelerating and keeps the same constant speed. The neural network has the possibility of controlling the amount of breaking and turning the car does, overriding any automatic acceleration that the car does by itself.
-
-% This results in a neural network successfully driving the car around the track. However the path taken is not the optimal one. The path starts of by oscillating left and right between the middle of the track. After a few generations of training, the neural network starts to adjust the oscillating such that the sharper curves can be taken with a wider radius. Given even more training the oscillating almost disappears completely, it only remains before and after some curves.
-
-% This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimising for maximal speed or time.
-
-% The training algorithm seems to converge towards a simple neural network between all of the training sessions that has been performed. The neural network produced is one with only one connection between an input and an output. The training required in order to make a complete lap, takes no more than a few minutes. These factors leads us to believe that we can increase the complexity quite significantly before the search space has become to large to be solved within a reasonable time. Thus the limit of NEAT with respect to our problem has not been reached yet.

@@ -7,7 +7,7 @@ This chapter will introduce the theoretical framework of the project. The follow
 % Understanding racing theory is crucial to understand what the goal of the ai driver behaviour is, and to discuss what the requirements for it are. Racing theory involves both good practises and the reasons behind them. 
 % As mentioned, the type of competition is a single car performing a time attack. The goal is to drive around a track with as little time as possible. It is a little harder to 
 
-As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible. Racing tracks are normally broad enough to allow slightly different paths for the driver. Different paths may differ in length but also affect the possible speed, as minimum turning radius increase with increasing speed. Time is the result from both distance and speed according to the following formula:
+As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible. Racing tracks are normally broad enough to allow slightly different paths for the driver. Different paths may differ in length but also affect the possible speed. Time is the result from both distance and speed according to the following formula:
 \begin{equation}
 t = \frac{d}{v}
 \end{equation}
@@ -60,7 +60,7 @@ A digital computer cannot due to its discrete nature store or calculate real num
 
 A computer cannot handle continues calculations and must rely on models of reality. This will introduce numerical errors in the calculations. It is therefore important to motivate that the errors introduced are small enough for it to not decrease the quality of the simulation.
 
-The simulator holds a state of what it simulates. As the simulation progress by calculating what the new state should be after an amount of time. 
+The simulator holds a state of what it simulates. The simulation progress by calculating what the new state should be after an amount of time have elapsed.
 
 One of the limitations of this way of simulating is that it difficult to take in to account events that should have occurred during the time slice, or multiple degrees of derivatives. 
 
@@ -70,41 +70,60 @@ The mentioned limitations may lead to problems, typically for closed systems tha
 \section{Machine Learning}
 Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. Furthermore the suitability of the different algorithms within the problem domain will be discussed.  
 
-\subsection{Neural networks as knowledge model}
-Machine learning algorithms require some representation of knowledge. One such knowledge model that is in wide use is the Artificial neural network. A neural network is a mathematical model that mimic the structure of the human brain. 
+% Få in begreppet hidden node på något sätt
+\subsection{Artificial Neural Networks as Knowledge Model}
+Machine learning algorithms require some representation of knowledge. One such knowledge model that is in wide use is the Artificial neural network. An artificial neural network (ANN) is a mathematical model that mimic the structure of the human brain. 
 
-A neural network can represent a mathematical function since it connects a set of input values with a set of output values, thus representing a mapping from the input space to the output space. Changes to the structure of the network changes the nature of the represented functions. 
+The human brain is a large network of nerve cells called neurons. The neuron is a cell capable of firing an electrical pulse that can be transmitted electrically or chemically to other neurons via connections called synapses. A neuron fires its pulse when the accumulated incoming signals from other neurons reach a certain threshold. Akin to a biological neural network, an ANN is a network of artificial neurons or nodes. Each node has a value and the nodes are connected by a set of weighted edges. The edges are directed, which means that they represent a signal flow from one neuron to another.
 
-A neural network with at least two hidden layers with sigmoid functions as its activation function can be used to approximate any real function and the possible accuracy increases with the number of nodes \cite{mitchel:approximation}.
+An ANN can represent a mathematical function by connecting a set of input nodes to a set of output nodes, thus representing a mapping from the input space to the output space. The function can be calculated by setting the values of the input nodes and then propagating the values through the network. The propagation of values work by feeding the value of one node to the others via a nodes outbound edges. The value of a node is calculated by passing the weighted sum of the values on the incoming connections to an activation function $\phi(x)$.
+\[
+\phi (\sum_i{w_i v_i})
+\]
+Where $w_i$ is the weight and $v_i$ is the value of an incoming connection. The choice of activation function is arbitrary but will greatly affect the nature of the represented function. Usually a sigmoid-function is used, which is a smooth step function on the form:
+\[
+    S(t) = L + \frac{a}{1 + e^{-bt}}
+\]
+Here $L$ denotes the lower bound of the function, $a$ defines the range of values and $b$ defines the steepness of the function. 
+
+An ANN with at least two layers of hidden neurons and a sigmoid function as its activation function can be used to approximate any real function, furthermore the accuracy increases with the number of neurons \cite{mitchel:approximation}. The function approximated by an ANN can be changed by changing the topology or weights of the network. Artificial neural networks are thus useful for curve fitting on data. 
 
 \subsection{Supervised Learning}
 Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}. 
 
+Supervised learning algorithms are useful when the goal is to create an accurate prediction model from a large set of data. However the primary goal of this project is to create an AI not by defining how it should behave but by defining what it should strive for. Supervised learning could certainly be used to create a racing AI that for example emulates a professional driver. 
 
-% There are no racing data available from previous races for the research to apply to any machine learning algorithm. If there would have been any data that were available, the virtual domain would have to be set up to match that setup of track, car and environment when the data was performed. This, just as the continuous control values, create boundaries of what methods that can be used (citation needed). There is no sample data to use in the algorithms. 
+In this project supervised learning could theoretically be used in many ways, for example to learn where to position the car on the track. However the scarcity of available data 
 
 \subsection{Unsupervised Learning}
 Unsupervised learning is a type of machine learning that in contrast to supervised learning does not learn to predict or approximate a correct output given an input, but rather learn to group sets of inputs into categories based on the input values. These algorithms are prevalent in data mining and other areas where clustering is useful. 
 
-\subsection{Reinforcement Learning}
-A central aspect of the learning process is evaluating the performance of the actor. Supervised learning algorithms compare the actors output with a set of correct values. However if there is no data set available to train on the feedback must be acquired in some other way. Reinforcement learning algorithms solve this by scoring actors on how well they perform. The set of example data used in supervised learning is replaced by some quantifiable measurement of performance, often calculated from a heuristic. 
+% Utveckla.  
 
-The performance is used as the basis of some transforming process that improves the actor itself or the whole population. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
+\subsection{Reinforcement Learning}
+A central aspect of the learning process is evaluating the performance of the actor. Supervised learning algorithms compare the actors output with a set of correct values. However if there is no data set available to train with the feedback must be acquired in some other way. Reinforcement learning algorithms solve this by scoring actors on how well they perform \cite{whiteson}. The set of example data used in supervised learning is replaced by some quantifiable measurement of performance, often calculated from a heuristic. Scoring the actor could either be done by rewarding it for beneficial actions or decisions, but also by evaluating the performance in general. 
+
+The performance is used as the basis of some transforming process that improves the actor itself. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
+
+
+
+
 
 \subsection{Neuroevolution}
-Neuroevolution is a type of machine learning that learns by emulating natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. 
-The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
+Neuroevolution is a set of reinforcement learning algorithms that learn by emulating evolutionary processes, for example natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
 
-This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network.
+This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network. In that case the traits that have a positive contribution to the performance of the AI are kept while negative traits are removed. 
 
 This type of machine learning has been shown to be effective in comparison to other machine learning algorithms at solving non-linear control tasks such as the pole balancing problem \cite{gomez:efficient_nonlinear_control}.
 
 \subsection{Neuroevolution through Augmenting Topologies}
-One neuroevolution algorithm is Neuroevolution through Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of actors that are divided into groups called species. Actors are only compared within their species in order to allow for greater diversity in the pool. Species that are comparatively weak or have stopped improving for a number of generations are removed.  
+One neuroevolution algorithm is Neuroevolution through Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of genomes. A genome is the genetic encoding or DNA of an ANN consisting of a number of genes. Each gene represents a connection in a neural network. The genomes are grouped into species based on genetic similarity. A genome only competes with the other members of its species. The introduction of species protects the diversity of the population, which has been showed to improve the learning rate of the algorithm \cite{stanley:neat}.  
 
+The evolution process works by culling each species based on the evaluated fitness of each genome. The worse half is removed, the better half is allowed to pass on their genes and the best genome is kept as it is. Some species are removed due to stagnation or due to performing significantly worse than the average. The other species are allowed to breed a number of children. The number of children a species is allowed to breed is calculated from the relative average fitness of the species. 
 
+The breeding process used in NEAT creates children by combining genes from two parent genomes and then mutating the child. The mutation is a stochastic process which may change a a genome in several ways. The possible mutations are the addition of a new gene, adding a new node by splitting a gene into two, modifying the weight of a connection, disabling an enabled gene, or enabling a disabled one.
 
-
+Another feature of NEAT is that the neural networks are constructed from a minimal initial structure. By gradually augmenting the topology of the network the resulting size of the network can remain small. Additionally, only the beneficial modifications will survive the evolutionary process. Thus useless features will be discarded, further reducing the size of the networks. A minimal structure reduces the search space of the algorithm, since there are less connection and weights to optimise. 
 
 
 

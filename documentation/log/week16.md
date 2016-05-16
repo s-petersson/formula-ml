@@ -223,9 +223,9 @@ ai_settings.output_speed = true;
 ### Experiment: 180 höger
 population 500
 
-sim_settings.track_path = new string("./res/models/corners/corner_180_r.model");
+sim_settings.track_path = new string("./res/models/corners/corner_180_r_new.model");
 sim_settings.completeTrack = false;
-sim_settings.termination_distance = 925.f;
+sim_settings.termination_distance = 975.f;
 sim_settings.max_time = 400.f;
 
 sim_settings.car_speed_max = 97.f; 
@@ -278,4 +278,3 @@ ai_settings.curve_point_spacing = 10.f;
 ai_settings.curve_point_spacing_incremental_percentage = 0.35f;
 
 ai_settings.output_speed = true;
-
