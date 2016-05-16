@@ -1,0 +1,101 @@
+\chapter{General Discussion}
+
+
+\section{The NEAT mechanism} \label{discussion:neat_mechanism}
+%  The topics noted with X are things I think can be included in the next version of the text
+
+%   - Neat train to fulfil a declared goal, it is not a description on how to do it
+%     - The fitness value say how good a genome is
+%     - It do not base its decisions upon previous path of progress
+% X - Analysis: How entangled is a neural network? Can one part evolve safely without disrupting other parts? Is it possible to evolve safely? Catastrophic forgetting?
+% X - How do it manage to learn behaviour with in-exclusable components? It is possible to add multiple edges in a few number of generations, but it is unlikely that they are the relevant ones and that they are well tuned. e.g. gas and brake. Can It develop one aspect at a time, in some other way?
+% X - Ability to manage multiple goals? Can it achieve one or several tasks at the same time?
+%   - How well do the greedy approach work?
+%   - Would it be better to denote fitness based on behavioural heuristics rather than result based heuristics?
+
+%   - What are the properties for getting stuck or to develop innovation? 
+%   - Do it exist certain statistical improbabilities or unavoidableness?
+%   - How will the stochastic parameters in neat influence the performance? 
+%   - We see that many early solutions have very few nodes, solutions that have gone through long training have many. How much do the performance really differ? 
+% X - Often only few of the input values are covered.
+%   - What happens when the leading species die? HOW much progress are handed over to other species?
+%   - Comparison to CoSyNE
+
+%   Wild ideas/suggestion:
+% X - An image Daniel presented, showed during a long training, it was rare that networks made it around the track. After it succeeded to improve the results, or get around the track, the performance was always lost shortly after (?). Does this show that the neat algorithm in the setup we used it, is not efficient? Is avoiding local minima, too aggressive?
+% X - In the neat paper, the authors stated that the training often got stuck for a while. Then, when some kind of archetype structure was found, the performance could then quickly increase as good networks was derived from the archetypes. It is not far fetched that the two steps in the process have different requirements. Maybe archetype topologies are smaller and faster to sieve. The elaboration of an archetype maybe requires more processing, as it might involve larger structures and thus larger need for tuning and compensation when evolving. Suggestion: Change the stagnation limit (and possibly other parameters) as the number of generations increases, or when certain properties relating to the role a species/genome hold. It might not be possible to find a sweet spot that works for all situations. 
+%   - What has progressed after a leading genome has stagnated and died?
+% X - What size of a network is beneficial for a network to probably to be an archetype? small? connect to all input values, or cover all categories of inputs? After a successful 
+% X - How general will this approach be? If it is successful, will it only be it for problems that resemble characteristics from the racing problems? If, so what aspects? If not, what characteristics do it solve/target?
+
+
+
+
+\section{Problem modelling}
+% Possible to add:
+%   - distance to middle, sometimes proved bad (?!?!?) in the steer and speed control experiment. If a value is easily applicable to the network, it is good. But when considering distance to middle in steer and speed, it might be too easy, and therefore a longer jump for it to learn to analyse it more properly. This is based on that the behaviour is that it drives in the middle, and that the specific data point is used to accomplish that behaviour. The middle behaviour is not present in the constant speed experiments when it is forced to drive fast and therefore has to do good positioning. 
+
+%   - However, if data is pre processed to extract a specific kind of property of the data other information might be lost. In order to not loose necessary information a greater number of inputs might be required, which may in itself increase the complexity. Example: Curve data points as today, but with values on how sharp the curve inside the segment is, then two floats are needed instead of one and one might think it is better to simply double the resolution of points instead.
+
+% X - In context of neat and curvature data: Fixed position is a compact representation. Information lay in the index/topology. In order to interpret distance to an observed object a structure in topology is required. If the exact distance for which some action should need to change, the topology need to change, which is a difficult task. Index based distances for actions maybe require an abstraction layer on top of the input in order to make them parametrised. Could an interpreted object input model improve the adjustment capabilities, example touple with distance to the curve and its properties? Then some more of the interpretation lie in the weights and not in the topology itself. modifying the topology is expensive and probably in most cases statistically impossible.
+
+
+
+%Generality of results
+%- How stable and general is it? Can it manage the same curve in different situations? Stability for unpredicted factors?
+%- Over training. What do it mean, is it a risk and can it be avoided?
+
+% Dicuss generality of the discovered behaviours
+% Relate to the experiments, especially mirror track. 
+\section{Generality of results}
+
+
+
+
+
+
+
+% Discussion of the behaviour
+% Present current results
+% This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken by the car is neither optimal in respect to the race lines nor the time that it takes for the car to travel around the track.
+
+% The experiments performed during the course of the project have given varying results. Every experiment have had a large impact on how the project has progressed and on the final results. The results for each experiment and the conclusions that could be drawn are presented and discussed in this chapter.
+
+% \section{Experiments}
+% Introduce this section somehow.
+
+% \subsection{Curve Data as input}
+% Present and discuss what results this method achieved for us.
+% What kind of machine learning techniques did we use? What did they do differently?
+% What behaviour did we see? Why is that?
+% Is this behaviour similar or identical to a real race-car driver?
+% Is it the most optimal route around the track, with regards to lap time?
+% Can we expand this solution further? If so, how?
+
+% This experiment was the first one that was carried out with any real progress towards the goal. We managed to produce a machine learning algorithm efficient enough to drive the car around the track without crashing, however given some simplifications; The car automatically accelerates in a straight line, up to a certain point where it stops accelerating and keeps the same constant speed. The neural network has the possibility of controlling the amount of breaking and turning the car does, overriding any automatic acceleration that the car does by itself.
+
+% This results in a neural network successfully driving the car around the track. However the path taken is not the optimal one. The path starts of by oscillating left and right between the middle of the track. After a few generations of training, the neural network starts to adjust the oscillating such that the sharper curves can be taken with a wider radius. Given even more training the oscillating almost disappears completely, it only remains before and after some curves.
+
+% This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimising for maximal speed or time.
+
+% The training algorithm seems to converge towards a simple neural network between all of the training sessions that has been performed. The neural network produced is one with only one connection between an input and an output. The training required in order to make a complete lap, takes no more than a few minutes. These factors leads us to believe that we can increase the complexity quite significantly before the search space has become to large to be solved within a reasonable time. Thus the limit of NEAT with respect to our problem has not been reached yet.
+\section{Neat usability}
+%   - How well do it perform with not knowing how things work?
+%   - For how large and complex problems can it perform?
+% X - In our experiments it controlled the car at a low level, can improvements be made if it is modelled differently by the programmer? Added abstractions? More supplemented by other parts of a solution? Several single purpose networks in modules?
+%   - How much domain knowledge is required to make it ok/very good?
+%     - Degree of knowledge?
+%     - Type of knowledge? Examples: Structural knowledge provided by the programmer, example data, experience
+%     - Worth noting: excluding something unimportant also prove a kind of knowledge
+%     - Might be good in a situation where one know what behaviour is wanted, but not how to accomplish it.
+%   - Find a fitness function that gives smooth progress to the maximum, with as few local maximums as possible. 
+
+
+
+%\section{Comparison to other algorithms and concepts}
+%- How do it stand to other algorithms?
+
+%- Compare degree and type of domain knowledge needed? Example of types: Structural knowledge provided by the programmer, example data, experience
+
+
+

@@ -70,6 +70,7 @@ In order for the training process to evaluate a genome and calculate its fitness
 The following subsections cover in detail the input and output to the networks supplied by and given to the simulator, as well as describing how genomes were evaluated and how fitness has been calculated to approximate network performance in an optimal way.
 
 \subsection{Interpretation}
+\label{method:interpretation}
 % Talk about how the environment is represented in relation to the neural network.
 % How does the AI see the world? What does the inputs look like?
 % What kind of output does the AI give to steer and control the vehicle?
@@ -100,28 +101,22 @@ The following subsections cover in detail the input and output to the networks s
 
 For the system to decide on some action for the car to take, it needs information about the car and its environment. Deciding on appropriate information to give to the system is an important aspect for NEAT to be able to progress in an efficient way. How effective any given input is, highly depends on the problem that is to be solved and what the target behaviour is.
 
-The inputs used during the project aim to give an easy way for the system to couple situations with an appropriate action. There exists two groups of inputs; One that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment.
+The inputs used during the project aim to give an easy way for the system to couple situations with an appropriate action. The input values are summed up in table \ref{tab:input_table} and can be divided into two groups; One that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment.
 
-There are two different kind of inputs describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust race lines before arriving at corners. [TODO: Describe corner data and sum of corner data. Also add description in table below].
-
-The set of inputs that describe the current status of the car are more simple in nature. They aim towards giving the system the capability of keeping the car on the track at all times. These inputs consist of current car speed measured in meters per second, angle between the cars current direction and the mid line of the track, distance from the car to the tracks mid line, as well as the distance between the car and the left and right edge of the track.
-
-Additionally a bias value is introduced as an input to the network. This is due to the fact that when all inputs to a specific neuron are zero, the neuron would not be able to produce a signal. Since the output of a neuron is the weighted sum of all its inputs, a bias is introduced in order to provide a base value that can be applied to this sum.
-
-\begin{table}[h!]
+\begin{table}[h!] 
   \centering
   \begin{tabular}{ll}
     \toprule
     Name & Description\\
     \midrule
     Car speed  & The current speed of the car\\
-    Angle to mid line & Angle between car diretion and mid line of track\\
+    Angle to mid line & Angle between the car direction and the  track mid line\\
     Distance to middle & Distance between the car and the track mid line\\
-    Distance to left edge & Distance between the car and the track left edge\\
-    Distance to right edge & Distance between the car and the track right edge\\
-    Corner data  & Description\\
-    Sums of corner data & Description\\
-    Bias & Bias value used to invert values, always equal to 1\\
+    Distance to left edge & Distance between the car and the left edge of the track\\
+    Distance to right edge & Distance between the car and the right edge of the track\\
+    Track curvature & 10 angles describing the curvature of the track. \\
+    Sums of curvature points & Three sums of track curvature angles 1-4, 4-7 and 7-10\\
+    Bias & The value 1 to be used as a constant base value in neurons\\
     \bottomrule
   \end{tabular}
   \caption{List of all available neural network inputs.}
@@ -129,6 +124,17 @@ Additionally a bias value is introduced as an input to the network. This is due 
 \end{table}
 
 \noindent
+
+There are two groups of input values describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust race lines before arriving at corners. 
+
+The first group is the curvature data, which is a series of angles. The angles are based on the position of the car and 10 points on the mid line of the track. The first angle is calculated from the direction that the car face and the direction to the first point. The rest of the angles are calculated by comparing the directions of the succeeding line segments the points stow. The distance between the points increase exponentially by 35 percent for each point. The points are distanced from the car by 10, 24, 42, 66, 100, 144, 205, 287, 397, 546 meters. The exponential increase of distances make the resolution higher close to the car where detail is most important, and less resolution where the general tendency is sufficient.
+
+The second group is three different summations of the curvature data, namely 1-4, 4-7 and 7-10. This will provide more of an overview perspective than the individual curvature points.
+
+The set of inputs that describe the current status of the car are more simple in nature. They aim towards giving the system the capability of keeping the car on the track at all times. These inputs consist of current car speed measured in meters per second, angle between the cars current direction and the mid line of the track, distance from the car to the tracks mid line, as well as the distance between the car and the left and right edge of the track.
+
+Additionally a bias value is introduced as an input to the network. The value of this input will always be 1. This is due to the fact that if all inputs to a specific neuron are zero, the neuron would not be able to produce a signal. Since the output of a neuron is the weighted sum of all its inputs, the bias can be used to produce a base value for the sum. 
+
 The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and breaking, the output values ranges from $[-1, 1]$, where positive values represents accelerating and negative values breaking. The value is interpreted by the simulator as a percentage of the cars current capability of accelerating and breaking.
 
 % The turning rate value has the range $[-1,1]$, where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can. The acceleration and braking value has the range $[-1, 1]$. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
@@ -156,9 +162,10 @@ Running a simulation will give three values, the time the car was driving, the d
 
 How these three values are considered will effect what properties the neat will find. It is important to find a fitness function that not structurally encourage an unwanted behaviour.
 
-The fitness function currently being used take firstly take in consideration the distance the car has went on the track. Secondly, if the car manages to around drive the complete track, the fitness will also increase the faster the car go. The following function is therefore used to determine the fitness of each evaluation:
+The fitness function currently being used considers the distance along the track as well as the lap time. The fitness function is described mathematically by equation \ref{eq:fitness_distance_time}. It is important to note that the fitness will not be affected by the lap time unless the car actually performs a complete lap.
 
 \begin{equation}
+\label{eq:fitness_distance_time}
   f(d, t) =
   \begin{cases}
     d    & \quad \text{if } d < d_{max} \\
@@ -167,14 +174,20 @@ The fitness function currently being used take firstly take in consideration the
   \end{cases}
 \end{equation}
 
-% Include the following:
-% What was the intended result? What did we want to analyse?
+\noindent
+This function aims to let the system train at one task at a time. The goal is that since lap time is not considered before a lap has been completed, the complexity of completing a lap will be reduced. When a lap has been completed, the goal is for the system to learn to optimise that lap by minimising the lap time. [TODO: Add "It is interesting to see the difference between optimising for two variables after one another, instead of both at the same time"?]
+
+
+
+
+
+
 \section{Experiments}
 
 The project was an iterative process. Progress was made by experimentation, where different ways to model the problem and train the AI were tried out. In order to establish which aspects of the target behaviour that can be found with NEAT, a number of experiments of varying complexity were conducted. The following subsections will motivate the need for the different experiments and explain how they were conducted. 
 
 \subsection{Steering a car moving at a constant speed}
-
+\label{method:constant_speed}
 Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to take every corner on the circuit. 
 
 %% TODO infoga bild på banan?
@@ -208,6 +221,7 @@ In this experiment, the AI will train on driving with full control of the car. I
 Several experiment variations with this configuration will be carried out. In the first variant, which is the baseline experiment, the AI will drive on the same complete circuit as used in the constant speed experiments. This will show whether or not the AI is able to stay on the track to the same extent as when it only steers. Furthermore it will show whether or not the system can learn to manage the speed in an effective way. If the system is able to find an effective behaviour, the natural response would be to even further increase the complexity of the problem. However if no effective behaviour is found, it is and implication that the training process and system configuration are suboptimal. 
 
 \subsection{Short Track Segments}
+\label{subsec:shorttracksegment}
 This variant of the experiment will test the system on shorter track segments, only containing one corner each. The motivation for testing short tracks is that it should be easier for the system to find effective behaviours on a short segment than on a complete circuit. This is because the behaviour required to complete a long circuit is generally more complex than the behaviour needed to complete just one corner. Thus the algorithm will be able to start optimising for speed earlier and on less developed genomes. 
 
 The tracks consists of two straights connected by a corner. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a $30$ degree corner that the car should be able to drive quite fast through. The second one is a $90$ degree corner with a small inner radius. The third corner used is a hairpin corner which turns $180$ degrees with a small inner radius. 
@@ -223,13 +237,15 @@ The tracks consists of two straights connected by a corner. The straights are be
 \end{figure}
 Successful results in these experiments would confirm that the system can find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. A scenario where the experiment yield significantly more effective behaviours than the baseline experiment would give insight into the limits of the training process and how the fitness function is used. This insight could be used to find effective behaviours for longer tracks. 
 
-\subsection{Multiple short track segments}
+%==================================================================
+%\subsection{Multiple short track segments}
 
-If the system finds effective behaviours on the short track segments, one interesting experiment is to train the same population on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a generally effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
+%If the system finds effective behaviours on the short track segments, one interesting experiment is to train the same population on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a generally effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
 
-The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
+%The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
 
-This experiment could answer two interesting questions. Is the system able to find behaviours effective in multiple scenarios and how do it differ to training different corners in a sequence in a single track? Additionally how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
+%This experiment could answer two interesting questions. Is the system able to find behaviours effective in multiple scenarios and how do it differ to training different corners in a sequence in a single track? Additionally how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
+%====================================================================
 
 %% SKRIV OM ALTERNATING TRACKS IFALL VI SKALL DET
 %It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 

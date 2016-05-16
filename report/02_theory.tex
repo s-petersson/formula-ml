@@ -46,7 +46,13 @@ As previously mentioned, driving fast and driving short are the key aspects to o
 
 However, if the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections\cite{beckman:racing_line_intro}, as the difference in speed will accumulate more time.
 
-A typical behaviour is therefore to position the car on the opposite side of where a curve is turning [insert illustration]. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
+A typical behaviour is therefore to position the car on the opposite side of where a curve is turning. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{race_lines}
+    \caption{Representation of race lines through a 90 degree corner. Line 1 represents a late apex race line, line 2 represents the ideal race line and line 3 represents an early apex race line.}
+\end{figure}
 
 But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive short. [insert illustration]
 
@@ -78,7 +84,7 @@ Machine learning algorithms require some representation of knowledge. One such k
 
 The human brain is a large network of nerve cells called neurons. The neuron is a cell capable of firing an electrical pulse that can be transmitted electrically or chemically to other neurons via connections called synapses. A neuron fires its pulse when the accumulated incoming signals from other neurons reach a certain threshold. Akin to a biological neural network, an ANN is a network of artificial neurons or nodes. Each node has a value and the nodes are connected by a set of weighted edges. The edges are directed, which means that they represent a signal flow from one neuron to another.
 
-An ANN can represent a mathematical function by connecting a set of input nodes to a set of output nodes, thus representing a mapping from the input space to the output space. Between the input and output nodes, it may exist more nodes, which are called hidden nodes. Output nodes and hidden nodes may not only be connected to the input nodes, but also other hidden nodes. This way of connecting nodes is what build up the network.
+An ANN can represent a mathematical function by connecting a set of input nodes to a set of output nodes, thus representing a mapping from the input space to the output space. Between the input and output nodes, additional nodes called hidden nodes may exist. Output nodes and hidden nodes may not only be connected to the input nodes, but also other hidden nodes. This way of connecting nodes is what build up the network.
 
 The function is calculated by setting the values of the input nodes and then propagating the values through the network. The propagation of values work by feeding the value of one node to the others via a nodes outbound edges. The value of a node is calculated by passing the weighted sum of the values on the incoming connections to an activation function $\phi(x)$.
 
@@ -123,15 +129,16 @@ This can be done on different levels of abstraction. For example on the individu
 This type of machine learning has been shown to be effective in comparison to other machine learning algorithms at solving non-linear control tasks such as the pole balancing problem \cite{gomez:efficient_nonlinear_control}.
 
 \subsection{Neuroevolution of Augmenting Topologies}
+\label{theory:neat}
 One neuroevolution algorithm is Neuroevolution of Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of genomes. A genome is the genetic encoding or DNA of an ANN consisting of a number of genes. Each gene represents a connection in a neural network. The genomes are grouped into species based on genetic similarity. A genome only competes with the other members of its species. The introduction of species protects the diversity of the population, which has been showed to improve the learning rate of the algorithm \cite{stanley:neat}.  
 
-The evolution process works by culling each species based on the evaluated fitness of each genome, which is performed by a detached and separately implemented algorithm. The worse half is removed, the better half is allowed to pass on their genes and the best genome is kept as it is. Some species are removed due to stagnation or due to performing significantly worse than the average. The other species are allowed to breed a number of children. The number of children a species is allowed to breed is calculated from the relative average fitness of the species. 
+The evolution process works by culling each species based on the evaluated fitness of each genome. The fitness of each genome is evaluated by a detached and separately implemented algorithm. The worse performing half of each species is removed, the better half is allowed to pass on their genes and the best genome is kept as it is. Some species are removed due to stagnation or due to performing significantly worse than the average. The other species are allowed to breed a number of children. The number of children a species is allowed to breed is calculated from the relative average fitness of the species. 
 
 The breeding process used in NEAT creates children by combining genes from two parent genomes and then mutating the child. The mutation is a stochastic process which may change a a genome in several ways. The possible mutations are the addition of a new gene, adding a new node by splitting a gene into two, modifying the weight of a connection, disabling an enabled gene, or enabling a disabled one.
 
 Another feature of NEAT is that the neural networks are constructed from a minimal initial structure. By gradually augmenting the topology of the network the resulting size of the network can remain small. Additionally, only the beneficial modifications will survive the evolutionary process. Thus useless features will be discarded, further reducing the size of the networks. A minimal structure reduces the search space of the algorithm, since there are less connection and weights to optimise. 
 
-
+TODO!!!! Add text that says that the algorithm is applicable to any problem.
 
 
 

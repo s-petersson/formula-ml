@@ -29,7 +29,7 @@ This chapter presents and discusses the results that have been achieved during t
 % gradually increasing speed, method?
 % increasing speed -> push the limits 
 
-KEY FINDINGS: INTERPRET DATA WELL, FIND COMPLEX BEHAVIOUR, NOT OBSERVED TO OPTIMISE EVERYTHING IN THE SAME SOLUTION(?), HARD TO SEPARATE SIMILAR SCENARIOS, ...
+%KEY FINDINGS: INTERPRET DATA WELL, FIND COMPLEX BEHAVIOUR, NOT OBSERVED TO OPTIMISE EVERYTHING IN THE SAME SOLUTION(?), HARD TO SEPARATE SIMILAR SCENARIOS, ...
 
 By locking the speed of the car to a constant value, conclusions about the AIs ability to steer the car could be drawn. The constant speed was gradually increased with the goal to force the AI to drive more intelligently and to find its limitations. 
 
@@ -38,13 +38,13 @@ Noteworthy is that after the car completes a track, rewarding it for improved ti
 The experiment was performed in two ways, one where the AI can look further down the track and one where it only has local knowledge about the track. Results for each of these sub-experiments are presented in the subsections below.
 
 \subsection{Only local perception}
-Providing the system only with local perception and giving it control of the steering, as explained in section 3.6.1, present successful and interesting results. The system immediately learns to positioning the car in the middle of the track at all times is preferable. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable.
+Providing the system only with local perception and giving it control of the steering, as explained in section \ref{method:constant_speed}, present successful and interesting results. The system immediately learns that positioning the car in the middle of the track at all times is preferable. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable.
 
 On straights this behaviour works well, it could even be considered optimal behaviour in some scenarios, however in corners it is not. When the car approaches a corner the middle of the track is shifted, causing the car to become out of position. At this point, the system tries to adjust the cars position. Before the system has had sufficient training, the amount of steering performed is either to large or to small. To large of an adjustment causes the car to oscillate between the middle line of the track, which eventually causes the car to crash. To small of an adjustment instead results in the car not getting back to the middle, eventually causing the car to crash as well. It has been observed that the oscillation occasionally helps the car to complete a complicated corner, by positioning the car in a good way. Even though this behaviour improves fitness and in theory could make the car complete the lap with a higher constant speed, the behaviour is not target behaviour. Oscillating between the middle of the track is not an optimal behaviour in racing.
 
 The amount of training required to take a complete lap, if possible, is dependent on the constant speed of the car. At a constant speed of 10 m/s it takes approximately two generations for the car to take a complete lap. At this point the oscillation has stopped, and the car follows the middle of the track at all times. Increasing the constant speed to 11.6 m/s, causes the generations required to perform a complete lap to increases to five generations. At 11.7 m/s the generations required were 22. At these speeds, the car switches between oscillating and doing to small of a steering adjustment, causing the car to crash. When the car eventually completes a lap, there is no oscillating behaviour. Further increasing the speed, caused the car never to complete the lap. This also caused the oscillating never to stop, due to the turning radius being to small to complete a corner when sticking to the middle of the track.
 
-[NOTE: Add network structure, what input were used in order to achieve this behaviour? Does it behave differently if we take away distance to edge/distance to middle? Size of network?]
+%[NOTE: Add network structure, what input were used in order to achieve this behaviour? Does it behave differently if we take away distance to edge/distance to middle? Size of network?]
 
 This experiment can in general be considered a success. It was confirmed that NEAT can find behaviours that are applicable to steering a race car, and in some scenarios it can even find optimal behaviours. It is however impossible for this solution to sophistically prepare for an approaching curve. The only way for the system to determine whether or not the car should turn, is based on the current distance from the middle of the track. Which does not tell it anything about the corner in front of the car. It would be interesting to see how the system reacts to information about the upcoming part of the track. Is it possible for the system to plan ahead, in order to position the car such that it can travel through tough corners with higher speed?
 
@@ -77,7 +77,14 @@ When using the track curvature data in addition to the local perception, solutio
 
 What the solutions found generally do is that they position themselves well before a curve, to compensate for the larger turning radius required. They also start to steer before the curve actually start.
 
-The speed that provided the most correctly looking race lines was 12.0 m/s. At that speed the AI had to push the limits in order to manage the toughest chicane. When the speed increased, the AI had to start turning very late in the chicane, to make a little more space for the following curve. This made it less interesting to investigate further, since that behaviour resembled real behaviour less.
+The speed that provided the most correctly looking race lines was 12.0 m/s, whose race line can be seen in figure \ref{fig:constantspeedline}. At that speed the AI had to push the limits in order to manage the toughest chicane. When the speed increased, the AI had to start turning very late in the chicane, to make a little more space for the following curve. This made it less interesting to investigate further, since that behaviour resembled real behaviour less.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{report/images/fixed_curve_data}
+\centering
+\caption{Showing a clockwise race line from the best found genome with a constant speed of 12.0 m/s.}
+\label{fig:constantspeedline}
+\end{figure}
 
 % Check for longer training sessions
 Each of the solutions found showed some typical characteristics. If one solution managed to drive tightly to the inner side in the toughest curve or positioned itself extremely before a curve, it also showed that tendency for all other mayor curves. On the contrary, if it turned late in the tough curves, it also did it for the other curves too.
@@ -106,31 +113,36 @@ Training times...
 Network structure...
 
 
-%\section{(Existing steering controller)}
-% refer to the description in Method
-% example: did it help to help in any way
-% example: present data
-% example: did the hypothesis work
 
+
+
+% NOTE: Data based on speed_and_control_run_1
 \section{Full control of the car}
 % Beteendeanalys
-% - How does the behaviour progress? What tendencies can be seen during the training? What kind of problems does it get stuck at?
-% training, data
+% - It actually does optimise for time, which is nice!
+%X - How does the behaviour progress? What tendencies can be seen during the training? What kind of problems does it get stuck at?
+% - Training, Data
 % - It does not brake/accelerate before/after curves. Why is this? Could the input potentially be modified, such that it is easier for the system to realise what needs to be done? Distance to next curve? 
 % - It stays in the middle of the track, instead of performing optimal race lines.
- 
 
 % Analysis
-% - Can it manage to learn many components of the behaviour at the same time? One component only may make the performance worse
-% - How do the behaviour / performance differ to the fixed speed. 
-% - The amount of training required is a lot higher. Compared to ~1000 generations of fixed speed, which resulted in an almost perfect race line.
-% - Its similar to fixed speed, but a little bit worse.
-    
-% - When it comes to race lines, fixed speed is A LOT better. Introducing the steering/breaking output makes the performance worse in general. Why?
+%X - Can it manage to learn many components of the behaviour at the same time? Adding one more component only may make the performance worse
+% - How do the behaviour / performance differ to the fixed speed.
+    % - The amount of training required is a lot higher. Compared to ~1000 generations of fixed speed, which resulted in an almost perfect race line.
+    % - Its similar to fixed speed, but a little bit worse.
+    % - Its similar to fixed speed in time during the laps, fixed speed with 12.f is a little bit faster. (Include details)
+    % - When it comes to race lines, fixed speed is A LOT better. Introducing the steering/breaking output makes the performance worse in general. Why?
 
-When the genomes are given steering and breaking as a second output, the complexity of the computations increase significantly according to the results. It takes this experiment 506 generations until a genome can complete a single lap around the track. This genome have the ability to both use the break and throttle, but still holds a lower average speed than the best genomes in the corresponding constant speed experiment.
+The base experiment performed, as explained in section 3.6.2, gives the the possibility of controlling the cars throttle. Adding the concept of controlling the throttle has led to an increase in complexity that was more significant than was anticipated. By looking at the results from training sessions, one can see that the complexity of the computations increase significantly.
 
-After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster and faster around the track. The process of finding a genome that reaches all the way around is less time consuming than the time optimisation process. As seen in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata}, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200. 
+It takes 98 generations until the training process reaches a point where one genome can perform a complete lap, at which point it starts to optimise with respect to lap time. The behaviour observed after 98 generations is one that drives at a constant, slow pace along the track. The car travels $5200$ meters in $1110$ seconds, which is an average speed of $4.68$ meters per second. Betwee
+
+distance from the line to the edge of the track changes, and the car keeps that distance the edge until it goes through the next corner.
+
+After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster and faster around the track. The process of finding a genome that reaches all the way around is less time consuming than the process optimising for time. As seen in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata}, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200. 
+
+% TODO: Move down to comparison between fixed and full control
+% Even though this genome has the ability to control the break and throttle, it holds a lower average speed than the best genome that performs a complete lap in the constant speed with curvature experiment.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/graphs/steeringandspeedcontrolrun1}
@@ -139,9 +151,7 @@ After a genome manages to complete a lap, the data shows that the training proce
 \label{fig:steerspeeddata}
 \end{figure}
 
-A fitness of 6587.56 was the highest value that was reached during this experiment, and that corresponds to completing the track in 490.68 seconds. Compared to the results in subsection \ref{subsec:fixedspeedcurvature}, the fastest genome in this experiment time is much slower than the best genome in the corresponding constant speed experiment. 
-
-
+A fitness of 6587.56 was the highest value that was reached during this experiment, and that corresponds to completing the track in 490.68 seconds. Compared to the results in section \ref{subsec:fixedspeedcurvature}, the fastest genome in this experiment time is slower than the best genome in the corresponding constant speed experiment. 
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/normal_generation_6558}
@@ -150,17 +160,34 @@ A fitness of 6587.56 was the highest value that was reached during this experime
 \label{fig:steerspeedline}
 \end{figure}
 
+The lines that were taken by the best genome can be seen in figure \ref{fig:steerspeedline}. This figure shows that the car does not hold a constant speed throughout the complete track. It can be seen that the car accelerate the slightest at the straights, to use the brake as an action not to hit the wall. This behaviour would need to be more extreme to minimise the time to complete the track; at the current extent, the behaviour is not enough to become faster than the best constant speed genome.
+
+Another important aspect/behaviour is that the car is almost in the middle of the track all the time. The line taken by the car only diverges from the middle in the most difficult corners. The constant speed experiment have given a more active line that can be seen at figure \ref{fig:constantspeedline}. The fixed speed line is taking the corners much better, and it can also position the car prior a corner to make a better turn. This is a behaviour that this experiment is missing.
+
+When the system is given the ability to accelerate and decelerate, it is clear that the performance is altered. The increase in outputs and possible actions, creates a much more complex environment that requires more computation to archive the same level of results as a system that utilises constant speed. 
+
+
 \section{Short track segment}
 
-As hypothesised in section $3.6.3$, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. The behaviours found of the three track segments are not perfect, however they show signs of effective speed management, which is one of the criteria looked for the in the behaviour. The genomes do no show any significant signs of effective positioning, which is the other major criteria. 
+As hypothesised in section \ref{subsec:shorttracksegment}, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. The behaviours found of the three track segments are not perfect, however they show signs of effective speed management, which is one of the criteria looked for the in the behaviour. The genomes do no show any significant signs of effective positioning, which is the other major criteria. 
 
 In each experiment the most successful genomes keep a high speed until braking before the corner and accelerate out of the corner, keeping a high speed until the end of the track. 
 
-%% Sätt in bilder där man visar inbromsningar etc. 
+\begin{figure}[H]
+    \centering
+    \subfloat[Race line going through 30 degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30_result}}}%
+    \qquad
+    \subfloat[Race line going through 90 degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90_result}}}%
+    \qquad
+    \subfloat[Race line going through 180 degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_180_result}}}%
 
-Even though the system did not find any near perfect behaviours, the results show that the system has a greater ability to optimise for time when training on shorter tracks. One plausible reason behind this is as mentioned in section $3.6.3$ that it is too hard to change the behaviour of the genomes are able to complete the circuit. In order change from a cautious behaviour to a more effective one the genome must learn to accelerate on straights and brake before corners at the same time. Changing only one aspect at a time will most likely lead to a worse behaviour. If a genome is changed to accelerating more it will likely crash in a sharp corner. Likewise if a genome is changed to braking before corners without accelerating more it will drive slower and thus decrease in fitness.  
+    \caption{Aerial view of the race lines through the three corner types. The Gray line is the track which is 12 metres wide. The race line goes from red, to blue and back to red. The color represents the speed of the car, were red is fast and blue is slow.}
+\end{figure}
 
-\section{Multiple short track segments}
+Even though the system did not find any near perfect behaviours, the results show that the system has a greater ability to optimise for time when training on shorter tracks. One plausible reason behind this is as mentioned in section \ref{subsec:shorttracksegment} that it is too hard to change the behaviour of the genomes are able to complete the circuit. In order change from a cautious behaviour to a more effective one the genome must learn to accelerate on straights and brake before corners at the same time. Changing only one aspect at a time will most likely lead to a worse behaviour. If a genome is changed to accelerating more it will likely crash in a sharp corner. Likewise if a genome is changed to braking before corners without accelerating more it will drive slower and thus decrease in fitness.  
+
+%\section{Multiple short track segments}
+% Ta tillbaka till slutinlämning 
 
 %%% KÖTTA UT
 
@@ -183,36 +210,77 @@ This shows that some of the knowledge acquired on the first track is applicable 
 % Skriv om bajsiga meningar.
 The extension to the experiment where the migrated population was migrated back to the original circuit once it had adapted also showed interesting results. The population forgets knowledge when adapting to the new environment. This is somewhat expected since the population mutated for 500 generations on the mirrored track, ergo no genomes trained on the original circuit remain in the population. However not all of the knowledge is lost in the process, some generalised knowledge remain. When migrated back to the original track, one specimen manages to stay on the track for circa $2800$ metres, which is slightly past halfway around. After only $5$ generations of adapting back to the original track one specimen manages to complete the circuit, albeit slowly. The adaption to the original circuit is similar in nature to the adaption from the original to the mirrored one. 
 
+These results show that the system is able to find generalised knowledge to some extent. However the results also show that some knowledge acquired on the original circuit is lost during the training on the mirrored one. This is possibly due to the networks being over-fitted for the original track. This means that the network has adapted to the track with a behaviour that is well suited for that circuit but not in general. The traits responsible for that behaviour is then disabled or changed through mutations on the mirrored track, resulting in a loss of knowledge.
 
-%- If it is trained for certain tracks, can it manage others
+\section{Discussion on the NEAT Algorithm}
+\label{discussion:neat_mechanism}
+As described in \ref{theory:neat}, the NEAT algorithm is detached from the the actual problem it solves. It is only responsible for the evolutionary process. No analysis of the problem or the simulation results is done in the NEAT system. The only feedback to the system is the fitness value. This makes the algorithm flexible, it is easily adapted to new problems since it is domain agnostic. One might however question how effective it is when solving complex problems.  
 
-\section{Summary of results}
+The algorithm is not smart. It does not know or understand what aspects of the problem it excels at or what behaviours it is lacking. Therefore the algorithm has no possibility of applying directed modifications. The progression of the algorithm depends on the availability of an easily reachable better solution. The network topologies are gradually constructed. Each genome is mutated a limited number of times each generation. Thus larger changes to a genome take several generations. In order to produce a successful genome, it is desirable if each gene in the genome is beneficial on its own. If a combination of genes is beneficial but some of the individual genes negatively affect the performance on their own, it is likely that the genes will be discarded before a genome with the combination is found.
+
+If a network performs bad in comparison to the other members of the the same species, or if a species perform too bad in comparison to the other species they will be discarded\cite{stanley:neat}. Additionally if a species has stagnated, which means that it has not improved for a specified number of generations, it will also be discarded. A third aspect is that worse performing species will have fewer children, thus shrinking in size and in potential diversity. Therefore the range of time where individual genomes and new innovations can survive is rather well defined. In order to survive it is necessary to improve or at least maintain an above average fitness. Thus it is important for genomes to stay functioning when mutated. Mutations that lead to a significantly worse fitness will fall out of the favourable range and get discarded. 
+
+It is therefore important that performance and complexity are gradually increased. If the mutation that is required is large enough, NEAT may not be able to find the correct path to reach it. Thus if NEAT is successful, a path was found that only required small progressions from start to finish.
+
+[TODO: CHECK RESULT FOR THIS DISCUSSION] One example of this may be the steer and speed control. It first train to complete the lap, but then, when a more complex analysis are required in order to make it possible to control speed efficiently, it may be somewhat locked in to the first strategy. It might not exist a gradual path that manages all the curves and it will temporary have a significantly decreased fitness. This lead to a problematic on whether it is better to complete the whole track, with a limited quality of behaviours, or only a part of it with better general characteristics.
+
+The difficulty of gradual progression may be particularly problematic when archiving behaviour with several in-excludable components. If several aspects are required to progress simultaneously, and any of them are missing, it might cause a failure. [TODO: Make sure this example is actually correct.] One example might be steer and speed control. If a network changed to drive at a higher speed, but does not change the position of the car accordingly, it will likely cause the car to crash. This fact might be one of the reasons as to why some experiments do not perform in optimal ways.
+
+NEAT has proven itself to be useful. We can see in some experiments, e.g. shortest path, that NEAT is able to find beneficial behaviours that often resemble target characteristics. But it seldom learn all of the smaller details. We have never observed that it solves everything. Together with the discussion above, we are doubtful that NEAT will ever be able to find the perfect solution. However, while the discussion deducted from the key mechanics of NEAT and the results from our study, does not prove that NEAT cannot find a complete and all-round optimal solution for the kind of problem we investigated, it highlights a structural weakness that cannot be denied.
+
+
+\section{Modelling the Problem}
+
+In order to reach the best results, it is important to use NEAT to its strengths and avoid its weaknesses. One aspect is how the problem is modelled for the neural network, what data is it provided with and how is the result interpreted.
+
+The process of taking decisions based on data may be divided into three steps: (1) Process and interpret data and (2) making a decisions. It is conceived that it is beneficial to focus the responsibility of the networks as much as possible, and let it focus manly at the latter two. 
+
+%SHOW WITH GRID DATA EXPERIMENT??
+
+A way to analyse different sets of data is by the information they contain and how relevant it is to the problem. If the data contain noise the training have a more difficult task to learn.
+
+Concerning the track, it could get data straight from the representation model used by the simulator, vector points in triangles. However, it would have to learn how they relate to each other and what the relevance of them are is. The curvature data describe approximately the same thing, with a much lower amount of data. The exact coordinates of the triangles are not relevant, but how they relate to the car and how it affects the race line. 
+
+To some level, the developer need to do the analysis of what is relevant and good information. If the data get to compact or hard to calculate with, it might get difficult to learn to use it, based on the discussion about multiple goals in section \ref{discussion:neat_mechanism}.
+
+To some extent it might also be important that the values are easily calculable, to make it simpler to find a usage. Several of the input data that was repeatedly used did not provide new information, but was other representations of data already provided. Distance to middle, right and left edge are in a sense analogous as the track in our experiments was uniform in width. The curvature segment data are simply the summation of some of the other data points.
+
+We do often observe that both variants, distances and curvature and their transformations, are used at the same time. It suggest that both variants was usable in the training process, at least at some point. They could have been calculated from the other form of data, but that would have required a more complex network.
+
+\section{NEAT Usability}
+
+The results presented contain both aspects of success and aspects failure. It managed the control task to some degree, but it appear that the usage of neat presented uncertainly can solve problems with too much the complexity. As discussed in section \ref{discussion:neat_mechanism}, the performance is limited when steps in which it is required to progress is too large.
+
+As described in section \ref{theory:neat}, NEAT is not an algorithm designed to solve a particular problem. Instead it produces artificial neural networks through neuroevolution. The process is solely controlled by the fitness value. As such, NEAT do not do any particular analysis of the actual problem. 
+
+If NEAT is sufficient to solve a problem, the simplicity make the algorithm easily implementable as few domain specific processes are needed. It also means that the developer are not required to have as deep domain knowledge, as the algorithm managed to solve the problem on its own. It usually require more effort and advanced knowledge in order to solve a problem, than it is to know about the problem.
+
+\section{Conclusion}
+\label{conclusion}
+The overall results of these experiments show that machine learning in general, and especially NEAT have potential in the racing domain. NEAT can be used to create a neural network, that have some of the required aspects and behaviours of car racing. These aspects 
 
 
 
 
+%The results show that machine learning in general and especially NEAT can be used to create artificial neural networks with some aspects of an optimal racing behaviour. 
 
-% Discussion of the behaviour
-% Present current results
-% This chapter presents and discusses the results that have been achieved during the course of the project. We successfully present the car driving around the track. However the lap that is taken by the car is neither optimal in respect to the race lines nor the time that it takes for the car to travel around the track.
+%When trained to steer the car the algorithm finds behaviours where it plans ahead and positions the car before corners. 
 
-% The experiments performed during the course of the project have given varying results. Every experiment have had a large impact on how the project has progressed and on the final results. The results for each experiment and the conclusions that could be drawn are presented and discussed in this chapter.
+%Effective speed management behaviours are found when training the system to manage the speed in addition to steering the car on short track segments. 
 
-% \section{Experiments}
-% Introduce this section somehow.
+%Behaviours where both aspects are conceptually optimal have not been found. Due to blasfafb
 
-% \subsection{Curve Data as input}
-% Present and discuss what results this method achieved for us.
-% What kind of machine learning techniques did we use? What did they do differently?
-% What behaviour did we see? Why is that?
-% Is this behaviour similar or identical to a real race-car driver?
-% Is it the most optimal route around the track, with regards to lap time?
-% Can we expand this solution further? If so, how?
+%The neural networks acquires some general knowledge since they are able to perform well when migrated to new 
 
-% This experiment was the first one that was carried out with any real progress towards the goal. We managed to produce a machine learning algorithm efficient enough to drive the car around the track without crashing, however given some simplifications; The car automatically accelerates in a straight line, up to a certain point where it stops accelerating and keeps the same constant speed. The neural network has the possibility of controlling the amount of breaking and turning the car does, overriding any automatic acceleration that the car does by itself.
+%This hints at the importance of a smooth learning curve for the system. In order to achieve this a suitable fitness function is required where progression towards the optimal behaviour result in gradually increasing fitness. 
 
-% This results in a neural network successfully driving the car around the track. However the path taken is not the optimal one. The path starts of by oscillating left and right between the middle of the track. After a few generations of training, the neural network starts to adjust the oscillating such that the sharper curves can be taken with a wider radius. Given even more training the oscillating almost disappears completely, it only remains before and after some curves.
+%NEAT was easy to adapt to the problem since it is loosely coupled to the problem domain. However due to this the problem modelling requires more effort. We found that creating a training environment in which the progress is smooth can greatly affect the learning rate of the algorithm. Furthermore reducing the amount of input interpretation required in the neural networks can improve the learning rate. 
 
-% This behaviour is as mentioned of course not optimal, and neither is it one that a human race-car driver would chose to take. It is both longer and more complicated than would be required for simply driving around the track, without optimising for maximal speed or time.
-
-% The training algorithm seems to converge towards a simple neural network between all of the training sessions that has been performed. The neural network produced is one with only one connection between an input and an output. The training required in order to make a complete lap, takes no more than a few minutes. These factors leads us to believe that we can increase the complexity quite significantly before the search space has become to large to be solved within a reasonable time. Thus the limit of NEAT with respect to our problem has not been reached yet.
+% Hitta positionering med fixed speed.
+% Hitta Bra hastighetskontroll på korta banor.
+% Inte kunnat sammanföra de bra beteendena
+% Det verkar som att det är viktigt att det är en jämn progression för utvecklingen. 
+% NEAT är lätt att anpassa till olika problem för den är generell.
+% Dock svårt att utforma fitness-funktioner etc som leder till  jämn utveckling. 
+% Vi kan få viss generellt beteende generell kunskap. 
+% Vi ser någon form av overfitting/ickegenerellt beteende. 
