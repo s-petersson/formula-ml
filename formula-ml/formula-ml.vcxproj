@@ -195,6 +195,8 @@
     <None Include="res\fonts\georgia.fnt" />
     <None Include="res\fonts\helvetica.fnt" />
     <None Include="res\models\spa_circuit.model" />
+    <None Include="res\shaders\circle.frag" />
+    <None Include="res\shaders\circle.vert" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
     <None Include="res\shaders\text.frag" />

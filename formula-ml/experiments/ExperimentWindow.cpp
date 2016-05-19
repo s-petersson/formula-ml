@@ -98,8 +98,8 @@ void ExperimentWindow::ExperimentState::run(float dt) {
     for (auto && renderer : renderers) {
         renderer->render();
     }
-    
     if (network_view) {
+        network_view->update(dt);
         network_view->render();
     }
 }

@@ -130,5 +130,7 @@
     <None Include="res\fonts\georgia.fnt" />
     <None Include="res\fonts\helvetica.fnt" />
     <None Include="FreeImage.dll" />
+    <None Include="res\shaders\circle.vert" />
+    <None Include="res\shaders\circle.frag" />
   </ItemGroup>
 </Project>

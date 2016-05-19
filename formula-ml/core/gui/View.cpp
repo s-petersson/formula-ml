@@ -12,8 +12,9 @@ using namespace glm;
 
 View::View() {
     font = new Font();
-    primitive_program = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
-    text_program = CreateShader("./res/shaders/text.vert", "./res/shaders/text.frag");
+    primitive_program   = CreateShader("./res/shaders/simple.vert", "./res/shaders/simple.frag");
+    text_program        = CreateShader("./res/shaders/text.vert", "./res/shaders/text.frag");
+    circle_program      = CreateShader("./res/shaders/circle.vert", "./res/shaders/circle.frag");
 
     origin = vec3(0, 0, 0);
     set_transform(mat4(1));
@@ -22,16 +23,19 @@ View::View() {
 
     for (int i = 0; i < 3; i++) {
         text_buffers[i] = 0;
+        circle_buffers[i] = 0;
     }
-    for (int i = 0; i < 2; i++) {
-        line_buffers[i] = 0;
-    }
+
     for (int i = 0; i < 2; i++) {
         quad_buffers[i] = 0;
+        line_buffers[i] = 0;
     }
+
+
     text_vao = 0;
     line_vao = 0;
     quad_vao = 0;
+    circle_vao = 0;
 
     glGenVertexArrays(1, &text_vao);
     glBindVertexArray(text_vao);
@@ -44,6 +48,10 @@ View::View() {
     glGenVertexArrays(1, &line_vao);
     glBindVertexArray(line_vao);
     glGenBuffers(2, &line_buffers[0]);
+
+    glGenVertexArrays(1, &circle_vao);
+    glBindVertexArray(circle_vao);
+    glGenBuffers(3, &circle_buffers[0]);
 
     glBindVertexArray(0);
 }
@@ -62,8 +70,13 @@ View::~View() {
     glDeleteVertexArrays(1, &line_vao);
     glDeleteBuffers(2, &quad_buffers[0]);
     glDeleteVertexArrays(1, &quad_vao);
+    glDeleteBuffers(3, &circle_buffers[0]);
+    glDeleteVertexArrays(1, &circle_vao);
+
+
     glDeleteProgram(text_program);
     glDeleteProgram(primitive_program);
+    glDeleteProgram(circle_program);
 }
 
 void View::render() {
@@ -77,6 +90,9 @@ void View::render() {
     glUseProgram(text_program);
     glBindVertexArray(text_vao);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei) text_positions.size());
+    glUseProgram(circle_program);
+    glBindVertexArray(circle_vao);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)circle_positions.size());
     glUseProgram(0);
 }
 
@@ -90,6 +106,10 @@ void View::clear() {
 	text_positions.clear();
 	text_colors.clear();
 	text_uvs.clear();
+
+    circle_colors.clear();
+    circle_positions.clear();
+    circle_uvs.clear();
 }
 
 
@@ -145,6 +165,50 @@ void View::add_rect(const  glm::vec3& min, const glm::vec3& max, const glm::vec4
 
     glBindVertexArray(0);
 }
+
+void View::add_circle(const  glm::vec3& min, const glm::vec3& max, const glm::vec4 & color) {
+    // Add values to vector. 
+    circle_positions.push_back(vec4(origin + min, 1.0f));
+    circle_positions.push_back(vec4(origin + vec3(min.x, max.y, (min.z + max.z) / 2.0f), 1.0f));
+    circle_positions.push_back(vec4(origin + max, 1.0f));
+
+    circle_positions.push_back(vec4(origin + min, 1.0f));
+    circle_positions.push_back(vec4(origin + max, 1.0f));
+    circle_positions.push_back(vec4(origin + vec3(max.x, min.y, (min.z + max.z) / 2.0f), 1.0f));
+
+    circle_uvs.push_back(vec2(0,0));
+    circle_uvs.push_back(vec2(0, 1));
+    circle_uvs.push_back(vec2(1, 1));
+
+    circle_uvs.push_back(vec2(0, 0));
+    circle_uvs.push_back(vec2(1, 1));
+    circle_uvs.push_back(vec2(1, 0));
+
+    for (int i = 0; i < 6; i++) {
+        circle_colors.push_back(color);
+    }
+
+    glBindVertexArray(circle_vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, circle_buffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, circle_positions.size() * sizeof(vec4), &circle_positions[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(0);
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, circle_buffers[1]);
+    glBufferData(GL_ARRAY_BUFFER, circle_colors.size() * sizeof(vec4), &circle_colors[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, circle_buffers[2]);
+    glBufferData(GL_ARRAY_BUFFER, circle_uvs.size() * sizeof(vec2), &circle_uvs[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(2);
+
+    glBindVertexArray(0);
+}
+
 
 void View::add_text(const std::string& text, float size,glm::vec3 p, glm::vec4 color) {
     for (int i = 0; i < text.length(); i++) {
@@ -215,6 +279,8 @@ void View::set_transform(const glm::mat4& mat) {
     glUniformMatrix4fv(glGetUniformLocation(primitive_program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(transform));
     glUseProgram(text_program);
     glUniformMatrix4fv(glGetUniformLocation(text_program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(transform));
+    glUseProgram(circle_program);
+    glUniformMatrix4fv(glGetUniformLocation(circle_program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(transform));
 }
 
 void View::set_projection(const glm::mat4& mat) {
@@ -224,6 +290,9 @@ void View::set_projection(const glm::mat4& mat) {
     glUniformMatrix4fv(glGetUniformLocation(primitive_program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(proj));
     glUseProgram(text_program);
     glUniformMatrix4fv(glGetUniformLocation(text_program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(proj));
+    glUseProgram(circle_program);
+    glUniformMatrix4fv(glGetUniformLocation(circle_program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(proj));
+
 }
 
 void View::set_view(const glm::mat4& mat) {
@@ -232,4 +301,6 @@ void View::set_view(const glm::mat4& mat) {
     glUniformMatrix4fv(glGetUniformLocation(primitive_program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(view));
     glUseProgram(text_program);
     glUniformMatrix4fv(glGetUniformLocation(text_program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(view));
+    glUseProgram(circle_program);
+    glUniformMatrix4fv(glGetUniformLocation(circle_program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(view));
 }
