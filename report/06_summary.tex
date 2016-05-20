@@ -9,28 +9,31 @@
 % Vi har hittat positionering
 % hastighetskontroll
 % Generalisering. 
-In order to find conceptually optimal and general racing behaviours, a neuroevolution algorithm called NEAT was used in conjunction with a simple racing simulator. The artificial neural networks evolved by NEAT were evaluated in the simulator on how well they were able to drive the car. Through experimentation the behaviour of the neural networks was tested. 
+In order to find conceptually optimal and general racing behaviours, a neuroevolution algorithm called NEAT was used in conjunction with a simple racing simulator. The artificial neural networks evolved by NEAT were evaluated in the simulator, by how well they were able to drive the car. Through experimentation the behaviour of the neural networks was tested. 
 
-In the constant speed experiment covered in \ref{method:constant} and \ref{result:constant} an effective positioning behaviour was found, were the neural networks used curvature data to plan ahead and position the car strategically before reaching a corner. 
+In the constant speed experiment covered in \ref{method:constant_speed} and \ref{subsec:fixedspeedcurvature} an effective positioning behaviour was found, were the neural networks used curvature data to plan ahead and position the car strategically before reaching a corner. 
 
-An effective speed management behaviour was found in the experiment where the car drove on shorter track segments described in \ref{method:single} and \ref{result:single}. The neural networks were able to drive at a high speed and brake hard when reaching a corner and then accelerate out of the corner. 
+An effective speed management behaviour was found in the experiment where the car drove on shorter track segments described in \ref{subsec:shorttracksegment} and \ref{result:short}. The neural networks were able to drive at a high speed, brake hard when reaching a corner and then accelerate out of the corner. 
 
-Some of the knowledge acquired is generalised. In the mirror track experiment described in \ref{method:mirror} and \ref{result:mirror} the results show that a population adapted to a certain circuit perform significantly better than a control population. The same results also show that the neural networks become over-fitted to the circuits they are trained on. 
+Some of the knowledge acquired is generalised. In the mirror track experiment described in \ref{method:mirror} and \ref{result:mirror} the results show that a population adapted to a certain circuit perform significantly better than a control population when migrated to a new circuit. The same results also show that the neural networks become over-fitted to the circuits they are trained on. 
 
-The results show that neuroevolution algorithms such as NEAT can be used to create artificial neural networks able to drive in a racing context. However in order to reach a general and fully optimal behaviour, extensive modelling and calibration of the training process, fitness function, and inputs provided to the neural networks.  
+The results show that neuroevolution algorithms such as NEAT can be used to create artificial neural networks able to drive in a racing context. However, in order to reach a general and fully optimal behaviour, extensive modelling and calibration of the training process, fitness function, and inputs provided to the neural networks is required.  
 
 \chapter{Future work}
+
+
 % Stegvis förändra uppgiften, testa på checkpoints.
-As discussed in section \ref{discussion:neat_mechanism}, the success of neat rely on that it is able to progress in small steps towards the solution. It may therefore be of interest to investigate further how the problem task may be evolved as the ai progress. In this report, the task was static while only the fitness function evolved. One approach could possibly be to change tracks or limit the how far the car is allowed to drive.
+As discussed in section \ref{discussion:neat_mechanism}, the success of neat rely on that it is able to progress in small steps towards the solution. It may therefore be of interest to investigate further how the problem task may be evolved as the AI progress. In this report, the task was static while only the fitness function evolved. One approach could possibly be to change tracks or limit the how far the car is allowed to drive.
 
 % Träna olika delar separat. En i taget, alternerande eller flera parallellt
-The results showed that the ai managed to learn how to steer well but not having full control, as it imposed a greater complexity. Maybe the success would increase if several networks are used for different purposes, for example one to steer the car and one to control the speed. One important problem is how the networks would be trained. Some suggestions is that the networks are trained in parallel, that they are part of the same genome but do not intersect. Another approach could be to train them in an alternating fashion.
+The results showed that the AI managed to learn how to steer well but not having full control, as it imposed a greater complexity. Maybe the success would increase if several networks are used for different purposes, for example one to steer the car and one to control the speed. One important problem is how the networks would be trained. Some suggestions is that the networks are trained in parallel, that they are part of the same genome but do not intersect. Another approach could be to train them in an alternating fashion.
 
 % Kategorisera kurvor, träna ett beteende för varje typ
 It was also observed that it was easier to learn a single corner than to learn a complete track. One approach could be to train networks for a single purpose, possibly a single type of curve, and to use a classification algorithm that pick which controller that should steer the car in a particular situation.
 
 % Annan typ av representation, objekt för kurvor istället för kurvdatan
-In the report, the variation of indata and output interpretation used was rather small. It could be of interest to investigate further how different types of data affect the performance. One aspect in particular to study is the representation of curvature. In the modelling presented in section \ref{method:interpretation}, the distance to the data points is inferred from the index of the point. If the timing for an action need to change, the topology of the interpretation might need to change. Changing topology is problematic, as discussed in section \ref{discussion:neat_mechanism}. A different approach could be to model track features more like object, having several data values describing the same corner. That way, maybe, tuning of single weights may make a more sophisticated change in the behaviour. 
+In the report, the variation of in data and output interpretation used was rather small. It could be of interest to investigate further how different types of data affect the performance. One aspect in particular to study is the representation of curvature. In the modelling presented in section \ref{method:interpretation}, the distance to the data points is inferred from the index of the point. If the timing for an action need to change, the topology of the interpretation might need to change. Changing topology is problematic, as discussed in section \ref{discussion:neat_mechanism}. A different approach could be to model track features more like object, having several data values describing the same corner. That way, maybe, tuning of single weights may make a more sophisticated change in the behaviour.
+
 
 % Arketyper!
 
@@ -44,3 +47,8 @@ In the report, the variation of indata and output interpretation used was rather
 %- Increase effectiveness with some aspects of learning with a teacher. A human often learns that properties are good, and train to fulfil properties, that in turn effect the end goal result. The end goal result is maybe not neglected at all, but may be temporary in the process of achieving a property.
 
 %- What kinds of logical operators can be achieved by structures of neurons that use the sigmoid function. Could neat benefit from adding complete micro structures?
+
+% Ideas
+%     Heurustics
+%         Benefit som types of crashes before others
+%         Benefit recing line properties

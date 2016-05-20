@@ -1,20 +1,14 @@
-# Week 14, May 2 - May 8
-A major focus has been on the report but also to fix some details needed for running the experiments a bit more sophisticated.
+# Week 17, May 9 - May 15
+Most of the work was denoting to get results from experiments, both on personal machines and from the cloud server, and to write the report.
 
-We have requested to get access to cloud computing.
-
-
-## Supervision with Broberg
-Stand in for prasad. See "Meeting 160503" for minutes.
 
 ## Gabriel
-A lot of time went to the report. I wrote an initial version for the racing and simulation sections in theory and method. Wrote a little text for the results of some experiments and planned for the general discussion. It is however difficult to write much since many of the results have not come yet.
+I ran the the first instances of the the fixed speed experiment. It took some trial and error to find the approximately breaking point for when it was able to finish and not.
+
+I also found the book on racing theory "Fast driving cars", and read that. It is very good to have a solid second source on the racing theory
 
 
-
-## Simon
-Made the code runnable on linux, and prepared for running on the cloud server.
-
+## Experiment configuration
 ### NEAT configuration
 const int Population = 1000;
 const float MutateConnectionsChance = 0.70f;
@@ -30,7 +24,7 @@ const int StaleSpecies = 20;
 
 Sessions 3
 
-fixed speed input configuration:
+Summary fixed speed input configuration:
 0	bias
 1	middle
 2	left
@@ -50,7 +44,7 @@ fixed speed input configuration:
 16	Segment 2, point 4-7, 66-205m
 17	Segment 3, point 7-10, 205-546m
 
-Total control configuration:
+Summary total control configuration:
 0	bias
 1	middle
 2	left
@@ -158,7 +152,7 @@ ai_settings.output_speed = true;
 
 
 
-### Experiment: kortaste vägen
+### Experiment: shortest path
 SimulatorSettings sim_settings = SimulatorSettings();
 AiSettings ai_settings = AiSettings();
 
@@ -190,7 +184,7 @@ ai_settings.output_speed = false;
 // IMPORTANT: change CarModel.cpp::minTurningRadius() return statement to "return minTurningRadius;"
 // ALSO: change CarModel.cpp::smoothChange() "const float max_change_time = 0.01f;"
 
-### Experiment: 90 höger
+### Experiment: 90 right
 population 500
 
 sim_settings.track_path = new string("./res/models/corners/corner_90_10_r.model");
@@ -220,7 +214,7 @@ ai_settings.output_speed = true;
 
 
 
-### Experiment: 180 höger
+### Experiment: 180 right
 population 500
 
 sim_settings.track_path = new string("./res/models/corners/corner_180_r_new.model");
@@ -248,10 +242,7 @@ ai_settings.curve_point_spacing_incremental_percentage = 0.35f;
 
 ai_settings.output_speed = true;
 
-
-
-
-### Experiment: 30 höger
+### Experiment: 30 right
 population 500
 
 sim_settings.track_path = new string("./res/models/corners/corner_30_r.model");

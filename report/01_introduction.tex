@@ -3,7 +3,6 @@
 We live in a dawning age of autonomous vehicles. During the last several years the development of autonomous cars has progressed immensely. Many car manufacturers are currently testing their autonomous car prototypes in real traffic and fully autonomous vehicles can be expected on the consumer market in the near future. At the heart of autonomous vehicles is the field of Artificial intelligence (AI), especially in the form of machine learning, algorithms that learn.
 
 The concept of machine learning is to create well-adapted AI systems that require the minimal amount of human design. The algorithms learn to predict the correct answers within a problem domain by inferring knowledge from examples or from experience. 
-% Mer om machine learning in general
 
 In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data.
 
@@ -17,28 +16,29 @@ There are many potential applications of an autonomous racing system. The optima
 
 In theory the optimal racing behaviour is calculable. Given a specific car and track segment there exist an arbitrarily accurate function describing the time required to drive through the section. Given such a function, one could use optimisation methods to find the minimums in time spent. However, due to the complex nature of the problem, the number of variables in the function is huge. Even if aspects such as the physical environment, e.g. temperature, oxygen levels, and wind, is neglected. Just the number of possible paths through a section is infinite. In order to find an optimal behaviour in a reasonable amount of time the problem must be extensively simplified.
 
-[TODO: Could use some sources in this paragraph? Oklart stycke?]
+%[TODO: Could use some sources in this paragraph? Oklart stycke?]
 The complex nature of this problem presents quite a few problems. Solving complex problems like these manually is not easy. Implementing behaviour for every single scenario is not an option due to the large number of scenarios. Machine learning solves this problem by finding a general behaviour that adapts to the scenarios that it is presented with. Instead of manually implementing behaviour for every scenario, a general machine learning algorithm is implemented and presented with general a model of the problem and its environment.
 
 Finding a general model for the problem and its environment can be very complicated. The information that is to be presented to the AI and the actions taken by the AI must be applicable in many different situations. The behaviour should not be optimal on a specific track, bur rather effective in general. This requires the information that the AI is presented with to not let the AI learn track specific behaviour. One way to solve it is to let the AI make local decisions based on local information. This is similar to how humans drive a car. A person can see the shape of the road in front of the car and steer according to that. This is also true in racing, the driver sees the track and may also have a notion of how the track will proceed throughout the following corners.
 
 \section{Purpose}
-%TODO Second scentence is hard to read/understand
-This project will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. The goal is to find a general and effective behaviour from first principles, i.e. without training it to conform to a predefined behaviour. Furthermore the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
+%TODO Second sentence is hard to read/understand
+This project will explore the possibilities of teaching an AI to drive in a racing environment using machine learning. The goal is to find a general and effective behaviour from first principles, i.e. without training it to conform to a predefined behaviour. Furthermore, the possibility of finding sufficiently complex behaviours to drive optimally, both locally and globally, will be discussed. 
 
 \section{Limitation}
 
 % Limitation to time attack, no head to head strategy, no long term strategy, no internal dynamics of car. 
-The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts in head to head competition such as racing strategy, overtaking, and pit stops will not be considered. The car is assumed to be in a pristine condition at all times. Thus aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear, or brake temperatures will no be taken into consideration. 
+The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts in head to head competition such as racing strategy, overtaking, and pit stops will not be considered. The car is assumed to be in a pristine condition at all times. Thus aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear, or brake temperatures will not be taken into consideration. 
 
-% Limit to neuroevolution/neat, we will not compare different algorithms
+% Limit to Neuroevolution/neat, we will not compare different algorithms
 The problem of finding optimal behaviour can be solved by using many different types of machine learning. A combination of algorithms could potentially be used by breaking down the problem into several parts. This project will not evaluate and compare different algorithms due to time limitations. Instead only one algorithm will be implemented and evaluated in depth. 
 
 % Virtual environment / simulation.
-The AI will operate within a virtual environment to increase the flexibility of the car and the racing environment, compared to operating a car in the real world. A virtual environment will allow modification of certain aspects of the simulation, which may give opportunities and insights that operating in the real world would not. However this requires a simulator that is able to accurately simulate the car and the environment. The car needs to behave similarly to how it would in the real world. Thus part of this project is to develop a simulator that satisfies these conditions. More specifically it will include concepts such as turning radius, acceleration and deceleration. However it will not include more advanced concepts such as tyre grip that varies with temperature or internal dynamics of the car.
+The AI will operate within a virtual environment to increase the flexibility of the car and the racing environment, compared to operating a car in the real world. A virtual environment will allow modification of certain aspects of the simulation, which may give opportunities and insights that operating in the real world would not. However, this requires a simulator that is able to accurately simulate the car and the environment. The car needs to behave similarly to how it would in the real world. Thus part of this project is to develop a simulator that satisfies these conditions. More specifically it will include concepts such as turning radius, acceleration and deceleration. However, it will not include more advanced concepts such as tyre grip that varies with temperature or internal dynamics of the car.
+
 
 % Specify even more physical aspects, such as no elevation, no temperatures, oxygen levels etc etc. 
-\section{Literature Review}
+%ction{Literature Review}
 % Instruction from 
 % https://www.reading.ac.uk/internal/studyadvice/StudyResources/Essays/sta-structuringreport.aspx#literature
 % The Literature Review… surveys publications (books, journals and sometimes conference papers) on work that has already been done on the topic of your report. It should only include studies that have direct relevance to your research.

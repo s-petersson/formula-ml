@@ -2,11 +2,7 @@
 % Explain concepts that we rely upon throughout the report. 
 This chapter will introduce the theoretical framework of the project. The following sections will include an explanation of the underlying theory and physics of racing, an introduction to the challenges of digital simulation and an overview of machine learning concepts used in the project. 
 
-\section{Racing theory}
-% Started to re-write, maybe usable
-% Understanding racing theory is crucial to understand what the goal of the ai driver behaviour is, and to discuss what the requirements for it are. Racing theory involves both good practises and the reasons behind them. 
-% As mentioned, the type of competition is a single car performing a time attack. The goal is to drive around a track with as little time as possible. It is a little harder to 
-
+\section{Racing Theory}
 As mentioned previously, the scope is limited to racing with a single car that drive around a track with as little time possible. Racing tracks are normally broad enough to allow slightly different paths for the driver. Different paths may differ in length but also affect the possible speed. Time is the result from both distance and speed according to the following formula:
 \begin{equation}
 t = \frac{d}{v}
@@ -15,7 +11,7 @@ Where $d$ is the distance driven and $v$ is the average speed. The process of mi
 
 The next subsection will briefly describe the physics of racing. It is a core part of understanding how professional drivers drive, as will be described in the second next subsection.
 
-\subsection{Underlying aspects of physics}
+\subsection{Underlying Physics}
 A moving car has momentum. In order to to change the momentum, to accelerate, brake or change direction of movement, a force need to be applied. These forces are applied through the tyres. 
 
 The abilities of the car is limited to how great force it can apply through the tyres. If the car exceed the available traction, the tyres will slide or spin. 
@@ -25,7 +21,7 @@ The brakes are generally very efficient and are mostly limited by the traction o
 As the speed increases, the kinetic energy increases quadratically. A consequence is that a greater force is required to change the momentum. Accelerating and braking takes longer time and the turning radius is larger. The turning radius for a circular motion is:
 
 \begin{equation}
-a_c = \frac{v^2}{r} \cite{beckman:circular_motion} 
+a_c = \frac{v^2}{r} \cite{beckman} 
 \rightarrow
 \frac{F_c}{m} = \frac{v^2}{r} 
 \rightarrow
@@ -34,51 +30,45 @@ r = \frac{mv^2}{F_c}
 
 Where $a_c$ is the central acceleration, $v$ is the speed, $r$ is the radius of the circular motion, $F_c$ is the central force and $m$ is the mass of the car.
 
-The car can not turn as much when it accelerates or brakes. When a car accelerates or brake, the amount of pressure on the tyres will change, changing the traction capabilities. This make limit the amount a car car accelerate or brake and turn at the same time \cite{beckman:weight_transfer}. The effect is further increased as the tyres can not produce traction for multiple directions as well as for a single direction\cite{beckman:traction_budget}. 
+The car can not turn as much when it accelerates or brakes. When a car accelerates or brake, the amount of pressure on the tyres will change, changing the traction capabilities. This make limit the amount a car car accelerate or brake and turn at the same time \cite{beckman}. The effect is further increased as the tyres can not produce traction for multiple directions as well as for a single direction\cite{beckman}. 
 
 Due to the shape of a racing car, drag contribute to the traction as the car is pushed down, a so called down force. As the speed get larger, this effect is also increased.
 
-
-\subsection{Introduction to racing lines}
-A racing line denotes the path a car drive around the track.
+\subsection{Introduction to Racing Lines}
+A racing line denotes the path a car drive around the track. It is an expression that include both the positioning and speed of the car.
 
 As previously mentioned, driving fast and driving short are the key aspects to optimise, but they sometimes opposite each other. If the car drives fast, the turning radius is increased and the car might need to drive a longer path, which may take longer time in total. 
 
-However, if the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections\cite{beckman:racing_line_intro}, as the difference in speed will accumulate more time.
-
-A typical behaviour is therefore to position the car on the opposite side of where a curve is turning. This enables a larger turning radius. The car brakes as late as possible to not loose time on the previous section, but turns most intensively rather early in the curve, so that it can start accelerating for the next section as early as possible. This curve will result in a late apex.
+It is generally good to keep as high speed as possible and to drive close to the inner corners. The position where the race line are closest to the inner corner is often called apex. The apex can be called to be a late, early or mid apex, as shown in figure \ref{figure:apex_variants}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{race_lines}
-    \caption{Representation of race lines through a 90 degree corner. Line 1 represents a late apex race line, line 2 represents the ideal race line and line 3 represents an early apex race line.}
+    \caption{Representation of race lines through a 90 degree corner. Line 1 represents a late apex race line, line 2 a mid apex and line 3 an early apex race line.}
+    \label{figure:apex_variants}
 \end{figure}
 
-But, if another corner come close after, it might be more beneficial to exit the first curve in the way that makes the second curve most efficient. Not as much saved time can be accumulated by an increase of speed, so, the focus also shifts slightly to drive short. [insert illustration]
+If the car exit a curve with a higher speed, it can benefit from a reduced time spent in the next section. It is therefore generally beneficial to prioritise higher speed on longer sections\cite{beckman}, as the difference in speed will accumulate more time. The optimal behaviour is therefore to break early so that a large portion of the turning can be done early in the corner, and then start to accelerate early, resulting in a late apex. This type of corner is often referred to as a type 1 corner \cite{edmondson}.
+
+However, when a corner ends a straight section and is not followed by a different straight it is usually beneficial to brake and steer as late as possibly, to benefit mostly of the high speed before the curve \cite{edmondson}. This will cause an early apex and it is often referred to as a type 2 corner.
+
 
 \section{Digital Simulation}
-% - Discrete steps
-% - Numerical errors
-
 % Should we keep this section or integrate it into the implementation of the simulator section?? 
 
 Computers have been utilised throughout the project to simulate the physics of a racing car. However, digital simulation introduces errors that potentially could affect the result. This section will present some of the key aspects of digital simulation. 
 
 A digital computer cannot due to its discrete nature store or calculate real numbers exactly. Instead something called floating point numbers are used. Floating point numbers is a way to represent real numbers as discrete values. It works by storing the significant digits of a number together with a value representing an exponent. The floating point number can be calculated by multiplying the significant digits with a fixed base raised to the stored exponent.
 
-A computer cannot handle continues calculations and must rely on models of reality. This will introduce numerical errors in the calculations. It is therefore important to motivate that the errors introduced are small enough for it to not decrease the quality of the simulation.
+The simulator holds a state of what it simulates. The simulation progress by calculating what the new state should be after an amount of time have elapsed. One of the limitations of this way of simulating is that it difficult to take in to account events that should have occurred during the time slice, or multiple degrees of derivatives. 
 
-The simulator holds a state of what it simulates. The simulation progress by calculating what the new state should be after an amount of time have elapsed.
+Due to computers being unable to handle continuous calculations they must rely on models of reality. This will introduce numerical errors in the calculations. It is therefore important to motivate that the errors introduced are small enough for it to not decrease the quality of the simulation.
 
-One of the limitations of this way of simulating is that it difficult to take in to account events that should have occurred during the time slice, or multiple degrees of derivatives. 
-
-The mentioned limitations may lead to problems, typically for closed systems that should stay stable over time, for example planets in orbit. 
 
 
 \section{Machine Learning}
 Machine learning is the field of study that concentrates on algorithms that can be said to learn \cite{glossary}. This section will cover the machine learning theory and concepts that were considered and used within the project. Furthermore the suitability of the different algorithms within the problem domain will be discussed.  
 
-% Få in begreppet hidden node på något sätt
 \subsection{Artificial Neural Networks as Knowledge Model}
 Machine learning algorithms require some representation of knowledge. One such knowledge model that is in wide use is the Artificial neural network. An artificial neural network (ANN) is a mathematical model that mimic the structure of the human brain. 
 
@@ -105,30 +95,24 @@ An ANN with at least two layers of hidden neurons and a sigmoid function as its 
 \subsection{Supervised Learning}
 Supervised learning is the process of learning with a teacher or learning from examples \cite{haykin:supervised}. A large set of example data consisting of pairs of input configurations and the corresponding correct output is used. The learning process works by letting the knowledge model, for example a neural network, predict the correct output for given inputs in the data set. The knowledge model is then corrected in order to better predict the correct output. Algorithms that learn by induction often fall into the supervised learning category \cite{glossary}. 
 
-Supervised learning algorithms are useful when the goal is to create an accurate prediction model from a large set of data. However the primary goal of this project is to create an AI not by defining how it should behave but by defining what it should strive for. Supervised learning could certainly be used to create a racing AI that for example emulates a professional driver. 
-
-In this project supervised learning could theoretically be used in many ways, for example to learn where to position the car on the track. However the scarcity of available data 
+Supervised learning algorithms are useful when the goal is to create an accurate prediction model from a large set of data. However the primary goal of this project is to create an AI not by defining how it should behave but by defining what it should strive for. Supervised learning could certainly be used to create a racing AI that for example emulates a professional driver. It could also be used to solve one part of the problem, for example learning where to position the car on the track. However the scarcity of available data limits the use of these algorithms.  
 
 \subsection{Unsupervised Learning}
 Unsupervised learning is a type of machine learning that in contrast to supervised learning does not learn to predict or approximate a correct output given an input, but rather learn to group sets of inputs into categories based on the input values. These algorithms are prevalent in data mining and other areas where clustering is useful. 
-
-% Utveckla.  
-
 \subsection{Reinforcement Learning}
 A central aspect of the learning process is evaluating the performance of the actor. Supervised learning algorithms compare the actors output with a set of correct values. However if there is no data set available to train with the feedback must be acquired in some other way. Reinforcement learning algorithms solve this by scoring actors on how well they perform \cite{whiteson}. The set of example data used in supervised learning is replaced by some quantifiable measurement of performance, often calculated from a heuristic. Scoring the actor could either be done by rewarding it for beneficial actions or decisions, but also by evaluating the performance in general. 
 
 The performance is used as the basis of some transforming process that improves the actor itself. The modification process differs between knowledge models and learning algorithms. In a neural network the process would change the weights or topology of the network in order to improve its performance.
 
-In this project reinforcement learning is a reasonable paradigm since the performance can be evaluated by simulating how the actor drives the car. In the problem domain the effectiveness of individual actions is hard to evaluate since behaviours may be locally suboptimal but globally optimal. However the global behaviour of an actor is easier to evaluate, for example by rewarding shorter lap times. A reinforcement learning algorithm where the actors can be evaluated on this level of abstraction would be favourable in this project.   
+In this project reinforcement learning is a reasonable paradigm since the performance can be evaluated by simulating how the actor drives the car. In the problem domain the effectiveness of individual actions is hard to evaluate since behaviours may be locally suboptimal but globally optimal. However the global behaviour of an actor is easier to evaluate, for example by rewarding shorter lap times. Thus a reinforcement learning algorithm where the actors can be evaluated on this level of abstraction would be favourable. 
 
 \subsection{Neuroevolution}
 One type of reinforcement learning that is  compatible with the desired mode of evaluation is Neuroevolution. Neuroevolution is a set of reinforcement learning algorithms that learn by emulating evolutionary processes, for example natural selection. In neuroevolution, the algorithm learns by evolving neural networks to solve a specific task. The evolution process works by allowing advantageous traits to remain while disadvantageous traits are removed.  
 
 This can be done on different levels of abstraction. For example on the individual level, where well-adapted individuals are allowed to carry on their traits. It can also be done on the level of singular traits, for example connections in a neural network. In that case the traits that have a positive contribution to the performance of the AI are kept while negative traits are removed. 
-
 This type of machine learning has been shown to be effective in comparison to other machine learning algorithms at solving non-linear control tasks such as the pole balancing problem \cite{gomez:efficient_nonlinear_control}.
 
-\subsection{Neuroevolution of Augmenting Topologies}
+\subsection{NEAT (Neuroevolution of Augmenting Topologies)} 
 \label{theory:neat}
 One neuroevolution algorithm is Neuroevolution of Augmenting Topologies, henceforth referred to as NEAT. In NEAT the evolution process is simulated on a pool of genomes. A genome is the genetic encoding or DNA of an ANN consisting of a number of genes. Each gene represents a connection in a neural network. The genomes are grouped into species based on genetic similarity. A genome only competes with the other members of its species. The introduction of species protects the diversity of the population, which has been showed to improve the learning rate of the algorithm \cite{stanley:neat}.  
 
@@ -138,7 +122,7 @@ The breeding process used in NEAT creates children by combining genes from two p
 
 Another feature of NEAT is that the neural networks are constructed from a minimal initial structure. By gradually augmenting the topology of the network the resulting size of the network can remain small. Additionally, only the beneficial modifications will survive the evolutionary process. Thus useless features will be discarded, further reducing the size of the networks. A minimal structure reduces the search space of the algorithm, since there are less connection and weights to optimise. 
 
-TODO!!!! Add text that says that the algorithm is applicable to any problem.
+% TODO!!!! Add text that says that the algorithm is applicable to any problem.
 
 
 

@@ -37,7 +37,7 @@ The velocity vector $\vec{v}$ is updated due to acceleration based on the forces
 
 All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation. 
 
-FORMULA FOR TURNING RADIUS
+% FORMULA FOR TURNING RADIUS
 
 The car weight used in the simulation is 642 kilogrammes, which albeit being oddly specific is a reasonable weight for a Formula 1 car without a driver. The rules state that the minimum weight of a car including the driver in full gear bu excluding fuel is 702 kilogrammes \cite{f1_weight}.
 
@@ -45,7 +45,7 @@ The tracks used in the simulator are flat 3D-meshes with triangle faces. The mes
 
 It is assumed that the presented model fulfil the requirements presented in section 1, and that it does not introduce aspects that in any other way changes the characteristics of the optimal behaviour.
 
-\section{Visualisation ???}
+%section{Visualisation ???}
 
 \section{NEAT Implementation}
 
@@ -175,7 +175,8 @@ The fitness function currently being used considers the distance along the track
 \end{equation}
 
 \noindent
-This function aims to let the system train at one task at a time. The goal is that since lap time is not considered before a lap has been completed, the complexity of completing a lap will be reduced. When a lap has been completed, the goal is for the system to learn to optimise that lap by minimising the lap time. [TODO: Add "It is interesting to see the difference between optimising for two variables after one another, instead of both at the same time"?]
+This function aims to let the system train at one task at a time. The goal is that since lap time is not considered before a lap has been completed, the complexity of completing a lap will be reduced. When a lap has been completed, the goal is for the system to learn to optimise that lap by minimising the lap time. 
+%[TODO: Add "It is interesting to see the difference between optimising for two variables after one another, instead of both at the same time"?]
 
 
 
@@ -216,6 +217,7 @@ Comparing the result of the different experiment variants should show whether or
 
 
 \subsection{Full control of the car}
+\label{method:baseline}
 In this experiment, the AI will train on driving with full control of the car. In addition to steering it will also control the speed by accelerating and braking. In addition to the position, orientation, and curvature data the AI will be provided with the current speed of the car. The result of the experiment will further establish the limits of the training system. 
 
 Several experiment variations with this configuration will be carried out. In the first variant, which is the baseline experiment, the AI will drive on the same complete circuit as used in the constant speed experiments. This will show whether or not the AI is able to stay on the track to the same extent as when it only steers. Furthermore it will show whether or not the system can learn to manage the speed in an effective way. If the system is able to find an effective behaviour, the natural response would be to even further increase the complexity of the problem. However if no effective behaviour is found, it is and implication that the training process and system configuration are suboptimal. 
@@ -238,19 +240,20 @@ The tracks consists of two straights connected by a corner. The straights are be
 Successful results in these experiments would confirm that the system can find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. A scenario where the experiment yield significantly more effective behaviours than the baseline experiment would give insight into the limits of the training process and how the fitness function is used. This insight could be used to find effective behaviours for longer tracks. 
 
 %==================================================================
-%\subsection{Multiple short track segments}
+\subsection{Multiple short track segments}
 
-%If the system finds effective behaviours on the short track segments, one interesting experiment is to train the same population on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a generally effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
+If the system finds effective behaviours on the short track segments, one interesting experiment is to train the same population on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a generally effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
 
-%The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
+The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
 
-%This experiment could answer two interesting questions. Is the system able to find behaviours effective in multiple scenarios and how do it differ to training different corners in a sequence in a single track? Additionally how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
+This experiment could answer two interesting questions. Is the system able to find behaviours effective in multiple scenarios and how do it differ to training different corners in a sequence in a single track? Additionally how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
 %====================================================================
 
 %% SKRIV OM ALTERNATING TRACKS IFALL VI SKALL DET
 %It will also be tested to alternate which of the track segments are used for the evaluation. Will this let networks progress further, since a temporary decline in some curves will not be noticed? 
 
 \subsection{Mirrored Track}
+\label{method:mirror}
 One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on, instead of learning how to complete a specific circuit. In order to test this a population of genomes is trained on driving on the full circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. That population is then loaded into the same experiment except with another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. 
 
 %% TODO: Lägg in bilder där man kan se skillnaden på banorna med startposition och riktning utmarkerat så att man fattar. 
