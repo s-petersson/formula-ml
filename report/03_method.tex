@@ -1,25 +1,26 @@
 
 \chapter{Method}
 
-In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of the NEAT-algorithm, a visualisation system and a control layer which connects the system components. Additionally, the reasoning behind and implementation of the experiments that were conducted will be presented. 
+In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Additionally, the reasoning behind and execution of the experiments that were conducted will be presented. 
 
 \section{Requirements of the simulator}
+\label{requirements}
 % What kind of behaviour do we want to find?
 % Desired behaviour -> put requirements on the simulation
 % Simulation -> desired behaviour is optimal
 
-The purpose of this study is to evaluate how well a machine learning algorithm can manage to learn the key aspects of an effective racing behaviour. Some of the aspects that will be evaluated are positioning throughout corners, timing and speed management. 
+The purpose of this study is to evaluate how well a neuroevolution algorithm can learn the key aspects of an effective racing behaviour. Some of the aspects that will be evaluated are positioning throughout corners, timing and speed management. 
 
 If the behaviour of the AI is to be assessed in comparison to real world racing theory, the optimal behaviour in the simulated environment must be similar to the optimal behaviour in reality. The simulation may approximate certain aspects or neglect details, as long as the general characteristics remain and the best practises in racing theory are still optimal. % Lite knölig mening. 
 
 This requirement on the simulation introduces some constraints to the physics simulation. For example, if positioning the car on the far side before taking a corner is to be optimal, the turning radius must increase with the speed of the car and accelerating or decelerating must be relatively slow. Taking a late apex before a straight will only be optimal if a larger initial speed onto a straight outperforms taking a smoother turn due to a slow acceleration rate. 
-
+% UTVECKLA
 % Discuss negative effects of braking or accelerating while turning. 
 
 \section{Implementation of the Simulator}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
 
-The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, a lot of simulation updates can be carried every second. This enables a modest desktop computer to simulate years of racing in a few hours. 
+The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the simulated universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, many simulation updates can be carried every second. This enables a modest desktop computer to simulate years of racing in a few hours. 
 
 The car is represented by a simplified model of a car. Only the required properties discussed in the previous section are simulated. Each update of the car state results in an update of the cars position according to:
 
@@ -27,6 +28,7 @@ The car is represented by a simplified model of a car. Only the required propert
     \vec{p} = \vec{p} + \vec{v}\Delta t 
 \end{equation}
 
+\noindent
 Where $\vec{p}$ is the position vector of the car, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $0.01$ seconds.
 
 The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics the acceleration $a$ of an object is equal to the applied force $f$ divided by the mass $m$ of the object, a relationship which is described by the equation $f = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with:
@@ -35,26 +37,27 @@ The velocity vector $\vec{v}$ is updated due to acceleration based on the forces
     \vec{a} = \frac{\vec{f}}{m}  
 \end{equation}
 
+\noindent
 All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation. 
 
 % FORMULA FOR TURNING RADIUS
 
 The car weight used in the simulation is 642 kilogrammes, which albeit being oddly specific is a reasonable weight for a Formula 1 car without a driver. The rules state that the minimum weight of a car including the driver in full gear but excluding fuel is 702 kilogrammes \cite{f1_weight}.
 
-The tracks used in the simulator are flat 3D-meshes with triangle faces. The meshes were modelled in Autodesk Maya and were imported as OBJ-files. In order to simplify the representation of the track the cross sections of the track are extracted from the mesh. These cross sections are treated as a series of checkpoints that define the track.  
+The tracks used in the simulator are flat 3D-meshes with triangle faces. The meshes were modelled in Autodesk Maya and were imported to the simulator in the Wavefront .OBJ format. In order to simplify the representation of the track the cross sections of the track are extracted from the mesh. These cross sections are treated as a series of checkpoints that define the track.  
 
-It is assumed that the presented model fulfil the requirements presented in section 1, and that it does not introduce aspects that in any other way changes the characteristics of the optimal behaviour.
+It is assumed that the presented model fulfil the requirements presented in \ref{requirements}, and that it does not introduce aspects that changes the characteristics of the optimal behaviour.
 
 %section{Visualisation ???}
 
 \section{NEAT Implementation}
 
-The NEAT algorithm was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a script written in Lua used in a Super Mario bot \cite{mario_source}. 
+NEAT was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a script written in Lua used in a Super Mario bot \cite{mario_source}. 
 
-In order to verify the implementation of the algorithm it was tested by training it to approximate the logical exclusive-OR function (XOR). The reason that the XOR-function is relevant to test is because it is not linearly separable, this means that a neural network requires hidden nodes in order to approximate it \cite{haykin:xor, stanley:neat}. The test was used as a sanity check to ensure that the algorithm made additions and changes to the network structure. 
+In order to verify the implementation of the algorithm it was tested by training it to approximate the logical exclusive-or function (XOR). The reason that the XOR-function is relevant to test is because it is not linearly separable, this means that a neural network requires hidden nodes in order to approximate it \cite{haykin:xor, stanley:neat}. The test was used as a sanity check to ensure that the implementation of the algorithm made additions and changes to the network structure. 
 
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
-Some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. This enables us to specify what activation function should be used within a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight. 
+Additionally some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. This enables us to specify what activation function should be used within a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight. 
 
 
 \section{Training Process}
@@ -63,11 +66,11 @@ Some minor utility features were added to our implementation in order to allow f
     % AIn styr bilen i varje simulation step
     % Indata, förklara inte vilken typ av indata, säg bara vart den kommer ifrån.
     % Slutgiltliga resultatet av simulationen ger feedback
-The training process works by letting the neural networks adjust or train to drive the car. The combination of the NEAT algorithm and the simulator is utilised to perform training of the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However, the evolutionary process requires a measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
+The training process works by adapting neural networks to drive a car. NEAT is utilised in combination with the simulator to train the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However, the evolutionary process requires a measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
 
-In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific has performed. The training process generates a network based on the genome that is to be evaluated, and feeds it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to steer the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
+In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific genome has performed. The training process generates a network based on the genome that is to be evaluated, and provides it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to control the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
 
-The following subsections cover in detail the input and output to the networks supplied by and given to the simulator, as well as describing how genomes were evaluated and how fitness has been calculated to approximate network performance in an optimal way.
+The following subsections cover the network inputs and outputs used in detail. Furthermore, the evaluation process and fitness function will be covered. 
 
 \subsection{Interpretation}
 \label{method:interpretation}
@@ -99,9 +102,9 @@ The following subsections cover in detail the input and output to the networks s
 % 	Segment 2, point 4-7, 66-205m
 % 	Segment 3, point 7-10, 205-546m
 
-For the system to decide on some action for the car to take, it needs information about the car and its environment. Deciding on appropriate information to give to the system is an important aspect for NEAT to be able to progress in an efficient way. How effective any given input is, highly depends on the problem that is to be solved and what the target behaviour is.
+The system requires information about the car and environment in order to decide how to act. Providing the appropriate information is essential if the system is to learn an effective behaviour. The appropriateness of information depends on the problem and target behaviour. 
 
-The inputs used during the project aim to give an easy way for the system to couple situations with an appropriate action. The input values are summed up in table \ref{tab:input_table} and can be divided into two groups; One that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment.
+The inputs used within the project aim to give an easy way for the system to couple situations with an appropriate action. The input values are summed up in table \ref{tab:input_table} and can be divided into two groups; one that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment.
 
 \begin{table}[h!] 
   \centering
@@ -124,12 +127,11 @@ The inputs used during the project aim to give an easy way for the system to cou
 \end{table}
 
 \noindent
-
 There are two groups of input values describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust race lines before arriving at corners. 
 
-The first group is the curvature data, which is a series of angles. The angles are based on the position of the car and 10 points on the mid line of the track. The first angle is calculated from the direction that the car faces and the direction to the first point. The rest of the angles are calculated by comparing the directions of the succeeding line segments the points stow. The distance between the points increase exponentially by 35 percent for each point. The points are distanced from the car by 10, 24, 42, 66, 100, 144, 205, 287, 397, 546 meters. The exponential increase of distances makes the resolution higher close to the car where detail is most important, and less resolution where the general tendency is sufficient.
+The first group is the curvature data, which is a series of angles. The angles are based on the position of the car and 10 points on the mid line of the track. The first angle is calculated from the direction that the car faces and the direction to the first point. The rest of the angles are calculated by comparing the directions of the succeeding line segments defined by the points. The distance between the points increase exponentially by 35 percent for each point. The points are distanced from the car by 10, 24, 42, 66, 100, 144, 205, 287, 397, and 546 metres. The exponential increase of distances makes the resolution higher close to the car where detail is most important, and less resolution where the general tendency is sufficient.
 
-The second group is three different summations of the curvature data, namely 1-4, 4-7 and 7-10. This will provide more of an overview perspective than the individual curvature points.
+The second group is the summed curvature of three different regions. The regions consists of the points 1 through 4, 4 through 7, and 7 through 10. These summations provide a better overview of the track shape than the individual angles. 
 
 The set of inputs that describe the current status of the car are more simple in nature. They aim towards giving the system the capability of keeping the car on the track at all times. These inputs consist of current car speed measured in meters per second, angle between the cars current direction and the mid line of the track, distance from the car to the tracks mid line, as well as the distance between the car and the left and right edge of the track.
 
@@ -158,24 +160,28 @@ The number output values for the networks used during the project are limited to
 % Tänk också på läsaren, vad är lättast för den som läser att förstå
 % Fitness functions
 
-Running a simulation will give three values, the time the car was driving, the distance the car drove and how far the car came along the track. Worth noting is that the driven distance and the distance on the track is not necessarily the same, as the distance driven is affected if the car take curves on the inner and the outer side or drive in a serpentine.
-
-How these three values are considered will effect what properties the neat will find. It is important to find a fitness function that not structurally encourage an unwanted behaviour.
-
-The fitness function currently being used considers the distance along the track as well as the lap time. The fitness function is described mathematically by equation \ref{eq:fitness_distance_time}. It is important to note that the fitness will not be affected by the lap time unless the car actually performs a complete lap.
+In order to evaluate the performance of a genome, a fitness value has to be calculated. This value is, as described in \ref{section:neuroevolution}, calculated by the fitness function. When defining good racing behaviour, the relation between the distance driven and the time it took is crucial. For example, by only minimising for time while not considering distance driven, solutions such as crashing as fast as possible are beneficial. On the other hand, if time is not considered, two genomes that perform complete laps will have no difference in performance, which means there is no way to guarantee optimal behaviour. Thus both elements are crucial to consider, and the balance between them has to be considered when deciding modelling the fitness function.
 
 \begin{equation}
 \label{eq:fitness_distance_time}
   f(d, t) =
   \begin{cases}
-    d    & \quad \text{if } d < d_{max} \\
-    d    & \quad \text{if } t \geq t_{max} \\
-    d_{max} + 5*(\sqrt{t_{max}} - \sqrt{t})^2    &\quad \text{else} \\
+    d    & \qquad \text{if } t \geq t_{max} \text{ or } d < d_{max} \\
+    d_{max} + \lambda*(\sqrt{t_{max}} - \sqrt{t})^2 & \qquad \text{else} \\
   \end{cases}
 \end{equation}
 
 \noindent
-This function aims to let the system train at one task at a time. The goal is that since lap time is not considered before a lap has been completed, the complexity of completing a lap will be reduced. When a lap has been completed, the goal is for the system to learn to optimise that lap by minimising the lap time. 
+Equation \ref{eq:fitness_distance_time} presents the fitness function that was used to evaluate genomes. 
+
+% Running a simulation will give three values, the time the car was driving, the distance the car drove and how far the car came along the track. Worth noting is that the driven distance and the distance on the track is not necessarily the same, as the distance driven is affected if the car take corners on the inner and the outer side or drive in a serpentine.
+
+% How these three values are considered will effect what properties NEAT will find. It is important to find a fitness function that not structurally encourage an unwanted behaviour.
+
+% The fitness function currently being used considers the distance along the track as well as the lap time. The fitness function is described mathematically by equation \ref{eq:fitness_distance_time}. It is important to note that the fitness will not be affected by the lap time unless the car actually performs a complete lap.
+
+\noindent
+% This function aims to let the system train at one task at a time. The goal is that since lap time is not considered before a lap has been completed, the complexity of completing a lap will be reduced. When a lap has been completed, the goal is for the system to learn to optimise that lap by minimising the lap time. 
 %[TODO: Add "It is interesting to see the difference between optimising for two variables after one another, instead of both at the same time"?]
 
 

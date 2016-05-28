@@ -1,1 +1,1 @@
-Performing hotlaps using neuroevolution
+Driving Time Trial Laps using Neuroevolution

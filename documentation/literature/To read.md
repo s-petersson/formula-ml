@@ -14,8 +14,31 @@ Appears often together with reinforcement learning in the context of Markov deci
 Appears often together with reinforcement learning in the context of Markov decision problem
 
 ### Linear programming
-Said to scale badly when the state space become large, for example a continius space (CoSyNE paper)
+Said to scale badly when the state space become large, for example a continuous space (CoSyNE paper)
 
+
+
+# Papers concerning Reinforcement learning
+### CONTINUOUS CONTROL WITH DEEP REINFORCEMENT LEARNING
+http://arxiv.org/pdf/1509.02971v5.pdf
+
+### Evolutionary Function Approximation for Reinforcement Learning
+Uses NEAT to develop the Q-function network
+
+
+
+# Related works
+### Learning to Drive in the Open Racing Car Simulator Using Online Neuroevolution
+Verkar vara nästan exakt det vi gjort!
+
+### Generalization of TORCS car racing controllers with artificial neural networks and linear regression analysis
+Verkar väldigt relevant
+
+### Controller for TORCS created by imitation
+Säkert intressant diskussion och bra jämförelse
+
+### Imitation learning of car driving skills with decision trees and random forests
+Säkert intressant diskussion och bra jämförelse
 
 
 
@@ -46,8 +69,9 @@ Gabriel: Incremental evolution in some way is necessary to obtain complex behavi
 http://nn.cs.utexas.edu/downloads/papers/gomez.gecco03.pdf
 Martin: They use neuroevolution to control a finless rocket. In their abstract they state that the method can be effective at learning real world non-linear control tasks. Related to NEAT in that it is released shortly after by one of the neat authors. It seems like they use a similar approach to species or sub-populations.
 
-# Probably relevant papers
 
+
+# Probably relevant papers
 ### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
 (Simon)
 http://www.ice.ci.ritsumei.ac.jp/~ruck/CLASSES/INTELISYS/NN-Q.pdf
@@ -75,10 +99,6 @@ This problem may share the same kind of unprocessed output data as we hope to us
 ### Behaviour transfer for value-function-based reinforcement learning
 Might have some insights to how reinforcement learning and ANN works
 
-### Evolutionary Function Approximation for Reinforcement Learning
-Uses a combination of NEAT and Q-learning. Interesting to see how they relate Q-learning to NEAT
-cited Evolving Neural Networks through augmenting topologies
-
 ### Opposition-Based Learning: A New Scheme for Machine Intelligence
 "Possibilities for extensions of existing learning algorithms are discussed"
 
@@ -86,9 +106,11 @@ cited Evolving Neural Networks through augmenting topologies
 http://www.evolvingai.org/files/2014-LehmanCluneRisi-IEEE-IntelligentSystems.pdf
 An overview of different approaches to AI and machine learning. Might be useful in the background or if we need to cite something about some specific approach. 
 
+
+
 # Relevant if we modifies the problem
 ### Playing Atari with Deep Reinforcement Learning
 Uses ai to forecast a value for different alternatives.
-/
+
 ### Reinforcement Learning of Local Shape in the Game of Go
 Fragments a large problem in many parts

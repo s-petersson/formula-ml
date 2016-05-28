@@ -1,13 +1,45 @@
 # Literature
 
 ## Papers
+### Accelerated neural evolution through cooperatively coevolved synapses (CoSyNE)
+(Gabriel, 31/3)
+published 2008
+Describe a neuroevolution method CoSyNE and benchmark it to other reinforcement algorithms.
+Cited and compared to NEAT.
+
+#### Comments
+Seems like it may be an efficient algorithm for where it is suitable. 
+Probable disadvantage to NEAT:
+ - Fixed topology
+ - No speciation, may not handle different strategies in parallel
+In an exhaustive setting for NEAT, could this method be part of the evolution of a specific species. In that local usage, to find weights, the topology is fixed. Is it still problematic that it does not handle different strategies?
+
+#### Notes
+Introduction: Problem targeted (1.) non-linear and noisy, difficult to engineer a models, (2.) and complex so it is difficult to find reasonable first control strategy.
+Dynamic programing scales bad when the state space increases, for example continuous world.
+
+Algorithm: Based on arbitrary fixed network topology where each weight w_1..n has a corresponding population p_1..n with m numbers. The values way be represented by a matrix x_ij, i=1..n, j=1..m.
+First step: Build a genome from for value j, (x_1j, x_2j, ..., x_nj), and evaluate them. 
+Second step: The quarter with best performance are recombined with crossover and mutation, replacing the worst performing.
+Third step: The fitness of a genome determines the probability that it's values are permuted inside their corresponding sub populations. A well performing genome is less likely to permuted, but the behaviour of the probability function may be customised in detail.
+The researchers permuted every value in step three, but suggested that it might not be efficient for larger networks.
+
+Described other methods and compared benchmark, but did not compare them to CoSyNE in theoretical analysis.
+
+#### Further reading: Efficient non-linear control through neuroevolution
+Also discusses CoSyNE and the pole balancing problem
+cited Evolving Neural Networks through augmenting topologies
+
 
 ###Efficient Non-Linear Control through Neuroevolution
 (Martin) 
 http://nn.cs.utexas.edu/downloads/papers/gomez.ecml06.pdf
 This paper show that neuroevolutionary methods, especially CoSyne, but also NEAT and SANE can be effective at finding non-linear control patterns. Also gives an overview of different relevant neuroevolutionary algorithms.
 
-###Speciation in NEAT
+
+
+### Speciation in NEAT
+WORTH MENTIONING?
 (Martin) 
 http://apps.cs.utexas.edu/tech_reports/reports/tr/TR-1972.pdf
 Technical report covering how the speciation mechanisms in NEAT affect the algorithms performance. 
@@ -22,6 +54,7 @@ url="http://nn.cs.utexas.edu/?nodine:ugthesis10",
 year={2010}
 }
 ````
+
 
 ### Reinforcement Learning Neural Network to the Problem of Autonomous Mobile Robot Obstacle Avoidance
 Developes a robot that autonomously drives around in an environment with obstacles in it, without crashing into these obstacles. This is done using Q-Learning and representing/approximating the Q-function (or the Q-table) as a neural network.
@@ -84,6 +117,7 @@ I think this can be useful if we manage to figure out exactly how to use it. The
 
 ### Neural Modularity Helps Organisms Evolve to Learn New Skills without 
 Forgetting Old Skills
+WORTH MENTIONING?
 
 #### Comments
 Might be relevant in an incremental training process. In this method one change the resistance of nodes to change. This supposedly lead to faster learning of new tasks and a preservation of old learned knowledge. (Gabriel?)
@@ -95,38 +129,6 @@ Could be relevant if we decide to treat the different controls of the car as dif
 The key conclusions of the paper is that modularity can reduce catastrophic forgetting when learning new tasks. For example if we have a network that should solve several tasks we can restrict the training to one module when we train the network to solve task 1, then when it should learn task 2, we only allow mutations in module 2. Furthermore the conclude that modularity can be achieved my imposing a cost on neural connections. 
 
 >"Moreover,the modularity-inducing effects of adding a connection cost were shown to occur in a wide range of environments, suggesting that adding a selection pressure to reduce connection costs is a robust, general way to encourage modularity [23]."
-
-
-
-### Accelerated neural evolution through cooperatively coevolved synapses (CoSyNE)
-(Gabriel, 31/3)
-published 2008
-Describe a neuroevolution method CoSyNE and benchmark it to other reinforcement algorithms.
-Cited and compared to NEAT.
-
-#### Comments
-Seems like it may be an efficient algorithm for where it is suitable. 
-Probable disadvantage to NEAT:
- - Fixed topology
- - No speciation, may not handle different strategies in parallel
-In an exhaustive setting for NEAT, could this method be part of the evolution of a specific species. In that local usage, to find weights, the topology is fixed. Is it still problematic that it does not handle different strategies?
-
-#### Notes
-Introduction: Problem targeted (1.) non-linear and noisy, difficult to engineer a models, (2.) and complex so it is difficult to find reasonable first control strategy.
-Dynamic programing scales bad when the state space increases, for example continuous world.
-
-Algorithm: Based on arbitrary fixed network topology where each weight w_1..n has a corresponding population p_1..n with m numbers. The values way be represented by a matrix x_ij, i=1..n, j=1..m.
-First step: Build a genome from for value j, (x_1j, x_2j, ..., x_nj), and evaluate them. 
-Second step: The quarter with best performance are recombined with crossover and mutation, replacing the worst performing.
-Third step: The fitness of a genome determines the probability that it's values are permuted inside their corresponding sub populations. A well performing genome is less likely to permuted, but the behaviour of the probability function may be customised in detail.
-The researchers permuted every value in step three, but suggested that it might not be efficient for larger networks.
-
-Described other methods and compared benchmark, but did not compare them to CoSyNE in theoretical analysis.
-
-#### Further reading: Efficient non-linear control through neuroevolution
-Also discusses CoSyNE and the pole balancing problem
-cited Evolving Neural Networks through augmenting topologies
-
 
 
 ### The 2009 Simulated Car Racing Championship
@@ -154,11 +156,9 @@ Team E: Used a evolutionary algorithm for speed control. Experience showed that 
 Organisers comment: Participants that used imitation based learning did not score well, and that is is congruent with a paper. It states that imitation learning generally fails for racing ai.
 
 
-
 #### Introduction to the Theory of Neural Computation
 (Martin)
 Introductory paper to neural networks.
-
 
 
 #### Evolving Neural Networks through augmenting topologies
@@ -190,14 +190,22 @@ speed result. Improved efficiency results from topologies being minimized throug
 evolution, rather than only at the very end.
 ````
 
-
 ##### Adaptive Representations for Reinforcement Learning
+WORTH MENTIONING?
 (Daniel)
 Shimon Whiteson
 Paper going through different types of reinforcement learning, including NEAT and fs-NEAT and what their differences can give.
 A most relevant paper as it describes how to drive car around a track with fs-NEAT with a lot of in-data.
 
+#### Practical Reinforcement Learning in Continuous Spaces
+(Gabriel)
+Published 2000.
+Uses some kind of Q-learning with a state approximation function.
+Seems to do a good job with mountain car. 
 
+#### Continuous control with deep reinforcement learning
+Uses some kind of Q-learning
+Tests the algorithms with racing, but do not state clearly how well it performed.
 
 #### An AI tool: Generating paths for racing game
 (Gabriel)

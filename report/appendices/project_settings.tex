@@ -1,0 +1,48 @@
+\chapter{Project Settings}
+\label{appendix:project_settings}
+During the project settings have been determined for different parts of the implementations. These include probabilities for network mutations as well as constants that determine the importance of lap times in the fitness function.
+
+This appendix presents the configurations that were used during the course of the project.
+
+\section {NEAT Constants}
+\label{appendix:project_settings:neat_constants}
+\begin{table}[h!] 
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Setting & Value\\
+    \midrule
+    Delta Disjoint & $2.0$ \\
+    Delta Weights & $0.4$ \\
+    Delta Threshold & $1.0$ \\
+    \midrule
+    Population & $500$ \\
+    Staleness Tolerance & $20$ \\
+    Step Size & $0.1$ \\
+    \midrule
+    Mutate Connections Chance & $70\%$ \\
+    Perturb Chance & $90\%$ \\
+    Crossover Chance & $75\%$ \\
+    Link Mutation Chance & $50\%$ \\
+    Node Mutation Chance & $40\%$ \\
+    Bias Mutation Chance & $40\%$ \\
+    Disable Mutation Chance & $40\%$ \\
+    Enable Mutation Chance & $20\%$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:neat_config_table}
+\end{table}
+
+\section {Fitness Function Constants}
+\label{appendix:project_settings:fitness_function_constants}
+\begin{table}[h!] 
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Setting & Value\\
+    \midrule
+    $\lambda$ & 5 \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:fitness_function_config_table}
+\end{table}

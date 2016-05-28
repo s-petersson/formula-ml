@@ -13,8 +13,11 @@
 
 % ABSTRACT
 \newpage
-\input{report/00_abstract}
+\input{report/frontmatter/Abstract}
 
+% ACKNOWLEDGEMENTS
+\newpage
+\input{report/frontmatter/Acknowledgements}
 
 % TABLE OF CONTENTS
 \newpage
@@ -52,18 +55,20 @@
 \input{report/06_summary}
 
 % REFERENCES / BIBLIOGRAPHY
-% \cleardoublepage
-\addcontentsline{toc}{chapter}{Bibliography}
+\newpage
 % \input{report/backmatter/References}
-\bibliography{report/bibliography}
+
 
 % APPENDICES
 % \cleardoublepage
-\appendix
-\setcounter{page}{1}
+\setcounter{page}{0}
 \pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{report/bibliography}
 
-%\input{report/appendices/Appendix_1}
+\appendix
+\input{report/appendices/project_settings}
 
 
 \end{document}

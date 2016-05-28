@@ -42,44 +42,35 @@ Providing the system only with local perception and giving it control of the ste
 
 On straights this behaviour works well, it could even be considered optimal behaviour in some scenarios, however in corners it is not. When the car approaches a corner the middle of the track is shifted, causing the car to become out of position. At this point, the system tries to adjust the cars position. Before the system has had sufficient training, the amount of steering performed is either to large or too small. To large of an adjustment causes the car to oscillate between the middle line of the track, which eventually causes the car to crash. To small of an adjustment instead results in the car not getting back to the middle, eventually causing the car to crash as well. It has been observed that the oscillation occasionally helps the car to complete a complicated corner, by positioning the car in a good way. Even though this behaviour improves fitness and in theory could make the car complete the lap with a higher constant speed, the behaviour is not target behaviour. Oscillating between the middle of the track is not an optimal behaviour in racing.
 
-The amount of training required to take a complete lap, if possible, is dependent on the constant speed of the car. At a constant speed of 10 m/s it takes approximately two generations for the car to take a complete lap. At this point the oscillation has stopped, and the car follows the middle of the track at all times. Increasing the constant speed to 11.6 m/s, causes the generations required to perform a complete lap to increases to five generations. At 11.7 m/s the generations required were 22. At these speeds, the car switches between oscillating and doing too small of a steering adjustment, causing the car to crash. When the car eventually completes a lap, there is no oscillating behaviour. Further increasing the speed, caused the car never to complete the lap. This also caused the oscillating never to stop, due to the turning radius being too small to complete a corner when sticking to the middle of the track.
 
-%[NOTE: Add network structure, what input were used in order to achieve this behaviour? Does it behave differently if we take away distance to edge/distance to middle? Size of network?]
+%Text prior table
+% The amount of training required to take a complete lap, if possible, is dependent on the constant speed of the car. At a constant speed of 10 m/s it takes two generations for the car to take a complete lap. At this point the oscillation has stopped, and the car follows the middle of the track at all times. Increasing the constant speed to 11.6 m/s, causes the generations required to perform a complete lap to increases to five generations. At 11.7 m/s the generations required were 22. At these speeds, the car switches between oscillating and doing too small of a steering adjustment, causing the car to crash. When the car eventually completes a lap, there is no oscillating behaviour. Further increasing the speed, caused the car never to complete the lap. This also caused the oscillating never to stop, due to the turning radius being too small to complete a corner when sticking to the middle of the track.
+
+The amount of training required to take a complete lap, if possible, is dependent on the constant speed of the car as seen in table \ref{tab:localdata}. Before a the lap were completed, the car would oscillate over the track. However, at these speeds, the oscillating behaviour would disappear. For speeds higher than $11.7$ m/s, caused the car never to complete the lap. This also caused the oscillating to never stop, due to the turning radius being too big to complete a corner when sticking to the middle of the track.
+
+\begin{table}[h!] 
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Speed [m/s] & Generations\\
+    \midrule
+    $10.0$ & $2$ \\
+    $10.6$ & $5$ \\
+    $10.7$ & $22$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Data of how many generations required until a genome with a constant speed could take a complete lap with local perception}
+  \label{tab:localdata}
+\end{table}
 
 This experiment can in general be considered a success. It was confirmed that NEAT can find behaviours that are applicable to steering a race car, and in some scenarios it can even find optimal behaviours. It is however impossible for this solution to sophistically prepare for an approaching curve. The only way for the system to determine whether or not the car should turn, is based on the current distance from the middle of the track. Which does not tell it anything about the corner in front of the car. It would be interesting to see how the system reacts to information about the upcoming part of the track. Is it possible for the system to plan ahead, in order to position the car such that it can travel through tough corners with higher speed?
 
 \subsection{Local perception and track curvature}
 \label{subsec:fixedspeedcurvature}
 
-% Ser vi något intressant om vi ökar hastigheten
-% Beteende:
-% - Klarar högre hastigheter
-% - Svänger före kurvorna
-% - Tar mer höjd inför kurvorna
-% - 
-
-% Beteendeanalys:
-% - tolkar datan bra
-% - beter sig i stora delar som man kan förvänta sig
-% - Begränsad av hastigheten och bilens prestanda, som vi ser när man ökar hastigheten att beteendet blir "sämre"
-
-% Data:
-% - när tar den ett varv
-% - när blir det optimalt
-% - storlek på nätverket och vilka indata
-
-% Analys:
-% - Vilken data användes för det här problemet/beteendet?
-% - Hur lyckades NEAT hitta något
-% - Kan den lära sig flera saker samtidigt?
-
 When using the track curvature data in addition to the local perception, solutions that completed the track was found up to 12.1 m/s. It is 0.4 m/s more than was found not using the curvature data. The difference in speed may seem small, but the difference in behaviour is substantial.
 
 What the solutions found generally do is that they position themselves well before a curve, to compensate for the larger turning radius required. They also start to steer before the curve actually start.
-
-The speed that provided the most correctly looking race lines was 12.0 m/s, whose race line can be seen in figure \ref{fig:constantspeedline}. At that speed the AI had to push the limits in order to manage the toughest chicane. This experiment completed the whole track in $356$ generations, and the fastest time to complete the track in was $415$ seconds and was reached after $1225$ generations. The race line created by this experiment is almost as good as it can be at this constant speed. 
-
-When the speed increased, the AI had to start turning very late in the chicane, to make a little more space for the following curve. This made it less interesting to investigate further, since that behaviour resembled real behaviour less.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/fixed_curve_data}
@@ -87,6 +78,19 @@ When the speed increased, the AI had to start turning very late in the chicane, 
 \caption{Showing a clockwise race line from the best found genome with a constant speed of 12.0 m/s.}
 \label{fig:constantspeedline}
 \end{figure}
+
+The speed that provided the most correctly looking race lines was 12.0 m/s, whose race line can be seen in figure \ref{fig:constantspeedline}. At that speed the AI had to push the limits in order to manage the sections with the most corners as seen in figure \ref{fig:constantspeedsection}. This experiment completed the whole track in $356$ generations, and the fastest time to complete the track in was $415$ seconds and was reached after $1225$ generations. The race line created by this experiment is almost as good as it can be at this constant speed. 
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{report/images/constant_speed_section}
+\centering
+\caption{Showing the race line in a section from the best found genome with a constant speed of 12.0 m/s. The sections is driven from right to left in this section.}
+\label{fig:constantspeedsection}
+\end{figure}
+
+When the speed increased, the AI had to start turning very late in the section displayed in figure  \ref{fig:constantspeedsection}, to make a little more space for the following curve. This made it less interesting to investigate further, since that behaviour resembled real behaviour less.
+
+
 
 % Check for longer training sessions
 Each of the solutions found showed some typical characteristics. If one solution managed to drive tightly to the inner side in the toughest curve or positioned itself extremely before a curve, it also showed that tendency for all other mayor curves. On the contrary, if it turned late in the tough curves, it also did it for the other curves too.
