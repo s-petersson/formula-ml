@@ -137,7 +137,7 @@ The set of inputs that describe the current status of the car are more simple in
 
 Additionally, a bias value is introduced as an input to the network. The value of this input will always be 1. This is due to the fact that if all inputs to a specific neuron are zero, the neuron would not be able to produce a signal. Since the output of a neuron is the weighted sum of all its inputs, the bias can be used to produce a base value for the sum. 
 
-The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and breaking, the output values ranges from $[-1, 1]$, where positive values represents accelerating and negative values breaking. The value is interpreted by the simulator as a percentage of the cars current capability of accelerating and breaking.
+The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and breaking, the output values ranges from $[-1, 1]$, where positive values represents accelerating and negative values breaking. The value is interpreted by the simulator as the ratio between the desired and the maximum value, thus a value of $1.0$ correlates to the maximum amount of acceleration.
 
 % The turning rate value has the range $[-1,1]$, where negative values means steering to the right and positive to the left. If the value exceed how much the car turn at the current speed, the car will only turn as much as it can. The acceleration and braking value has the range $[-1, 1]$. Positive values mean that it should accelerate and negative values that it should brake. The value is a percentage of how much it it able to accelerate or brake.
 
@@ -160,7 +160,7 @@ The number output values for the networks used during the project are limited to
 % Tänk också på läsaren, vad är lättast för den som läser att förstå
 % Fitness functions
 
-In order to evaluate the performance of a genome, a fitness value has to be calculated. This value is, as described in \ref{section:neuroevolution}, calculated by the fitness function. When defining good racing behaviour, the relation between the distance driven and the time it took is crucial. For example, by only minimising for time while not considering distance driven, solutions such as crashing as fast as possible are beneficial. On the other hand, if time is not considered, two genomes that perform complete laps will have no difference in performance, which means there is no way to guarantee optimal behaviour. Thus both elements are crucial to consider, and the balance between them has to be considered when deciding modelling the fitness function.
+In order to evaluate the performance of a genome, a fitness value has to be calculated. This value is, as described in \ref{section:neuroevolution}, calculated by the fitness function. When defining good racing behaviour, the relation between the distance driven and the time it took is crucial. For example, by only minimising for time while not considering distance driven, solutions such as crashing as fast as possible are beneficial. On the other hand, if time is not considered, two genomes that perform complete laps will have no difference in performance, which means there is no way to guarantee optimal behaviour. Thus both elements are crucial to consider, and the balance between them has to be considered when modelling the fitness function.
 
 \begin{equation}
 \label{eq:fitness_distance_time}
@@ -171,8 +171,18 @@ In order to evaluate the performance of a genome, a fitness value has to be calc
   \end{cases}
 \end{equation}
 
+% TODO: Finish this. We need to explain distance driven as well as finish the explanation of the parameters in the function.
 \noindent
-Equation \ref{eq:fitness_distance_time} presents the fitness function that was used to evaluate genomes. 
+Equation \ref{eq:fitness_distance_time} presents the fitness function that was used to evaluate genomes. This function aims towards letting the system train at one task at a time.
+
+Note that if the distance driven $d$ is lower than the required distance to perform a lap $d_{max}$, or if the time $t$ that lap took is larger than the maximum time allowed $t_{max}$.
+
+Note that the fitness is equal to the distance driven $d$, if $d$ is lower than $d_{max}$, the distance required to perform a lap or if the time $t$ that lap took is larger than the maximum time allowed $t_{max}$. This lets the system learn to complete a lap before it considers the time that lap took. This should reduce the complexity of performing a lap.
+
+In order to properly balance the importance of the lap time and distance driven, the constant $\lambda$ was introduced. During the following experiments, $\lambda=5$ was found to be reasonable.
+
+The distance 
+
 
 % Running a simulation will give three values, the time the car was driving, the distance the car drove and how far the car came along the track. Worth noting is that the driven distance and the distance on the track is not necessarily the same, as the distance driven is affected if the car take corners on the inner and the outer side or drive in a serpentine.
 
@@ -195,13 +205,13 @@ The project was an iterative process. Progress was made by experimentation, wher
 
 \subsection{Steering a car moving at a constant speed}
 \label{method:constant_speed}
-Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to take every corner on the circuit. 
+Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to steer through every corner on the circuit. 
 
 %% TODO infoga bild på banan?
 
-Two variations of this experiment were conducted with different car speeds. In the first variant, the system learns to steer but is only given local perception of the environment, which in this case means that the car knows its position and orientation relative to the road. In the second variant the number of inputs is increased and the car is given the curve data. Thus the car receives information about the shape of the track ahead.
+Two variations of this experiment were conducted at several car speeds. In the first variant, the system learns to steer but is only given local perception of the environment, which in this case means that the car knows its position and orientation relative to the road. In the second variant the number of inputs is increased and the car is given the curve data. Thus the car receives information about the shape of the track ahead.
 
-These experiments will give insight into how well the AI can interpret the provided data and how an increased perception of the track shape affect the behaviour. The AI successfully learning to steer the car would ensure that such behaviours can be found with NEAT and show which of the provided pieces of information that are relevant to solving the problem. If the AI learns to steer only using a subset of the inputs, it shows that the other information is not required in order to steer
+These experiments will give insight into how well the AI can interpret the provided data and how an increased perception of the track shape affect the behaviour. If the AI successfully learns to steer the car it would ensure that such behaviours can be found with NEAT. Furthermore, it would show which of the provided inputs that are relevant to solving the problem. If the AI learns to steer only using a subset of the inputs, it shows that the other inputs are superfluous. 
 
 % TODO: Formulera om: Without any curvature information, the AI is unable to plan ahead.
 % Det känns som en slutsats, det borde kännas mer som det är logiskt sjävklart.
@@ -226,29 +236,31 @@ Comparing the result of the different experiment variants should show whether or
 \label{method:baseline}
 In this experiment, the AI will train on driving with full control of the car. In addition to steering it will also control the speed by accelerating and braking. In addition to the position, orientation, and curvature data the AI will be provided with the current speed of the car. The result of the experiment will further establish the limits of the training system. 
 
-Several experiment variations with this configuration will be carried out. In the first variant, which is the baseline experiment, the AI will drive on the same complete circuit as used in the constant speed experiments. This will show whether or not the AI is able to stay on the track to the same extent as when it only steers. Furthermore, it will show whether or not the system can learn to manage the speed in an effective way. If the system is able to find an effective behaviour, the natural response would be to even further increase the complexity of the problem. However, if no effective behaviour is found, it is and implication that the training process and system configuration are suboptimal. 
+Several experiment variations with this configuration will be carried out. In the first variant, which is the baseline experiment, the AI will drive on the same complete circuit as used in the constant speed experiments. This will show whether or not the AI is able to stay on the track to the same extent as when it only steers. Furthermore, it will show whether or not the system can learn to manage the speed in an effective way. If the system is able to find an effective behaviour, the natural response would be to even further increase the complexity of the problem. However, if no effective behaviour is found, it indicates that the training process and system configuration are suboptimal. 
 
 \subsection{Short Track Segments}
 \label{subsec:shorttracksegment}
 This variant of the experiment will test the system on shorter track segments, only containing one corner each. The motivation for testing short tracks is that it should be easier for the system to find effective behaviours on a short segment than on a complete circuit. This is because the behaviour required to complete a long circuit is generally more complex than the behaviour needed to complete just one corner. Thus the algorithm will be able to start optimising for speed earlier and on less developed genomes. 
 
-The tracks consist of two straights connected by a corner. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a $30$ degree corner that the car should be able to drive quite fast through. The second one is a $90$ degree corner with a small inner radius. The third corner used is a hairpin corner which turns $180$ degrees with a small inner radius. 
+The tracks consist of two straights connected by a corner. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a 30-degree corner throughout which the car should be able to keep a high speed. The second one is a 90-degree corner with a small inner radius. The third corner used is a hairpin corner which turns 180-degrees with a small inner radius. 
 \begin{figure}[H]
     \centering
-    \subfloat[The 30 degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30}}}%
+    \subfloat[The 30-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30}}}%
     \qquad
-    \subfloat[The tight 90 degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90}}}%
+    \subfloat[The tight 90-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90}}}%
     \qquad
-    \subfloat[The 180 degree hairpin corner.]{{\includegraphics[width=0.28\textwidth]{corner_180}}}%
+    \subfloat[The 180-degree hairpin corner.]{{\includegraphics[width=0.28\textwidth]{corner_180}}}%
 
-    \caption{Aerial view of the three corner types. The Gray line is the track which is 12 metres wide.}
+    \caption{Aerial view of the three corner types. The grey line is the track.}
 \end{figure}
+
+\noindent
 Successful results in these experiments would confirm that the system can find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. A scenario where the experiment yield significantly more effective behaviours than the baseline experiment would give insight into the limits of the training process and how the fitness function is used. This insight could be used to find effective behaviours for longer tracks. 
 
 %==================================================================
 \subsection{Multiple short track segments}
 
-If the system finds effective behaviours on the short track segments, one interesting experiment is to train the same population on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a generally effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However, if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
+If the system finds effective behaviours on the short track segments, one interesting experiment is to train one population of genomes on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a more general effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However, if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
 
 The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
 

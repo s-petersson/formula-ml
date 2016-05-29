@@ -50,7 +50,7 @@ The amount of training required to take a complete lap, if possible, is dependen
 
 \begin{table}[h!] 
   \centering
-  \begin{tabular}{ll}
+  \begin{tabular}{rr}
     \toprule
     Speed [m/s] & Generations\\
     \midrule
@@ -81,6 +81,21 @@ What the solutions found generally do is that they position themselves well befo
 
 The speed that provided the most correctly looking race lines was 12.0 m/s, whose race line can be seen in figure \ref{fig:constantspeedline}. At that speed the AI had to push the limits in order to manage the sections with the most corners as seen in figure \ref{fig:constantspeedsection}. This experiment completed the whole track in $356$ generations, and the fastest time to complete the track in was $415$ seconds and was reached after $1225$ generations. The race line created by this experiment is almost as good as it can be at this constant speed. 
 
+\begin{table}[h!] 
+  \centering
+  \begin{tabular}{rrr}
+    \toprule
+    Generation & Time[s]\\
+    \midrule
+    $356$  & $417.49$ \\
+    $1000$ & $415.70$ \\
+    $1225$ & $415.02$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Showing the time to complete a lap with the constant speed of 12.0 m/s after given generation.}
+  \label{tab:constanttrackdata}
+\end{table}
+
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/constant_speed_section}
 \centering
@@ -99,10 +114,7 @@ Each of the solutions found showed some typical characteristics. If one solution
 The recurrent characteristics in the behaviour for a particular solution often had one limitation, that they failed to manage simpler as efficient as the tough curves. If the solution managed to take the tough curve, near optimally, we never observed that it also managed to take the simpler curves as efficiently. For example, for the lightly turning curves, the car always drove a few meters from the edge of the track, even if it certainly had traction to stay closer. 
 
 %Check for longer training sessions
-It seemed like it did not learn to distinguish properly between the different difficulties, and simple did the same behaviour in miniature. Worth noting was that these training sessions lasted for only about 2-600 generations. We have not proven that it is not possible if one trains for longer.
-
-%OLD: The best network found for the speed 12.0 (SPEED 50????!!!?!??!!) had fitness 5821.93. It had a total of 9 hidden nodes, a total of 20 edges, 8 edges within the hidden layer, 4 to output nodes, 9 of the input nodes and bias was connected (0, 1, 3, 4, 5, 7, 8, 10, 13, 15) (bias, distance to middle, distance to right edge, angle to mid line, curve data points 10m 42m 66m 144m 397m and the segment sum of the first four points in the region 10-66m) (Remember to check which edges are enabled!)
-
+It seemed like it did not learn to distinguish properly between the different difficulties, and simple did the same behaviour in miniature. Worth noting was that these training sessions lasted for only about $2$ generations to $600$ generations. We have not proven that it is not possible if one trains for longer.
 
 \subsection{Shortest path}
 
@@ -114,22 +126,13 @@ The optimal behaviour is intuitively to always drive on the inner curves and to 
 
 The car follows the key behaviour aspects, but not to the extent that the path is optimal. We can see that it drives tightly to the inner side for very tight curves, but not for low intensity curves.
 
-%Training times...
-
-%Network structure...
 
 % NOTE: Data based on speed_and_control_run_1
 \section{Full control of the car}
-% Beteendeanalys
-% - It does not brake/accelerate before/after curves. Why is this? Could the input potentially be modified, such that it is easier for the system to realise what needs to be done? Distance to next curve? 
-
-% Analysis
-%X - Can it manage to learn many components of the behaviour at the same time? Adding one more component only may make the performance worse
-
 
 The base experiment performed, as explained in section \ref{method:baseline}, gives the possibility of controlling the cars throttle. Adding the concept of controlling the throttle has led to an increase in complexity that was more significant than was anticipated. By looking at the results from training sessions, one can see that the complexity of the computations increases significantly.
 
-It takes 98 generations until the training process reaches a point where one genome can perform a complete lap. The behaviour observed after 98 generations is one that drives at a constant, slow pace along the track. The car travels $5200$ meters in $1110$ seconds. Between the corners, the car travels in a straight line parallel to the track. The position at which this line is relative to the tracks mid line changes when the car goes through a corner.
+It takes 98 generations until the training process reaches a point where one genome can perform a complete lap. The behaviour observed after 98 generations is one that drives at a constant, slow pace along the track. The car travels $5200$ meters in $1110$ seconds, which can be seen in table \ref{tab:fullcontrol}. Between the corners, the car travels in a straight line parallel to the track. The position at which this line is relative to the tracks mid line changes when the car goes through a corner.
 
 After a genome manages to complete a lap, the data shows that the training process actually manages to find genomes that can drive faster and faster around the track. The process of finding a genome that reaches all the way around is less time consuming than the process optimising for time. As seen in figure \ref{fig:steerspeeddata} on page \pageref{fig:steerspeeddata}, the best genome of each generation increases rapidly until the fitness exceeds fitness of 5200. As this level of fitness have been reached, the training process have a gradual curve compared to the steep curve before reaching fitness of 5200.
 
@@ -140,7 +143,22 @@ After a genome manages to complete a lap, the data shows that the training proce
 \label{fig:steerspeeddata}
 \end{figure}
 
-A fitness of $6587.56$ was the highest value that was reached during this experiment. Reaching this fitness value took $8331$ generations, and it corresponds to completing the track in $490.68$ seconds. Even though the system manages to lower the lap time quite significantly, the final result is not optimal. As seen in figure \ref{fig:steerspeedline}, the path taken by the car still resembles the one that was found at generation 98.
+\begin{table}[h!] 
+  \centering
+  \begin{tabular}{rrr}
+    \toprule
+    Generation & Fitness & Time [s]\\
+    \midrule
+    $98$ & $5346.81$ & $1110$ \\
+    $1000$ & $6423.52$ & $533$ \\
+    $8331$ & $6587.56$ & $491$  \\
+    \bottomrule
+  \end{tabular}
+  \caption{Significant results from full control experiment.}
+  \label{tab:fullcontrol}
+\end{table}
+
+A fitness of $6587.56$ was the highest value that was reached during this experiment. Reaching this fitness value took $8331$ generations, and it corresponds to completing the track in $490.68$ seconds. Table \ref{tab:fullcontrol} shows that the system manages to lower the lap tome significantly. However, the final result is not optimal. As seen in figure \ref{fig:steerspeedline}, the path taken by the car still resembles the one that was found at generation 98.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{report/images/normal_generation_6558}
@@ -154,14 +172,7 @@ The increase in lap time has been observed to be based on two improvements. The 
 
 % The lines that were taken by the best genome can be seen in figure \ref{fig:steerspeedline}. This figure shows that the car does not hold a constant speed throughout the complete track. It can be seen that the car accelerates the slightest at the straights, to use the brake as an action not to hit the wall. This behaviour would need to be more extreme to minimise the time to complete the track; at the current extent, the behaviour is not enough to become faster than the best constant speed genome.
 
-% - How do the behaviour / performance differ to the fixed speed.
-    % - The amount of training required is a lot higher. Compared to ~1000 generations of fixed speed, which resulted in an almost perfect race line.
-    % - Its similar to fixed speed, but a little bit worse.
-    % - Its similar to fixed speed in time during the laps, fixed speed with 12.f is a little bit faster. (Include details)
-    % - When it comes to race lines, fixed speed is A LOT better. Introducing the steering/breaking output makes the performance worse in general. Why?
-% Even though this genome has the ability to control the break and throttle, it holds a lower average speed than the best genome that performs a complete lap in the constant speed with curvature experiment.
-% Compared to the results in section \ref{subsec:fixedspeedcurvature}, the fastest genome in this experiment time is slower than the best genome in the corresponding constant speed experiment. 
-Even though the system has the ability to control the break and throttle in this experiment, it performs worse than the best genome in the constant speed with curvature experiment. By a $1000$ generations the constant speed with curvature experiment presents an almost optimal race line for the constant speed. While the best genome in this experiment performs a lap, it does so by simply driving along the track mid line. Although the race lines are significantly different, the lap times are not. Compared to $415$ seconds in constant speed with curvature, this experiment performs a lap by $533$ seconds.
+Even though the system has the ability to control the break and throttle in this experiment, it performs worse than the best genome in the constant speed with curvature experiment. By a $1000$ generations the constant speed with curvature experiment presents an almost optimal race line for the constant speed. While the best genome in this experiment performs a lap, it does so by simply driving along the track mid line. Although the race lines are significantly different, the lap times are not. Compared to $415$ seconds in constant speed with curvature, this experiment performs a lap by $533$ seconds, which can be seen by comparing generation $1000$ in table \ref{tab:fullcontrol} and table \ref{tab:constanttrackdata}.
 
 Since the system is capable of finding almost optimal race lines, as seen in the constant speed with curve data experiment. It is clear that when the system is given the ability to accelerate and brake, the performance is altered. The increase in outputs and possible actions, creates a much more complex environment that requires more computation to achieve the same level of results as a system that utilises constant speed. This results in worse performance overall.
 
