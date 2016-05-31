@@ -8,19 +8,27 @@ The concept of machine learning is to create well-adapted AI systems that requir
 In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data.
 
 %Outline of: INTRODUCERA MÖJLIGHETEN ATT TRÄNA UTAN DATA.
-There are other types of machine learning that learn without using example data. These algorithms learn by other means, such as learning from experience. One group of such algorithms is called reinforcement learning. Instead of sample data, reinforcement learning algorithms evaluate their behaviour by scoring it using a set of rules. Google used a reinforcement learning algorithm when they created the Go AI AlphaGo\cite{gibney}, which earlier this year won against the former world champion Lee Sedol \cite{AlphaGo}. This is an example of a reinforcement learning algorithm finding a behaviour that can be counter-intuitive or hard for a human to design.
+There are other types of machine learning that learn without using example data. These algorithms learn by other means, such as learning from experience. One group of such algorithms is called reinforcement learning. Instead of sample data, reinforcement learning algorithms evaluate their behaviour by scoring it using a set of rules. Google used a reinforcement learning algorithm when they created the Go AI AlphaGo \cite{gibney}, which earlier this year won against the former world champion Lee Sedol \cite{AlphaGo}. This is an example of a reinforcement learning algorithm finding a behaviour that can be counter-intuitive or hard for a human to design.
 
 One domain in which this could be used is racing. In competitive racing drivers push the physical limits of their cars. The details matter, minute differences in behaviour can accumulate to large time differences over the course of a lap. Machine learning could be used to find efficient driving behaviours. There is also the possibility of using machine learning to create the future generation of racing drivers. FIA, the governing body of Formula 1 and many other competitive racing series, has announced a racing series for autonomous cars \cite{roborace}. The competing teams will use identical cars, except for the software which the teams can modify to gain an advantage. Thus the goal of the competition is to create the most effective autonomous racing system. 
 
 \section{Problem}
 There are many potential applications of an autonomous racing system. The optimal racing behaviour depends on the properties of the car. Finding the optimal behaviour for a specific car could provide useful information to the engineers and drivers. A method of finding the optimal behaviour for a specific car would be useful for both the engineers and drivers of the car. Engineers could be provided with feedback on how modifications to the car affect the driving optimal behaviour. Drivers could learn from the optimal behaviour. Racing against the optimal behaviour in a simulator would give them the opportunity to adjust their driving to that specific car.
 
-In theory the optimal racing behaviour is calculable. Given a specific car and track segment there exist an arbitrarily accurate function describing the time required to drive through the section. Given such a function, one could use optimisation methods to find the minimums in time spent. However, due to the complex nature of the problem, the number of variables in the function is huge. Even if aspects such as the physical environment, e.g. temperature, oxygen levels, and wind, is neglected. Just the number of possible paths through a section is infinite. In order to find an optimal behaviour in a reasonable amount of time the problem must be extensively simplified.
+In theory the optimal racing behaviour is calculable. Given a specific car and track segment there exists an arbitrarily accurate function describing the time required to drive through the section. Given such a function, one could use optimisation methods to find the minimums in time spent. However, due to the complex nature of the problem, the number of variables in the function is large. Even if aspects such as the physical environment, e.g. temperature, oxygen levels, and wind, is neglected. Just the number of possible paths through a section is infinite. In order to find an optimal behaviour in a reasonable amount of time the problem must be extensively simplified.
 
 %[TODO: Could use some sources in this paragraph? Oklart stycke?]
 The complex nature of this problem presents quite a few problems. Solving complex problems like these manually is not easy. Implementing behaviour for every single scenario is not an option due to the large number of scenarios. Machine learning solves this problem by finding a general behaviour that adapts to the scenarios that it is presented with. Instead of manually implementing behaviour for every scenario, a general machine learning algorithm is implemented and presented with general a model of the problem and its environment.
 
 Finding a general model for the problem and its environment can be very complicated. The information that is to be presented to the AI and the actions taken by the AI must be applicable in many different situations. The behaviour should not be optimal on a specific track, bur rather effective in general. This requires the information that the AI is presented with to not let the AI learn track specific behaviour. One way to solve it is to let the AI make local decisions based on local information. This is similar to how humans drive a car. A person can see the shape of the road in front of the car and steer according to that. This is also true in racing, the driver sees the track and may also have a notion of how the track will proceed throughout the following corners.
+
+\subsection{Impact on Society}
+
+Solutions to these problems in the racing domain could also be applied in other areas of society. Technology advancements within racing may have a limited impact on society as a whole. However, improvements made on the race cars are sometimes later used in commercial vehicles. One such example is yadda yadda yadda [EXEMPEL OCH KÄLLA]. 
+
+Similarly, advancements in autonomous racing could be applied in commercial autonomous vehicles. Every year more than a million people are killed or in traffic accidents, furthermore the economic cost of these accidents is several billion dollars \cite{who:traffic}. Road transports and the transport sector in general is also one of the major contributors to our societies impact on the environment \cite{fuglestvedt2008climate}.
+Autonomous cars could potentially reduce these problems by preventing accidents [KAN ANVÄNDA STAVENS HÄR MEN ÄR HALVBRA KÄLLA PÅ ÄMNET] and by being more efficient than human drivers [KÄLLA].
+
 
 \section{Purpose}
 \label{purpose}
@@ -28,21 +36,38 @@ Finding a general model for the problem and its environment can be very complica
 This project explores the possibilities of teaching an AI to perform time trial laps by operating a motor vehicle in a simulated environment. The goal is to evaluate whether machine learning can be used to effectively find general and optimal behaviours during a time trial lap. Additionally, a simulator is developed in order to provide the AI with a flexible environment to operate within.
 
 \section{Limitation}
-
 % Limitation to time attack, no head to head strategy, no long term strategy, no internal dynamics of car. 
-The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts in head to head competition such as racing strategy, overtaking, and pit stops are not be considered. The car is assumed to be in a pristine condition at all times. Thus aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear, or brake temperatures are not be taken into consideration. 
+The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts in head to head competition such as racing strategy, overtaking, and pit stops are not considered. The car is assumed to be in a pristine condition at all times. Thus aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear, or brake temperatures are not taken into consideration. 
 
 % Limit to Neuroevolution/neat, we will not compare different algorithms
-The problem of finding optimal behaviour can be solved by using many different types of machine learning. A combination of algorithms could potentially be used by breaking down the problem into parts. This project will not evaluate and compare different algorithms due to time limitations. Instead only one algorithm will be implemented and evaluated in depth. 
+The problem of finding optimal behaviour can be solved by using many different types of machine learning. A combination of algorithms could potentially be used by breaking down the problem into parts. This project will not evaluate and compare different algorithms due to time limitations. Instead only one algorithm will be implemented and evaluated in depth.
 
 % Virtual environment / simulation.
-The AI will operate within a virtual environment to increase the flexibility of the car and the racing environment, compared to operating a car in the real world. A virtual environment will allow modification of certain aspects of the simulation, which may give opportunities and insights that operating in the real world would not. However, this requires a simulator that is able to accurately simulate the car and the environment. The car needs to behave similarly to how it would in the real world. Thus part of this project is to develop a simulator that satisfies these conditions. More specifically it will include concepts such as turning radius, acceleration and deceleration. However, it will not include more advanced concepts such as tyre grip that varies with temperature or internal dynamics of the car.
+The AI will operate within a virtual environment in order to increase the flexibility during training and development. By utilising a simulated environment 
 
+% Simulationshastighet
+% Återställa bilen och evaluera flera AIs samtidigt
+
+% Men komplexitet
+    % Aspects that affect the fundamental behaviour of the car
+        % Konkreta exempel
+    % Not aspects that affect the behaviour of the car, but will not
+        % Konkreta exempel
+
+By letting the AI operate within a virtual environment, it is possible to increase simulation speed such that evaluating networks are significantly faster than evaluation using for e
+
+% The AI will operate within a virtual environment in order to increase the flexibility of the car and its environment, compared to operating a car in the real world. Due to the simulator being able to evaluate behaviour  
+
+% The AI will operate within a virtual environment to increase the flexibility of the car and the racing environment, compared to operating a car in the real world. A virtual environment will allow modification of certain aspects of the simulation, which may give opportunities and insights that operating in the real world would not.
+
+% However, this requires a simulator that is able to accurately simulate the car and the environment. It is important that the car behaves similarly to how it would in the real world. Optimal behaviour in simulator has to resemble optimal behaviour as it would be in the real world. In order to achieve this, aspects that effect the fundamental behaviour of the car will be implemented in the simulator. This includes aspects such as turning radius that varies with speed as well as acceleration and deceleration. However, aspects that affect the behaviour of the car but do not change the fundamental behaviour, is not implemented. Factors such as temperatures, oxygen levels or internal dynamics of the car are thus not implemented.
+
+% The car needs to behave similarly to how it would in the real world. Thus part of this project is to develop a simulator that satisfies these conditions. More specifically it will include concepts such as turning radius, acceleration and deceleration. However, it will not include more advanced concepts such as tyre grip that varies with temperature or internal dynamics of the car.
 
 % Specify even more physical aspects, such as no elevation, no temperatures, oxygen levels etc etc. 
 
 
-\subsection{Related works}
+\section{Related works}
 
 2009 Racing competition \cite{racingChamp2009} for students. Time trial + racing. Data model was distance rays in multiple direction + local latteral position + the angle to the direction of the track. Might be worth mentioning the approaches the best teams took. The third best team used NEAT in a similar way as we and had a strikingly similar result.
 
@@ -54,11 +79,24 @@ Controller for TORCS created by imitation?
 
 Imitation learning of car driving skills with decision trees and random forests?
 
-\subsection{Literature Review}
+%\subsection{Literature Review}
 % Instruction from 
 % https://www.reading.ac.uk/internal/studyadvice/StudyResources/Essays/sta-structuringreport.aspx#literature
 % The Literature Review… surveys publications (books, journals and sometimes conference papers) on work that has already been done on the topic of your report. It should only include studies that have direct relevance to your research.
 % Introduce your review by explaining how you went about finding your materials, and any clear trends in research that have emerged. Group your texts in themes. Write about each theme as a separate section, giving a critical summary of each piece of work, and showing its relevance to your research. Conclude with how the review has informed your research (things you'll be building on, gaps you'll be filling etc).
 % Further reading: http://www.rlf.org.uk/resource/what-is-a-literature-review/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1,14 +1,25 @@
-\chapter{Summary}
-In order to find conceptually optimal and general racing behaviours, a neuroevolution algorithm called NEAT was used in conjunction with a simple racing simulator. The artificial neural networks evolved by NEAT were evaluated in the simulator, by how well they were able to drive the car. Through experimentation the behaviour of the neural networks was tested. 
+\chapter{Conclusion}
+\label{conclusion}
+The overall results of these experiments show that machine learning in general, but especially NEAT have potential in the racing domain. NEAT can be used to create a neural network that have some present some of the required behaviours of racing cars. Both positioning and speed management have been mastered, although not simultaneously.
 
-In the constant speed experiment covered in \ref{method:constant_speed} and \ref{subsec:fixedspeedcurvature} an effective positioning behaviour was found, were the neural networks used curvature data to plan ahead and position the car strategically before reaching a corner. 
+When the training had the focus of only steering the car, some planning behaviours were apparent. Prior to a corner, the car would steer out towards the edge of the track. Therefore, giving itself a better position and the ability to complete the corner. This behaviour gave the car the ability to complete the track at constant speeds that gave larger turning radius than some corners of the track.
 
-An effective speed management behaviour was found in the experiment where the car drove on shorter track segments described in \ref{subsec:shorttracksegment} and \ref{result:short}. The neural networks were able to drive at a high speed, brake hard when reaching a corner and then accelerate out of the corner. 
+At tracks consisting of a single corner in between two straights, the car managed to control and plan the speed prior to the corner. It managed to accelerate at the straights, and decelerate to a speed low enough to complete the upcoming corner. Though indications of positioning to handle a larger turning radius have not been apparent in these experiments.
 
-Some of the knowledge acquired is generalised. In the mirror track experiment described in \ref{method:mirror} and \ref{result:mirror} the results show that a population adapted to a certain circuit perform significantly better than a control population when migrated to a new circuit. The same results also show that the neural networks become over-fitted to the circuits they are trained on. 
+These two concepts have not been found simultaneously, the absence of position planning have when also presented with the possibility of controlling speed, not resulted in the complex behaviour of a real driver. To first make the car complete a lap, and after that try to drive as fast as possible influences the behaviour of the driving significantly. To portray both of these behaviour at the same time, the fitness function handed to the NEAT algorithm would need to give both of these aspects the same priority.
 
-The results show that neuroevolution algorithms such as NEAT can be used to create artificial neural networks able to drive in a racing context. However, in order to reach a general and fully optimal behaviour, extensive modelling and calibration of the training process, fitness function, and inputs provided to the neural networks is required.  
+This shows that it is important for the algorithm to have a smooth learning curve with a gradually increasing fitness. It is important that NEAT is not required to perform large mutations to the knowledge model. It needs to be able to gradually increase its knowledge to the point where it has learnt the optimal behaviour.
 
+%\chapter{Summary}
+%In order to find conceptually optimal and general racing behaviours, a neuroevolution algorithm called NEAT was used in conjunction with a simple racing simulator. The artificial neural networks evolved by NEAT were evaluated in the simulator, by how well they were able to drive the car. Through experimentation the behaviour of the neural networks was tested. 
+
+%In the constant speed experiment covered in \ref{method:constant_speed} and \ref{subsec:fixedspeedcurvature} an effective positioning behaviour was found, were the neural networks used curvature data to plan ahead and position the car strategically before reaching a corner. 
+
+%An effective speed management behaviour was found in the experiment where the car drove on shorter track segments described in \ref{subsec:shorttracksegment} and \ref{result:short}. The neural networks were able to drive at a high speed, brake hard when reaching a corner and then accelerate out of the corner. 
+
+%Some of the knowledge acquired is generalised. In the mirror track experiment described in \ref{method:mirror} and \ref{result:mirror} the results show that a population adapted to a certain circuit perform significantly better than a control population when migrated to a new circuit. The same results also show that the neural networks become over-fitted to the circuits they are trained on. 
+
+%The results show that neuroevolution algorithms such as NEAT can be used to create artificial neural networks able to drive in a racing context. However, in order to reach a general and fully optimal behaviour, extensive modelling and calibration of the training process, fitness function, and inputs provided to the neural networks is required.  
 
 \chapter{Future work}
 As discussed in section \ref{discussion:neat_mechanism}, the success of neat rely on that it is able to progress in small steps towards the solution. It may therefore be of interest to investigate further how the problem task may be evolved as the AI progress. In this report, the task was static while only the fitness function evolved. One approach could possibly be to change tracks or limit the how far the car is allowed to drive.
