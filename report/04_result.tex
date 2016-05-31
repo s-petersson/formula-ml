@@ -178,43 +178,40 @@ The system never stops positioning the car in the middle of the track, this sugg
 
 \section{Short track segment}
 \label{result:short}
-As hypothesised in section \ref{subsec:shorttracksegment}, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. The behaviours found of the three track segments are not perfect, however they show signs of effective speed management, which is one of the target behaviours. The genomes do not show any significant signs of effective positioning, which is the other major criteria. 
-
-In each experiment the most successful genomes keep a high speed until braking before the corner and accelerate out of the corner, keeping a high speed until the end of the track. 
+As hypothesised in section \ref{subsec:shorttracksegment}, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. As shown in figure \ref{fig:short_racelines}, the system drives at a high speed on the straights and brakes in order to steer through the corners. Thus an effective speed management behaviour, which is one of the target behaviour criteria, has been found. However, on these tracks the other criteria, the positioning, is missing. The system does not position the car towards the outer edge or turn early in the corners. 
 
 \begin{figure}[H]
     \centering
-    \subfloat[Race line going through 30-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30_result}}}%
+    \subfloat[Race line going through the 30-degree corner.]{\includegraphics[width=0.28\textwidth]{corner_30_result}}%
     \qquad
-    \subfloat[Race line going through 90-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90_result}}}%
+    \subfloat[Race line going through the 90-degree corner.]{\includegraphics[width=0.28\textwidth]{corner_90_result}}%
     \qquad
-    \subfloat[Race line going through 180-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_180_result}}}%
-
-    \caption{Aerial view of the race lines through the three corner types. The grey path is the track. The race line goes from red, to blue and back to red. The colour represents the speed of the car, were red is fast and blue is slow.}
+    \subfloat[Race line going through the 180-degree corner.]{\includegraphics[width=0.28\textwidth]{corner_180_result}}%
+    \caption{Aerial view of the race lines through the three corner types. The grey path is the track. The race line goes from red, to blue and back to red. The colour represents the speed of the car, where red is fast and blue is slow.}
+    \label{fig:short_racelines}
 \end{figure}
 
 \begin{table}[H] 
   \centering
-  \begin{tabular}{|r|r|r|}
+  \begin{tabular}{rrr}
     \toprule
-    Generation & Fitness & Time [s]\\
+    Gen. & Fitness & Time [s]\\
     \midrule
-    $10$    & $1067$     & $27.24$       \\
+    $10$    & $1067$     & $27.24$  \\
     $1000$   & $1116$    & $20.73$  \\
-    $10000$  & $1148$    & $17.20$   \\
-    $40000$  & $1164$    & $15.63$   \\
+    $10000$  & $1148$    & $17.20$  \\
+    $40000$  & $1164$    & $15.63$  \\
     \bottomrule
   \end{tabular}
   \caption{The progression of fitness and lap times on the track with the 30-degree corner.}
   \label{tab:30deg}
 \end{table}
 
-
 \begin{table}[H] 
   \centering
-  \begin{tabular}{|r|r|r|}
+  \begin{tabular}{rrr}
     \toprule
-    Generation & Fitness & Time [s]\\
+    Gen. & Fitness & Time [s]\\
     \midrule
     $10$    & $502$     & $-$       \\
     $100$   & $1203$    & $157.34$  \\
@@ -222,43 +219,40 @@ In each experiment the most successful genomes keep a high speed until braking b
     $8000$  & $2048$    & $25.13$   \\
     \bottomrule
   \end{tabular}
-  \caption{The progression of fitness and lap times on the track with the 90-degree corner.}
+  \caption{The progression of fitness and lap times on the track with the 90-degree corner. No lap times are shown for generations where the track was not completed.}
   \label{tab:90deg}
 \end{table}
 
 \begin{table}[H] 
   \centering
-  \begin{tabular}{|r|r|r|}
-    \toprule
-    Generation & Fitness & Time [s]\\
-    \midrule
-    $10$    & $519$     & $-$       \\
-    $100$   & $526$     & $-$       \\
-    $200$   & $1456$    & $93.99$   \\
-    $1000$  & $1496$    & $86.74$   \\
-    $8000$  & $1699$    & $57.13$   \\
-    $16000$ & $1882$    & $38.01$   \\
-    \bottomrule
-  \end{tabular}
-  \caption{The progression of fitness and lap times on the hairpin track.}
+  \begin{tabular}{rrr}
+            \toprule
+            Gen. & Fitness & Time [s]\\
+            \midrule
+            $10$    & $519$     & $-$       \\
+            $100$   & $526$     & $-$       \\
+            $200$   & $1456$    & $93.99$   \\
+            $1000$  & $1496$    & $86.74$   \\
+            $8000$  & $1699$    & $57.13$   \\
+            $16000$ & $1882$    & $38.01$   \\
+            \bottomrule
+        \end{tabular}
+  \caption{The progression of fitness and lap times on the hairpin track. No lap times are shown for generations where the track was not completed.}
   \label{tab:180deg}
 \end{table}
 
-
-
 \noindent
-Even though the system did not find any near perfect behaviours, the results show that the system has a greater ability to optimise for time when training on shorter tracks. One plausible reason behind this is, as mentioned in section \ref{subsec:shorttracksegment}, that it is too hard to change the behaviour of the genomes once they are able to complete the circuit. In order change from a cautious behaviour to a more effective one the system must learn to accelerate on straights and brake before corners at the same time. Changing only one aspect at a time will most likely lead to a worse behaviour. If a genome is changed to accelerating more it will likely crash in a sharp corner. Likewise, if a genome is changed to braking before corners without accelerating more it will drive slower and thus decrease in fitness.  
+In table \ref{tab:30deg}, \ref{tab:90deg}, and \ref{tab:180deg} the progression of lap times on the short tracks is shown. On all three tracks, the system learns to complete the track in relatively few generations. After that, the lap times are significantly improved. This is mainly due to the AI driving faster and faster on the straights. Overall, the system manages to maintain a significantly higher average pace than on the complete circuit. On the complete circuit, the AI drives with an average speed of approximately $10$ m/s. Compare this with the average speeds of approximately $50$, $37$, and $24$ m/s achieved on the short tracks. 
 
-%\section{Multiple short track segments}
-% Ta tillbaka till slutinlämning 
+Even though the system did not find any near perfect behaviours, the results show that the system has a greater ability to optimise for time when training on shorter tracks than on the complete circuit. One plausible reason behind this is, as mentioned in section \ref{subsec:shorttracksegment}, that it is too hard to change the behaviour of the genomes once they are able to complete the longer circuit. In order to change from a cautious behaviour to a more effective one the system must learn to accelerate on straights and brake before corners at the same time. Changing only one aspect at a time will most likely lead to a worse behaviour. If a genome is changed to accelerating more it will likely crash in a sharp corner. Likewise, if a genome is changed to braking before corners without accelerating more it will drive slower and thus decrease in fitness.
 
-%%% KÖTTA UT
+In order to further improve the behaviour, the system should learn to prioritise the positioning over the braking. Instead of positioning the car effectively and keeping the highest possible speed through the corners, the system disregards the positioning and brakes as much as is needed. How could the training process be designed to promote effective positioning behaviours? Since the system learns to steer effectively in the constant speed experiment, one possible solution is to set a lower bound on the allowed speeds. This would force the system to position the car effectively in order to complete corners. However, deciding which lower speed bound is appropriate is problematic since it depends on the shape of the track. 
 
 
-\section{Mirrored track}
+\section{Mirrored Track}
 % TODO: Sätt in grafer och skit.
 \label{result:mirror}
-The experiment where the training environment was exchanged to a mirrored version of the same track showed several interesting results. The test population was trained on the normal circuit until the best specimens managed to complete the circuit in approximately $500$ seconds, which took $3527$ generations. That population was then transferred to and trained on the mirrored track. On the first try, some specimens managed to stay on track for $1800$ metres, which is about a third of the way around the circuit. This shows that at least some of the genomes had some general knowledge about how to drive. However, in the next few generations the population managed to complete the whole circuit. This is significantly faster than the control population which took approximately $150$ generations to complete the circuit. 
+The mirrored track experiment yielded several interesting results. The test population was trained on the normal circuit until the best specimens managed to complete the circuit in approximately $500$ seconds, which took $3527$ generations. That population was then transferred to and trained on the mirrored track. On the first try, some specimens managed to stay on track for $1800$ metres, which is about a third of the way around the circuit. This shows that at least some of the genomes had some general knowledge about how to drive. However, in the next few generations the migrated population quickly adapted to the new circuit. After only a few generations it managed to complete the circuit. This is, as shown in figure \ref{fig:mirrordata} and table \ref{tab:mirrored}, significantly faster than the control population which took approximately $150$ generations to complete the circuit. 
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{report/images/graphs/mirror_migration}
@@ -268,11 +262,11 @@ The experiment where the training environment was exchanged to a mirrored versio
 \end{figure}
 
 \noindent
-This shows that some of the knowledge acquired on the first track is applicable on the second. The reason may be that the genomes are adapted to similar corners on the first circuit or that the algorithm has found a network structure that is useful in a wide range of situations. In either case, one could argue that in order to find a generalised behaviour the AI should train in an environment where it encounters a wide range of situations, which in the racing domain would be different corners or combinations of consecutive corners. 
+These results show that some of the knowledge acquired on the first track is applicable on the second. The reason may be that the genomes are adapted to similar corners on the first circuit or that the algorithm has found a network structure that is useful in a wide range of situations. In either case, one could argue that in order to find a generalised behaviour the AI should train in an environment where it encounters a wide range of situations, which in the racing domain would be different corners or combinations of consecutive corners. 
 
 \begin{table}[H] 
   \centering
-  \begin{tabular}{|r|r|r|}
+  \begin{tabular}{rrr}
     \toprule
     Generation & Migrated Population Fitness & Control Population Fitness\\
     \midrule
@@ -287,9 +281,25 @@ This shows that some of the knowledge acquired on the first track is applicable 
   \label{tab:mirrored}
 \end{table}
 
-The extension to the experiment where the migrated population was transferred back to the original circuit once it had adapted also showed interesting results. The population forgets knowledge while adapting to the new environment. This is somewhat expected since the population mutated for 500 generations on the mirrored track, ergo no genomes trained on the original circuit remain in the population. However not all of the knowledge is lost in the process, some generalised knowledge remains. When migrated back to the original track, one specimen manages to stay on the track for circa $2800$ metres, which is slightly past halfway around. After only $5$ generations of adapting back to the original track one specimen manages to complete the circuit, albeit slowly. The adaption to the original circuit is similar in nature to the adaption from the original to the mirrored one. 
+The extension to the experiment where the migrated population was transferred back to the original circuit once it had adapted also showed interesting results. The population forgets knowledge while adapting to the new environment. This is somewhat expected since the population mutated for 600 generations on the mirrored track, ergo no genomes trained on the original circuit remain in the population. However not all of the knowledge is lost in the process, some knowledge remain. When migrated back to the original track, one specimen manages to stay on the track for circa $2800$ metres, which is slightly past halfway around. After only $5$ generations of adapting back to the original track one specimen manages to complete the circuit, albeit slowly. The adaption to the original circuit is similar in nature to the adaption from the original to the mirrored one. However, one difference is that the adaption rate is slower. As shown in table \ref{tab:mirrored_back}, the migrated population quickly manages to complete the circuit but the improvement of lap times is slow. The migrated population improves slower than when it was trained the first time. One possible reason is that the genomes are larger and thus less flexible. 
 
-These results show that the system is able to find generalised knowledge to some extent. However, the results also show that some knowledge acquired on the original circuit is lost during the training on the mirrored one. This is possibly due to the networks being over-fitted to the original track. This means that the networks have adapted to the track with behaviours that are well suited for that circuit but not in general. The traits responsible for that behaviour is then disabled or changed through mutations on the mirrored track, resulting in a loss of knowledge.
+\begin{table}[H] 
+  \centering
+  \begin{tabular}{rrr}
+    \toprule
+    Generation & Migrated Population Fitness & Original Fitness Progression\\
+    \midrule
+    $1$     & $2734$ & $261$    \\
+    $10$    & $5264$ & $397$    \\
+    $100$   & $5264$ & $5347$   \\
+    $500$   & $5604$ & $6265$   \\
+    \bottomrule
+  \end{tabular}
+  \caption{Table showing how the migrated population performed when transferred back to the original track. The adaption is compared to how the population progressed when originally trained on the circuit. Fitness levels over 5200 means that the system has completed the circuit.}
+  \label{tab:mirrored_back}
+\end{table}
+
+These results show that the system is able to find generalised knowledge to some extent. However, the results also show that some knowledge acquired on the original circuit is lost during the training on the mirrored one. One possible reason is that the neural networks become over-fitted to the track they are trained on. This means that the networks have adapted to the track with behaviours that are well suited for that circuit but not in general. The traits responsible for those behaviours are then disabled or changed through mutations when the networks are adapted to the new environment, resulting in a loss of knowledge. One could argue that this loss of knowledge is desired, since the loss of knowledge is a part of adapting to the new environment. However, it is also desirable if the system can learn to solve new problem while it continues to be effective on the earlier problems. If the system stops being evaluated in a specific environment there is no mechanism that preserves knowledge specific to that environment. Thus in order for the system to remember how to solve a problem, the evaluation on that problem must continue. 
 
 \section{Discussion on the NEAT Algorithm}
 \label{discussion:neat_mechanism}

@@ -3,18 +3,6 @@
 
 In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Additionally, the reasoning behind and execution of the experiments that were conducted will be presented. 
 
-\section{Requirements of the simulator REMOVE, MOVED TO THEORY}
-%\label{requirements} label moved to theory
-The purpose of this study is to evaluate how well a neuroevolution algorithm can learn the key aspects of an effective racing behaviour. Some of the aspects that will be evaluated are positioning throughout corners, timing and speed management. 
-
-If the behaviour of the AI is to be assessed in comparison to real world racing theory, the optimal behaviour in the simulated environment must be similar to the optimal behaviour in reality. The simulation may approximate certain aspects or neglect details, as long as the general characteristics remain and the best practises in racing theory are still optimal. 
-
-This requirement introduces aspects that the simulator would need to take into account. The key feature would therefore need to be the calculations regarding the increasing minimum turning radius of the car, as the speed of the car increases. The Simulator would also have to implement features to have the car accelerate and decelerate, to be able to achieve a racing behaviour.
-
-%Pre opponation
-%This requirement on the simulation introduces some constraints to the physics simulation. For example, if positioning the car on the far side before taking a corner is to be optimal, the turning radius must increase with the speed of the car and accelerating or decelerating must be relatively slow. Taking a late apex before a straight will only be optimal if a larger initial speed onto a straight outperforms taking a smoother turn due to a slow acceleration rate. 
-
-
 \section{Implementation of the Simulator}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
 
@@ -36,7 +24,9 @@ The velocity vector $\vec{v}$ is updated due to acceleration based on the forces
 \end{equation}
 
 \noindent
-All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation. 
+All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation.
+
+
 
 % FORMULA FOR TURNING RADIUS
 
@@ -249,7 +239,7 @@ The project was an iterative process. Progress was made by experimentation, wher
 \label{method:constant_speed}
 Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to steer through every corner on the circuit. 
 
-The track can be seen in figure \ref{fig:normal_track}. It is designed to have an increasing complexity along the track, and is built up by a variety of corners. The input points shown in table \ref{tab:point_layout}, covers approximately the two closest upcoming corners, regardless of what section section the car is located in.
+The track can be seen in figure \ref{fig:normal_track}. The corners are designed to have an increasing complexity along the track, and is built up by a variety of corners. The input points shown in table \ref{tab:point_layout}, covers approximately the two closest upcoming corners, regardless of what section section the car is located in.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{normal_track}
@@ -321,7 +311,8 @@ This experiment could answer two interesting questions. Is the system able to fi
 
 \subsection{Mirrored Track}
 \label{method:mirror}
-One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on, instead of learning how to complete a specific circuit. In order to test this a population of genomes is trained on driving on the full circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. That population is then loaded into the same experiment except with another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. 
+One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on. Instead of finding behaviours effective on a specific circuit, the goal is to find a behaviour that is effective on any circuit. In order to test this a population of genomes is trained on the complete circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. The population is then transferred to another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. Note that the number of tests and variation in environment is not enough to fully prove generality. However, the results will indicate whether or not some degree of generality is obtainable. 
+
 
 %% TODO: Lägg in bilder där man kan se skillnaden på banorna med startposition och riktning utmarkerat så att man fattar.
 
