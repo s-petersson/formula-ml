@@ -1,10 +1,5 @@
 # Week 15, April 25 - May 1
 
-
-## Daniel
-Worked on saving statistics from the training
-
-
 ## Simon
 Run experiments to learn about the abilities of neat.
 Experimented with the stochastic parameters in neat. The networks seemed to add way to many nodes. After a certain point, it did not find new behaviour.
@@ -44,8 +39,16 @@ I tested today with a rather short length of the curve data. It only created edg
 
 Over training. After a number of generations, I came in and started to observe a training session after it had gone a kinda good result already. At this point I only saw it add one edge to the bias input, two hidden neurons in between others, and added edges in the hidden layer. Although it did slightly better, I think it only tuned the tactic it already used. The large flaws remained. I think this makes it risk making new bold innovation harder, since it have to outperform the present tuning. It also might focus the population to the overtrained properties.
 
+## Daniel
+I've worked on saving data to .csv file regarding all genomes in each generation in order to see what happens in every generation were the fitness is not increased. Unfortunally, the saving was not able to be asyncrouns within a reasonable amount of time spent coding. Still it yielded some really interesting results regarding overfittng
 
-# Notes from Supervision with the Library
+###Overfitting
+When running training sessions for a long period of time at the "Full Controll" experiment, the session stopped improving. By the data gathered from the session, it was evident that it could not reach an increase in fitness. Half of the genomes hade a fitness of the best recieved fitness, and the other half performed just above lowest achievable fitness. This was probably due to that all but one species was removed, and that the best genome have breeded to fill "itself" to be in half the species. When a the new, other half of mutated genomes, were eveluated, the fragile structure of the "original" genome were destroyed to make it crash right away. As they were still the same species, the worst half were removed to just repeat this process, getting stuck in a local maxima, and never reaching a more optimal structure.
+
+Progressive fitness function, as well as keeping the species alive longer would be key to achive our wanted behaviour. 
+
+
+### Notes from Supervision with the Library
 If the wanted behavoir is reached reagrding racing lines and strategies, then resources for these are not that needed. We do not need that if we dont cover it.
 
 Scopus/Web of science. Try all the different databases/searchengines, the results may differ.
@@ -62,3 +65,5 @@ Studentarbeten på chalmers, found at biblioteket under "Tjänster"
 Look for TORCS, there are a lot of things written for it, and there might aswell be useful sections in these text.
 
 If there is an "unpublished" paper that is still on a webpage, it can be used as a web source. 
+
+

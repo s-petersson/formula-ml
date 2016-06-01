@@ -19,6 +19,11 @@ I spent some time to smumerise discussion topics that we have been talking about
 ## Simon
 Made the code runnable on linux, and prepared for running on the cloud server.
 
+## Daniel
+I've spent most time on the report, writing on different parts in the introduction, some coding was done as well.
+
+### Loading a single file
+A quick implementation of loading a single genome into the visualisation was needed in order to show the behaviour of the results, and save images to later use in the presentation and the report.
 
 ## Martin
 Spent most of my time on the report. 

@@ -27,3 +27,11 @@ I implemented a flag in the algorithm that enables us to toggle this feature. We
 
 ### Tracks
 Added some additional track models, one narrow version of the circuit and several shorter segments. That can be used to test the system on several track or just shorter segments. 
+
+## Daniel
+This week have been focusing on implementation of features that have been on my table. The car did get an refactor to become more simple and to fit the changes in the simulator. 
+
+### Data
+There is currently a big lack in data from all our training sessions. We currently only get the information for a pool, when the best genome in a pool exceeds the previuos best fitness. This gives us the "possitive" data that shows progress, but we cannot currently see how the pool of genome looks and perform at generations ehere an increase is not found. 
+
+It would be interesting to see this. It could bring us more information and more data to base our discussions on for the report. 

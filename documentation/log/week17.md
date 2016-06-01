@@ -2,7 +2,15 @@
 Most of the work was denoting to get results from experiments, both on personal machines and from the cloud server, and to write the report.
 
 A lot of work still went to get details in the system to work correctly.
+## Daniel
+This week had even more focus on the report, as I had to gather data, and interpret the results so taht we could use the training sessions in the report.
 
+### Saving floats
+I have caused us a huge bug and loss in training times due to an error where the saving of genomes would not use enough precision when writing the string to the file. On load this would cause the genomes to behave differently and not reach as far in the track as the data showed it would do.
+
+An change had to be made to save the floats as HEX values to properly represent the values with the correct resolution. 
+
+A backlash of this, was that we could no longer interpret the saved genomes and the values of each weigh of the genes in the genome. 
 
 ## Gabriel
 I ran the the first instances of the the fixed speed experiment. It took some trial and error to find the approximately breaking point for when it was able to finish and not. Wrote about the initial and preleminary results in the report.
