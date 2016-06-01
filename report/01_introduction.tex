@@ -5,7 +5,7 @@ We live in a dawning age of autonomous vehicles. During the last several years t
 
 The concept of machine learning is to create well-adapted AI systems that require the minimal amount of human design. The algorithms learn to predict correct answers within a problem domain by inferring knowledge from examples or from experience. 
 
-In autonomous cars, machine learning is used to solve tasks such as steering and image analysis. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data.
+In autonomous cars, machine learning is used to solve tasks such as steering and especially image analysis \cite{Stavens, Thrun06, huval2015empirical}. In order to solve control tasks, such as steering and speed management, the system learns to emulate a specific behaviour by conforming itself to a large set of training examples. The training examples consists of pairs of system inputs, such as sensor data, and the corresponding correct control signals. These sets of training data can be gathered by driving the car while recording both the inputs from all the sensors and cameras on the car, and the control actions taken by the driver. This training process require the recording and quality assurance of vast amounts of example data.
 
 %Outline of: INTRODUCERA MÖJLIGHETEN ATT TRÄNA UTAN DATA.
 There are other types of machine learning that learn without using example data. These algorithms learn by other means, such as learning from experience. One group of such algorithms is called reinforcement learning. Instead of sample data, reinforcement learning algorithms evaluate their behaviour by scoring it using a set of rules. Google used a reinforcement learning algorithm when they created the Go AI AlphaGo \cite{gibney}, which earlier this year won against the former world champion Lee Sedol \cite{AlphaGo}. This is an example of a reinforcement learning algorithm finding a behaviour that can be counter-intuitive or hard for a human to design.
@@ -26,8 +26,7 @@ Finding a general model for the problem and its environment can be very complica
 
 Solutions to these problems in the racing domain could also be applied in other areas of society. Technology advancements within racing may have a limited impact on society as a whole. However, improvements made on the race cars are sometimes later used in commercial vehicles. One such example is how steering wheels have become a control panel in road cars, by the influence of race cars \cite{gkikas}. 
 
-Similarly, advancements in autonomous racing could be applied in commercial autonomous vehicles. Every year more than a million people are killed in traffic accidents, furthermore the economic cost of these accidents is several billion dollars \cite{who:traffic}. Road transports and the transport sector in general are also one of the major contributors to our societies impact on the environment \cite{fuglestvedt2008climate}.
-Autonomous cars could potentially reduce these problems by preventing accidents and by being more efficient than human drivers \cite{anderson}.
+Similarly, advancements in autonomous racing could be applied in commercial autonomous vehicles. Every year more than a million people are killed in traffic accidents, furthermore the economic cost of these accidents is several billion dollars \cite{who:traffic}. Road transports and the transport sector in general are also major contributors to our societies impact on the environment \cite{fuglestvedt2008climate}. Autonomous cars could potentially reduce these problems by preventing accidents and by being more efficient than human drivers \cite{anderson}.
 
 
 \section{Purpose}
@@ -40,7 +39,7 @@ This project explores the possibilities of teaching an AI to perform time trial 
 The scope of this project is limited to developing an AI that finds the optimal behaviour of a race car during a time attack lap. Concepts in head to head competition such as racing strategy, overtaking, and pit stops are not considered. The car is assumed to be in a pristine condition at all times. Thus aspects affecting the prolonged operation of the car such as fuel efficiency, tyre wear, or brake temperatures are not taken into consideration. 
 
 % Limit to Neuroevolution/neat, we will not compare different algorithms
-The problem of finding optimal behaviour can be solved by using many different types of machine learning. A combination of algorithms could potentially be used by breaking down the problem into parts. This project will not evaluate and compare different algorithms due to time limitations. Instead only one algorithm will be implemented and evaluated in depth.
+The problem of finding optimal behaviour can be solved by using many different types of machine learning. A combination of algorithms could potentially be used by braking down the problem into parts. This project will not evaluate and compare different algorithms due to time limitations. Instead only one algorithm will be implemented and evaluated in depth.
 
 % Virtual environment / simulation.
 
@@ -66,31 +65,42 @@ It is important that the simulator accurately simulates fundamental car behaviou
 
 \section{Related works}
 
-2009 Racing competition \cite{racingChamp2009} for students. Time trial + racing. Data model was distance rays in multiple direction + local latteral position + the angle to the direction of the track. Might be worth mentioning the approaches the best teams took. The third best team used NEAT in a similar way as we and had a strikingly similar result.
+The Open Racing Simulator (TORCS) is an open source simulator that contains many racing tracks and implements physics, AI drivers and graphics \cite{torcs}. It has been referenced in several research papers discussing machine learning for racing.
 
-Learning to Drive in the Open Racing Car Simulator Using Online Neuroevolution?
+The 2009 Racing Competition \cite{racingChamp2009} was a machine learning competition for students, containing a time trial lap and a racing final. The contributions provided a variety of control strategies. The most successful strategies had hard coded controllers built up by several single purpose components, or machine learning techniques, one of them were NEAT.
 
-Generalization of TORCS car racing controllers with artificial neural networks and linear regression analysis?
+% Two methods of NEAT - NEAT and rtNEAT
+% Four methods of evaluation e-greedy, e-greedy-improved, softmax and interval based
+Luigi Cardamone et al (2010) presents a controller written for TORCS that utilises NEAT \cite{cardamone2010learning}. Two types of NEAT are implemented 
+
+
+
+======= NOT FEATURED: =======
 
 Controller for TORCS created by imitation?
 
 Imitation learning of car driving skills with decision trees and random forests?
 
-%\subsection{Literature Review}
-% Instruction from 
-% https://www.reading.ac.uk/internal/studyadvice/StudyResources/Essays/sta-structuringreport.aspx#literature
-% The Literature Review… surveys publications (books, journals and sometimes conference papers) on work that has already been done on the topic of your report. It should only include studies that have direct relevance to your research.
-% Introduce your review by explaining how you went about finding your materials, and any clear trends in research that have emerged. Group your texts in themes. Write about each theme as a separate section, giving a critical summary of each piece of work, and showing its relevance to your research. Conclude with how the review has informed your research (things you'll be building on, gaps you'll be filling etc).
-% Further reading: http://www.rlf.org.uk/resource/what-is-a-literature-review/
+Learning to Drive in TORCS Using Online Neuroevolution?
+
+Generalization of TORCS car racing controllers with artificial neural networks and linear regression analysis?
 
 
 
+\section{Bibliography Notes}
+[INLEDANDE TEXT HÄR]
+
+\subsection{Racing}
+
+Edmondson (2011) and Beckman (1991) explain the underlying physics and theory of racing. These books explain how different laws of physics affect the properties of race cars, and how they affect the optimal driving behaviour. 
 
 
+\subsection{Machine Learning}
 
+Haykin (1999) presents a solid foundation to neural networks and machine learning techniques in the book Neural Networks: A comprehensive foundation.
+The book explains how neural networks work in detail. It also presents different machine learning paradigms and how they can be used in conjuction with neural networks. 
 
-
-
+Stavens (2011), Thrun et al (2006), and Huval et al (2015) explain how autonomous cars work and how machine learning is used to solve problems such as image analysis. These works explain how an autonomous car interprets its surroundings. Stavens (2011) and Thrun et al (2006) also explain how the award winning autonomous car project called Stanley works. This autonomous car system was developed at Stanford and was later used as the basis for Google's self-driving car project.
 
 
 

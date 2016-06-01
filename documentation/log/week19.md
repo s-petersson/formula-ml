@@ -1,4 +1,15 @@
+# Week 18, May 23 - 29
+This week we had our final presentation. We also had to write our opposition report. 
 
+## Gabriel
+Most of the time went to preparing and practising on the presentation and opposition. 
+
+Initiated the sprint on the report. 
+
+I worked on the weekend to research Markov Decision Problems and comment on it in the report. We rejected the approach early in the project, but it was difficult to be confident in the academic arguments we did not know it well. I did not want to give statements on weak grounds, but the research did not provide that many new details, so the work felt frustratingly slow.
+
+## Martin
+Worked on the opposition report and presentation. After the presentation all available time went to fixing our report. 
 
 ## Notes from supervision meeting with Mikael Kågebäck
 Totalt brukar man komma upp I 30-40 referenser, de flesta papper. Ju fler ju bättre. Se om ni kan få in fler.

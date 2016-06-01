@@ -28,4 +28,6 @@ save/load
 Furthermore I thought on what the purpose of the report should be. It is slightly complicated since we probably will reach the most interesting, and first of all most presentable, results during the next month of work. After some discussion with the rest of the group we came up with the following purpose:
 The exploration of NEAT in context of the racing problem. How it may be used and what role it may have.
 
+## Martin
 
+Implemented the XOR experiment for NEAT, to detect issues with our implementation. 

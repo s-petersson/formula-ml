@@ -3,6 +3,17 @@
 %
 
 %%% =========  Articles  ========= %%%
+%modularity
+@article{ellefsen2015neural,
+  title={Neural modularity helps organisms evolve to learn new skills without forgetting old skills},
+  author={Ellefsen, Kai Olav and Mouret, Jean-Baptiste and Clune, Jeff},
+  journal={PLoS Comput Biol},
+  volume={11},
+  number={4},
+  pages={e1004128},
+  year={2015},
+  publisher={Public Library of Science}
+}
 
 % PHD THESIS ON AUTONOMOUS CARS
 @phdthesis{Stavens,
@@ -14,6 +25,24 @@
   month         = 5,
   url           = {http://www.cs.stanford.edu/people/dstavens/thesis/David_Stavens_PhD_Dissertation.pdf}
 }
+
+@ARTICLE{Thrun06,
+  AUTHOR	= {S. Thrun and others},
+  TITLE		= {Winning the DARPA Grand Challenge},
+  JOURNAL	= {Journal of Field Robotics},
+  YEAR		= {2006}
+}
+
+@article{huval2015empirical,
+  title={An Empirical Evaluation of Deep Learning on Highway Driving},
+  author={Huval, Brody and others},
+  journal={arXiv preprint arXiv:1504.01716},
+  year={2015},
+  issn = {arXiv:1504.01716},
+  url = {http://arxiv.org/abs/1504.01716}
+}
+
+
 
 @misc{who:traffic,
   author       = {{World Health Organization}}, 
@@ -36,9 +65,9 @@
 
 % The 2009 Simulated Car Racing Championship
 @article{racingChamp2009,
-  author  = {Daniele Loiacono and Pier Luca Lanzi and Julian Togelius and Enrique Onieva and David A. Pelta and Martin V. Butz and Thies D. Lönneker and Luigi Cardamone and Diego Perez and Yago Sáez and Mike Preuss and Jan Quadflieg}, 
+  author  = {Daniele Loiacono and others}, 
   title   = {The 2009 Simulated Car Racing Championship},
-  journal = {IEEE Transactions on computational intelligence and AI in games},
+  journal = {IEEE Transactions on computational intelligence and {AI} in games},
   year    = 2010,
   number  = 2,
   pages   = {131-147},
@@ -46,9 +75,20 @@
   volume  = 2
 }
 
+@article{cardamone2010learning,
+  title={Learning to drive in the open racing car simulator using online neuroevolution},
+  author={Cardamone, Luigi and Loiacono, Daniele and Lanzi, Pier Luca},
+  journal={Computational Intelligence and AI in Games, IEEE Transactions on},
+  volume={2},
+  number={3},
+  pages={176--190},
+  year={2010},
+  publisher={IEEE}
+}
+
 @article{gibney,
     autor   = {Elizabeth Gibney},
-    title   = {Google AI algorithm masters ancient game of Go},
+    title   = {Google {AI} algorithm masters ancient game of Go},
     journal = {Nature},
     year    = "2016",
     month   = "January",
@@ -116,37 +156,41 @@
 
 % Article series on racing physics, written 1991-, reformmated 2008
 % ---------------- TEMPORARY, IT IS AN ARTICLE -----------------
-@article{beckman, 
+@book{beckman, 
     title           = "The Physics of Racing",
     author          = "Brian Beckman",
-    year            = "1991"
+    year            = "1991",
+    note            = {\url{http://phors.locost7.info/contents.htm}, Accessed 2016-05-09}
 }
-@inbook{beckman:weight_transfer,
+    %,
+    %address         = {\url{http://phors.locost7.info/contents.htm}},
+    %note            = {Accessed 2016-05-09}
+@book{beckman:weight_transfer,
     title           = "The Physics of Racing",
     author          = "Brian Beckman",
     chapter         = "Part 1: Weight Transfer",
     year            = "1991",
-    howpublished    = {\url{http://phors.locost7.info/contents.htm}},
+    address    = {\url{http://phors.locost7.info/contents.htm}},
     note            = {Accessed 2016-05-09}
 }
-@inbook{beckman:circular_motion,
+@book{beckman:circular_motion,
     title           = "The Physics of Racing",
     author          = "Brian Beckman",
     chapter         = "Part 4: There Is No Such Thing as Centrifugal Force",
     pages           = "12",
     year            = "1991",
-    howpublished    = {\url{http://phors.locost7.info/contents.htm}},
+    address    = {\url{http://phors.locost7.info/contents.htm}},
     note            = {Accessed 2016-05-09}
 }
-@inbook{beckman:racing_line_intro,
+@book{beckman:racing_line_intro,
     title           = "The Physics of Racing",
     author          = "Brian Beckman",
     chapter         = "Part 5: Introduction to the Racing Line",
     year            = "1991",
-    publisher       = {\url{http://phors.locost7.info/contents.htm}},
+    address       = {\url{http://phors.locost7.info/contents.htm}},
     note            = {Accessed 2016-05-09}
 }
-@inbook{beckman:traction_budget,
+@book{beckman:traction_budget,
     title           = "The Physics of Racing",
     author          = "Brian Beckman",
     chapter         = "Part 7: Traction budget",
@@ -179,26 +223,6 @@
     volume      = 291
 }
 
-@inbook{haykin:xor,
-    author      = "Simon Haykin",
-    title       = "Neural Networks: A Comprehensive Foundation",
-    publisher   = "Pearson",
-    year        = 1999,
-    edition     = 2,
-    chapter     = 4,
-    pages       = {197-200}
-}
-
-
-@inbook{haykin:supervised,
-    author      = "Simon Haykin",
-    title       = "Neural Networks: A Comprehensive Foundation",
-    publisher   = "Pearson",
-    year        = 1999,
-    edition     = 2,
-    chapter     = 2,
-    pages       = {85-86}
-}
 
 @inbook{mitchel:approximation,
     author      = "Tom M. Mitchel",
@@ -271,7 +295,6 @@
     note = {Accessed: 2016-05-02}
 }
 
-
 @misc{f1_weight,
     title = "F1 Rules \& Regulations: Scrutineering and weighing",
     howpublished = {\url{https://www.formula1.com/content/fom-website/en/championship/inside-f1/rules-regs/Scrutineering_and_weighing.html}},
@@ -289,6 +312,12 @@
     title = {AlphaGo},
     howpublished = {\url{https://deepmind.com/alpha-go.html}},
     note = {Accessed: 2016-05-10}
+}
+
+@misc{torcs,
+    title = "The official site of {TORCS}, The Open Racing Simulator",
+    howpublished = {\url{http://torcs.sourceforge.net/}},
+    note = {Accessed: 2016-06-01}
 }
 
 

@@ -115,8 +115,7 @@ I think this can be useful if we manage to figure out exactly how to use it. The
 
 
 
-### Neural Modularity Helps Organisms Evolve to Learn New Skills without 
-Forgetting Old Skills
+### Neural Modularity Helps Organisms Evolve to Learn New Skills without Forgetting Old Skills
 WORTH MENTIONING?
 
 #### Comments

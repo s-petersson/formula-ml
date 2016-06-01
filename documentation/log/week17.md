@@ -1,11 +1,20 @@
 # Week 17, May 9 - May 15
 Most of the work was denoting to get results from experiments, both on personal machines and from the cloud server, and to write the report.
 
+A lot of work still went to get details in the system to work correctly.
+
 
 ## Gabriel
-I ran the the first instances of the the fixed speed experiment. It took some trial and error to find the approximately breaking point for when it was able to finish and not.
+I ran the the first instances of the the fixed speed experiment. It took some trial and error to find the approximately breaking point for when it was able to finish and not. Wrote about the initial and preleminary results in the report.
 
-I also found the book on racing theory "Fast driving cars", and read that. It is very good to have a solid second source on the racing theory
+After a discussion with Martin, I implemented a different summation of track curvature. Summarising all datapoints, as was implemented before, will provide a very rough value which may be the same for many different scenarios. Now, I added three values that summed different parts of the curvature regions. It does not add more information to the network, but might make it more accessible. It does not need to sum them together itself before using it for other purposes.
+
+I also found the book on racing theory "Fast driving cars", and read that. It is very good to have a solid second source for the racing theory. It did not appear to contradict the previous source, but clarified some aspects.
+
+## Martin
+
+Fixed some issues in the NEAT implementation.
+Ran several experiments, mostly for the mirrored track result and results for single corner tracks. 
 
 
 ## Experiment configuration

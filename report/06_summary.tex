@@ -1,14 +1,35 @@
 \chapter{Conclusion}
 \label{conclusion}
-The overall results of these experiments show that machine learning in general, but especially NEAT have potential in the racing domain. NEAT can be used to create a neural network that have some present some of the required behaviours of racing cars. Both positioning and speed management have been mastered, although not simultaneously.
+%Deadline day
+The project have yielded interesting results, and useful information about how to utilise NEAT to its fullest. Applying NEAT to the racing domain have proven to be a complex problem. However, NEAT have shown it is capable of creating artificial neural networks that present some of the required behaviours of a racing driver.
+
+
+\section{Racing}
+\label{conclusion_racing}
+The overall results of these experiments show that NEAT have potential in the racing domain. It manages to bring forth behaviours for both positioning and speed management, though not simultaneously. 
 
 When the training had the focus of only steering the car, some planning behaviours were apparent. Prior to a corner, the car would steer out towards the edge of the track. Therefore, giving itself a better position and the ability to complete the corner. This behaviour gave the car the ability to complete the track at constant speeds that gave larger turning radius than some corners of the track.
 
-At tracks consisting of a single corner in between two straights, the car managed to control and plan the speed prior to the corner. It managed to accelerate at the straights, and decelerate to a speed low enough to complete the upcoming corner. Though indications of positioning to handle a larger turning radius have not been apparent in these experiments.
+At tracks consisting of a single corner in between two straights, the car managed to control and plan the speed prior to the corner. It managed to accelerate at the straights, and decelerate to a speed low enough to complete the upcoming corner. Though, indications of positioning to handle a larger turning radius have not been apparent in these experiments.
 
-These two concepts have not been found simultaneously, the absence of position planning have when also presented with the possibility of controlling speed, not resulted in the complex behaviour of a real driver. To first make the car complete a lap, and after that try to drive as fast as possible influences the behaviour of the driving significantly. To portray both of these behaviour at the same time, the fitness function handed to the NEAT algorithm would need to give both of these aspects the same priority.
+When the system have been able to control all aspects of the car, the absence of position planning have not yielded the complex behaviour of a racing driver. To first focus on making the car to take a compete lap, and after that, focus on driving as fast as possible, influences the behaviour significantly. To portray both of these behaviour at the same time, the fitness function handed to the NEAT algorithm would need to give both of these aspects the same priority, in difference to what have been made in these experiments.
 
-This shows that it is important for the algorithm to have a smooth learning curve with a gradually increasing fitness. It is important that NEAT is not required to perform large mutations to the knowledge model. It needs to be able to gradually increase its knowledge to the point where it has learnt the optimal behaviour.
+
+\section{NEAT}
+\label{conclusion_neat}
+The fitness function used greatly affects the behaviour and the progression of the system. In order to utilise the algorithm to its full potential, it is essential to find a suitable fitness function for the problem domain. It is also important that the algorithm is able to progress smoothly, with a gradually increasing fitness. An increase in fitness should correlate to an improvement of the systems behaviour. If an improvement leads to a decrease in fitness, the system might get stuck in a local fitness maximum. Additionally, NEAT is only able to make a limited number of modifications to each genome in each generation. Thus large changes to a genome might take several generations to implement. This property highlights the importance of improving by a series of small individually beneficial modifications. 
+
+%=======Pre-deadline=================================================
+2%The overall results of these experiments show that machine learning in general, but especially NEAT have potential in the racing domain. NEAT can be used to create a neural network that have some present some of the required behaviours of racing cars. Both positioning and speed management have been mastered, although not simultaneously.
+
+%When the training had the focus of only steering the car, some planning behaviours were apparent. Prior to a corner, the car would steer out towards the edge of the track. Therefore, giving itself a better position and the ability to complete the corner. This behaviour gave the car the ability to complete the track at constant speeds that gave larger turning radius than some corners of the track.
+
+%At tracks consisting of a single corner in between two straights, the car managed to control and plan the speed prior to the corner. It managed to accelerate at the straights, and decelerate to a speed low enough to complete the upcoming corner. Though indications of positioning to handle a larger turning radius have not been apparent in these experiments.
+
+%These two concepts have not been found simultaneously, the absence of position planning have when also presented with the possibility of controlling speed, not resulted in the complex behaviour of a real driver. To first make the car complete a lap, and after that try to drive as fast as possible influences the behaviour of the driving significantly. To portray both of these behaviour at the same time, the fitness function handed to the NEAT algorithm would need to give both of these aspects the same priority.
+
+%This shows that it is important for the algorithm to have a smooth learning curve with a gradually increasing fitness. It is important that NEAT is not required to perform large mutations to the knowledge model. It needs to be able to gradually increase its knowledge to the point where it has learnt the optimal behaviour.
+%=============================================================
 
 %\chapter{Summary}
 %In order to find conceptually optimal and general racing behaviours, a neuroevolution algorithm called NEAT was used in conjunction with a simple racing simulator. The artificial neural networks evolved by NEAT were evaluated in the simulator, by how well they were able to drive the car. Through experimentation the behaviour of the neural networks was tested. 
@@ -22,13 +43,32 @@ This shows that it is important for the algorithm to have a smooth learning curv
 %The results show that neuroevolution algorithms such as NEAT can be used to create artificial neural networks able to drive in a racing context. However, in order to reach a general and fully optimal behaviour, extensive modelling and calibration of the training process, fitness function, and inputs provided to the neural networks is required.  
 
 \chapter{Future work}
-As discussed in section \ref{discussion:neat_mechanism}, the success of neat rely on that it is able to progress in small steps towards the solution. It may therefore be of interest to investigate further how the problem task may be evolved as the AI progress. In this report, the task was static while only the fitness function evolved. One approach could possibly be to change tracks or limit the how far the car is allowed to drive.
+As discussed in section \ref{discussion:neat_mechanism}, the success of NEAT relies heavily on the fact that it is able to progress in small steps towards a solution. In this project, the possibility of changing the fitness function as the AIs performance increases was examined. It would be interesting to change the problem in a similar way. Possible experiments include changing tracks or increasing the limit of how far the car is allowed to drive, as the AIs performance increase.
 
-The results showed that the AI managed to learn how to steer well but not having full control, as it imposed a greater complexity. Maybe the success would increase if several networks are used for different purposes, for example one to steer the car and one to control the speed. One important problem is how the networks would be trained. Some suggestions is that the networks are trained in parallel, that they are part of the same genome but do not intersect. Another approach could be to train them in an alternating fashion.
+The set of input and outputs used during the project is rather small. Further researching possible representations might lead to major improvements in performance. One particular set of inputs that deserve particular attention is the representation of curvature. With the current curve representation, a change in timing to perform some action, for example approaching the tracks right edge 300 meters before a corner, instead of 100 meters before a corner requires a change in network topology. Changing topology is problematic, since large amount of training is required to perform major topology modifications. One potential alternative to the current model, may be to represent the upcoming corners as groups of inputs. Where one group might consist of distance to, the angle or shape of, and length of the corner.
 
-It was also observed that it was easier to learn a single corner than to learn a complete track. One approach could be to train networks for a single purpose, possibly a single type of curve, and to use a classification algorithm that pick which controller that should steer the car in a particular situation.
+The results show that the complexity becomes to large when introducing the speed control output. It seems reasonable to introduce more networks in order to divide the problem into several tasks. One approach may be to divide the tasks into two, steering and controlling the speed. It is also interesting to consider classification of corners. This could potentially be achieved by training networks to perform certain corners, and then using a classification AI to pick a network that determines the behaviour. This is particularly interesting, since results also show that networks perform well when trained on individual corners instead of a complete track.
 
-In the report, the variation of in data and output interpretation used was rather small. It could be of interest to investigate further how different types of data affect the performance. One aspect in particular to study is the representation of curvature. In the modelling presented in section \ref{method:interpretation}, the distance to the data points is inferred from the index of the point. If the timing for an action need to change, the topology of the interpretation might need to change. Changing topology is problematic, as discussed in section \ref{discussion:neat_mechanism}. A different approach could be to model track features more like object, having several data values describing the same corner. That way, maybe, tuning of single weights may make a more sophisticated change in the behaviour.
+
+It has been shown that modularity can be evolved by neuroevolution techniques in order to adapt to new situations and avoiding to forget old behaviour \cite{ellefs2015neural}.
+
+% Deep learning.
+
+% One important problem is how the networks would be trained. Some suggestions is that the networks are trained in parallel, that they are part of the same genome but do not intersect. Another approach could be to train them in an alternating fashion.
+
+
+
+
+% Modularity
+% Deep reinforcement learning, Continous DQN.
+
+% As discussed in section \ref{discussion:neat_mechanism}, the success of neat rely on that it is able to progress in small steps towards the solution. It may therefore be of interest to investigate further how the problem task may be evolved as the AI progress. In this report, the task was static while only the fitness function evolved. One approach could possibly be to change tracks or limit the how far the car is allowed to drive.
+
+% In the report, the variation of in data and output interpretation used was rather small. It could be of interest to investigate further how different types of data affect the performance. One aspect in particular to study is the representation of curvature. In the modelling presented in section \ref{method:interpretation}, the distance to the data points is inferred from the index of the point. If the timing for an action need to change, the topology of the interpretation might need to change. Changing topology is problematic, as discussed in section \ref{discussion:neat_mechanism}. A different approach could be to model track features more like object, having several data values describing the same corner. That way, maybe, tuning of single weights may make a more sophisticated change in the behaviour.
+
+% The results showed that the AI managed to learn how to steer well but not having full control, as it imposed a greater complexity. Maybe the success would increase if several networks are used for different purposes, for example one to steer the car and one to control the speed. 
+
+% It was also observed that it was easier to learn a single corner than to learn a complete track. One approach could be to train networks for a single purpose, possibly a single type of curve, and to use a classification algorithm that pick which controller that should steer the car in a particular situation.
 
 
 % Arketyper!

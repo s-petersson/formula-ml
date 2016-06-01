@@ -40,3 +40,9 @@ Q-Learning is very different from the approach that we are currently using, and 
 ## Daniel
 Finished the loading and saving of Generations, and the network can be loaded from an arbitrary location. Though there is still one bug, that is that the Generation count resets when a saved network is loaded.
 One thing that I have come across in the research is Tile optimisation
+
+## Martin
+
+Fixed some issues in the code and implemented a simple neural network visualisation. 
+
+Researched alternatives to NEAT and ways to use NEAT, did not find any promising ideas. 

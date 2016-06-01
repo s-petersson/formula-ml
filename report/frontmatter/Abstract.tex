@@ -1,15 +1,50 @@
 \thispagestyle{plain}			% Supress header 
-\setlength{\parskip}{0pt plus 1.0pt}
-\section*{Abstract}
-Driving is a complex task and it is difficult to find an optimal behaviour. It is therefore of interest to investigate how well a machine learning algorithm is able to drive a virtual racing car for a hot lap, if it manages to learn the core aspects of competitive driving.
 
-We have used an algorithm called Neuroevolution of Augmenting Topologies (NEAT) to train artificial neural networks. As for results, it managed to learn to position the car well on the track and to some degree learn to adjust the speed properly. Also, some degree of general behaviour has been observed.
+\noindent
+{\large \textbf{Driving Time Trial Laps using Neuroevolution}}\\
+{\large The development of a racing AI}\\
 
-One of the outcome of the project is that it helps to model the problem so that NEAT can progress in gradual steps.
+\noindent
+{\large Gabriel Alpsten}\\
+{\large Daniel Eineving}\\
+{\large Martin Nilsson}\\
+{\large Simon Petersson}\\
+\textit{Department of Computer Science and Engineering,}\\
+\textit{Chalmers University of Technology}\\
+\textit{University of Gothenburg}\\
+
+\noindent
+Bachelor of Science Thesis
+
+\section*{\centering Abstract}
+
+Driving a race car competitively is a complex task. Programming a computer capable of solving this task optimally in every possible scenario is hard to accomplish. Therefore, it is interesting to investigate how well a machine learning algorithm is able to learn the most important behaviours from first principles. A simulator with simplified physics is utilised to train and assess the performance.
+
+An algorithm called Neuroevolution of Augmenting Topologies (NEAT) was used to train artificial neural networks. When the system steered a car which travelled at a constant speed, NEAT managed to find a reasonably effective behaviour that resembles professional racing tactics such as positioning and distance optimisation. However, when the networks were used to both steer and control the speed, it drove cautiously and resembled professional driving less. Additionally, a system that was trained on one track showed a considerable improvement in training times when migrated to a new track. 
+
+Some limitations of NEAT are discussed. The algorithm progresses gradually by a series of small improvements. It is observed that NEAT performs poorly when a composition of behaviours must be implemented simultaneously. It is suggested that the training task is modelled to be able to progress in small steps, and that NEAT might be more useful in composition with other algorithms when solving complex tasks.
+
 
 % KEYWORDS (MAXIMUM 10 WORDS)
 \vfill
 Keywords: NEAT, Neuroevolution, Reinforcement learning, Racing, Time trial.
+
+\newpage				% Create empty back of side
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+\thispagestyle{empty}
+\section*{\centering Sammandrag}
+Att köra bil i ett racingsammanhang är en komplex uppgift. Att programmera en dator till att göra detta likaså. Det är därför intressant att undersöka hur maskininlärning kan användas för skapa ett datorsystem som kan lära sig själv att köra på en professionell nivå. En simulator med en förenklad fysikmotor användes för att träna och evaluera hur väl systemet presterar på uppgiften. 
+
+Algoritmen ”Neuroevolution of Augmenting Topologies” (NEAT), användes för att skapa och träna artificiella neurala nätverk. Dessa nätverk evaluerades med hjälp av simulatorn för att träna dem på att köra snabbt. När systemet styrde en bil som färdades med en konstant hastighet lyckades NEAT hitta ett någorlunda effektivt beteende. Detta beteende liknade hur en professionell förare skulle köra under samma förutsättningar. Beteenden som effektiv positionering inför kurvor och en minimering av körsträcka observerades. När systemet även fick tillgång till bilens gas och broms körde det försiktigare. Dess beteende var mindre likt en professionell förares. Effektivare beteenden hittades på kortare banor med endast en sväng. Utöver detta observerades det att tiden det tar för systemet att anpassa sig till en miljö minskas märkbart ifall systemet redan har tränat i en annan miljö. 
+
+Hur effektiv NEAT är i problemdomänen diskuteras. Algoritmen lär sig genom att gradvis förändra sitt beteende. Ifall förändringarna som krävs för att förbättre beteendet är för stora är det sannolikt att NEAT inte kommer lyckas hitta förbättringen. Därav är det fördelaktigt ifall problemet som NEAT appliceras på kan modelleras på så sätt att den optimala lösningen kan nås genom en serie av små förändringar. 
+
+
+
+
 
 \newpage				% Create empty back of side
 \thispagestyle{empty}

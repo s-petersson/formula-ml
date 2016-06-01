@@ -36,7 +36,7 @@ It was decided to use C++. Arguments for:
 - It works well enough cross platform
 - Ability to optimize the code if desired
 - Easy to get started with simple graphics and gui. Also possible to improve graphics if desired
-- A good possibility to learn and get experience
+- A good opportunity to learn and get experience
 
 The second best option was Java. Although slightly easier and more experience, it is slightly less flexible in making improvements as C++.
 

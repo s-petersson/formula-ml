@@ -17,7 +17,20 @@ I tried to introduce speed or time into the fitness function to make the car dis
 
 Just for the sake of it I tried to add the distance driven to the fitness. We have used the distance along the track for a long time. When trying to maximise the distance driven it quickly learns to drive in a serpentine pattern to get as much distance as possible.
 
-A possible solution to the problem of trying to maximise distance and minimise time, two goals which can be conflicting, is to only minimise the time. However, if we only minimise time, the car cannot have the ability to crash and thus stop the timer. IF that is the case, the algorithm will quickly find the behaviour to just steer hard to the side and crash as soon as possible. If we change the rules and say that the car cannot crash, if it does
+A possible solution to the problem of trying to maximise distance and minimise time, two goals which can be conflicting, is to only minimise the time. However, if we only minimise time, the car cannot have the ability to crash and thus stop the timer. If that is the case, the algorithm will quickly find the behaviour to just steer hard to the side and crash as soon as possible. If we change the rules and say that the car cannot crash, we can just optimise on time, since the car will complete the circuit during every evaluation. When the car crashes it is lifted back onto the track and can continue.
+
+However, it is complicated to decide how much the genome should be punished for crashing. It should always be better to avoid crashes, but at the same time the training should not force the car to drive slowly.
+
+This training process seems to work, the genomes improve, but it does not seem to be significantly better than the other process, additionally it takes longer time since each genome drives around the whole track instead of being terminated at the first crash. 
+
+### Image saving
+
+I wrote a system that given a neural network simulates how it drives around the track, then renders the track and the race line to an image and saves it to the disk. The speed of the car is saved using the colour of the race line. This procedure is called each time an improvement is found, thus it enables us to view how the system drives at each improvement. This is very useful when running long training sessions. You can review how the driving behaviour progressed.
+
+### Turning radius
+
+Added the rendering of a curve that displays the cars current turning radius as an arc at the cars position. This gives us the ability to see whether or not the car should be able to complete a corner at the current speed. Since the size of the arc depends on the current speed it also indicates the speed of the car. 
+
 
 ## Gabriel
 A large portion of the time went to test the different experiments, to better understand what type of results might be expected, and how they may be executed. I did not do this in a particularly planned matter, which may have made it slightly in efficient.

@@ -1,58 +1,60 @@
 
-\chapter{Method}
+\chapter{Implementation \& Experiments}
+In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about, and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Furthermore, the reasoning behind and execution of the experiments that were conducted will be presented. 
 
-In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Additionally, the reasoning behind and execution of the experiments that were conducted will be presented. 
+
 
 \section{Implementation of the Simulator}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
 
-The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the simulated universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, many simulation updates can be carried every second. This enables a modest desktop computer to simulate years of racing in a few hours. 
+The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the simulated universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, multiple updates can be carried every second. This enables a desktop computer to simulate years of racing in a few hours. 
 
-The car is represented by a simplified model of a car. Only the required properties discussed in the previous section are simulated. Each update of the car state results in an update of the cars position according to:
+The simulated car is represented by a simplified model of a real life car. Only the required properties discussed in section \ref{requirements} are simulated(CORRECT SECTION?). Each update of the car state results in an update of the cars position according to:
 
 \begin{equation}
     \vec{p}_{n+1} = \vec{p}_{n} + \vec{v}\Delta t 
 \end{equation}
 
 \noindent
-Where $\vec{p}_i$ is the position vector of the car in iteration $i$, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $0.01$ seconds. This frequency yields a sufficiently high time resolution. At a speed of $100$ m/s, which is slightly higher than the top speed used in the simulator, the car would travel one metre per iteration. In relation to the size of the car and the track, one metre is a short distance.
+Where $\vec{p}_i$ is the position vector of the car in iteration $i$, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $0.01$ seconds. This frequency yields a sufficiently high, time resolution. At a speed of $100$ m/s, which is slightly higher than the top speed used in the simulator, the car would travel one metre per iteration. In relation to the size of the car and the track, one metre is a short distance.
 
-The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics the acceleration $a$ of an object is equal to the applied force $f$ divided by the mass $m$ of the object, a relationship which is described by the equation $f = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with:
+The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics, the acceleration $a$ of an object is equal to the applied force $F$, divided by the mass $m$ of the object, a relationship which is described by the equation $F = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with:
 
 \begin{equation}
-    \vec{a} = \frac{\vec{f}}{m}  
+    \vec{a} = \frac{\vec{F}}{m}  
 \end{equation}
 
 \noindent
-All the forces that interact with the car are applied along the axis of the cars movement, i.e. no forces accelerating the car laterally are considered. Lateral movement, i.e. skidding, of the car is also excluded from the simulation.
 
+The car weight used in the simulation is 642 kilogrammes, which albeit being oddly specific, is a reasonable weight for a Formula 1 car without a driver. The rules state that the minimum weight of a car including the driver in full gear but excluding fuel is 702 kilogrammes \cite{f1_weight}. The accelerating force was set to a constant 9100 newton, the braking force 25000 newton and the possible centripetal force 2500 newton.
 
+How much the car is able to turn, or rotate, depends on the current turning radius. The angle the car rotates depends on how far it drives along the circle sector, approximated by $v\Delta t$. As the length of a circle sector is $\theta r$, were $\theta$ is the angle and $r$ the radius of the circle, \(\theta = \frac{vt}{r}\). Combined with equation \ref{equation:turn_radius} the resulting function for the rotation is described in \ref{equation:rotation_function}. Skidding of the car is excluded from the simulation as it only represents a state where the traction capabilities have been breached.
 
-% FORMULA FOR TURNING RADIUS
-
-The car weight used in the simulation is 642 kilogrammes, which albeit being oddly specific is a reasonable weight for a Formula 1 car without a driver. The rules state that the minimum weight of a car including the driver in full gear but excluding fuel is 702 kilogrammes \cite{f1_weight}.
+\begin{equation}
+\label{equation:rotation_function}
+    \Delta r = \frac{F_c \Delta t}{mv}
+\end{equation}
 
 The tracks used in the simulator are flat 3D-meshes with triangle faces. The meshes were modelled in Autodesk Maya and were imported to the simulator in the Wavefront .OBJ format. In order to simplify the representation of the track the cross sections of the track are extracted from the mesh. These cross sections are treated as a series of checkpoints that define the track.  
 
-It is assumed that the presented model fulfil the requirements presented in \ref{requirements}, and that it does not introduce aspects that changes the characteristics of the optimal behaviour.
-
-%section{Visualisation ???}
 
 \section{NEAT Implementation}
 
 NEAT was implemented in C++ primarily based on the descriptions in the original paper \cite{stanley:neat}. Two implementations were also used as references, the latest C++ implementation from the authors themselves \cite{neat_source} and a script written in Lua used in a Super Mario bot \cite{mario_source}. 
 
-In order to verify the implementation of the algorithm it was tested by training it to approximate the logical exclusive-or function (XOR). The reason that the XOR-function is relevant to test is because it is not linearly separable, this means that a neural network requires hidden nodes in order to approximate it \cite{haykin:xor, stanley:neat}. The test was used as a sanity check to ensure that the implementation of the algorithm made additions and changes to the network structure. 
+In order to verify the implementation of the algorithm it was tested by training it to approximate the logical exclusive-or function (XOR). The reason that the XOR-function is relevant to test is because it is not linearly separable, this means that a neural network requires hidden nodes in order to approximate the function \cite{haykin, stanley:neat}. The test was used to validate that the implementation of the algorithm made additions and changes to the network structure. 
+
+Worth noting is that the neural networks used by NEAT differs slightly from the classical approach. Instead of treating the biases as a separate set of values, a bias input is introduced. The bias input is set to a constant non-zero value. In order to add a bias value to a neuron a connection from the bias input to that node can be added. The bias value of the node can be changed by modifying the connection weight. This is a convenient approach since it allows the algorithm to modify the bias values with the same operations that are used to modify the network topology.
 
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
-Additionally some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. This enables us to specify what activation function should be used within a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight.
+Additionally, some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. Therefore, specific activation functions could be used for a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight. Initiating the training without the initial connections, the algorithm would be classified as fs-NEAT, that differs to NEAT only in this specific matter \cite{whiteson}.
 
 \subsection{NEAT Configuration}
-NEAT can be configured in order to change the general behaviour for the algorithm. The configuration used during the project can be found in appendix \ref{appendix:project_settings:neat_constants}. This configuration is based on the Super Mario bot implementation \cite{mario_source} as well as the original paper \cite{stanley:neat}. However, some modifications were performed in order to achieve more appropriate behaviour.
+NEAT can be configured in order to change the general behaviour for the algorithm. The configuration used during the project can be found in appendix \ref{appendix:project_settings:neat_constants}. This configuration is based on the Super Mario bot implementation \cite{mario_source} as well as the original paper \cite{stanley:neat}. However, some modifications were performed in order to achieve a more appropriate behaviour.
 
-It was noted that the amount of nodes produced by NEAT was significantly larger than required. Nodes were produced were a simple edge weight modification could have been performed instead. To prevent this behaviour, the probability of adding a node was lowered.
+It was noted that the amount of nodes produced by NEAT was significantly larger than required. Nodes were produced when a simple connection weight modification would have been more appropriate. To prevent this behaviour, the probability of adding a node was decreased.
 
-When performing long training sessions, it also seems reasonable that allowing networks to stay alive for longer periods of time will be beneficial. This could allow behaviour that initially is non-optimal to prove itself superior when allowed more time to evolve. Thus the allowed time for a network to survive, before it is killed of by NEAT, was increased.
+When performing long training sessions, it also seems reasonable that allowing networks to stay alive for longer periods of time will be beneficial. This could allow behaviour that initially is non-optimal to prove itself superior when allowed more time to evolve. Thus the allowed time for a network to live on, before it is killed off by NEAT, was increased.
 
 
 
@@ -62,9 +64,9 @@ When performing long training sessions, it also seems reasonable that allowing n
     % AIn styr bilen i varje simulation step
     % Indata, förklara inte vilken typ av indata, säg bara vart den kommer ifrån.
     % Slutgiltliga resultatet av simulationen ger feedback
-The training process works by adapting neural networks to drive a car. NEAT is utilised in combination with the simulator to train the genomes. The actual learning, i.e. changes to the genomes, is the responsibility of NEAT. However, the evolutionary process requires a measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome so that the evolutionary process can proceed. 
+The training process adapts neural networks to drive a car. NEAT is utilised in combination with the simulator to train the genomes. The actual learning, i.e. changes to the genomes, is performed by NEAT. However, the evolutionary process requires a measurement of fitness to evaluate genomes. Thus the training procedure is responsible for calculating the fitness of every genome, so that the evolutionary process can proceed. 
 
-In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific genome has performed. The training process generates a network based on the genome that is to be evaluated, and provides it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to control the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
+In order for the training process to evaluate a genome and calculate its fitness, the simulator is utilised. Calculating the fitness requires information about how well a specific genome has performed. The training process generates a network based on the genome that is about to be evaluated, and provides it to the simulator. The simulator uses this network to control the car during the simulation. In each update of the simulation, the simulator feeds data about the car and its environment into the network, with which the network calculates how to control the car. Once the simulation terminates, the simulator presents the training process with a result that can be used to calculate the fitness.
 
 The following subsections cover the network inputs and outputs used in detail. Furthermore, the evaluation process and fitness function will be covered. 
 
@@ -98,9 +100,9 @@ The following subsections cover the network inputs and outputs used in detail. F
 % 	Segment 2, point 4-7, 66-205m
 % 	Segment 3, point 7-10, 205-546m
 
-The system requires information about the car and environment in order to decide how to act. Providing the appropriate information is essential if the system is to learn an effective behaviour. The appropriateness of information depends on the problem and target behaviour. 
+The system requires information about the car and environment in order to decide how to act. Providing the appropriate information, is essential if the system is to learn an effective behaviour. The appropriateness of information depends on the problem and target behaviour. 
 
-The inputs used within the project aim to give an easy way for the system to couple situations with an appropriate action. The input values are summed up in table \ref{tab:input_table} and can be divided into two groups; one that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment each.
+The inputs used within the project aim to give an easy way for the system to couple situations with an appropriate action. The input values are summarised in table \ref{tab:input_table} and can be divided into two groups; one that describes the shape of the track in front of the car, and one that describes the current state of the car. Even though not all inputs were used in every experiment, they are all present in at least one experiment each.
 
 \begin{table}[h!] 
   \centering
@@ -124,11 +126,7 @@ The inputs used within the project aim to give an easy way for the system to cou
   \label{tab:input_table}
 \end{table}
 
-\noindent
-There are two types of input values describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust race lines before arriving at corners. 
-
 \begin{wraptable}{r}{0.3\textwidth}
-    \vspace{-15pt}
     \hspace{5pt}
     \begin{tabular}{ll}
     \toprule
@@ -150,9 +148,12 @@ There are two types of input values describing the shape of the track in front o
     \label{tab:point_layout}
 \end{wraptable}
 
+\noindent
+There are two types of input values describing the shape of the track in front of the car. These inputs aim towards letting the system plan ahead for the car, in order to adjust position of the car before arriving at corners. 
+
 The first type is the curvature data, which is a series of angles. The angles are based on the position of the car and 10 points on the mid line of the track. The first angle is calculated from the direction that the car faces and the direction to the first point. The rest of the angles are calculated by comparing the directions of the succeeding line segments defined by the previous points.
 
-The distance between the points increase exponentially for each point. This leads to higher resolution closer to the car where detail is more important, and lower resolution where the general tendency of the track is sufficient. For the experiments conducted, an increase of $35\%$ was deemed sufficient with points spanning from 10 meters to 546 meters in front of the car, with the spread presented in table \ref{tab:point_layout}. This distribution of points would make the car interpret the curvature even further than necessary to plan ahead.
+The distance between the points increase exponentially for each point. This leads to higher resolution closer to the car where detail is more important, and lower resolution where the general outline of the track is sufficient. For the experiments conducted, an increase of $35\%$ was deemed sufficient with points spanning from 10 meters to 546 meters in front of the car, with the spread presented in table \ref{tab:point_layout}. This distribution of points would give the car the chance to interpret the curvature even further than necessary to plan ahead.
 
 %If not table
 %The 
@@ -160,7 +161,7 @@ The distance between the points increase exponentially for each point. This lead
 %Pre opponation
 %The first type is the curvature data, which is a series of angles. The angles are based on the position of the car and 10 points on the mid line of the track. The first angle is calculated from the direction that the car faces and the direction to the first point. The rest of the angles are calculated by comparing the directions of the succeeding line segments defined by the previous points. The distance between the points increase exponentially by 35 percent for each point. The points are distanced from the car by 10, 24, 42, 66, 100, 144, 205, 287, 397, and 546 metres. The exponential increase of distances makes the resolution higher close to the car where detail is most important, and less resolution where the general tendency is sufficient.
 
-The second type is the summed curvature of three different regions. The regions consists of the points 1 through 4, 4 through 7, and 7 through 10. These summations provide a better overview of the track shape than the individual angles. 
+The second type is the summed curvature of three different regions. The regions consist of the points 1 through 4, 4 through 7, and 7 through 10. These summations provide a better overview of the track shape than the individual angles. 
 
 The set of inputs that describe the current status of the car are more simple in nature. They aim towards giving the system the capability of keeping the car on the track at all times. These inputs consist of current car speed measured in meters per second, angle between the cars current direction and the mid line of the track, distance from the car to the tracks mid line, as well as the distance between the car and the left and right edge of the track.
 
@@ -173,7 +174,7 @@ Additionally, a bias value is introduced as an input to the network. The value o
     Name & Description\\
     \midrule
     Turning rate & Current steering applied to the car \\
-    Acceleration \& breaking & Amount of acceleration/breaking applied to the car \\
+    Acceleration \& braking & Amount of acceleration/braking applied to the car \\
     \bottomrule
   \end{tabular}
   \caption{List of all available outputs for the neural network.}
@@ -181,7 +182,7 @@ Additionally, a bias value is introduced as an input to the network. The value o
 \end{table}
 
 \noindent
-The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. An activation function was chosen such that both output values can span from $[-1,1]$. Specifically the activation function seen in equation \ref{method:activation_function} was chosen.
+The number output values for the networks used during the project are limited to two. One for turning rate and one for acceleration and braking. An activation function was chosen such that both output values can span from $[-1,1]$. Specifically, the activation function seen in equation \ref{method:activation_function} was chosen.
 
 \begin{equation}
 \label{method:activation_function}
@@ -191,9 +192,9 @@ The number output values for the networks used during the project are limited to
 \noindent
 For turning rate negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum.
 
-A negative output value for acceleration and breaking instead represents breaking while a positive value represents accelerating. The value is interpreted by the simulator as the ratio between the desired and the maximum value, thus a value of $1.0$ correlates to the maximum amount of acceleration.
+For acceleration and braking, a negative value represents braking, while a positive value represents accelerating. The value is interpreted by the simulator as the ratio between the desired and the maximum value, thus a value of $1.0$ correlates to the maximum amount of acceleration.
 
-% The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and breaking, the output values ranges from $[-1, 1]$, where positive values represents accelerating and negative values breaking. The value is interpreted by the simulator as the ratio between the desired and the maximum value, thus a value of $1.0$ correlates to the maximum amount of acceleration.
+% The values for turning rate are in the range $[-1,1]$, where negative values represents steering right and positive ones to the left. If the output value of a network exceeds the amount of steering that can be applied at the current car speed, the simulator floors the value to that maximum. For the acceleration and braking, the output values ranges from $[-1, 1]$, where positive values represent accelerating and negative values braking. The value is interpreted by the simulator as the ratio between the desired and the maximum value, thus a value of $1.0$ correlates to the maximum amount of acceleration.
 
 \subsection{Evaluation}
 %In order to evaluate the performance of a genome, a fitness value has to be calculated. This is done by building a network from the genome representation and using it as a controller for the car in the simulation. The simulation is then run until either the car has finished the track, crashed, or do not progress. 
@@ -204,7 +205,7 @@ When calculating the fitness, two values from the simulation are considered; the
 
 However, if time is valued in combination with progression it might incite to drive fast and crash instead of progressing in distance. One way to solve this is to only consider time it manages to finish the track. In that way, fitness is first rewarded for the progression on the track and then, if the car also completed the track, extra fitness is added for how little time was spent.
 
-As of this, the time contribution to the fitness function is always positive. In addition, as time get smaller it will get increasingly difficult to decrease it further. It may therefore be beneficial if the resolution of the fitness function is greater for smaller time values. One function that satisfies these conditions is \((\sqrt{t_{max}} - \sqrt{t})^2\) presented in figure \ref{figure:time_fitness}, where $t$ is the termination time of the simulation and $t_{max}$ is an suitable upper limit for the track. Combined with distance, the resulting fitness function is as described in equation \ref{eq:fitness_distance_time}.
+As of this, the time contribution to the fitness function is always positive. In addition, as time get smaller it will get increasingly difficult to decrease it further. It may therefore be beneficial if the resolution of the fitness function is greater for smaller time values. One function that satisfies these conditions is \((\sqrt{t_{max}} - \sqrt{t})^2\) presented in figure \ref{figure:time_fitness}, where $t$ is the termination time of the simulation and $t_{max}$ is a suitable upper limit for the track. Combined with distance, the resulting fitness function is as described in equation \ref{eq:fitness_distance_time}.
 
 
 \begin{figure}
@@ -225,11 +226,11 @@ As of this, the time contribution to the fitness function is always positive. In
 
 \noindent
 %Equation \ref{eq:fitness_distance_time} presents the fitness function that was used to evaluate genomes, 
-Where the distance driven along the track is denoted by $d$ and the distance to complete a lap is denoted by $d_{max}$. In order to properly balance the importance of lap time and distance driven, the constant $\lambda$ was introduced. During the following experiments, $\lambda=5$ was found to be reasonable.
+Where the distance driven along the track is denoted by $d$ and the distance to complete a lap is denoted by $d_{max}$. In order to properly balance the importance of lap time and distance driven, the constant $\lambda$ was introduced. During the following experiments, $\lambda=5$ was found to be reasonable constant.
 
 %The function aims towards letting the system learn one task at a time. This should reduce complexity of performing a lap, since the system only has to consider distance driven initially.
 
-It is important to note that the distance driven $d$ is the distance that the car has driven along the track. This distance is equal to the position of the car, projected on the mid line of the track. Thus driving in a sinusoidal pattern will not affect the final driven distance.
+It is important to note that the distance driven $d$ is the distance that the car has driven along the track. This distance is equal to the position of the car, projected on the mid line of the track. Thus driving in a sinusoidal pattern will not affect the final distance driven.
 
 
 \section{Experiments}
@@ -239,7 +240,7 @@ The project was an iterative process. Progress was made by experimentation, wher
 \label{method:constant_speed}
 Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to steer through every corner on the circuit. 
 
-The track can be seen in figure \ref{fig:normal_track}. The corners are designed to have an increasing complexity along the track, and is built up by a variety of corners. The input points shown in table \ref{tab:point_layout}, covers approximately the two closest upcoming corners, regardless of what section section the car is located in.
+The track can be seen in figure \ref{fig:normal_track}. The corners are designed to have an increasing complexity along the track, and consists of a variety of corners. The input points shown in table \ref{tab:point_layout} on page \pageref{tab:point_layout}, covers approximately the two closest upcoming corners, regardless of what section the car is located in.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{normal_track}
@@ -254,7 +255,7 @@ These experiments will give insight into how well the AI can interpret the provi
 
 % TODO: Formulera om: Without any curvature information, the AI is unable to plan ahead.
 % Det känns som en slutsats, det borde kännas mer som det är logiskt sjävklart.
-Comparing the result of the different experiment variants should show whether or not the addition of curve data will enable the AI to plan ahead and how that affects the behaviour of the AI. Without any curvature information, the AI is unable to plan ahead. Since it is only aware of the current position and orientation of the car, it is only able to react to that information. It seems reasonable that providing information describing the shape of the track ahead of the car will enable the car to plan ahead. Thus improving the AI's ability to take difficult corners and steer effectively. 
+Comparing the result of the different experiment variants should show whether or not the addition of curve data will enable the AI to plan ahead and how that affects the behaviour of the AI. Without any curvature information, the AI is unable to plan ahead. Since it is only aware of the current position and orientation of the car, it is only able to react to that information. It seems reasonable that providing information describing the shape of the track ahead of the car will give the car the chance to plan ahead. Thus improving the AI's ability to take difficult corners and steer effectively. 
 
 % Stuff that could be included in the text above:
 % 1. It should also help with deciding whether or not the way in which the track and steering actions are represented needs to be modified in any way, in order to increase network performance.
@@ -279,31 +280,32 @@ Several experiment variations with this configuration will be carried out. In th
 
 \subsection{Short Track Segments}
 \label{subsec:shorttracksegment}
-This variant of the experiment will test the system on shorter track segments, only containing one corner each. The motivation for testing short tracks is that it should be easier for the system to find effective behaviours on a short segment than on a complete circuit. This is because the behaviour required to complete a long circuit is generally more complex than the behaviour needed to complete just one corner. Thus the algorithm will be able to start optimising for speed earlier and on less developed genomes. 
+This variant of the experiment will test the system on shorter track segments, only containing one corner each. The motivation for testing short tracks is that it should be easier for the system to find effective behaviours on a short segment than on a complete circuit. This is because the behaviour required to complete a long circuit is generally more complex than the behaviour needed to complete just one corner. Thus, the algorithm will be able to start optimising for speed earlier and on less developed genomes. 
 
-The tracks consist of two straights connected by a corner. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a 30-degree corner throughout which the car should be able to keep a high speed. The second one is a 90-degree corner with a small inner radius. The third corner used is a hairpin corner which turns 180-degrees with a small inner radius. 
+The tracks consist of two straights connected by a corner, and can be seen in figure \ref{fig:short_tracks}. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a 30-degree corner throughout which the car should be able to keep a high speed. The second one is a 90-degree corner with a small inner radius. The third corner used is a hairpin corner which turns 180-degrees with a small inner radius. 
 \begin{figure}[H]
     \centering
-    \subfloat[The 30-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30}}}%
+    \subfloat[30-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30}}}%
     \qquad
-    \subfloat[The tight 90-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90}}}%
+    \subfloat[Tight 90-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_90}}}%
     \qquad
-    \subfloat[The 180-degree hairpin corner.]{{\includegraphics[width=0.28\textwidth]{corner_180}}}%
+    \subfloat[180-degree hairpin corner.]{{\includegraphics[width=0.28\textwidth]{corner_180}}}%
 
-    \caption{Aerial view of the three corner types. The grey line is the track.}
+    \caption{Short track segments with different corner types. The grey line is the track.}
+    \label{fig:short_tracks}
 \end{figure}
 
 \noindent
-Successful results in these experiments would confirm that the system can find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. A scenario where the experiment yield significantly more effective behaviours than the baseline experiment would give insight into the limits of the training process and how the fitness function is used. This insight could be used to find effective behaviours for longer tracks. 
+Successful results in these experiments would confirm that the system can find effective behaviours for shorter track segments. If that is the case the training process for the short track segments could be extended to solve more complex problems. A scenario where the experiment yield significantly more effective behaviours than the baseline experiment would give insight into the limits of the training process, and how the fitness function is used. This insight could be used to find effective behaviours for longer tracks. 
 
 %==================================================================
-\subsection{Multiple short track segments}
+%\subsection{Multiple short track segments}
 
-If the system finds effective behaviours on the short track segments, one interesting experiment is to train one population of genomes on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a more general effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However, if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
+%If the system finds effective behaviours on the short track segments, one interesting experiment is to train one population of genomes on multiple short segments. Finding behaviours effective at several different types of corners is one step towards a more general effective behaviour. Training on multiple track segments could be a safer training environment for the genomes because the consequences of failing on one segment is not necessarily catastrophic. A change that would increase the effectiveness over one segment but leads to a crash on another would be catastrophic on the circuit. However, if the genomes are evaluated on several track segment, failures on one segment can be compensated for by performing well on others. 
 
-The track segments used are the same ones as in the short track segment experiment with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
+%The track segments used are the same ones as in the short track segment experiment, seen in figure \ref{fig:short_tracks}, with the addition of the mirrored versions of those segments. Thus the fitness of a genome is evaluated by summing the fitness acquired on each of the six tracks.
 
-This experiment could answer two interesting questions. Is the system able to find behaviours effective in multiple scenarios and how do it differ to training different corners in a sequence in a single track? Additionally, how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
+%This experiment could answer three interesting questions. Is the system able to find behaviours effective in multiple scenarios? How does it differ to training different corners in a sequence in a single track? Additionally, how general would that behaviour be? Answers to these questions could give insight into how large the set of training scenarios required to find a fully general behaviour is. 
 %====================================================================
 
 %% SKRIV OM ALTERNATING TRACKS IFALL VI SKALL DET
@@ -311,12 +313,20 @@ This experiment could answer two interesting questions. Is the system able to fi
 
 \subsection{Mirrored Track}
 \label{method:mirror}
-One of the project goals is to find generalised knowledge of how to drive in the racing domain. This means that a genome learns to drive regardless of what track it drives on. Instead of finding behaviours effective on a specific circuit, the goal is to find a behaviour that is effective on any circuit. In order to test this a population of genomes is trained on the complete circuit used in previous experiments. After a while some genomes will have learnt to complete the circuit. The population is then transferred to another track which is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. Note that the number of tests and variation in environment is not enough to fully prove generality. However, the results will indicate whether or not some degree of generality is obtainable. 
+One of the project goals is to find generalised behaviour of how to drive in a racing domain. This means that a genome learns to drive regardless of what track it drives on. Instead of finding behaviours effective on a specific circuit, the goal is to find a behaviour that is effective on any circuit. In order to test this a population of genomes is trained on the complete circuit used in previous experiments. Eventually the population will have adapted to the circuit. The population is then transferred to a new circuit, which as shown in figure \ref{fig:mirrored_tracks} is a mirrored version of the one used earlier. This means that the genomes will drive on a track where each corner on the circuit has the same shape but opposite direction of the ones on the other circuit. The development of this population can then be compared to the development of a control group that is only trained on the mirrored track. Note that the number of tests and variation in environment is not enough to prove generality. However, the results will indicate whether or not some degree of generality is obtainable. 
 
+\begin{figure}[H]
+    \centering
+    \subfloat[The original circuit.]{{\includegraphics[width=0.45\textwidth]{normal}}}%
+    \qquad
+    \subfloat[The mirrored circuit.]{{\includegraphics[width=0.45\textwidth]{mirrored}}}%
+   
+    \caption{The original and mirrored versions of the circuit. The arrows show the starting position and direction of the car on each track.}
+    \label{fig:mirrored_tracks}
+\end{figure}
 
-%% TODO: Lägg in bilder där man kan se skillnaden på banorna med startposition och riktning utmarkerat så att man fattar.
-
-There is a wide range of possible results in this experiment, in the worst case, the performance of the trained group is equal or worse than the control group and in the best case it performs as well as before the change of circuit. The best case scenario is unlikely, since the genomes will encounter corners they haven't encountered before. However, if the test population outperforms the control group in any significant way it shows that the population has acquired some general knowledge of how to turn or manage the speed. 
+\noindent
+There is a wide range of possible results in this experiment, in the worst case, the performance of the trained group is equal or worse than the control group and in the best case it performs as well as before the change of circuit. The best case scenario is unlikely, since the genomes will encounter corners they have never encountered before. However, if the test population outperforms the control group in any significant way it shows that the population has acquired some general knowledge of how to turn or manage the speed. 
 
 If the results show some form of generalisation there is a possible extension to the experiment that could yield interesting results. The extension regards the extent to which the population forgets knowledge about the original circuit when migrated. If the population is migrated back to the original track after learning how to drive on the mirrored one, will it still remember how to drive on it? Can the population learn to drive well on one track without forgetting how to drive well on the other?
 

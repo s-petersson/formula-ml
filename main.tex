@@ -33,7 +33,7 @@
 % \cleardoublepage
 \setcounter{page}{1}
 \pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
-\setlength{\parskip}{0pt plus 1pt}
+\setlength{\parskip}{0pt}
 
 % INTRODUCTION
 \input{report/01_introduction}
@@ -65,6 +65,7 @@
 \pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
 \cleardoublepage
 \addcontentsline{toc}{chapter}{Bibliography}
+\Urlmuskip=0mu plus 1mu\relax
 \bibliography{report/bibliography}
 
 \appendix

@@ -1,7 +1,7 @@
 # Week 4, February 8-14
 Daniel had a few days of vacation. Simon planned to, but did not. 
 
-Martin added the feature to detection if a point is on the track.
+
 
 ### Planning report
 Most of the work went to the planning report. 
@@ -33,6 +33,12 @@ The algortihm would need to optimize for time to a specific place on the track, 
 
 
 ### Martin Nilsson
+
+I added code for checking whether or not a point intersect the track, which is used for checking whether or not the car is on the track. 
+
+Also worked on implementing neural networks to understand how they work.
+
+Most of the time spent went to writing the planning report. 
 
 ### Simon Petersson
 
