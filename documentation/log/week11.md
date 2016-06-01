@@ -33,9 +33,9 @@ The blue area is the area in which the bug occurs. The reasoning is that the clo
 I solved this problem by setting the distance driven by the car to the current checkpoints distance on the track, when the car is in the blue area. However this is not optimal since the cars distance will remain the same over all of the blue area. We have chosen to disregard this issue for now, and revisit the algorithm if we discover that this causes problems.
 
 ### Q-Learning
-I read up on Q-Learning and the possibility of applying this to driving autonomous cars. There were some interesting results, however the main problem is that we do not have discrete actions (do this or do that), but continuous actions (do this, with a degree of X). This is not something that does not seems possible with Q-learning. However if we modify our problem, Q-Learning might be very relevant. There were some interesting approaches to utilizing supervised learning, based on generating sample data that we can backpropagate through the network.
+I read up on Q-Learning and the possibility of applying this to driving autonomous cars. There were some interesting results, however the main problem is that we do not have discrete actions (do this or do that), but continuous actions (do this, with a degree of X). This is not something that seems possible with Q-learning. However if we modify our problem, Q-Learning might be very relevant. There were some interesting approaches to utilizing supervised learning, based on generating sample data that we can backpropagate through the network.
 
-Q-Learning is very different from the approach that we are currently using, and if there is no sight of progress from our current solution Q-Learning might be worth a shot.
+Q-Learning is very different from the approach that we are currently using, and if there is no sight of progress from our current solution Q-Learning might be worth a shot. However, at the moment we feel that it is more beneficial to pursue the already implemented NEAT algorithm. Since that hasn't proven itself to be unsuccessful yet.
 
 ## Daniel
 Finished the loading and saving of Generations, and the network can be loaded from an arbitrary location. Though there is still one bug, that is that the Generation count resets when a saved network is loaded.

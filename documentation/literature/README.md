@@ -31,7 +31,7 @@ Also discusses CoSyNE and the pole balancing problem
 cited Evolving Neural Networks through augmenting topologies
 
 
-###Efficient Non-Linear Control through Neuroevolution
+### Efficient Non-Linear Control through Neuroevolution
 (Martin) 
 http://nn.cs.utexas.edu/downloads/papers/gomez.ecml06.pdf
 This paper show that neuroevolutionary methods, especially CoSyne, but also NEAT and SANE can be effective at finding non-linear control patterns. Also gives an overview of different relevant neuroevolutionary algorithms.

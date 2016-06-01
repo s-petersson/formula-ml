@@ -23,14 +23,14 @@ This chapter presents and discusses the results achieved during the project. The
 % example: did it help to help in any way
 % example: present data
 % example: did the hypothesis work
-\section{Steering a car moving at a constant speed}
+\section{Steering a Car Moving at a Constant Speed}
 % Här presenteras resultaten för experimenten där hastigheten var fixed
 % först utan kurvdata sedan med
 % eventuellt någonting om shortest path
 
 As explained in \ref{method:constant_speed}, two experiments where the car moved at a constant speed were conducted during the project. The following sections presents the results achieved during these experiments. Section \ref{subsec:local_perception} presents the behaviour of a system that is not presented with information about the curvature, while section \ref{subsec:fixedspeedcurvature} presents the behaviour of a system that is, as well as a comparison between the two results. Additionally, an observation made when removing the limitations of the cars turning radius is presented in section \ref{sec:shortest}. 
 
-\subsection{Only local perception}
+\subsection{Only Local Perception}
 \label{subsec:local_perception}
 Providing the system only with local perception and giving it control of the steering, as explained in \ref{method:constant_speed}, present interesting results. The system immediately learns that positioning the car in the middle of the track at all times is preferable. Given that the system only has knowledge about the local relation between the car and the track, this behaviour is reasonable.
 
@@ -57,7 +57,7 @@ The amount of training required to complete a lap, if possible, is dependent on 
 These results confirm that NEAT can find behaviours that are applicable to steering a race car. The system managed the task better than expected. However, due to the limited information, the system is unable to prepare for an approaching corner in a sophisticated way. The only information the AI can base its decisions on is its current position on the track. Providing information about how the track will progress should enable the system to prepare for upcoming corners. 
 
 
-\subsection{Local perception and track curvature}
+\subsection{Local Perception and Track Curvature}
 \label{subsec:fixedspeedcurvature}
 
 When using the track curvature data in addition to the local perception, solutions that completed the track was found up to 12.1 m/s. It is 0.4 m/s more than was found not using the curvature data. The difference in speed may seem small, but the difference in behaviour is substantial.
@@ -109,7 +109,7 @@ The recurrent characteristics in the behaviour for a particular solution often h
 %Check for longer training sessions
 It seems like the system does not properly learn to distinguish between different levels of corner difficulty. Instead the system finds one behaviour and scales it depending on the situation. Worth noting is that these training sessions only lasted for up to $600$ generations. It is possible that more effective behaviours could be found during longer training sessions. 
 
-\subsection{Shortest path}
+\subsection{Shortest Path}
 \label{sec:shortest}
 The fastest route for a car that moves forward with a constant speed is the shortest one. This means that the only way for a genome to increase its fitness once it completes the circuit is to decrease the distance driven around the track.  
 
@@ -121,8 +121,8 @@ The car follows the key behaviour aspects, but not to the extent that the path i
 
 
 % NOTE: Data based on speed_and_control_run_1
-\section{Full control of the car}
-
+\section{Full Control of the Car}
+\label{result:fullcontrol}
 The base experiment performed, as explained in section \ref{method:baseline}, gives the possibility of controlling speed by controlling the throttle and brakes of the car. The addition of the speed management led to a larger increase in complexity than anticipated. By looking at the results from training sessions, a significant increase in complexity is apparent.
 
 It takes 98 generations until the training process reaches a point where one genome can perform a complete lap. The behaviour observed after 98 generations is one that drives at a constant, slow pace along the track. The car has a fitness value of $5346.8$, which means it travels $5200$ meters in $1110$ seconds, as seen in table \ref{tab:fullcontrol}. Between the corners, the car travels in a straight line along the track. The position at which this line is relative to the tracks mid line changes when the car goes through a corner.
@@ -175,7 +175,7 @@ The system never stops positioning the car in the middle of the track, this sugg
 
 % When the system is given the ability to accelerate and decelerate, it is clear that the performance is altered. The increase in outputs and possible actions, creates a much more complex environment that requires more computation to achieve the same level of results as a system that utilises constant speed. This results in worse performance overall.
 
-\section{Short track segment}
+\section{Short Track Segment}
 \label{result:short}
 As hypothesised in section \ref{subsec:shorttracksegment}, the system is able to find more effective behaviours on shorter tracks than on the complete circuit. As shown in figure \ref{fig:short_racelines}, the system drives at a high speed on the straights and brakes in order to steer through the corners. Thus an effective speed management behaviour, which is one of the target behaviour criteria, has been found. However, on these tracks the other criteria, the positioning, is missing. The system does not position the car towards the outer edge or turn early in the corners. 
 
@@ -300,13 +300,12 @@ The extension to the experiment where the migrated population was transferred ba
 These results show that the system is able to find generalised knowledge to some extent. However, the results also show that some knowledge acquired on the original circuit is lost during the training on the mirrored one. One possible reason is that the neural networks become over-fitted to the track they are trained on. This means that the networks have adapted to the track with behaviours that are well suited for that circuit but not in general. The traits responsible for those behaviours are then disabled or changed through mutations when the networks are adapted to the new environment, resulting in a loss of knowledge. One could argue that this loss of knowledge is desired, since the loss of knowledge is a part of adapting to the new environment. However, it is also desirable if the system can learn to solve new problem while it continues to be effective on the earlier problems. If the system stops being evaluated in a specific environment there is no mechanism that preserves knowledge specific to that environment. Thus in order for the system to remember how to solve a problem, the evaluation on that problem must continue. 
 
 
-\section{Discussion on the physics used in the simulator}
-The speed held for the experiments was generally low in comparison to the capabilities of the car. The speed achieved, at least for the large track, was about 10 m/s whereas it was allowed to drive almost 100 m/s. The constants for the car performance was inspired by formula 1 cars, but, one mistake was observed late into the experimentation process. The force used for the maximum centripetal force $F_c$ used to turn and rotate the car was notably low, a tenth of the maximum retardation force. Edmondson (2011) present measurement data for a high performance sports car, for which the maximum lateral acceleration was about double the maximum retardation. However, it was conceived that the error would only effect the speed for which different optimal behaviours occur, and not the conceptual characteristics.
+\section{Discussion on the Physics Simulation}
+The speed held for the experiments was generally low in comparison to the capabilities of the car. The speed achieved, at least for the large track, was about 10 m/s whereas the maximum speed allowed was almost 100 m/s. The constants for the car performance was inspired by formula 1 cars but one mistake was observed late into the experimentation process. The force used for the maximum centripetal force $F_c$ used to turn and rotate the car was notably low, a tenth of the maximum deceleration force. Edmondson (2011) present measurement data for a high performance sports car, for which the maximum lateral acceleration was about double the maximum deceleration. However, it was conceived that the error would only effect the speed for which different optimal behaviours occur, and not the conceptual characteristics.
 
 On the other hand, if the possible speed for which corners could be taken would be larger, the feasible range of speeds would also be larger and that might make it easier for the controller. It might also be worth investigating whether an increased possible speed through the corners, that would close in slightly to the maximum speed, also would make it easier to find a more distinguished behaviour on the straights.
 
-Concerning some of aspects of physics that were ignores, it probably was a good choice as the results for the simplified physics was not close to optimal. Early experimentation showed that a combined traction budget for the two axis of forces, increased the training times and reduced the performance, understandably as the complexity of the problem increased. This is probably also true for other neglected phenomena.
-
+Concerning some of the aspects of physics that were ignored, it probably was a good choice as the results for the simplified physics was not close to optimal. Early experimentation showed that a combined traction budget for the two axis of forces, increased the training times and reduced the performance, understandably as the complexity of the problem increased. This is probably also true for other neglected phenomena.
 
 \section{Discussion on the NEAT Algorithm}
 \label{discussion:neat_mechanism}
@@ -317,30 +316,23 @@ The algorithm is not smart. It does not know or understand what aspects of the p
 If a network performs badly in comparison to the other members of the same species, or if a species performs significantly worse than the other species they will be discarded\cite{stanley:neat}. Additionally, if a species has stagnated, which means that it has not improved for a specified number of generations, it will also be discarded. A third aspect is that worse performing species will have fewer children, thus shrinking in size and in potential diversity. Therefore, the range of time where individual genomes and new innovations can survive is rather well defined. In order to survive it is necessary to improve or at least maintain an above average fitness. Thus it is important for genomes to stay functioning when mutated. Mutations that lead to a significantly worse fitness will fall out of the favourable range and get discarded. It is therefore important that the complexity is gradually increased. If an improvement requires several mutations, NEAT may not be able to find the correct combination of mutations. Thus if NEAT is successful, it likely progressed by a series of small beneficial mutations. 
 
 %[TODO: CHECK RESULT FOR THIS DISCUSSION] 
-One example of this is be the steer and speed control. The genomes learn to drive slowly in order to complete the circuit. Then they will be compared on their lap times, but they may be somewhat locked into the behaviour learnt to complete the circuit. It is possible that there does not exist a path of gradual beneficial mutations to a more aggressive and effective behaviour. The genomes may be stuck in a local fitness maximum. This raised the question of whether it is better to complete the full circuit slowly or only completing a shorter segment but with an effective behaviour
+One example of this is results shown in section \ref{result:fullcontrol}. The genomes learn to drive slowly in order to complete the circuit. Then they will be compared on their lap times, but they may be somewhat locked into the behaviour learnt to complete the circuit. It is possible that there does not exist a path of gradual beneficial mutations to a more aggressive and effective behaviour. The genomes may be stuck in a local fitness maximum. This raised the question of whether it is better to complete the full circuit slowly or only completing a shorter segment but with an effective behaviour
 
 The difficulty of gradual progression may be particularly problematic when achieving behaviours requiring a combination of several components that require each other to be beneficial. If several aspects are required to progress simultaneously, and any of them are missing, it might cause a failure. One example of this can be seen in the full control experiment. If a network changed to drive at a higher speed, but does not change the position of the car accordingly it will likely cause the car to crash. This fact might be one of the reasons as to why some experiments do not perform in optimal ways.
 
 NEAT has proven itself to be useful. We can see in some experiments, e.g. shortest path, that the algorithm is able to find beneficial behaviours that often resemble target characteristics. But it is seldom able to learn all of the smaller details. A behaviour with all of the target characteristics has not been found. Thus it seems like it is hard to find the optimal behaviour using NEAT, due to the problems mentioned above. However, these observations on the key mechanics of the algorithm and the results in our study does not prove that NEAT is unable to find a general and optimal behaviour. Though the observations highlight a structural weakness that cannot be denied. 
 
-In real cars, at least as was done in the Stanley project, not one entity in the system controlled all aspects the driving task \cite{Thrun06}. Different parts of the system were responsible to handle aspects such as perception, planning and steering. Also, in The 2009 Simulated Car Racing Championship the most successful solution had different components in its controller \cite{racingChamp2009}. In a similar way, NEAT might be used with greater success if the particular neural networks are trained for more focused purposes.
 
 \section{Problem Modelling}
 
-In order to achieve the best possible results, it is important to use NEAT to its strengths and avoid its weaknesses. One important aspect is how the problem is modelled for the neural network. This includes what information the neural network is provided with and how the results are interpreted.  
+In order to achieve the best possible results, it is important to utilise NEAT to its fullest. One important aspect, is how the problem is modelled for the neural network. This includes what information the neural network is provided, and how the results are interpreted by the network.  
 
 The decision process can be divided into two steps. The first is to process and interpret the provided data. The second is to make a decision based on the processed information. It seems like it is beneficial to let the networks focus on the second step. This can be done by only feeding the neural networks with the information required to make good decisions. 
 
 
 A way to analyse different sets of data is by the information they contain and how relevant it is to the problem. If the data contain noise the training have a more difficult task to learn.
 
-
-One example is how the system sees the track. The networks could be provided with information describing the track as it is represented in the simulator, a set of three dimensional vectors defining a set of triangles. However, 
-
-
-
-The system could for example be provided with the data describing the track as it is represented in the simulator. 
-Concerning the track, it could get data straight from the representation model used by the simulator, vector points in triangles. However, it would have to learn how they relate to each other and what the relevance of them are is. The curvature data describe approximately the same thing, with a much lower amount of data. The exact coordinates of the triangles are not relevant, but how they relate to the car and how it affects the race line. 
+One example is how the system sees the track. The networks could be provided with information describing the track as it is represented in the simulator, a set of three dimensional vectors defining a set of triangles. However, it would have to learn how to interpret and correlate the different data points. The curvature data describes approximately the same thing, which a significantly lower amount of data. The exact coordinates of the triangles are not relevant, the important information is the shape of the track relative to the car.  
 
 To some level, the developer need to do the analysis of what is relevant and good information. If the data get to compact or hard to calculate with, it might get difficult to learn to use it, based on the discussion about multiple goals in section \ref{discussion:neat_mechanism}.
 
@@ -350,29 +342,11 @@ We do often observe that both variants, distances and curvature and their transf
 
 \section{NEAT Usability}
 
-The results presented contain both aspects of success and failure. It managed the control task to some degree, but it appears that the usage of NEAT presented uncertainly can solve problems with too much the complexity. As discussed in section \ref{discussion:neat_mechanism}, the performance is limited when steps in which it is required to progress is too large.
+The results presented contain both aspects of success and failure. The algorithm manages the control tasks to some degree, but does not achieve the target behaviour, when presented with more complex problems. As discussed in section \ref{discussion:neat_mechanism}, the performance is limited when the steps in which it is required to progress are too large.
 
 As described in section \ref{theory:neat}, NEAT is not an algorithm designed to solve a particular problem. Instead it produces artificial neural networks through neuroevolution. The process is solely controlled by the fitness value. As such, NEAT do not do any particular analysis of the actual problem. 
-
 If NEAT is sufficient to solve a problem, the simplicity makes the algorithm easily implementable as few domain specific processes are needed. It also means that the developer is not required to have as deep domain knowledge, as the algorithm managed to solve the problem on its own. It usually requires more effort and advanced knowledge in order to solve a problem, than it is to know about the problem.
 
+A different approach is as was done in the Stanley project, where not one entity in the system controlled all aspects the driving task \cite{Thrun06}. Different parts of the system were responsible to handle aspects such as perception, planning and steering. Also, in The 2009 Simulated Car Racing Championship the most successful solution had different components in its controller \cite{racingChamp2009}. In a similar way, NEAT might be used with greater success if the particular neural networks are trained for more focused purposes.
 
-
-% To adapt NEAT to the specified domain, a fitness function that takes all wanted behaviours into account is required. The algorithm is therefore easy to adapt to the domain, however this requires that more thought and effort is put into modelling the problem.
-
-%The results show that machine learning in general and especially NEAT can be used to create artificial neural networks with some aspects of an optimal racing behaviour. 
-%When trained to steer the car the algorithm finds behaviours where it plans ahead and positions the car before corners. 
-%Effective speed management behaviours are found when training the system to manage the speed in addition to steering the car on short track segments. 
-%Behaviours where both aspects are conceptually optimal have not been found. Due to blasfafb
-%The neural networks acquires some general knowledge since they are able to perform well when migrated to new 
-%This hints at the importance of a smooth learning curve for the system. In order to achieve this a suitable fitness function is required where progression towards the optimal behaviour result in gradually increasing fitness. 
-%NEAT was easy to adapt to the problem since it is loosely coupled to the problem domain. However due to this the problem modelling requires more effort. We found that creating a training environment in which the progress is smooth can greatly affect the learning rate of the algorithm. Furthermore, reducing the amount of input interpretation required in the neural networks can improve the learning rate. 
-
-% Hitta positionering med fixed speed.
-% Hitta Bra hastighetskontroll på korta banor.
-% Inte kunnat sammanföra de bra beteendena
-% Det verkar som att det är viktigt att det är en jämn progression för utvecklingen. 
-% NEAT är lätt att anpassa till olika problem för den är generell.
-% Dock svårt att utforma fitness-funktioner etc som leder till  jämn utveckling. 
-% Vi kan få viss genearellt beteende generell kunskap. 
-% Vi ser någon form av overfitting/ickegenerellt beteende.
+%It managed the control task to some degree, but it appears that the usage of NEAT presented uncertainly can solve problems with too much the complexity.

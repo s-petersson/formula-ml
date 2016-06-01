@@ -30,4 +30,10 @@ The exploration of NEAT in context of the racing problem. How it may be used and
 
 ## Martin
 
-Implemented the XOR experiment for NEAT, to detect issues with our implementation. 
+Implemented the XOR experiment for NEAT, to detect issues with our implementation.
+
+## Simon
+
+I had some problems with OpenGL rendering on my Macbook, so I spent time trying to figure out how to get the application to run on my computer again. There was also some bugs that occured due to the concurrent nature of our application. I spent time trying to figure out what was wrong there. We still had some inconsistencies between the visualisation and the training, but this time it was not because of the distance driven algorithm. It turned out to be the training algorithm that was setting a new generation as the best one, at an incorrect place in the process.
+
+Furthermore, I spent some time writing on the results part of our report. We don't have very much content yet. But I started to work on some placeholder text from what we've got, as well as setting up a structure that will benefit us later.

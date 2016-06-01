@@ -10,5 +10,6 @@ I wrote on the sections:
 - Added a short discussion on the usability of the results, as it felt as an important thing to bring up.
 - Related works, what we had that was not referred to elsewhere. I frustratingly found a few more papers which I did not have time to look into that seemed very interesting. It is so much more easy to understand contents and relevancy of papers now than earlier in the project, as machine learning is almost completely new to me.
 
-
+## Simon
+I spent all of my time on the report. I wrote on many sections. See contribution report for more details about what sections I was most responsible for in general. However, this week was a lot of general reading and fixing stuff in the report as well.
 

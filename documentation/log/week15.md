@@ -1,8 +1,9 @@
 # Week 15, April 25 - May 1
 
 ## Simon
-Run experiments to learn about the abilities of neat.
-Experimented with the stochastic parameters in neat. The networks seemed to add way to many nodes. After a certain point, it did not find new behaviour.
+I ran a lot of experiments in order to examine the abilities of NEAT. There was a lot of time spent testing different settings and parameters. One example of what I was trying to fix, was the NEAT was generating a lot of hidden nodes. This was deemed unneccessary, since a lot of the time the problems that were solved by adding another node, could have been solved by simply modifying a weight in the network instead. This would have made the networks smaller and easier to reason about.
+
+The settings that I based my modifications on were taken from the Super Mario bot implementation of NEAT as well as the configurations explained in the original paper. I made a few modifications, the most notable of which was the reduced probability of adding another node. However I also experimented with parameters such as the population size and stagnation rate of networks. (The time that they are allowed to survive during training, before NEAT kills them of)
 
 
 ## Martin

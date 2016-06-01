@@ -17,7 +17,13 @@ I spent some time to smumerise discussion topics that we have been talking about
 
 
 ## Simon
-Made the code runnable on linux, and prepared for running on the cloud server.
+### Cloud based computing
+I modified the application to be able to run it on a linux environment in the cloud. This required more modifications than I initially thought it would. It turned out that the linux machine on the cloud was not capable of running any sort of OpenGL implementation. This meant that the OpenGL dependency of our application had to be removed. However, we are not able to remove it completely, since we need the visualisation in order to view our results. This required me to in some way make the dependency modular. So that I could turn the dependecy of when I was running the application on the cloud, but keep it turned on when running it on my local computer.
+
+This was solved using CMake as well as quite a lot of modifications in the code base. I setup precompiler variables using CMake, so that they would be easy to turn on and off, and then I searched all over the application for OpenGL dependencies. In some cases, I simply had to conditionally remove some includes and initialisations. However, in some scenarios I had to do refactors in order to be able to remove the OpenGL dependencies completely.
+
+### Report
+I also spent time writing on the report. I spent a few hours working on the limitation section of the report, but also spent time on the report as a whole and did a little bit of this and a little bit of that.
 
 ## Daniel
 I've spent most time on the report, writing on different parts in the introduction, some coding was done as well.

@@ -14,7 +14,7 @@ In section 6, the paper mentions a concept called Incremental Evolution. It is a
 ## Simon
 
 ### Revisited distance driven
-We have noticed during our training sessions that the distance driven by the car is not consistent between the visualisation and the AI trainer. I started investigating the reasoning behind this behaviour. The current implementation to check whether a simulation should continue running or not, is dependent on the distance driven by the car as well as a "progress timeout". Meaning that if the car has not made progress within this time, the simulator is reset and the evaluation of that network is finished. I noticed that the progress timeout is the reason behind the inconsistent behaviour, and thus I've started working on new ways to check whether the simulation should continue or not.
+We have noticed during our training sessions that the distance driven by the car is not consistent between the visualisation and the AI trainer. I started investigating the reasoning behind this behaviour. The current implementation to check whether a simulation should continue running or not, is dependent on the distance driven by the car as well as a "progress timeout". Meaning that if the car has not made progress within this time, the simulator is reset and the evaluation of that network is finished. I noticed that the progress timeout might be the reason behind the inconsistent behaviour, and thus I've started working on new ways to check whether the simulation should continue or not.
 
 ## Martin
 Finished up the GUI-rendering used in debugging. 

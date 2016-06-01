@@ -100,3 +100,7 @@ Currently the network outputs goes from -1 to 1 with maximum steering to each si
 ## Martin
 
 Mostly worked on the report. I only worked during the first half of the week, because I was in Spain over the weekend. 
+
+## Simon
+
+I did not do much this week, I spent half my week on Öland.

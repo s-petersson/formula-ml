@@ -1,40 +1,42 @@
 
 \chapter{Implementation \& Experiments}
-In order to evaluate how neuroevolution can be used to find racing behaviours a number of experiments will be conducted. The experiments require a controlled environment which can be reasoned about, and where results can be reproduced. This chapter will cover the implementation of our experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Furthermore, the reasoning behind and execution of the experiments that were conducted will be presented. 
+In order to evaluate how NEAT can be used to find racing behaviours a number of experiments were conducted. The experiments require a controlled environment which can be reasoned about, and where results can be reproduced. This chapter will cover the implementation of an experiment suite, which includes a racing simulator, an implementation of NEAT, a visualisation system and a control layer which connects the system components. Furthermore, the reasoning behind and execution of the experiments that were conducted will be presented. 
 
 
 
 \section{Implementation of the Simulator}
 % Givet vårt beteende, hur evaluerar / analyserar vi saker i simulationen. Förklara vår sandlåda / universumet vi skapar.
 
-The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the simulated universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, multiple updates can be carried every second. This enables a desktop computer to simulate years of racing in a few hours. 
+The simulation is an iterative process where the state of the universe, which only consists of the car and the track, is updated continually. Each update represents a time interval of $10$ milliseconds within the simulated universe. The updates are carried out in direct sequence, thus the simulation rate depends on the clock frequency of the computer running the simulation. However, with the speed of today's computers, multiple updates can be carried out every second. This enables a desktop computer to simulate years of racing in a few hours. 
 
-The simulated car is represented by a simplified model of a real life car. Only the required properties discussed in section \ref{requirements} are simulated(CORRECT SECTION?). Each update of the car state results in an update of the cars position according to:
+The simulated car is represented by a simplified model of a real life car. Only the required properties discussed in section \ref{requirements} are simulated. Each update of the car state results in an update of the cars position according to equation \ref{eq:position}
 
 \begin{equation}
     \vec{p}_{n+1} = \vec{p}_{n} + \vec{v}\Delta t 
+    \label{eq:position}
 \end{equation}
 
 \noindent
-Where $\vec{p}_i$ is the position vector of the car in iteration $i$, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $0.01$ seconds. This frequency yields a sufficiently high, time resolution. At a speed of $100$ m/s, which is slightly higher than the top speed used in the simulator, the car would travel one metre per iteration. In relation to the size of the car and the track, one metre is a short distance.
+Where $\vec{p}_i$ is the position vector of the car in iteration $i$, $\vec{v}$ is the velocity vector of the car and $\Delta t$ is the delta time or the time-step, which is fixed at $10$ milliseconds. This frequency yields a sufficiently high time resolution. At a speed of $100$ m/s, which is slightly higher than the top speed used in the simulator, the car would travel one metre per iteration. In relation to the size of the car and the track, one metre is a short distance.
 
-The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics, the acceleration $a$ of an object is equal to the applied force $F$, divided by the mass $m$ of the object, a relationship which is described by the equation $F = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with:
+The velocity vector $\vec{v}$ is updated due to acceleration based on the forces acting on the car. According to classical mechanics, the acceleration $a$ of an object is equal to the applied force $F$, divided by the mass $m$ of the object, a relationship which is described by the equation $F = ma$. This can be extended into higher dimensions by representing the applied force and the acceleration as vectors with one value per axis. Thus the acceleration vector can be found with equation \ref{eq:fma}.
 
 \begin{equation}
+    \label{eq:fma}
     \vec{a} = \frac{\vec{F}}{m}  
 \end{equation}
 
 \noindent
-
 The car weight used in the simulation is 642 kilogrammes, which albeit being oddly specific, is a reasonable weight for a Formula 1 car without a driver. The rules state that the minimum weight of a car including the driver in full gear but excluding fuel is 702 kilogrammes \cite{f1_weight}. The accelerating force was set to a constant 9100 newton, the braking force 25000 newton and the possible centripetal force 2500 newton.
 
-How much the car is able to turn, or rotate, depends on the current turning radius. The angle the car rotates depends on how far it drives along the circle sector, approximated by $v\Delta t$. As the length of a circle sector is $\theta r$, were $\theta$ is the angle and $r$ the radius of the circle, \(\theta = \frac{vt}{r}\). Combined with equation \ref{equation:turn_radius} the resulting function for the rotation is described in \ref{equation:rotation_function}. Skidding of the car is excluded from the simulation as it only represents a state where the traction capabilities have been breached.
+How much the car is able to turn, or rotate, depends on the current turning radius. The angle the car rotates depends on how far it drives along the circle sector, approximated by $v\Delta t$. As the length of a circle sector is $\theta r$, were $\theta$ is the angle and $r$ the radius of the circle, \(\theta = \frac{vt}{r}\). Combined with equation \ref{equation:turn_radius} the resulting function for the rotation is described in equation \ref{equation:rotation_function}. Skidding of the car is excluded from the simulation as it only represents a state where the traction capabilities have been breached.
 
 \begin{equation}
 \label{equation:rotation_function}
     \Delta r = \frac{F_c \Delta t}{mv}
 \end{equation}
 
+\noindent
 The tracks used in the simulator are flat 3D-meshes with triangle faces. The meshes were modelled in Autodesk Maya and were imported to the simulator in the Wavefront .OBJ format. In order to simplify the representation of the track the cross sections of the track are extracted from the mesh. These cross sections are treated as a series of checkpoints that define the track.  
 
 
@@ -47,14 +49,15 @@ In order to verify the implementation of the algorithm it was tested by training
 Worth noting is that the neural networks used by NEAT differs slightly from the classical approach. Instead of treating the biases as a separate set of values, a bias input is introduced. The bias input is set to a constant non-zero value. In order to add a bias value to a neuron a connection from the bias input to that node can be added. The bias value of the node can be changed by modifying the connection weight. This is a convenient approach since it allows the algorithm to modify the bias values with the same operations that are used to modify the network topology.
 
 % Ta upp skilnaden mellan NEAT och fs-NEAT?
-Additionally, some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. Therefore, specific activation functions could be used for a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight. Initiating the training without the initial connections, the algorithm would be classified as fs-NEAT, that differs to NEAT only in this specific matter \cite{whiteson}.
+Additionally, some minor utility features were added to our implementation in order to allow for a more flexible training process. For example, the activation function used in the neural networks is specified as a lambda-function, thus it can be changed at run-time. Therefore, specific activation functions could be used for a specific experiment. Furthermore, the ability to toggle the creation of an initial structure for new networks was added. If the option is enabled, the genomes start with a lattice of connections that connect each input to each output with a randomised weight.
+The variant of the algorithm where the initial structure is omitted is called FS-NEAT \cite{whiteson}.
 
 \subsection{NEAT Configuration}
-NEAT can be configured in order to change the general behaviour for the algorithm. The configuration used during the project can be found in appendix \ref{appendix:project_settings:neat_constants}. This configuration is based on the Super Mario bot implementation \cite{mario_source} as well as the original paper \cite{stanley:neat}. However, some modifications were performed in order to achieve a more appropriate behaviour.
+NEAT can be configured in order to change the general behaviour of the algorithm. The configuration used during the project can be found in appendix \ref{appendix:project_settings:neat_constants}. This configuration is based on the Super Mario bot implementation \cite{mario_source} as well as the original paper \cite{stanley:neat}. However, some modifications were performed in order to achieve a more appropriate behaviour.
 
 It was noted that the amount of nodes produced by NEAT was significantly larger than required. Nodes were produced when a simple connection weight modification would have been more appropriate. To prevent this behaviour, the probability of adding a node was decreased.
 
-When performing long training sessions, it also seems reasonable that allowing networks to stay alive for longer periods of time will be beneficial. This could allow behaviour that initially is non-optimal to prove itself superior when allowed more time to evolve. Thus the allowed time for a network to live on, before it is killed off by NEAT, was increased.
+When performing long training sessions, it also seemed reasonable that allowing networks to stay alive for longer periods of time would be beneficial. This could allow behaviours that initially are non-optimal to prove themselves superior when allowed more time to evolve. Thus the allowed time for a network to live on, before it is killed off by stagnation, was increased.
 
 
 
@@ -236,13 +239,13 @@ It is important to note that the distance driven $d$ is the distance that the ca
 \section{Experiments}
 The project was an iterative process. Progress was made by experimentation, where different ways to model the problem and train the AI were tried out. In order to establish which aspects of the target behaviour that can be found with NEAT, a number of experiments of varying complexity were conducted. The following subsections will motivate the need for the different experiments and explain how they were conducted.
 
-\subsection{Steering a car moving at a constant speed}
+\subsection{Steering a Car Moving at a Constant Speed}
 \label{method:constant_speed}
 Driving a car is a complex problem, consisting of several sub-problems. This experiment aims to reduce the problem to one of its components, the steering. Instead of learning to control every aspect of the car, the AI will learn to steer a car that travels forward at a constant speed. The speed is sufficiently low to allow the car to steer through every corner on the circuit. 
 
 The track can be seen in figure \ref{fig:normal_track}. The corners are designed to have an increasing complexity along the track, and consists of a variety of corners. The input points shown in table \ref{tab:point_layout} on page \pageref{tab:point_layout}, covers approximately the two closest upcoming corners, regardless of what section the car is located in.
 
-\begin{figure}
+\begin{figure}[H]
 \includegraphics[width=\textwidth]{normal_track}
 \caption{Circuit used in constant speed and full control experiment}
 \label{fig:normal_track}
@@ -272,7 +275,7 @@ Comparing the result of the different experiment variants should show whether or
 %In order to further increase the complexity of the problem and to examine the possibility of the AI to calculate an optimal race line, the aspect of planning ahead was introduced. The constant speed of the car was increased to a level were going around certain corners in the middle of the track, would not be possible. Thus forcing the network to position the car on a race line that has a larger radius than driving in the middle of the track. Performing this experiment should give some insight into the capabilities of the AI with regards to modifying race lines in order to take a complete lap. Even though the AI might not be able to take the most optimal route, seeing the capabilities of the race line modification could present some interesting information about potential problems or modifications needed.
 
 
-\subsection{Full control of the car}
+\subsection{Full Control of the Car}
 \label{method:baseline}
 In this experiment, the AI will train on driving with full control of the car. In addition to steering it will also control the speed by accelerating and braking. In addition to the position, orientation, and curvature data the AI will be provided with the current speed of the car. The result of the experiment will further establish the limits of the training system. 
 
@@ -283,6 +286,7 @@ Several experiment variations with this configuration will be carried out. In th
 This variant of the experiment will test the system on shorter track segments, only containing one corner each. The motivation for testing short tracks is that it should be easier for the system to find effective behaviours on a short segment than on a complete circuit. This is because the behaviour required to complete a long circuit is generally more complex than the behaviour needed to complete just one corner. Thus, the algorithm will be able to start optimising for speed earlier and on less developed genomes. 
 
 The tracks consist of two straights connected by a corner, and can be seen in figure \ref{fig:short_tracks}. The straights are between $400$ and $500$ metres long and there are three types of corners used. The first corner is a 30-degree corner throughout which the car should be able to keep a high speed. The second one is a 90-degree corner with a small inner radius. The third corner used is a hairpin corner which turns 180-degrees with a small inner radius. 
+
 \begin{figure}[H]
     \centering
     \subfloat[30-degree corner.]{{\includegraphics[width=0.28\textwidth]{corner_30}}}%

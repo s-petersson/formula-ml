@@ -48,8 +48,8 @@ We went over a the racing domain as well as how reinforcement learning works, bu
 
 ## Simon
 
-### Revisited distance driven
-I implemented multithreading into the training simulator, since the training sessions started to require more computation power. I also implemented a way of reseting the simulator to its initial state, since creating a new simulator for every evaluation of a network, like we have done thus far, requires a lot of time. The evaluation of a network is now significantly faster than previously.
+### Multithreaded application
+I implemented multithreading into the application. The goal was to increase the performance during training. We have seen that certain training sessions are starting to require more computational power. This also required me to implement a way of resetting the simulator, in order to avoid creating new simulators every time a new thread is started. Thus saving time by reusing the same simulators over and over, and just resetting its current state as well as swapping out the network that is currently being evaluated. The process of evaluating networks and training them is now significantly faster.
 
 ## Martin 
 

@@ -16,6 +16,8 @@ This works quite well, you get a much clearer view of how the networks are struc
 
 This week I also started working on our presentation. I also spent a lot of time reading our report looking for issues and errors. 
 
+## Simon
+Basically spent all week writing on the report and reading the report that we are opposing on.
 
 ## Handledning fackspråk, muntlig presentation
 

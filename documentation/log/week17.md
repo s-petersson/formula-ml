@@ -24,6 +24,13 @@ I also found the book on racing theory "Fast driving cars", and read that. It is
 Fixed some issues in the NEAT implementation.
 Ran several experiments, mostly for the mirrored track result and results for single corner tracks. 
 
+## Simon
+### Experiments
+Me and Gabriel prepared a formal list of settings that were to be used during the experiments. So that we have structure in our results, when we are supposed to write about them in our report. When we were done with that,  I ran all the experiments that needed to be run on the cloud computer. This included experiments such as the full control and some fixed speed ones.
+
+### Report
+I worked on the report as a whole. We have the deadline for opposition next monday, so we had to spend most of our time writing on the report.
+
 
 ## Experiment configuration
 ### NEAT configuration

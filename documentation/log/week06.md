@@ -48,8 +48,10 @@ We also connected a network trained with the NEAT algorithm to the simulator and
 
 A proposed solution that originated from Gabriel was to use both the cars position and angle relative to the track. The goal behaviour is then to steer towards the centre of the track if the car is far from the centre, and to align its direction with the track so that it does not drive sideways. 
 
-### Simon 
-Spent most of my time refactoring the code in a way so that we can separate our different methods of implementing the AI into "experiments". This gives us an easy way of implementing several different methods for solving the problem, without having to remove the old tries.
+### Simon
+I spent most of my time refactoring already existing code in the project. The goal was to structure the application in a way that allows for different types of experiments to be performed. One experiment should represent one thing to test. Therefore it might require different settings in the simulator and/or network.
+
+This new structure also allows us to keep old experiments in the code, so that when we try new ones we don't have to remove old experiments.
 
 ### Daniel
 Found paper (Adaptive representations for reinforcement learning) going over diffrent types of NEAT, and similar algorithm. In this paper, our implementation is calles fs-NEAT, and means that we start without edges from each input. Normal NEAT does have at least one edge from each input node according to this paper, and that is not what we have done in our neat implementation so far.

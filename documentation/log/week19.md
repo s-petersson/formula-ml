@@ -8,6 +8,9 @@ Initiated the sprint on the report.
 
 I worked on the weekend to research Markov Decision Problems and comment on it in the report. We rejected the approach early in the project, but it was difficult to be confident in the academic arguments we did not know it well. I did not want to give statements on weak grounds, but the research did not provide that many new details, so the work felt frustratingly slow.
 
+## Simon
+I worked on the opposition report, our final presentation as well as on the report. I put a little bit more focus on the final presententation and the opposition, since that is due this week. However, we still have a lot of work to do on our report, so I had to spend time on that as well.
+
 ## Martin
 Worked on the opposition report and presentation. After the presentation all available time went to fixing our report. 
 

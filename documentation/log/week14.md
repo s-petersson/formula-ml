@@ -35,3 +35,6 @@ This week have been focusing on implementation of features that have been on my 
 There is currently a big lack in data from all our training sessions. We currently only get the information for a pool, when the best genome in a pool exceeds the previuos best fitness. This gives us the "possitive" data that shows progress, but we cannot currently see how the pool of genome looks and perform at generations ehere an increase is not found. 
 
 It would be interesting to see this. It could bring us more information and more data to base our discussions on for the report. 
+
+## Simon
+Worked together with Martin to fixx some bugs caused by a big refactorisation in the code. I also spent some time working on some OpenGL errors that occured on my Macbook (again!).
