@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "WindowState.h"
+#include <core/gfx/Framebuffer.h>
 
 class Window {
 public:
@@ -17,6 +18,7 @@ private:
 	int screen_width, screen_height;
 
 	WindowState * state;
+    gfx::Framebuffer fbo;
 };
 
 #endif

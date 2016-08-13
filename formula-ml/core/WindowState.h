@@ -3,8 +3,7 @@
 
 class WindowState {
 public:
-	virtual void update(float dt) = 0;
-	virtual void render() = 0;
+	virtual void run(float dt) = 0;
 };
 
 #endif

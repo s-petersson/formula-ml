@@ -1,75 +1,134 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="core\gfx\Model.cpp" />
+    <ClCompile Include="core\gfx\Program.cpp" />
+    <ClCompile Include="core\gfx\Texture.cpp" />
+    <ClCompile Include="core\gui\Font.cpp" />
+    <ClCompile Include="core\gui\View.cpp" />
+    <ClCompile Include="core\Keyboard.cpp" />
+    <ClCompile Include="core\util\Camera.cpp" />
+    <ClCompile Include="core\util\Random.cpp" />
+    <ClCompile Include="core\util\Util.cpp" />
+    <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="experiments\FixedNetworkMidline\FixedNetworkMidline.cpp" />
+    <ClCompile Include="experiments\ManualControl\ManualControl.cpp" />
+    <ClCompile Include="experiments\StandardRenderer.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="neural\EvolvingNetwork.cpp" />
+    <ClCompile Include="neural\FixedNetwork.cpp" />
+    <ClCompile Include="neural\FixedNetworkTrainer.cpp" />
+    <ClCompile Include="neural\FixedNetworkXOR.cpp" />
+    <ClCompile Include="neural\neat\Gene.cpp" />
+    <ClCompile Include="neural\neat\Genome.cpp" />
+    <ClCompile Include="neural\neat\Network.cpp" />
+    <ClCompile Include="neural\neat\Pool.cpp" />
+    <ClCompile Include="neural\neat\Constants.cpp" />
+    <ClCompile Include="neural\neat\Species.cpp" />
+    <ClCompile Include="sim\model\CarModel.cpp" />
+    <ClCompile Include="sim\model\TrackModel.cpp" />
+    <ClCompile Include="sim\SimulationState.cpp" />
+    <ClCompile Include="sim\Simulator.cpp" />
+    <ClCompile Include="sim\view\CarView.cpp" />
+    <ClCompile Include="sim\view\GridView.cpp" />
+    <ClCompile Include="sim\view\TrackView.cpp" />
+    <ClCompile Include="neural\FileWriter.cpp" />
+    <ClCompile Include="neural\Helpers.cpp" />
+    <ClCompile Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.cpp" />
+    <ClCompile Include="experiments\NetworkView.cpp" />
+    <ClCompile Include="experiments\xor\XORExperiment.cpp" />
+    <ClCompile Include="experiments\ExperimentWindow.cpp" />
+    <ClCompile Include="experiments\SimulationEvaluator.cpp" />
+    <ClCompile Include="neural\neat\Trainer.cpp" />
+    <ClCompile Include="core\gfx\Curve.cpp" />
+    <ClCompile Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.cpp" />
+    <ClCompile Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.cpp" />
+    <ClCompile Include="neural\ResultWriter.cpp" />
+    <ClCompile Include="core\gfx\Framebuffer.cpp" />
+    <ClCompile Include="core\util\ImageIO.cpp" />
+    <ClCompile Include="experiments\RacelineRenderer.cpp" />
+    <ClCompile Include="experiments\RacelineLogger.cpp" />
+    <ClCompile Include="core\util\GLUtil.cpp" />
+    <ClCompile Include="experiments\VisualisationWindow.cpp" />
+    <ClCompile Include="experiments\VisualisePool\VisualisePool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\gfx\Program.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\Car.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\Simulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sim\Track.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimulationState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="core\gfx\Model.h" />
+    <ClInclude Include="core\gfx\Program.h" />
+    <ClInclude Include="core\gfx\Renderer.h" />
+    <ClInclude Include="core\gfx\Texture.h" />
+    <ClInclude Include="core\gui\Font.h" />
+    <ClInclude Include="core\gui\View.h" />
+    <ClInclude Include="core\Keyboard.h" />
+    <ClInclude Include="core\util\Camera.h" />
+    <ClInclude Include="core\util\Random.h" />
+    <ClInclude Include="core\util\Util.h" />
+    <ClInclude Include="core\Window.h" />
+    <ClInclude Include="core\WindowState.h" />
+    <ClInclude Include="experiments\Experiment.h" />
+    <ClInclude Include="experiments\FixedNetworkMidline\FixedNetworkMidline.h" />
+    <ClInclude Include="experiments\ManualControl\ManualControl.h" />
+    <ClInclude Include="experiments\StandardRenderer.h" />
+    <ClInclude Include="external\include\GL\glew.h" />
+    <ClInclude Include="external\include\GL\glxew.h" />
+    <ClInclude Include="external\include\GL\wglew.h" />
+    <ClInclude Include="neural\FixedNetwork.h" />
+    <ClInclude Include="neural\FixedNetworkTrainer.h" />
+    <ClInclude Include="neural\FixedNetworkXOR.h" />
+    <ClInclude Include="neural\EvolvingNetwork.h" />
+    <ClInclude Include="neural\neat\Constants.h" />
+    <ClInclude Include="neural\neat\Gene.h" />
+    <ClInclude Include="neural\neat\Genome.h" />
+    <ClInclude Include="neural\neat\Network.h" />
+    <ClInclude Include="neural\neat\Pool.h" />
+    <ClInclude Include="neural\neat\Species.h" />
+    <ClInclude Include="neural\Neural.h" />
+    <ClInclude Include="sim\model\CarModel.h" />
+    <ClInclude Include="sim\model\TrackModel.h" />
+    <ClInclude Include="sim\SimulationState.h" />
+    <ClInclude Include="sim\Simulator.h" />
+    <ClInclude Include="sim\Track.h" />
+    <ClInclude Include="sim\view\CarView.h" />
+    <ClInclude Include="sim\view\GridView.h" />
+    <ClInclude Include="sim\view\TrackView.h" />
+    <ClInclude Include="neural\FileWriter.h" />
+    <ClInclude Include="neural\Helpers.h" />
+    <ClInclude Include="experiments\NeatCurveDataExperiment\NeatCurveDataExperiment.h" />
+    <ClInclude Include="experiments\NetworkView.h" />
+    <ClInclude Include="experiments\xor\XORExperiment.h" />
+    <ClInclude Include="experiments\ExperimentWindow.h" />
+    <ClInclude Include="experiments\SimulationEvaluator.h" />
+    <ClInclude Include="neural\neat\Trainer.h" />
+    <ClInclude Include="core\gfx\Curve.h" />
+    <ClInclude Include="experiments\MultipleTrackExperiment\MultipleTrackExperiment.h" />
+    <ClInclude Include="experiments\AlternatingTrackExperiment\AlternatingTrackExperiment.h" />
+    <ClInclude Include="neural\ResultWriter.h" />
+    <ClInclude Include="core\gfx\Framebuffer.h" />
+    <ClInclude Include="core\util\ImageIO.h" />
+    <ClInclude Include="experiments\RacelineRenderer.h" />
+    <ClInclude Include="experiments\RacelineLogger.h" />
+    <ClInclude Include="core\util\GLUtil.h" />
+    <ClInclude Include="experiments\VisualisationWindow.h" />
+    <ClInclude Include="experiments\VisualisePool\VisualisePool.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Readme.md" />
+    <Image Include="res\fonts\comic.tga" />
+    <Image Include="res\fonts\georgia.png" />
+    <Image Include="res\fonts\georgia.tga" />
+    <Image Include="res\fonts\helvetica.png" />
+    <Image Include="res\fonts\helvetica.tga" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="Readme.md" />
+    <None Include="res\fonts\comic.fnt" />
+    <None Include="res\models\spa_circuit.model" />
     <None Include="res\shaders\simple.frag" />
     <None Include="res\shaders\simple.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="core\gfx\Program.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Car.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Simulator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sim\Track.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\WindowState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulationState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="res\shaders\text.frag" />
+    <None Include="res\shaders\text.vert" />
+    <None Include="res\fonts\georgia.fnt" />
+    <None Include="res\fonts\helvetica.fnt" />
+    <None Include="FreeImage.dll" />
   </ItemGroup>
 </Project>

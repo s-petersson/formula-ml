@@ -1,3 +1,7 @@
+## Project specific
+# Output files
+saves
+*.png
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -135,7 +139,18 @@ AutoTest.Net/
 # Visual Studio cache files
 # files ending in .cache can be ignored
 *.[Cc]ache
-# but keep track of directories ending in .cache
+# but keep model of directories ending in .cache
 !*.[Cc]ache/
 *.xcodeproj
 .DS_Store
+.idea/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+formula_ml
+
+# Project specific log file
+log/
